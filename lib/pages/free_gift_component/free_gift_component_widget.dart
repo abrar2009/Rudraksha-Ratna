@@ -1,0 +1,264 @@
+import '/backend/api_requests/api_calls.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'free_gift_component_model.dart';
+export 'free_gift_component_model.dart';
+
+class FreeGiftComponentWidget extends StatefulWidget {
+  const FreeGiftComponentWidget({super.key});
+
+  @override
+  State<FreeGiftComponentWidget> createState() =>
+      _FreeGiftComponentWidgetState();
+}
+
+class _FreeGiftComponentWidgetState extends State<FreeGiftComponentWidget> {
+  late FreeGiftComponentModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => FreeGiftComponentModel());
+  }
+
+  @override
+  void dispose() {
+    _model.maybeDispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
+    return Container(
+      height: MediaQuery.sizeOf(context).height * 0.7,
+      decoration: BoxDecoration(),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          InkWell(
+            splashColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () async {
+              context.safePop();
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                'assets/images/hint.png',
+                width: 72,
+                height: 24,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            height: MediaQuery.sizeOf(context).height * 0.673,
+            decoration: BoxDecoration(
+              color: FlutterFlowTheme.of(context).secondaryBackground,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(0),
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                      child: Text(
+                        valueOrDefault<String>(
+                          _model.selectedCouponId?.toString(),
+                          '0',
+                        ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Montserrat',
+                          fontSize: 16,
+                          letterSpacing: 0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
+                        child: FutureBuilder<ApiCallResponse>(
+                          future: FetchShippingCall.call(
+                            hosturl: FFAppConstants.hosturl,
+                            shippingCountry: FFAppState().countryName,
+                            shippingWeight: FFAppState().courierTotal,
+                            totalPrice: FFAppState().cartTotal,
+                            orderTotal: FFAppState().orderTotal,
+                          ),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      FlutterFlowTheme.of(context).primary,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            final columnFetchShippingResponse = snapshot.data!;
+
+                            return Builder(
+                              builder: (context) {
+                                final couponList = getJsonField(
+                                  columnFetchShippingResponse.jsonBody,
+                                  r'''$.coupondata''',
+                                ).toList();
+
+                                return SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: List.generate(couponList.length,
+                                            (couponListIndex) {
+                                          final couponListItem =
+                                          couponList[couponListIndex];
+                                          return InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              _model.selectedvariable =
+                                              !_model.selectedvariable;
+                                              _model.coupenDataIndex =
+                                                  couponListIndex;
+                                              _model.selectedCouponId =
+                                              FetchShippingCall.couponsIds(
+                                                columnFetchShippingResponse
+                                                    .jsonBody,
+                                              )?[_model.coupenDataIndex!];
+                                              _model.coupenCode = getJsonField(
+                                                couponListItem,
+                                                r'''$.coupon_code''',
+                                              ).toString();
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(8),
+                                                border: Border.all(
+                                                  color: couponListIndex ==
+                                                      _model.coupenDataIndex
+                                                      ? Color(0xFF740074)
+                                                      : Color(0x00454545),
+                                                ),
+                                              ),
+                                              child: Container(
+                                                width: double.infinity,
+                                                height: 100,
+                                                child: custom_widgets
+                                                    .FreeGiftContainerdiscountpriceCopy(
+                                                  width: double.infinity,
+                                                  height: 100,
+                                                  discountPercent: getJsonField(
+                                                    couponListItem,
+                                                    r'''$.coupon_value''',
+                                                  ).toString(),
+                                                  code: getJsonField(
+                                                    couponListItem,
+                                                    r'''$.coupon_code''',
+                                                  ).toString(),
+                                                  discountType: getJsonField(
+                                                    couponListItem,
+                                                    r'''$.discout_type''',
+                                                  ).toString(),
+                                                  description: getJsonField(
+                                                    couponListItem,
+                                                    r'''$.description''',
+                                                  ).toString(),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }).divide(SizedBox(height: 10)),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 26),
+                  child: FFButtonWidget(
+                    onPressed: (_model.coupenDataIndex == null)
+                        ? null
+                        : () async {
+                      FFAppState().couponCode = _model.coupenCode!;
+                      setState(() {});
+                      context.safePop();
+                      print('Coupon Code: ${FFAppState().couponCode}');
+                    },
+                    text: 'Select',
+                    options: FFButtonOptions(
+                      width: double.infinity,
+                      height: 48,
+                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                      color: Color(0xFF740074),
+                      textStyle:
+                      FlutterFlowTheme.of(context).titleSmall.override(
+                        fontFamily: 'Montserrat',
+                        color: Colors.white,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      elevation: 0,
+                      borderSide: BorderSide(
+                        color: Colors.transparent,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      disabledColor: Color(0xFFF3F3F3),
+                      disabledTextColor: Color(0xFFB7B7B8),
+                    ),
+                  ),
+                ),
+              ].divide(SizedBox(height: 16)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
