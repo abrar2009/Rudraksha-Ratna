@@ -1,5 +1,7 @@
 import 'package:rudraksha_cart/auth/custom_auth/auth_util.dart';
+import 'package:rudraksha_cart/components/shimmer_widget.dart';
 
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -87,7 +89,7 @@ class _YantraProductDetailsWidgetState
                   width: double.infinity,
                   height: 48,
                   decoration: BoxDecoration(),
-                  child:  Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -149,16 +151,10 @@ class _YantraProductDetailsWidgetState
                 builder: (context, snapshot) {
                   // Customize what your widget looks like when it's loading.
                   if (!snapshot.hasData) {
-                    return Center(
-                      child: SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            FlutterFlowTheme.of(context).primary,
-                          ),
-                        ),
-                      ),
+                    return Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: ShimmerWidget(),
                     );
                   }
                   final containerOtherProductsDetailsResponse = snapshot.data!;
@@ -207,26 +203,26 @@ class _YantraProductDetailsWidgetState
                                             }.withoutNulls,
                                             extra: <String, dynamic>{
                                               kTransitionInfoKey:
-                                              TransitionInfo(
+                                                  TransitionInfo(
                                                 hasTransition: true,
                                                 transitionType:
-                                                PageTransitionType.fade,
+                                                    PageTransitionType.fade,
                                                 duration:
-                                                Duration(milliseconds: 0),
+                                                    Duration(milliseconds: 0),
                                               ),
                                             },
                                           );
                                         },
                                         child: ClipRRect(
                                           borderRadius:
-                                          BorderRadius.circular(0),
+                                              BorderRadius.circular(0),
                                           child: CachedNetworkImage(
                                             fadeInDuration:
-                                            Duration(milliseconds: 500),
+                                                Duration(milliseconds: 500),
                                             fadeOutDuration:
-                                            Duration(milliseconds: 500),
+                                                Duration(milliseconds: 500),
                                             imageUrl: OtherProductsDetailsCall
-                                                .otherproductimageurlpath(
+                                                    .otherproductimageurlpath(
                                               containerOtherProductsDetailsResponse
                                                   .jsonBody,
                                             )!
@@ -239,227 +235,290 @@ class _YantraProductDetailsWidgetState
                                       ),
                                       Align(
                                         alignment:
-                                        AlignmentDirectional(0.99, 1),
+                                            AlignmentDirectional(0.99, 1),
                                         child: Padding(
                                           padding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0, 0, 0, 22),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                              borderRadius:
-                                              BorderRadius.circular(24),
-                                            ),
-                                            child: Builder(
-                                              builder: (context) {
-                                                if (_model
-                                                    .wishlistlikedislike) {
-                                                  return
-                                                    // Generated code for this CircleImage Widget...
-                                                    Padding(
-                                                      padding: EdgeInsets.all(5),
-                                                      child: InkWell(
-                                                        splashColor:
-                                                        Colors.transparent,
-                                                        focusColor:
-                                                        Colors.transparent,
-                                                        hoverColor:
-                                                        Colors.transparent,
-                                                        highlightColor:
-                                                        Colors.transparent,
-                                                        onTap: () async {
-                                                          _model.addtoWishlist =
-                                                          await AddToWishlistCall
-                                                              .call(
-                                                            hosturl:
-                                                            FFAppConstants
-                                                                .sanityurl,
-                                                            token:
-                                                            currentAuthenticationToken,
-                                                            productid:
-                                                            OtherProductsDetailsCall
-                                                                .productid(
-                                                              containerOtherProductsDetailsResponse
-                                                                  .jsonBody,
-                                                            ),
-                                                            productType:
-                                                            OtherProductsDetailsCall
-                                                                .productMainType(
-                                                              containerOtherProductsDetailsResponse
-                                                                  .jsonBody,
-                                                            ),
-                                                          );
-                                                          if ((_model
-                                                              .addtoWishlist
-                                                              ?.succeeded ??
-                                                              true)) {
-                                                            ScaffoldMessenger.of(
-                                                                context)
-                                                                .showSnackBar(
-                                                              SnackBar(
-                                                                content: Text(
-                                                                  "Product added in wishlist",
-                                                                  style:
-                                                                  TextStyle(
-                                                                    color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                        .containerFillColor,
-                                                                  ),
-                                                                ),
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                    4000),
-                                                                backgroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                    context)
-                                                                    .primary,
-                                                              ),
-                                                            );
-                                                          } else {
-                                                            ScaffoldMessenger.of(
-                                                                context)
-                                                                .showSnackBar(
-                                                              SnackBar(
-                                                                content: Text(
-                                                                  getJsonField(
-                                                                    (_model.addtoWishlist
-                                                                        ?.jsonBody ??
-                                                                        ''),
-                                                                    r'''$.status''',
-                                                                  ).toString(),
-                                                                  style:
-                                                                  TextStyle(
-                                                                    color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                        .containerFillColor,
-                                                                  ),
-                                                                ),
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                    4000),
-                                                                backgroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                    context)
-                                                                    .primary,
-                                                              ),
-                                                            );
-                                                          }
-                                                          setState(() {});
-                                                          _model.wishlistlikedislike =
-                                                          !_model
-                                                              .wishlistlikedislike;
-                                                          setState(() {});
-                                                          HapticFeedback
-                                                              .lightImpact();
-                                                        },
-                                                        child: Container(
-                                                          width: 28,
-                                                          height: 28,
-                                                          clipBehavior:
-                                                          Clip.antiAlias,
-                                                          decoration:
-                                                          BoxDecoration(
-                                                            shape:
-                                                            BoxShape.circle,
-                                                          ),
-                                                          child: Image.asset(
-                                                            'assets/images/HeartEmpty.png',
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                } else {
-                                                  return Padding(
-                                                    padding: EdgeInsets.all(5),
-                                                    child: InkWell(
-                                                      onTap: () async
-                                                      {
-                                                        var _shouldSetState = false;
-                                                        _model.apiResult5ep = await RemovefromWishlistCall.call(
-                                                          token: currentAuthenticationToken,
-                                                          hosturl: FFAppConstants.hosturl,
-                                                          productId:
-                                                          OtherProductsDetailsCall
-                                                              .productid(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          ),
-                                                          productType:
-                                                          OtherProductsDetailsCall
-                                                              .productMainType(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          ),
-                                                        );
-
-                                                        _shouldSetState = true;
-                                                        if ((_model.apiResult5ep?.succeeded ?? true)) {
-                                                          FFAppState().statusFailed = getJsonField(
-                                                              (_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
-                                                          setState(() {});
-                                                          ScaffoldMessenger.of(context).clearSnackBars();
-                                                          ScaffoldMessenger.of(context).showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.msg''').toString(),
-                                                                style:
-                                                                TextStyle(
-                                                                  color: FlutterFlowTheme.of(
-                                                                      context)
-                                                                      .containerFillColor,
-                                                                ),
-                                                              ),
-                                                              duration: Duration(
-                                                                  milliseconds:
-                                                                  4000),
-                                                              backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                  context)
-                                                                  .primary,
-                                                            ),
-                                                          );
-                                                          if (FFAppState().statusFailed == 'success') {
-
-                                                          } else {
-                                                            if (_shouldSetState) setState(() {});
-                                                            return;
-                                                          }
-                                                        } else {
-                                                          if (_shouldSetState) setState(() {});
-                                                          return;
-                                                        }
-                                                        setState(() {});
-                                                        _model.wishlistlikedislike =
-                                                        !_model
-                                                            .wishlistlikedislike;
-                                                        setState(() {});
-                                                        HapticFeedback
-                                                            .lightImpact();
-                                                      },
-                                                      child: Container(
-                                                        width: 28,
-                                                        height: 28,
-                                                        clipBehavior:
-                                                        Clip.antiAlias,
-                                                        decoration:
-                                                        BoxDecoration(
-                                                          shape:
-                                                          BoxShape.circle,
-                                                        ),
-                                                        child: Image.asset(
-                                                          'assets/images/HeartFilled.png',
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 22),
+                                          child: FutureBuilder<ApiCallResponse>(
+                                              future: WishListCall.call(
+                                                hosturl:
+                                                    FFAppConstants.sanityurl,
+                                                token: currentAuthenticationToken
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Container(
+                                                    width: 5,
+                                                    height: 5,
+                                                    child: ShimmerWidget(),
                                                   );
                                                 }
-                                              },
-                                            ),
-                                          ),
+                                                final containerWishlistResponse =
+                                                    snapshot.data!;
+
+                                                return Container(
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            24),
+                                                  ),
+                                                  child: Builder(
+                                                    builder: (context) {
+                                                      print(WishListCall.id(
+                                                          containerWishlistResponse
+                                                              .jsonBody));
+                                                      print(OtherProductsDetailsCall
+                                                          .rudrakshaProductid(
+                                                              containerOtherProductsDetailsResponse
+                                                                  .jsonBody));
+                                                      if (!WishListCall.id(
+                                                        containerWishlistResponse
+                                                            .jsonBody,
+                                                      )!
+                                                          .contains(
+                                                              OtherProductsDetailsCall
+                                                                  .productid(
+                                                        containerOtherProductsDetailsResponse
+                                                            .jsonBody,
+                                                      ))) {
+                                                        return
+                                                            // Generated code for this CircleImage Widget...
+                                                            Padding(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              _model.addtoWishlist =
+                                                                  await AddToWishlistCall
+                                                                      .call(
+                                                                hosturl:
+                                                                    FFAppConstants
+                                                                        .sanityurl,
+                                                                token:
+                                                                    currentAuthenticationToken,
+                                                                productid:
+                                                                    OtherProductsDetailsCall
+                                                                        .productid(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                                productType:
+                                                                    OtherProductsDetailsCall
+                                                                        .productMainType(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                              );
+                                                              if ((_model
+                                                                      .addtoWishlist
+                                                                      ?.succeeded ??
+                                                                  true)) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      "Product added in wishlist",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .containerFillColor,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                  ),
+                                                                );
+                                                              } else {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      getJsonField(
+                                                                        (_model.addtoWishlist?.jsonBody ??
+                                                                            ''),
+                                                                        r'''$.status''',
+                                                                      ).toString(),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .containerFillColor,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                  ),
+                                                                );
+                                                              }
+                                                              setState(() {});
+                                                              _model.wishlistlikedislike =
+                                                                  !_model
+                                                                      .wishlistlikedislike;
+                                                              setState(() {});
+                                                              HapticFeedback
+                                                                  .lightImpact();
+                                                            },
+                                                            child: Container(
+                                                              width: 28,
+                                                              height: 28,
+                                                              clipBehavior: Clip
+                                                                  .antiAlias,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/HeartEmpty.png',
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        return Padding(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              var _shouldSetState =
+                                                                  false;
+                                                              _model.apiResult5ep =
+                                                                  await RemovefromWishlistCall
+                                                                      .call(
+                                                                token:
+                                                                    currentAuthenticationToken,
+                                                                hosturl:
+                                                                    FFAppConstants
+                                                                        .hosturl,
+                                                                productId:
+                                                                    OtherProductsDetailsCall
+                                                                        .productid(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                                productType:
+                                                                    OtherProductsDetailsCall
+                                                                        .productMainType(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                              );
+
+                                                              _shouldSetState =
+                                                                  true;
+                                                              if ((_model
+                                                                      .apiResult5ep
+                                                                      ?.succeeded ??
+                                                                  true)) {
+                                                                FFAppState()
+                                                                    .statusFailed = getJsonField(
+                                                                        (_model.apiResult5ep?.jsonBody ??
+                                                                            ''),
+                                                                        r'''$.status''')
+                                                                    .toString();
+                                                                setState(() {});
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .clearSnackBars();
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      getJsonField(
+                                                                              (_model.apiResult5ep?.jsonBody ?? ''),
+                                                                              r'''$.msg''')
+                                                                          .toString(),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .containerFillColor,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                  ),
+                                                                );
+                                                                if (FFAppState()
+                                                                        .statusFailed ==
+                                                                    'success') {
+                                                                } else {
+                                                                  if (_shouldSetState)
+                                                                    setState(
+                                                                        () {});
+                                                                  return;
+                                                                }
+                                                              } else {
+                                                                if (_shouldSetState)
+                                                                  setState(
+                                                                      () {});
+                                                                return;
+                                                              }
+                                                              setState(() {});
+                                                              _model.wishlistlikedislike =
+                                                                  !_model
+                                                                      .wishlistlikedislike;
+                                                              setState(() {});
+                                                              HapticFeedback
+                                                                  .lightImpact();
+                                                            },
+                                                            child: Container(
+                                                              width: 28,
+                                                              height: 28,
+                                                              clipBehavior: Clip
+                                                                  .antiAlias,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/HeartFilled.png',
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                );
+                                              }),
                                         ),
                                       ),
                                     ],
@@ -485,15 +544,15 @@ class _YantraProductDetailsWidgetState
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 15,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 15,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                   ),
                                   RichText(
                                     textScaler:
-                                    MediaQuery.of(context).textScaler,
+                                        MediaQuery.of(context).textScaler,
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
@@ -501,11 +560,11 @@ class _YantraProductDetailsWidgetState
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 15,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                                fontFamily: 'Montserrat',
+                                                fontSize: 15,
+                                                letterSpacing: 0,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                         ),
                                         TextSpan(
                                           text: valueOrDefault<String>(
@@ -525,9 +584,9 @@ class _YantraProductDetailsWidgetState
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                        fontFamily: 'Montserrat',
-                                        letterSpacing: 0,
-                                      ),
+                                            fontFamily: 'Montserrat',
+                                            letterSpacing: 0,
+                                          ),
                                     ),
                                   ),
                                   Row(
@@ -548,8 +607,8 @@ class _YantraProductDetailsWidgetState
                                                 .jsonBody,
                                           )!,
                                           unratedColor:
-                                          FlutterFlowTheme.of(context)
-                                              .accent3,
+                                              FlutterFlowTheme.of(context)
+                                                  .accent3,
                                           itemCount: 5,
                                           itemSize: 18,
                                         ),
@@ -562,11 +621,11 @@ class _YantraProductDetailsWidgetState
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                          fontFamily: 'Roboto',
-                                          fontSize: 13,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                              fontFamily: 'Roboto',
+                                              fontSize: 13,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                       ),
                                     ],
                                   ),
@@ -574,10 +633,10 @@ class _YantraProductDetailsWidgetState
                               ),
                             ),
                             if (OtherProductsDetailsCall.pujaenergizationlist(
-                              containerOtherProductsDetailsResponse
-                                  .jsonBody,
-                            ) !=
-                                null &&
+                                      containerOtherProductsDetailsResponse
+                                          .jsonBody,
+                                    ) !=
+                                    null &&
                                 (OtherProductsDetailsCall.pujaenergizationlist(
                                   containerOtherProductsDetailsResponse
                                       .jsonBody,
@@ -589,13 +648,13 @@ class _YantraProductDetailsWidgetState
                                 color: Color(0xFFE7E7E8),
                               ),
                             if (OtherProductsDetailsCall
-                                .yantrapujaenergizationlist(
-                              containerOtherProductsDetailsResponse
-                                  .jsonBody,
-                            ) !=
-                                null &&
+                                        .yantrapujaenergizationlist(
+                                      containerOtherProductsDetailsResponse
+                                          .jsonBody,
+                                    ) !=
+                                    null &&
                                 (OtherProductsDetailsCall
-                                    .yantrapujaenergizationlist(
+                                        .yantrapujaenergizationlist(
                                   containerOtherProductsDetailsResponse
                                       .jsonBody,
                                 ))!
@@ -609,7 +668,7 @@ class _YantraProductDetailsWidgetState
                                   children: [
                                     RichText(
                                       textScaler:
-                                      MediaQuery.of(context).textScaler,
+                                          MediaQuery.of(context).textScaler,
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
@@ -617,11 +676,11 @@ class _YantraProductDetailsWidgetState
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 14,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 14,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                           ),
                                           TextSpan(
                                             text: valueOrDefault<String>(
@@ -637,21 +696,21 @@ class _YantraProductDetailsWidgetState
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 15,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 15,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                       ),
                                     ),
                                     Builder(
                                       builder: (context) {
                                         final selectEnergization =
                                             OtherProductsDetailsCall
-                                                .yantrapujaenergizationlist(
-                                              containerOtherProductsDetailsResponse
-                                                  .jsonBody,
-                                            )?.toList() ??
+                                                    .yantrapujaenergizationlist(
+                                                  containerOtherProductsDetailsResponse
+                                                      .jsonBody,
+                                                )?.toList() ??
                                                 [];
                                         return SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
@@ -659,101 +718,104 @@ class _YantraProductDetailsWidgetState
                                             mainAxisSize: MainAxisSize.max,
                                             children: List.generate(
                                                 selectEnergization.length,
-                                                    (selectEnergizationIndex) {
-                                                  final selectEnergizationItem =
+                                                (selectEnergizationIndex) {
+                                              final selectEnergizationItem =
                                                   selectEnergization[
-                                                  selectEnergizationIndex];
-                                                  return Align(
-                                                    alignment:
+                                                      selectEnergizationIndex];
+                                              return Align(
+                                                alignment:
                                                     AlignmentDirectional(0, 1),
-                                                    child: InkWell(
-                                                      splashColor:
+                                                child: InkWell(
+                                                  splashColor:
                                                       Colors.transparent,
-                                                      focusColor:
+                                                  focusColor:
                                                       Colors.transparent,
-                                                      hoverColor:
+                                                  hoverColor:
                                                       Colors.transparent,
-                                                      highlightColor:
+                                                  highlightColor:
                                                       Colors.transparent,
-                                                      onTap: () async {
-                                                        _model.energizationprice =
-                                                            getJsonField(
-                                                              selectEnergizationItem,
-                                                              r'''$.price''',
-                                                            );
-                                                        setState(() {});
-                                                        if (_model.selecteddesign ==
-                                                            true) {
-                                                          _model.selectedEnergizationlist =
-                                                              selectEnergizationIndex;
-                                                          setState(() {});
-                                                        } else {
-                                                          _model.selectedEnergizationlist =
-                                                              selectEnergizationIndex;
-                                                          setState(() {});
-                                                        }
+                                                  onTap: () async {
+                                                    _model.energizationprice =
+                                                        getJsonField(
+                                                      selectEnergizationItem,
+                                                      r'''$.price''',
+                                                    );
+                                                    setState(() {});
+                                                    if (_model.selecteddesign ==
+                                                        true) {
+                                                      _model.selectedEnergizationlist =
+                                                          selectEnergizationIndex;
+                                                      setState(() {});
+                                                    } else {
+                                                      _model.selectedEnergizationlist =
+                                                          selectEnergizationIndex;
+                                                      setState(() {});
+                                                    }
 
-                                                        _model.selectedEnergization =
-                                                            getJsonField(
-                                                              selectEnergizationItem,
-                                                              r'''$.name''',
-                                                            ).toString();
-                                                        _model.selectedEnergizationIndex =
-                                                            selectEnergizationIndex;
-                                                        setState(() {});
-                                                      },
-                                                      child: Container(
-                                                        width: 224,
-                                                        height: 44,
-                                                        decoration: BoxDecoration(
-                                                          color: _model
-                                                              .selectedEnergizationlist ==
+                                                    _model.selectedEnergization =
+                                                        getJsonField(
+                                                      selectEnergizationItem,
+                                                      r'''$.name''',
+                                                    ).toString();
+                                                    _model.selectedEnergizationIndex =
+                                                        selectEnergizationIndex;
+                                                    setState(() {});
+                                                  },
+                                                  child: Container(
+                                                    // width: 224,
+                                                    height: 44,
+                                                    decoration: BoxDecoration(
+                                                      color: _model
+                                                                  .selectedEnergizationlist ==
                                                               selectEnergizationIndex
-                                                              ? Color(0x26740074)
-                                                              : FlutterFlowTheme.of(
-                                                              context)
+                                                          ? Color(0x26740074)
+                                                          : FlutterFlowTheme.of(
+                                                                  context)
                                                               .secondaryBackground,
-                                                          borderRadius:
+                                                      borderRadius:
                                                           BorderRadius.circular(
                                                               5),
-                                                          border: Border.all(
-                                                            color: _model
-                                                                .selectedEnergizationlist ==
+                                                      border: Border.all(
+                                                        color: _model
+                                                                    .selectedEnergizationlist ==
                                                                 selectEnergizationIndex
-                                                                ? Color(0xFF740074)
-                                                                : FlutterFlowTheme
-                                                                .of(context)
+                                                            ? Color(0xFF740074)
+                                                            : FlutterFlowTheme
+                                                                    .of(context)
                                                                 .secondaryBackground,
-                                                          ),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                          EdgeInsets.all(5),
-                                                          child: AutoSizeText(
-                                                            getJsonField(
-                                                              selectEnergizationItem,
-                                                              r'''$.name''',
-                                                            ).toString(),
-                                                            maxLines: 2,
-                                                            style: FlutterFlowTheme
-                                                                .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              fontSize: 13,
-                                                              letterSpacing: 0,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w600,
-                                                              lineHeight: 1.5,
-                                                            ),
-                                                          ),
+                                                      ),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 15, right: 15),
+                                                      child: Center(
+                                                        child: AutoSizeText(
+                                                          getJsonField(
+                                                            selectEnergizationItem,
+                                                            r'''$.name''',
+                                                          ).toString(),
+                                                          maxLines: 2,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize: 13,
+                                                                letterSpacing:
+                                                                    0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                lineHeight: 1.5,
+                                                              ),
                                                         ),
                                                       ),
                                                     ),
-                                                  );
-                                                }).divide(SizedBox(width: 10)),
+                                                  ),
+                                                ),
+                                              );
+                                            }).divide(SizedBox(width: 10)),
                                           ),
                                         );
                                       },
@@ -762,13 +824,13 @@ class _YantraProductDetailsWidgetState
                                 ),
                               ),
                             if (OtherProductsDetailsCall
-                                .yantrapujaenergizationlist(
-                              containerOtherProductsDetailsResponse
-                                  .jsonBody,
-                            ) !=
-                                null &&
+                                        .yantrapujaenergizationlist(
+                                      containerOtherProductsDetailsResponse
+                                          .jsonBody,
+                                    ) !=
+                                    null &&
                                 (OtherProductsDetailsCall
-                                    .yantrapujaenergizationlist(
+                                        .yantrapujaenergizationlist(
                                   containerOtherProductsDetailsResponse
                                       .jsonBody,
                                 ))!
@@ -779,9 +841,9 @@ class _YantraProductDetailsWidgetState
                                 color: Color(0xFFE7E7E8),
                               ),
                             if (OtherProductsDetailsCall.productVariantStatus(
-                              containerOtherProductsDetailsResponse
-                                  .jsonBody,
-                            ) ==
+                                  containerOtherProductsDetailsResponse
+                                      .jsonBody,
+                                ) ==
                                 true)
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -792,7 +854,7 @@ class _YantraProductDetailsWidgetState
                                   children: [
                                     RichText(
                                       textScaler:
-                                      MediaQuery.of(context).textScaler,
+                                          MediaQuery.of(context).textScaler,
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
@@ -800,16 +862,16 @@ class _YantraProductDetailsWidgetState
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 14,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 14,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                           ),
                                           TextSpan(
                                             text: valueOrDefault<String>(
                                               _model.selectedCertification,
-                                              'xxxx',
+                                              'Variation',
                                             ),
                                             style: TextStyle(
                                               fontWeight: FontWeight.w600,
@@ -820,21 +882,21 @@ class _YantraProductDetailsWidgetState
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 15,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 15,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                       ),
                                     ),
                                     Builder(
                                       builder: (context) {
                                         final selectVariation =
                                             OtherProductsDetailsCall
-                                                .productvariantdata(
-                                              containerOtherProductsDetailsResponse
-                                                  .jsonBody,
-                                            )?.toList() ??
+                                                    .productvariantdata(
+                                                  containerOtherProductsDetailsResponse
+                                                      .jsonBody,
+                                                )?.toList() ??
                                                 [];
                                         return SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
@@ -842,103 +904,106 @@ class _YantraProductDetailsWidgetState
                                             mainAxisSize: MainAxisSize.max,
                                             children: List.generate(
                                                 selectVariation.length,
-                                                    (selectVariationIndex) {
-                                                  final selectVariationItem =
+                                                (selectVariationIndex) {
+                                              final selectVariationItem =
                                                   selectVariation[
-                                                  selectVariationIndex];
-                                                  return Align(
-                                                    alignment:
+                                                      selectVariationIndex];
+                                              return Align(
+                                                alignment:
                                                     AlignmentDirectional(0, 1),
-                                                    child: InkWell(
-                                                      splashColor:
+                                                child: InkWell(
+                                                  splashColor:
                                                       Colors.transparent,
-                                                      focusColor:
+                                                  focusColor:
                                                       Colors.transparent,
-                                                      hoverColor:
+                                                  hoverColor:
                                                       Colors.transparent,
-                                                      highlightColor:
+                                                  highlightColor:
                                                       Colors.transparent,
-                                                      onTap: () async {
-                                                        _model.selectedvariationprice =
-                                                            getJsonField(
-                                                              selectVariationItem,
-                                                              r'''$.price''',
-                                                            );
-                                                        _model.selectvariationindex =
-                                                            selectVariationIndex;
-                                                        setState(() {});
-                                                        if (_model.selecteddesign ==
-                                                            true) {
-                                                          _model.selectedCertificationindex =
-                                                              selectVariationIndex;
-                                                          setState(() {});
-                                                        } else {
-                                                          _model.selectedCertificationindex =
-                                                              selectVariationIndex;
-                                                          setState(() {});
-                                                        }
+                                                  onTap: () async {
+                                                    _model.selectedvariationprice =
+                                                        getJsonField(
+                                                      selectVariationItem,
+                                                      r'''$.price''',
+                                                    );
+                                                    _model.selectvariationindex =
+                                                        selectVariationIndex;
+                                                    setState(() {});
+                                                    if (_model.selecteddesign ==
+                                                        true) {
+                                                      _model.selectedCertificationindex =
+                                                          selectVariationIndex;
+                                                      setState(() {});
+                                                    } else {
+                                                      _model.selectedCertificationindex =
+                                                          selectVariationIndex;
+                                                      setState(() {});
+                                                    }
 
-                                                        _model.selectedCertification =
-                                                            getJsonField(
-                                                              selectVariationItem,
-                                                              r'''$.variant_name''',
-                                                            ).toString();
-                                                        _model.selectedCertificationindex =
-                                                            selectVariationIndex;
-                                                        setState(() {});
-                                                      },
-                                                      child: Container(
-                                                        width: 224,
-                                                        height: 44,
-                                                        decoration: BoxDecoration(
-                                                          color: _model
-                                                              .selectedCertificationindex ==
+                                                    _model.selectedCertification =
+                                                        getJsonField(
+                                                      selectVariationItem,
+                                                      r'''$.variant_name''',
+                                                    ).toString();
+                                                    _model.selectedCertificationindex =
+                                                        selectVariationIndex;
+                                                    setState(() {});
+                                                  },
+                                                  child: Container(
+                                                    width: 224,
+                                                    height: 44,
+                                                    decoration: BoxDecoration(
+                                                      color: _model
+                                                                  .selectedCertificationindex ==
                                                               selectVariationIndex
-                                                              ? Color(0x26740074)
-                                                              : FlutterFlowTheme.of(
-                                                              context)
+                                                          ? Color(0x26740074)
+                                                          : FlutterFlowTheme.of(
+                                                                  context)
                                                               .secondaryBackground,
-                                                          borderRadius:
+                                                      borderRadius:
                                                           BorderRadius.circular(
                                                               5),
-                                                          border: Border.all(
-                                                            color: _model
-                                                                .selectedCertificationindex ==
+                                                      border: Border.all(
+                                                        color: _model
+                                                                    .selectedCertificationindex ==
                                                                 selectVariationIndex
-                                                                ? Color(0xFF740074)
-                                                                : FlutterFlowTheme
-                                                                .of(context)
+                                                            ? Color(0xFF740074)
+                                                            : FlutterFlowTheme
+                                                                    .of(context)
                                                                 .secondaryBackground,
-                                                          ),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                          EdgeInsets.all(5),
-                                                          child: AutoSizeText(
-                                                            getJsonField(
-                                                              selectVariationItem,
-                                                              r'''$.variant_name''',
-                                                            ).toString(),
-                                                            maxLines: 2,
-                                                            style: FlutterFlowTheme
-                                                                .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              fontSize: 13,
-                                                              letterSpacing: 0,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w600,
-                                                              lineHeight: 1.5,
-                                                            ),
-                                                          ),
+                                                      ),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 15, right: 15),
+                                                      child: Center(
+                                                        child: AutoSizeText(
+                                                          getJsonField(
+                                                            selectVariationItem,
+                                                            r'''$.variant_name''',
+                                                          ).toString(),
+                                                          maxLines: 2,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize: 13,
+                                                                letterSpacing:
+                                                                    0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                lineHeight: 1.5,
+                                                              ),
                                                         ),
                                                       ),
                                                     ),
-                                                  );
-                                                }).divide(SizedBox(width: 10)),
+                                                  ),
+                                                ),
+                                              );
+                                            }).divide(SizedBox(width: 10)),
                                           ),
                                         );
                                       },
@@ -947,9 +1012,9 @@ class _YantraProductDetailsWidgetState
                                 ),
                               ),
                             if (OtherProductsDetailsCall.productVariantStatus(
-                              containerOtherProductsDetailsResponse
-                                  .jsonBody,
-                            ) ==
+                                  containerOtherProductsDetailsResponse
+                                      .jsonBody,
+                                ) ==
                                 true)
                               Divider(
                                 height: 5,
@@ -958,17 +1023,17 @@ class _YantraProductDetailsWidgetState
                               ),
                             Padding(
                               padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                  EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                               child: Container(
                                 decoration: BoxDecoration(),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     if (OtherProductsDetailsCall
-                                        .productVariantStatus(
-                                      containerOtherProductsDetailsResponse
-                                          .jsonBody,
-                                    ) ==
+                                            .productVariantStatus(
+                                          containerOtherProductsDetailsResponse
+                                              .jsonBody,
+                                        ) ==
                                         true)
                                       Container(
                                         width: double.infinity,
@@ -985,673 +1050,673 @@ class _YantraProductDetailsWidgetState
                                                   TextSpan(
                                                     text: 'Select Designs:',
                                                     style: FlutterFlowTheme.of(
-                                                        context)
+                                                            context)
                                                         .bodyMedium
                                                         .override(
-                                                      fontFamily:
-                                                      'Montserrat',
-                                                      letterSpacing: 0,
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                    ),
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          letterSpacing: 0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
                                                   ),
                                                   TextSpan(
-                                                    text: ' In Thread',
+                                                    text: ' ',
                                                     style: TextStyle(
                                                       fontWeight:
-                                                      FontWeight.w600,
+                                                          FontWeight.w600,
                                                       fontSize: 14,
                                                     ),
                                                   )
                                                 ],
                                                 style:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .override(
-                                                  fontFamily:
-                                                  'Montserrat',
-                                                  letterSpacing: 0,
-                                                ),
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          letterSpacing: 0,
+                                                        ),
                                               ),
                                             ),
                                             collapsed: Container(),
                                             expanded: Builder(
                                               builder: (context) {
                                                 if (_model
-                                                    .selectvariationindex ==
+                                                        .selectvariationindex ==
                                                     0) {
                                                   return Builder(
                                                     builder: (context) {
                                                       final selectDesgn =
                                                           OtherProductsDetailsCall
-                                                              .otherproductvariantdata(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          )?.toList() ??
+                                                                  .otherproductvariantdata(
+                                                                containerOtherProductsDetailsResponse
+                                                                    .jsonBody,
+                                                              )?.toList() ??
                                                               [];
                                                       return SingleChildScrollView(
                                                         scrollDirection:
-                                                        Axis.horizontal,
+                                                            Axis.horizontal,
                                                         child: Row(
                                                           mainAxisSize:
-                                                          MainAxisSize.max,
+                                                              MainAxisSize.max,
                                                           children: List.generate(
                                                               selectDesgn
                                                                   .length,
-                                                                  (selectDesgnIndex) {
-                                                                final selectDesgnItem =
+                                                              (selectDesgnIndex) {
+                                                            final selectDesgnItem =
                                                                 selectDesgn[
-                                                                selectDesgnIndex];
-                                                                return InkWell(
-                                                                  splashColor: Colors
-                                                                      .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
+                                                                    selectDesgnIndex];
+                                                            return InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
                                                                   Colors
                                                                       .transparent,
-                                                                  onTap: () async {
-                                                                    _model.selecteddesign =
+                                                              onTap: () async {
+                                                                _model.selecteddesign =
                                                                     !_model
                                                                         .selecteddesign;
-                                                                    setState(() {});
-                                                                    _model.selectedyantratdesign =
-                                                                        selectDesgnIndex;
-                                                                    _model.designprice =
+                                                                setState(() {});
+                                                                _model.selectedyantratdesign =
+                                                                    selectDesgnIndex;
+                                                                _model.designprice =
                                                                     OtherProductsDetailsCall
                                                                         .dataproductvariantdatadesigngrpprice(
-                                                                      containerOtherProductsDetailsResponse
-                                                                          .jsonBody,
-                                                                    )?[_model
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                )?[_model
                                                                         .selectedyantratdesign!];
-                                                                    _model.selecteddesignid =
-                                                                        getJsonField(
-                                                                          selectDesgnItem,
-                                                                          r'''$.designgrpid''',
-                                                                        );
-                                                                    setState(() {});
-                                                                  },
-                                                                  child: Container(
-                                                                    width: 114,
-                                                                    height: 222,
-                                                                    decoration:
+                                                                _model.selecteddesignid =
+                                                                    getJsonField(
+                                                                  selectDesgnItem,
+                                                                  r'''$.designgrp[0].id''',
+                                                                );
+                                                                setState(() {});
+                                                              },
+                                                              child: Container(
+                                                                width: 114,
+                                                                height: 222,
+                                                                decoration:
                                                                     BoxDecoration(
-                                                                      color: _model
-                                                                          .selectedyantratdesign ==
+                                                                  color: _model
+                                                                              .selectedyantratdesign ==
                                                                           selectDesgnIndex
-                                                                          ? Color(
+                                                                      ? Color(
                                                                           0x26740074)
-                                                                          : FlutterFlowTheme.of(
-                                                                          context)
+                                                                      : FlutterFlowTheme.of(
+                                                                              context)
                                                                           .secondaryBackground,
-                                                                      borderRadius:
+                                                                  borderRadius:
                                                                       BorderRadius
                                                                           .circular(
-                                                                          5),
-                                                                      border: Border
-                                                                          .all(
-                                                                        color: _model.selectedyantratdesign ==
+                                                                              5),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: _model.selectedyantratdesign ==
                                                                             selectDesgnIndex
-                                                                            ? Color(
+                                                                        ? Color(
                                                                             0xFF740074)
-                                                                            : FlutterFlowTheme.of(context)
+                                                                        : FlutterFlowTheme.of(context)
                                                                             .secondaryBackground,
-                                                                      ),
-                                                                    ),
-                                                                    child: Column(
-                                                                      mainAxisSize:
+                                                                  ),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisSize:
                                                                       MainAxisSize
                                                                           .max,
-                                                                      mainAxisAlignment:
+                                                                  mainAxisAlignment:
                                                                       MainAxisAlignment
                                                                           .spaceBetween,
-                                                                      crossAxisAlignment:
+                                                                  crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               4,
                                                                               7,
                                                                               4),
-                                                                          child:
+                                                                      child:
                                                                           ClipRRect(
-                                                                            borderRadius:
+                                                                        borderRadius:
                                                                             BorderRadius.circular(8),
-                                                                            child: Image
-                                                                                .network(
-                                                                              getJsonField(
-                                                                                selectDesgnItem,
-                                                                                r'''$.designgrp[0].image''',
-                                                                              ).toString(),
-                                                                              width:
+                                                                        child: Image
+                                                                            .network(
+                                                                          getJsonField(
+                                                                            selectDesgnItem,
+                                                                            r'''$.designgrp[0].image''',
+                                                                          ).toString(),
+                                                                          width:
                                                                               100,
-                                                                              height:
+                                                                          height:
                                                                               120,
-                                                                              fit: BoxFit
-                                                                                  .contain,
-                                                                            ),
-                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .contain,
                                                                         ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               0,
                                                                               0,
                                                                               0),
-                                                                          child:
+                                                                      child:
                                                                           Container(
-                                                                            width: double
-                                                                                .infinity,
-                                                                            height:
+                                                                        width: double
+                                                                            .infinity,
+                                                                        height:
                                                                             42,
-                                                                            decoration:
+                                                                        decoration:
                                                                             BoxDecoration(),
-                                                                            child:
+                                                                        child:
                                                                             AutoSizeText(
-                                                                              getJsonField(
-                                                                                selectDesgnItem,
-                                                                                r'''$.designgrp[0].name''',
-                                                                              ).toString(),
-                                                                              maxLines:
+                                                                          getJsonField(
+                                                                            selectDesgnItem,
+                                                                            r'''$.designgrp[0].name''',
+                                                                          ).toString(),
+                                                                          maxLines:
                                                                               2,
-                                                                              style: FlutterFlowTheme.of(context)
-                                                                                  .bodyMedium
-                                                                                  .override(
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
                                                                                 fontFamily: 'Montserrat',
                                                                                 fontSize: 13,
                                                                                 letterSpacing: 0,
                                                                                 fontWeight: FontWeight.w600,
                                                                                 lineHeight: 1.5,
                                                                               ),
-                                                                            ),
-                                                                          ),
                                                                         ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               0,
                                                                               0,
                                                                               7),
-                                                                          child:
+                                                                      child:
                                                                           RichText(
-                                                                            textScaler:
+                                                                        textScaler:
                                                                             MediaQuery.of(context).textScaler,
-                                                                            text:
+                                                                        text:
                                                                             TextSpan(
-                                                                              children: [
-                                                                                TextSpan(
-                                                                                  text: 'INR ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                          children: [
+                                                                            TextSpan(
+                                                                              text: 'INR ',
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: 'Montserrat',
                                                                                     fontSize: 14,
                                                                                     letterSpacing: 0,
                                                                                     fontWeight: FontWeight.w600,
                                                                                   ),
-                                                                                ),
-                                                                                TextSpan(
-                                                                                  text: getJsonField(
-                                                                                    selectDesgnItem,
-                                                                                    r'''$.designgrp[0].price''',
-                                                                                  ).toString(),
-                                                                                  style: TextStyle(
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    fontSize: 14,
-                                                                                  ),
-                                                                                )
-                                                                              ],
-                                                                              style: FlutterFlowTheme.of(context)
-                                                                                  .bodyMedium
-                                                                                  .override(
+                                                                            ),
+                                                                            TextSpan(
+                                                                              text: getJsonField(
+                                                                                selectDesgnItem,
+                                                                                r'''$.designgrp[0].price''',
+                                                                              ).toString(),
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontSize: 14,
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
                                                                                 fontFamily: 'Montserrat',
                                                                                 fontSize: 14,
                                                                                 letterSpacing: 0,
                                                                                 fontWeight: FontWeight.w600,
                                                                               ),
-                                                                            ),
-                                                                            maxLines:
-                                                                            2,
-                                                                          ),
                                                                         ),
-                                                                      ].divide(SizedBox(
-                                                                          height:
-                                                                          12)),
+                                                                        maxLines:
+                                                                            2,
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                );
-                                                              }),
+                                                                  ].divide(SizedBox(
+                                                                      height:
+                                                                          12)),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }),
                                                         ),
                                                       );
                                                     },
                                                   );
                                                 } else if (_model
-                                                    .selectvariationindex ==
+                                                        .selectvariationindex ==
                                                     1) {
                                                   return Builder(
                                                     builder: (context) {
                                                       final selectDesgn =
                                                           OtherProductsDetailsCall
-                                                              .otherproductvariantdata(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          )?.toList() ??
+                                                                  .otherproductvariantdata(
+                                                                containerOtherProductsDetailsResponse
+                                                                    .jsonBody,
+                                                              )?.toList() ??
                                                               [];
                                                       return SingleChildScrollView(
                                                         scrollDirection:
-                                                        Axis.horizontal,
+                                                            Axis.horizontal,
                                                         child: Row(
                                                           mainAxisSize:
-                                                          MainAxisSize.max,
+                                                              MainAxisSize.max,
                                                           children: List.generate(
                                                               selectDesgn
                                                                   .length,
-                                                                  (selectDesgnIndex) {
-                                                                final selectDesgnItem =
+                                                              (selectDesgnIndex) {
+                                                            final selectDesgnItem =
                                                                 selectDesgn[
-                                                                selectDesgnIndex];
-                                                                return InkWell(
-                                                                  splashColor: Colors
-                                                                      .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
+                                                                    selectDesgnIndex];
+                                                            return InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
                                                                   Colors
                                                                       .transparent,
-                                                                  onTap: () async {
-                                                                    _model.selecteddesign =
+                                                              onTap: () async {
+                                                                _model.selecteddesign =
                                                                     !_model
                                                                         .selecteddesign;
-                                                                    setState(() {});
-                                                                    _model.selectedyantratdesign =
-                                                                        selectDesgnIndex;
-                                                                    _model.designprice =
+                                                                setState(() {});
+                                                                _model.selectedyantratdesign =
+                                                                    selectDesgnIndex;
+                                                                _model.designprice =
                                                                     OtherProductsDetailsCall
                                                                         .dataproductvariantdata1designgrpprice(
-                                                                      containerOtherProductsDetailsResponse
-                                                                          .jsonBody,
-                                                                    )?[_model
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                )?[_model
                                                                         .selectedyantratdesign!];
-                                                                    _model.selecteddesignid =
-                                                                        getJsonField(
-                                                                          selectDesgnItem,
-                                                                          r'''$.designgrp[1].id''',
-                                                                        );
-                                                                    setState(() {});
-                                                                  },
-                                                                  child: Container(
-                                                                    width: 114,
-                                                                    height: 222,
-                                                                    decoration:
+                                                                _model.selecteddesignid =
+                                                                    getJsonField(
+                                                                  selectDesgnItem,
+                                                                  r'''$.designgrp[1].id''',
+                                                                );
+                                                                setState(() {});
+                                                              },
+                                                              child: Container(
+                                                                width: 114,
+                                                                height: 222,
+                                                                decoration:
                                                                     BoxDecoration(
-                                                                      color: _model
-                                                                          .selectedyantratdesign ==
+                                                                  color: _model
+                                                                              .selectedyantratdesign ==
                                                                           selectDesgnIndex
-                                                                          ? Color(
+                                                                      ? Color(
                                                                           0x26740074)
-                                                                          : FlutterFlowTheme.of(
-                                                                          context)
+                                                                      : FlutterFlowTheme.of(
+                                                                              context)
                                                                           .secondaryBackground,
-                                                                      borderRadius:
+                                                                  borderRadius:
                                                                       BorderRadius
                                                                           .circular(
-                                                                          5),
-                                                                      border: Border
-                                                                          .all(
-                                                                        color: _model.selectedyantratdesign ==
+                                                                              5),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: _model.selectedyantratdesign ==
                                                                             selectDesgnIndex
-                                                                            ? Color(
+                                                                        ? Color(
                                                                             0xFF740074)
-                                                                            : FlutterFlowTheme.of(context)
+                                                                        : FlutterFlowTheme.of(context)
                                                                             .secondaryBackground,
-                                                                      ),
-                                                                    ),
-                                                                    child: Column(
-                                                                      mainAxisSize:
+                                                                  ),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisSize:
                                                                       MainAxisSize
                                                                           .max,
-                                                                      mainAxisAlignment:
+                                                                  mainAxisAlignment:
                                                                       MainAxisAlignment
                                                                           .spaceBetween,
-                                                                      crossAxisAlignment:
+                                                                  crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               4,
                                                                               7,
                                                                               4),
-                                                                          child:
+                                                                      child:
                                                                           ClipRRect(
-                                                                            borderRadius:
+                                                                        borderRadius:
                                                                             BorderRadius.circular(8),
-                                                                            child: Image
-                                                                                .network(
-                                                                              getJsonField(
-                                                                                selectDesgnItem,
-                                                                                r'''$.designgrp[1].image''',
-                                                                              ).toString(),
-                                                                              width:
+                                                                        child: Image
+                                                                            .network(
+                                                                          getJsonField(
+                                                                            selectDesgnItem,
+                                                                            r'''$.designgrp[1].image''',
+                                                                          ).toString(),
+                                                                          width:
                                                                               100,
-                                                                              height:
+                                                                          height:
                                                                               120,
-                                                                              fit: BoxFit
-                                                                                  .contain,
-                                                                            ),
-                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .contain,
                                                                         ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               0,
                                                                               0,
                                                                               0),
-                                                                          child:
+                                                                      child:
                                                                           Container(
-                                                                            width: double
-                                                                                .infinity,
-                                                                            height:
+                                                                        width: double
+                                                                            .infinity,
+                                                                        height:
                                                                             42,
-                                                                            decoration:
+                                                                        decoration:
                                                                             BoxDecoration(),
-                                                                            child:
+                                                                        child:
                                                                             AutoSizeText(
-                                                                              getJsonField(
-                                                                                selectDesgnItem,
-                                                                                r'''$.designgrp[1].name''',
-                                                                              ).toString(),
-                                                                              maxLines:
+                                                                          getJsonField(
+                                                                            selectDesgnItem,
+                                                                            r'''$.designgrp[1].name''',
+                                                                          ).toString(),
+                                                                          maxLines:
                                                                               2,
-                                                                              style: FlutterFlowTheme.of(context)
-                                                                                  .bodyMedium
-                                                                                  .override(
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
                                                                                 fontFamily: 'Montserrat',
                                                                                 fontSize: 13,
                                                                                 letterSpacing: 0,
                                                                                 fontWeight: FontWeight.w600,
                                                                                 lineHeight: 1.5,
                                                                               ),
-                                                                            ),
-                                                                          ),
                                                                         ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               0,
                                                                               0,
                                                                               7),
-                                                                          child:
+                                                                      child:
                                                                           RichText(
-                                                                            textScaler:
+                                                                        textScaler:
                                                                             MediaQuery.of(context).textScaler,
-                                                                            text:
+                                                                        text:
                                                                             TextSpan(
-                                                                              children: [
-                                                                                TextSpan(
-                                                                                  text: 'INR ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                          children: [
+                                                                            TextSpan(
+                                                                              text: 'INR ',
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: 'Montserrat',
                                                                                     fontSize: 14,
                                                                                     letterSpacing: 0,
                                                                                     fontWeight: FontWeight.w600,
                                                                                   ),
-                                                                                ),
-                                                                                TextSpan(
-                                                                                  text: getJsonField(
-                                                                                    selectDesgnItem,
-                                                                                    r'''$.designgrp[1].price''',
-                                                                                  ).toString(),
-                                                                                  style: TextStyle(
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    fontSize: 14,
-                                                                                  ),
-                                                                                )
-                                                                              ],
-                                                                              style: FlutterFlowTheme.of(context)
-                                                                                  .bodyMedium
-                                                                                  .override(
+                                                                            ),
+                                                                            TextSpan(
+                                                                              text: getJsonField(
+                                                                                selectDesgnItem,
+                                                                                r'''$.designgrp[1].price''',
+                                                                              ).toString(),
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontSize: 14,
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
                                                                                 fontFamily: 'Montserrat',
                                                                                 fontSize: 14,
                                                                                 letterSpacing: 0,
                                                                                 fontWeight: FontWeight.w600,
                                                                               ),
-                                                                            ),
-                                                                            maxLines:
-                                                                            2,
-                                                                          ),
                                                                         ),
-                                                                      ].divide(SizedBox(
-                                                                          height:
-                                                                          12)),
+                                                                        maxLines:
+                                                                            2,
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                );
-                                                              }),
+                                                                  ].divide(SizedBox(
+                                                                      height:
+                                                                          12)),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }),
                                                         ),
                                                       );
                                                     },
                                                   );
                                                 } else if (_model
-                                                    .selectvariationindex ==
+                                                        .selectvariationindex ==
                                                     2) {
                                                   return Builder(
                                                     builder: (context) {
                                                       final selectDesgn =
                                                           OtherProductsDetailsCall
-                                                              .otherproductvariantdata(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          )?.toList() ??
+                                                                  .otherproductvariantdata(
+                                                                containerOtherProductsDetailsResponse
+                                                                    .jsonBody,
+                                                              )?.toList() ??
                                                               [];
                                                       return SingleChildScrollView(
                                                         scrollDirection:
-                                                        Axis.horizontal,
+                                                            Axis.horizontal,
                                                         child: Row(
                                                           mainAxisSize:
-                                                          MainAxisSize.max,
+                                                              MainAxisSize.max,
                                                           children: List.generate(
                                                               selectDesgn
                                                                   .length,
-                                                                  (selectDesgnIndex) {
-                                                                final selectDesgnItem =
+                                                              (selectDesgnIndex) {
+                                                            final selectDesgnItem =
                                                                 selectDesgn[
-                                                                selectDesgnIndex];
-                                                                return InkWell(
-                                                                  splashColor: Colors
-                                                                      .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
+                                                                    selectDesgnIndex];
+                                                            return InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
                                                                   Colors
                                                                       .transparent,
-                                                                  onTap: () async {
-                                                                    _model.selecteddesign =
+                                                              onTap: () async {
+                                                                _model.selecteddesign =
                                                                     !_model
                                                                         .selecteddesign;
-                                                                    setState(() {});
-                                                                    _model.selectedyantratdesign =
-                                                                        selectDesgnIndex;
-                                                                    _model.designprice =
+                                                                setState(() {});
+                                                                _model.selectedyantratdesign =
+                                                                    selectDesgnIndex;
+                                                                _model.designprice =
                                                                     OtherProductsDetailsCall
                                                                         .dataproductvariantdata3designgrpprice(
-                                                                      containerOtherProductsDetailsResponse
-                                                                          .jsonBody,
-                                                                    )?[_model
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                )?[_model
                                                                         .selectedyantratdesign!];
-                                                                    _model.selecteddesignid =
-                                                                        getJsonField(
-                                                                          selectDesgnItem,
-                                                                          r'''$.designgrp[2].id''',
-                                                                        );
-                                                                    setState(() {});
-                                                                  },
-                                                                  child: Container(
-                                                                    width: 114,
-                                                                    height: 222,
-                                                                    decoration:
+                                                                _model.selecteddesignid =
+                                                                    getJsonField(
+                                                                  selectDesgnItem,
+                                                                  r'''$.designgrp[2].id''',
+                                                                );
+                                                                setState(() {});
+                                                              },
+                                                              child: Container(
+                                                                width: 114,
+                                                                height: 222,
+                                                                decoration:
                                                                     BoxDecoration(
-                                                                      color: _model
-                                                                          .selectedyantratdesign ==
+                                                                  color: _model
+                                                                              .selectedyantratdesign ==
                                                                           selectDesgnIndex
-                                                                          ? Color(
+                                                                      ? Color(
                                                                           0x26740074)
-                                                                          : FlutterFlowTheme.of(
-                                                                          context)
+                                                                      : FlutterFlowTheme.of(
+                                                                              context)
                                                                           .secondaryBackground,
-                                                                      borderRadius:
+                                                                  borderRadius:
                                                                       BorderRadius
                                                                           .circular(
-                                                                          5),
-                                                                      border: Border
-                                                                          .all(
-                                                                        color: _model.selectedyantratdesign ==
+                                                                              5),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: _model.selectedyantratdesign ==
                                                                             selectDesgnIndex
-                                                                            ? Color(
+                                                                        ? Color(
                                                                             0xFF740074)
-                                                                            : FlutterFlowTheme.of(context)
+                                                                        : FlutterFlowTheme.of(context)
                                                                             .secondaryBackground,
-                                                                      ),
-                                                                    ),
-                                                                    child: Column(
-                                                                      mainAxisSize:
+                                                                  ),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisSize:
                                                                       MainAxisSize
                                                                           .max,
-                                                                      mainAxisAlignment:
+                                                                  mainAxisAlignment:
                                                                       MainAxisAlignment
                                                                           .spaceBetween,
-                                                                      crossAxisAlignment:
+                                                                  crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               4,
                                                                               7,
                                                                               4),
-                                                                          child:
+                                                                      child:
                                                                           ClipRRect(
-                                                                            borderRadius:
+                                                                        borderRadius:
                                                                             BorderRadius.circular(8),
-                                                                            child: Image
-                                                                                .network(
-                                                                              getJsonField(
-                                                                                selectDesgnItem,
-                                                                                r'''$.designgrp[2].image''',
-                                                                              ).toString(),
-                                                                              width:
+                                                                        child: Image
+                                                                            .network(
+                                                                          getJsonField(
+                                                                            selectDesgnItem,
+                                                                            r'''$.designgrp[2].image''',
+                                                                          ).toString(),
+                                                                          width:
                                                                               100,
-                                                                              height:
+                                                                          height:
                                                                               120,
-                                                                              fit: BoxFit
-                                                                                  .contain,
-                                                                            ),
-                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .contain,
                                                                         ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               0,
                                                                               0,
                                                                               0),
-                                                                          child:
+                                                                      child:
                                                                           Container(
-                                                                            width: double
-                                                                                .infinity,
-                                                                            height:
+                                                                        width: double
+                                                                            .infinity,
+                                                                        height:
                                                                             42,
-                                                                            decoration:
+                                                                        decoration:
                                                                             BoxDecoration(),
-                                                                            child:
+                                                                        child:
                                                                             AutoSizeText(
-                                                                              getJsonField(
-                                                                                selectDesgnItem,
-                                                                                r'''$.designgrp[2].name''',
-                                                                              ).toString(),
-                                                                              maxLines:
+                                                                          getJsonField(
+                                                                            selectDesgnItem,
+                                                                            r'''$.designgrp[2].name''',
+                                                                          ).toString(),
+                                                                          maxLines:
                                                                               2,
-                                                                              style: FlutterFlowTheme.of(context)
-                                                                                  .bodyMedium
-                                                                                  .override(
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
                                                                                 fontFamily: 'Montserrat',
                                                                                 fontSize: 13,
                                                                                 letterSpacing: 0,
                                                                                 fontWeight: FontWeight.w600,
                                                                                 lineHeight: 1.5,
                                                                               ),
-                                                                            ),
-                                                                          ),
                                                                         ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               0,
                                                                               0,
                                                                               7),
-                                                                          child:
+                                                                      child:
                                                                           RichText(
-                                                                            textScaler:
+                                                                        textScaler:
                                                                             MediaQuery.of(context).textScaler,
-                                                                            text:
+                                                                        text:
                                                                             TextSpan(
-                                                                              children: [
-                                                                                TextSpan(
-                                                                                  text: 'INR ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                          children: [
+                                                                            TextSpan(
+                                                                              text: 'INR ',
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: 'Montserrat',
                                                                                     fontSize: 14,
                                                                                     letterSpacing: 0,
                                                                                     fontWeight: FontWeight.w600,
                                                                                   ),
-                                                                                ),
-                                                                                TextSpan(
-                                                                                  text: getJsonField(
-                                                                                    selectDesgnItem,
-                                                                                    r'''$.designgrp[2].price''',
-                                                                                  ).toString(),
-                                                                                  style: TextStyle(
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    fontSize: 14,
-                                                                                  ),
-                                                                                )
-                                                                              ],
-                                                                              style: FlutterFlowTheme.of(context)
-                                                                                  .bodyMedium
-                                                                                  .override(
+                                                                            ),
+                                                                            TextSpan(
+                                                                              text: getJsonField(
+                                                                                selectDesgnItem,
+                                                                                r'''$.designgrp[2].price''',
+                                                                              ).toString(),
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontSize: 14,
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
                                                                                 fontFamily: 'Montserrat',
                                                                                 fontSize: 14,
                                                                                 letterSpacing: 0,
                                                                                 fontWeight: FontWeight.w600,
                                                                               ),
-                                                                            ),
-                                                                            maxLines:
-                                                                            2,
-                                                                          ),
                                                                         ),
-                                                                      ].divide(SizedBox(
-                                                                          height:
-                                                                          12)),
+                                                                        maxLines:
+                                                                            2,
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                );
-                                                              }),
+                                                                  ].divide(SizedBox(
+                                                                      height:
+                                                                          12)),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }),
                                                         ),
                                                       );
                                                     },
@@ -1661,208 +1726,208 @@ class _YantraProductDetailsWidgetState
                                                     builder: (context) {
                                                       final selectDesgn =
                                                           OtherProductsDetailsCall
-                                                              .otherproductvariantdata(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          )?.toList() ??
+                                                                  .otherproductvariantdata(
+                                                                containerOtherProductsDetailsResponse
+                                                                    .jsonBody,
+                                                              )?.toList() ??
                                                               [];
                                                       return SingleChildScrollView(
                                                         scrollDirection:
-                                                        Axis.horizontal,
+                                                            Axis.horizontal,
                                                         child: Row(
                                                           mainAxisSize:
-                                                          MainAxisSize.max,
+                                                              MainAxisSize.max,
                                                           children: List.generate(
                                                               selectDesgn
                                                                   .length,
-                                                                  (selectDesgnIndex) {
-                                                                final selectDesgnItem =
+                                                              (selectDesgnIndex) {
+                                                            final selectDesgnItem =
                                                                 selectDesgn[
-                                                                selectDesgnIndex];
-                                                                return InkWell(
-                                                                  splashColor: Colors
-                                                                      .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
+                                                                    selectDesgnIndex];
+                                                            return InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
                                                                   Colors
                                                                       .transparent,
-                                                                  onTap: () async {
-                                                                    _model.selecteddesign =
+                                                              onTap: () async {
+                                                                _model.selecteddesign =
                                                                     !_model
                                                                         .selecteddesign;
-                                                                    setState(() {});
-                                                                    _model.selectedyantratdesign =
-                                                                        selectDesgnIndex;
-                                                                    _model.designprice =
+                                                                setState(() {});
+                                                                _model.selectedyantratdesign =
+                                                                    selectDesgnIndex;
+                                                                _model.designprice =
                                                                     OtherProductsDetailsCall
                                                                         .dataproductvariantdata4designgrpprice(
-                                                                      containerOtherProductsDetailsResponse
-                                                                          .jsonBody,
-                                                                    )?[_model
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                )?[_model
                                                                         .selectedyantratdesign!];
-                                                                    _model.selecteddesignid =
-                                                                        getJsonField(
-                                                                          selectDesgnItem,
-                                                                          r'''$.designgrp[3].id''',
-                                                                        );
-                                                                    setState(() {});
-                                                                  },
-                                                                  child: Container(
-                                                                    width: 114,
-                                                                    height: 222,
-                                                                    decoration:
+                                                                _model.selecteddesignid =
+                                                                    getJsonField(
+                                                                  selectDesgnItem,
+                                                                  r'''$.designgrp[3].id''',
+                                                                );
+                                                                setState(() {});
+                                                              },
+                                                              child: Container(
+                                                                width: 114,
+                                                                height: 222,
+                                                                decoration:
                                                                     BoxDecoration(
-                                                                      color: _model
-                                                                          .selectedyantratdesign ==
+                                                                  color: _model
+                                                                              .selectedyantratdesign ==
                                                                           selectDesgnIndex
-                                                                          ? Color(
+                                                                      ? Color(
                                                                           0x26740074)
-                                                                          : FlutterFlowTheme.of(
-                                                                          context)
+                                                                      : FlutterFlowTheme.of(
+                                                                              context)
                                                                           .secondaryBackground,
-                                                                      borderRadius:
+                                                                  borderRadius:
                                                                       BorderRadius
                                                                           .circular(
-                                                                          5),
-                                                                      border: Border
-                                                                          .all(
-                                                                        color: _model.selectedyantratdesign ==
+                                                                              5),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: _model.selectedyantratdesign ==
                                                                             selectDesgnIndex
-                                                                            ? Color(
+                                                                        ? Color(
                                                                             0xFF740074)
-                                                                            : FlutterFlowTheme.of(context)
+                                                                        : FlutterFlowTheme.of(context)
                                                                             .secondaryBackground,
-                                                                      ),
-                                                                    ),
-                                                                    child: Column(
-                                                                      mainAxisSize:
+                                                                  ),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisSize:
                                                                       MainAxisSize
                                                                           .max,
-                                                                      mainAxisAlignment:
+                                                                  mainAxisAlignment:
                                                                       MainAxisAlignment
                                                                           .spaceBetween,
-                                                                      crossAxisAlignment:
+                                                                  crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               4,
                                                                               7,
                                                                               4),
-                                                                          child:
+                                                                      child:
                                                                           ClipRRect(
-                                                                            borderRadius:
+                                                                        borderRadius:
                                                                             BorderRadius.circular(8),
-                                                                            child: Image
-                                                                                .network(
-                                                                              getJsonField(
-                                                                                selectDesgnItem,
-                                                                                r'''$.designgrp[4].image''',
-                                                                              ).toString(),
-                                                                              width:
+                                                                        child: Image
+                                                                            .network(
+                                                                          getJsonField(
+                                                                            selectDesgnItem,
+                                                                            r'''$.designgrp[4].image''',
+                                                                          ).toString(),
+                                                                          width:
                                                                               100,
-                                                                              height:
+                                                                          height:
                                                                               120,
-                                                                              fit: BoxFit
-                                                                                  .contain,
-                                                                            ),
-                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .contain,
                                                                         ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               0,
                                                                               0,
                                                                               0),
-                                                                          child:
+                                                                      child:
                                                                           Container(
-                                                                            width: double
-                                                                                .infinity,
-                                                                            height:
+                                                                        width: double
+                                                                            .infinity,
+                                                                        height:
                                                                             42,
-                                                                            decoration:
+                                                                        decoration:
                                                                             BoxDecoration(),
-                                                                            child:
+                                                                        child:
                                                                             AutoSizeText(
-                                                                              getJsonField(
-                                                                                selectDesgnItem,
-                                                                                r'''$.designgrp[4].name''',
-                                                                              ).toString(),
-                                                                              maxLines:
+                                                                          getJsonField(
+                                                                            selectDesgnItem,
+                                                                            r'''$.designgrp[4].name''',
+                                                                          ).toString(),
+                                                                          maxLines:
                                                                               2,
-                                                                              style: FlutterFlowTheme.of(context)
-                                                                                  .bodyMedium
-                                                                                  .override(
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
                                                                                 fontFamily: 'Montserrat',
                                                                                 fontSize: 13,
                                                                                 letterSpacing: 0,
                                                                                 fontWeight: FontWeight.w600,
                                                                                 lineHeight: 1.5,
                                                                               ),
-                                                                            ),
-                                                                          ),
                                                                         ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional
-                                                                              .fromSTEB(
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
                                                                               7,
                                                                               0,
                                                                               0,
                                                                               7),
-                                                                          child:
+                                                                      child:
                                                                           RichText(
-                                                                            textScaler:
+                                                                        textScaler:
                                                                             MediaQuery.of(context).textScaler,
-                                                                            text:
+                                                                        text:
                                                                             TextSpan(
-                                                                              children: [
-                                                                                TextSpan(
-                                                                                  text: 'INR ',
-                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                          children: [
+                                                                            TextSpan(
+                                                                              text: 'INR ',
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                     fontFamily: 'Montserrat',
                                                                                     fontSize: 14,
                                                                                     letterSpacing: 0,
                                                                                     fontWeight: FontWeight.w600,
                                                                                   ),
-                                                                                ),
-                                                                                TextSpan(
-                                                                                  text: getJsonField(
-                                                                                    selectDesgnItem,
-                                                                                    r'''$.designgrp[4].price''',
-                                                                                  ).toString(),
-                                                                                  style: TextStyle(
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    fontSize: 14,
-                                                                                  ),
-                                                                                )
-                                                                              ],
-                                                                              style: FlutterFlowTheme.of(context)
-                                                                                  .bodyMedium
-                                                                                  .override(
+                                                                            ),
+                                                                            TextSpan(
+                                                                              text: getJsonField(
+                                                                                selectDesgnItem,
+                                                                                r'''$.designgrp[4].price''',
+                                                                              ).toString(),
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontSize: 14,
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
                                                                                 fontFamily: 'Montserrat',
                                                                                 fontSize: 14,
                                                                                 letterSpacing: 0,
                                                                                 fontWeight: FontWeight.w600,
                                                                               ),
-                                                                            ),
-                                                                            maxLines:
-                                                                            2,
-                                                                          ),
                                                                         ),
-                                                                      ].divide(SizedBox(
-                                                                          height:
-                                                                          12)),
+                                                                        maxLines:
+                                                                            2,
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                );
-                                                              }),
+                                                                  ].divide(SizedBox(
+                                                                      height:
+                                                                          12)),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }),
                                                         ),
                                                       );
                                                     },
@@ -1875,16 +1940,16 @@ class _YantraProductDetailsWidgetState
                                               tapBodyToExpand: false,
                                               tapBodyToCollapse: false,
                                               headerAlignment:
-                                              ExpandablePanelHeaderAlignment
-                                                  .center,
+                                                  ExpandablePanelHeaderAlignment
+                                                      .center,
                                               hasIcon: true,
                                               expandIcon:
-                                              Icons.keyboard_arrow_down,
+                                                  Icons.keyboard_arrow_down,
                                               collapseIcon:
-                                              Icons.keyboard_arrow_up_sharp,
+                                                  Icons.keyboard_arrow_up_sharp,
                                               iconColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryText,
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
                                             ),
                                           ),
                                         ),
@@ -1894,32 +1959,32 @@ class _YantraProductDetailsWidgetState
                               ),
                             ),
                             if (OtherProductsDetailsCall.productVariantStatus(
-                              containerOtherProductsDetailsResponse
-                                  .jsonBody,
-                            ) ==
+                                  containerOtherProductsDetailsResponse
+                                      .jsonBody,
+                                ) ==
                                 true)
-                            Divider(
-                              height: 5,
-                              thickness: 2,
-                              color: Color(0xFFE7E7E8),
-                            ),
+                              Divider(
+                                height: 5,
+                                thickness: 2,
+                                color: Color(0xFFE7E7E8),
+                              ),
                             Padding(
                               padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
+                                  EdgeInsetsDirectional.fromSTEB(16, 16, 0, 16),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Quantity',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                      fontFamily: 'Montserrat',
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                          fontFamily: 'Montserrat',
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                   ),
                                   Container(
                                     height: 30,
@@ -1938,18 +2003,18 @@ class _YantraProductDetailsWidgetState
                                         FontAwesomeIcons.minus,
                                         color: enabled
                                             ? FlutterFlowTheme.of(context)
-                                            .primaryText
+                                                .primaryText
                                             : FlutterFlowTheme.of(context)
-                                            .alternate,
+                                                .alternate,
                                         size: 15,
                                       ),
                                       incrementIconBuilder: (enabled) => FaIcon(
                                         FontAwesomeIcons.plus,
                                         color: enabled
                                             ? FlutterFlowTheme.of(context)
-                                            .primaryText
+                                                .primaryText
                                             : FlutterFlowTheme.of(context)
-                                            .alternate,
+                                                .alternate,
                                         size: 15,
                                       ),
                                       countBuilder: (count) => Text(
@@ -1957,14 +2022,14 @@ class _YantraProductDetailsWidgetState
                                         style: FlutterFlowTheme.of(context)
                                             .titleLarge
                                             .override(
-                                          fontFamily: 'Outfit',
-                                          fontSize: 15,
-                                          letterSpacing: 30,
-                                        ),
+                                              fontFamily: 'Outfit',
+                                              fontSize: 15,
+                                              letterSpacing: 30,
+                                            ),
                                       ),
                                       count: _model.countControllerValue ??= 1,
                                       updateCount: (count) => setState(() =>
-                                      _model.countControllerValue = count),
+                                          _model.countControllerValue = count),
                                       stepSize: 1,
                                       minimum: 1,
                                       maximum: 5,
@@ -1980,101 +2045,66 @@ class _YantraProductDetailsWidgetState
                             ),
                             Padding(
                               padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 10, 0, 10),
+                                  EdgeInsetsDirectional.fromSTEB(16, 10, 0, 10),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
+                                  // Generated code for this ConditionalBuilder Widget...
                                   Builder(
                                     builder: (context) {
-                                      if (_model.selectvariationindex != null) {
-                                        return
-
-                                          // Generated code for this RichText Widget...
-                                          Padding(
-                                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                                            child: RichText(
-                                              textScaler: MediaQuery.of(context).textScaler,
-                                              text: TextSpan(
-                                                children: [
-                                                  TextSpan(
-                                                    text: 'INR ',
-                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                      fontFamily: 'Montserrat',
-                                                      fontSize: 18,
-                                                      letterSpacing: 0,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  TextSpan(
-                                                    text: valueOrDefault<String>(
-                                                      OtherProductsDetailsCall.productVariantStatus(
-                                                        containerOtherProductsDetailsResponse.jsonBody,
-                                                      ) ==
-                                                          true
-                                                          ? formatNumber(
-                                                        (OtherProductsDetailsCall.productvariantdatasellingprice(
-                                                          containerOtherProductsDetailsResponse.jsonBody,
-                                                        )![_model.selectvariationindex!] +
-                                                            (_model.designprice!) +
-                                                            (_model.energizationprice!)) *
-                                                            (_model.countControllerValue!),
-                                                        formatType: FormatType.decimal,
-                                                        decimalType: DecimalType.periodDecimal,
-                                                      )
-                                                          : OtherProductsDetailsCall.otherProductsellingprice(
-                                                        containerOtherProductsDetailsResponse.jsonBody,
-                                                      ),
-                                                      '0000',
-                                                    ),
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 18,
-                                                    ),
-                                                  )
-                                                ],
-                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: 18,
-                                                  letterSpacing: 0,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              maxLines: 2,
-                                            ),
-                                          )
-                                        ;
-                                      } else {
+                                      if (OtherProductsDetailsCall.productVariantStatus(
+                                            containerOtherProductsDetailsResponse.jsonBody,
+                                          ) == true) {
                                         return Padding(
-                                          padding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0, 0, 10, 0),
+                                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                                           child: RichText(
-                                            textScaler: MediaQuery.of(context)
-                                                .textScaler,
+                                            textScaler: MediaQuery.of(context).textScaler,
                                             text: TextSpan(
                                               children: [
                                                 TextSpan(
-                                                  text: 'INR ',
-                                                  style: FlutterFlowTheme.of(
-                                                      context)
-                                                      .bodyMedium
-                                                      .override(
-                                                    fontFamily:
-                                                    'Montserrat',
+                                                  text: '${valueOrDefault<String>(FFAppState().currencyName, 'INR')} ',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    fontFamily: 'Montserrat',
                                                     fontSize: 18,
                                                     letterSpacing: 0,
-                                                    fontWeight:
-                                                    FontWeight.w600,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: FlutterFlowTheme.of(context).primaryText,
                                                   ),
                                                 ),
                                                 TextSpan(
+                                                  /*text: valueOrDefault<String>(
+                                                    OtherProductsDetailsCall.productVariantStatus(containerOtherProductsDetailsResponse.jsonBody,
+                                                  ) == true
+                                                      ? ' ${formatNumber(
+                                                    (functions.currencyConversion(
+                                                      FFAppState().currencyRate,
+                                                      (OtherProductsDetailsCall.productvariantdatasellingprice(
+                                                        containerOtherProductsDetailsResponse.jsonBody,)
+                                                      ![_model.selectvariationindex!] +
+                                                          (_model.designprice!) +
+                                                          (_model.energizationprice!) *
+                                                              (_model.countControllerValue!),).toString(),
+                                                    )),
+                                                    formatType: FormatType.decimal,
+                                                    decimalType: DecimalType.automatic,
+                                                  )}' : OtherProductsDetailsCall.otherProductsellingprice(containerOtherProductsDetailsResponse.jsonBody,
+                                                  ), '0000',),*/
+
                                                   text: valueOrDefault<String>(
-                                                    OtherProductsDetailsCall
-                                                        .otherProductsellingprice(
-                                                      containerOtherProductsDetailsResponse
-                                                          .jsonBody,
-                                                    ),
-                                                    '0000',
+                                                    OtherProductsDetailsCall.productVariantStatus(containerOtherProductsDetailsResponse.jsonBody,
+                                                         ) == true
+                                                        ? formatNumber(
+                                                            (OtherProductsDetailsCall.productvariantdatasellingprice(
+                                                              containerOtherProductsDetailsResponse.jsonBody,)
+                                                            ![_model.selectvariationindex!] +
+                                                                    (_model.designprice!) +
+                                                                    (_model.energizationprice!)) *
+                                                                (_model.countControllerValue!),
+                                                            formatType: FormatType.decimal,
+                                                            decimalType: DecimalType.periodDecimal,
+                                                          )
+                                                        : OtherProductsDetailsCall.otherProductsellingprice(containerOtherProductsDetailsResponse.jsonBody,
+                                                          ), '0000',
                                                   ),
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
@@ -2082,10 +2112,7 @@ class _YantraProductDetailsWidgetState
                                                   ),
                                                 )
                                               ],
-                                              style: FlutterFlowTheme.of(
-                                                  context)
-                                                  .bodyMedium
-                                                  .override(
+                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                 fontFamily: 'Montserrat',
                                                 fontSize: 18,
                                                 letterSpacing: 0,
@@ -2095,6 +2122,81 @@ class _YantraProductDetailsWidgetState
                                             maxLines: 2,
                                           ),
                                         );
+                                      } else {
+                                        return Padding(
+                                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                                          child: RichText(
+                                            textScaler: MediaQuery.of(context).textScaler,
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: 'INR ',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    fontFamily: 'Montserrat',
+                                                    fontSize: 18,
+                                                    letterSpacing: 0,
+                                                    fontWeight:
+                                                    FontWeight.w600,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: ((functions.stringtoIntFunction(OtherProductsDetailsCall.otherProductsellingprice(
+                                                            containerOtherProductsDetailsResponse.jsonBody,
+                                                  ))!) + (_model.energizationprice!)).toString(),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18,
+                                                  ),
+                                                )
+                                              ],
+                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    fontFamily: 'Montserrat',
+                                                    fontSize: 18,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                            ),
+                                            maxLines: 2,
+                                          ),
+                                          /*RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: '${valueOrDefault<String>(FFAppState().currencyName, 'INR')}',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    fontFamily: 'Montserrat',
+                                                    fontSize: 18,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: ' ${formatNumber(
+                                                    (functions.currencyConversion(
+                                                      FFAppState().currencyRate,
+                                                      (functions.stringtoIntFunction(
+                                                        OtherProductsDetailsCall.otherProductsellingprice(
+                                                          containerOtherProductsDetailsResponse.jsonBody,
+                                                        ),
+                                                      )! + (_model.energizationprice!)).toString(),
+                                                    )),
+                                                    formatType: FormatType.decimal,
+                                                    decimalType: DecimalType.automatic,
+                                                  )}',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    fontFamily: 'Montserrat',
+                                                    fontSize: 18,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            maxLines: 2,
+                                          ),*/
+                                        );
                                       }
                                     },
                                   ),
@@ -2103,9 +2205,9 @@ class _YantraProductDetailsWidgetState
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                      fontFamily: 'Montserrat',
-                                      letterSpacing: 0,
-                                    ),
+                                          fontFamily: 'Montserrat',
+                                          letterSpacing: 0,
+                                        ),
                                   ),
                                 ],
                               ),
@@ -2117,210 +2219,332 @@ class _YantraProductDetailsWidgetState
                             ),
                             Padding(
                               padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
+                                  EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   FFButtonWidget(
-
-                                  onPressed: () async {
-                                  var _shouldSetState = false;
-                                  if (currentAuthenticationToken != null &&
-                                  currentAuthenticationToken != '') {
-                                  {
-                                    if (OtherProductsDetailsCall.productVariantStatus(
-                                      containerOtherProductsDetailsResponse.jsonBody,
-                                    ) ==
-                                        true)
-                                    {
-                                      print("1st");
-                                      print(_model.selectedCertificationindex!);
-                                      _model.apiResultj7i = await AddToCartCall.call(
-                                        hosturl: FFAppConstants.sanityurl,
-                                        token:currentAuthenticationToken,
-                                        productid: OtherProductsDetailsCall.productid(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?.toString(),
-                                        productType: OtherProductsDetailsCall.productMainType(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?.toString(),
-                                        productvariation: OtherProductsDetailsCall.productVariantStatus(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        ),
-                                        productvariationId: OtherProductsDetailsCall.productVariantDataId(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?[_model.selectedCertificationindex!],
-                                        quantity: _model.countControllerValue?.toString(),
-                                        energization: OtherProductsDetailsCall.datapujaenergizationlistid(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?[_model.selectedEnergizationIndex!],
-                                        design: _model.selecteddesignid,
-                                      );
-                                      if ((_model.apiResultj7i?.succeeded ?? true)) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultj7i?.jsonBody ?? ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).primaryText,
+                                    onPressed: () async {
+                                      var _shouldSetState = false;
+                                      if (currentAuthenticationToken != null &&
+                                          currentAuthenticationToken != '') {
+                                        FFAppState().buynow = false;
+                                        {
+                                          if (OtherProductsDetailsCall
+                                                  .productVariantStatus(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              ) ==
+                                              true) {
+                                            print("1st");
+                                            print(_model
+                                                .selectedCertificationindex!);
+                                            _model.apiResultj7i =
+                                                await AddToCartCall.call(
+                                              hosturl: FFAppConstants.sanityurl,
+                                              token: currentAuthenticationToken,
+                                              productid:
+                                                  OtherProductsDetailsCall
+                                                      .productid(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              )?.toString(),
+                                              productType:
+                                                  OtherProductsDetailsCall
+                                                      .productMainType(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              )?.toString(),
+                                              productvariation:
+                                                  OtherProductsDetailsCall
+                                                      .productVariantStatus(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
                                               ),
-                                            ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                          ),
-                                        );
-                                        if( getJsonField(
-                                          (_model.apiResultj7i
-                                              ?.jsonBody ??
-                                              ''),
-                                          r'''$.status''',
-                                        ).toString() !="failed")
-                                        await showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          enableDrag: false,
-                                          context: context,
-                                          builder: (context) {
-                                            return GestureDetector(
-                                              onTap: () => _model.unfocusNode.canRequestFocus
-                                                  ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                  : FocusScope.of(context).unfocus(),
-                                              child: Padding(
-                                                padding: MediaQuery.viewInsetsOf(context),
-                                                child: MyCartWidget(),
-                                              ),
+                                              productvariationId:
+                                                  OtherProductsDetailsCall
+                                                      .productVariantDataId(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              )?[_model
+                                                      .selectedCertificationindex!],
+                                              quantity: _model
+                                                  .countControllerValue
+                                                  ?.toString(),
+                                              energization: OtherProductsDetailsCall
+                                                  .datapujaenergizationlistid(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              )?[_model
+                                                  .selectedEnergizationIndex!],
+                                              design: _model.selecteddesignid,
                                             );
-                                          },
-                                        ).then((value) => safeSetState(() {}));
+                                            if ((_model
+                                                    .apiResultj7i?.succeeded ??
+                                                true)) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    getJsonField(
+                                                      (_model.apiResultj7i
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                      r'''$.msg''',
+                                                    ).toString(),
+                                                    style: TextStyle(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
+                                                ),
+                                              );
+                                              if (getJsonField(
+                                                    (_model.apiResultj7i
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                    r'''$.status''',
+                                                  ).toString() !=
+                                                  "failed")
+                                                await showModalBottomSheet(
+                                                  isScrollControlled: true,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  enableDrag: false,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return GestureDetector(
+                                                      onTap: () => _model
+                                                              .unfocusNode
+                                                              .canRequestFocus
+                                                          ? FocusScope.of(
+                                                                  context)
+                                                              .requestFocus(_model
+                                                                  .unfocusNode)
+                                                          : FocusScope.of(
+                                                                  context)
+                                                              .unfocus(),
+                                                      child: Padding(
+                                                        padding: MediaQuery
+                                                            .viewInsetsOf(
+                                                                context),
+                                                        child: MyCartWidget(),
+                                                      ),
+                                                    );
+                                                  },
+                                                ).then((value) =>
+                                                    safeSetState(() {}));
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    getJsonField(
+                                                      (_model.apiResultj7i
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                      r'''$.msg''',
+                                                    ).toString(),
+                                                    style: TextStyle(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
+                                                ),
+                                              );
+                                            }
+                                            _model.productid =
+                                                OtherProductsDetailsCall
+                                                    .productid(
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
+                                            _model.productmaintypee =
+                                                OtherProductsDetailsCall
+                                                    .productMainType(
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
+                                            _model.productvarient =
+                                                OtherProductsDetailsCall
+                                                    .productVariantStatus(
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            )!;
+                                            setState(() {});
+                                          } else {
+                                            print("2nd");
+                                            _model.withoutceertifiaction =
+                                                await OtherSinglePriceAddToCartCall
+                                                    .call(
+                                              hosturl: FFAppConstants.sanityurl,
+                                              token: currentAuthenticationToken,
+                                              productid:
+                                                  OtherProductsDetailsCall
+                                                      .productid(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              )?.toString(),
+                                              quantity: _model
+                                                  .countControllerValue
+                                                  ?.toString(),
+                                              productType:
+                                                  OtherProductsDetailsCall
+                                                      .productMainType(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              )?.toString(),
+                                              energization: OtherProductsDetailsCall
+                                                  .datapujaenergizationlistid(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              )?[_model
+                                                  .selectedEnergizationIndex!],
+                                            );
+                                            if ((_model.withoutceertifiaction
+                                                    ?.succeeded ??
+                                                true)) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    getJsonField(
+                                                      (_model.withoutceertifiaction
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                      r'''$.msg''',
+                                                    ).toString(),
+                                                    style: TextStyle(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
+                                                ),
+                                              );
+                                              await showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                enableDrag: false,
+                                                context: context,
+                                                builder: (context) {
+                                                  return GestureDetector(
+                                                    onTap: () => _model
+                                                            .unfocusNode
+                                                            .canRequestFocus
+                                                        ? FocusScope.of(context)
+                                                            .requestFocus(_model
+                                                                .unfocusNode)
+                                                        : FocusScope.of(context)
+                                                            .unfocus(),
+                                                    child: Padding(
+                                                      padding: MediaQuery
+                                                          .viewInsetsOf(
+                                                              context),
+                                                      child: MyCartWidget(),
+                                                    ),
+                                                  );
+                                                },
+                                              ).then((value) =>
+                                                  safeSetState(() {}));
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    getJsonField(
+                                                      (_model.withoutceertifiaction
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                      r'''$.msg''',
+                                                    ).toString(),
+                                                    style: TextStyle(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                    ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
+                                                ),
+                                              );
+                                            }
+                                            _model.productid =
+                                                OtherProductsDetailsCall
+                                                    .productid(
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
+                                            _model.productmaintypee =
+                                                OtherProductsDetailsCall
+                                                    .productMainType(
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
+                                            _model.productvarient =
+                                                OtherProductsDetailsCall
+                                                    .productVariantStatus(
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            )!;
+                                            setState(() {
+                                              print(
+                                                  "_model.productid:${_model.productid}");
+                                              print(
+                                                  "_model.productmaintypee:${_model.productmaintypee}");
+                                              print(
+                                                  "_model.productvarient:${_model.productvarient}");
+                                            });
+                                          }
+                                          setState(() {});
+                                        }
                                       } else {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultj7i?.jsonBody ?? ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).primaryText,
-                                              ),
+                                        context.pushNamed(
+                                          'LoginPage',
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
                                             ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                          ),
+                                          },
                                         );
                                       }
-                                      _model.productid = OtherProductsDetailsCall.productid(
-                                        containerOtherProductsDetailsResponse.jsonBody,
-                                      );
-                                      _model.productmaintypee = OtherProductsDetailsCall.productMainType(
-                                        containerOtherProductsDetailsResponse.jsonBody,
-                                      );
-                                      _model.productvarient = OtherProductsDetailsCall.productVariantStatus(
-                                        containerOtherProductsDetailsResponse.jsonBody,
-                                      )!;
-                                      setState(() {});
-                                    } else
-                                    {
-                                      print("2nd");
-                                      _model.withoutceertifiaction = await OtherSinglePriceAddToCartCall.call(
-                                        hosturl: FFAppConstants.sanityurl,
-                                        token:currentAuthenticationToken,
-                                        productid: OtherProductsDetailsCall.productid(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?.toString(),
-                                        productType: OtherProductsDetailsCall.productMainType(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?.toString(),
-                                        quantity: _model.countControllerValue?.toString(),
-
-                                      );
-                                      if ((_model.withoutceertifiaction?.succeeded ?? true)) {
-
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.withoutceertifiaction?.jsonBody ?? ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).primaryText,
-                                              ),
-                                            ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                          ),
-                                        );
-                                        await showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          enableDrag: false,
-                                          context: context,
-                                          builder: (context) {
-                                            return GestureDetector(
-                                              onTap: () => _model.unfocusNode.canRequestFocus
-                                                  ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                  : FocusScope.of(context).unfocus(),
-                                              child: Padding(
-                                                padding: MediaQuery.viewInsetsOf(context),
-                                                child: MyCartWidget(),
-                                              ),
-                                            );
-                                          },
-                                        ).then((value) => safeSetState(() {}));
-                                      } else {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.withoutceertifiaction?.jsonBody ?? ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).primaryText,
-                                              ),
-                                            ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                          ),
-                                        );
-                                      }
-                                      _model.productid = OtherProductsDetailsCall.productid(
-                                        containerOtherProductsDetailsResponse.jsonBody,
-                                      );
-                                      _model.productmaintypee = OtherProductsDetailsCall.productMainType(
-                                        containerOtherProductsDetailsResponse.jsonBody,
-                                      );
-                                      _model.productvarient = OtherProductsDetailsCall.productVariantStatus(
-                                        containerOtherProductsDetailsResponse.jsonBody,
-                                      )!;
-                                      setState(() {
-                                        print("_model.productid:${_model.productid}");
-                                        print("_model.productmaintypee:${_model.productmaintypee}");
-                                        print("_model.productvarient:${_model.productvarient}");
-                                      });
-                                    }
-                                    setState(() {});
-                                  }
-    }
-                                  else {
-                                  context.pushNamed(
-                                  'LoginPage',
-                                  extra: <String, dynamic>{
-                                  kTransitionInfoKey: TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                  ),
-                                  },
-                                  );
-                                  };},
-
+                                      ;
+                                    },
                                     text: 'Add to Cart',
                                     options: FFButtonOptions(
                                       width: MediaQuery.sizeOf(context).width *
@@ -2329,19 +2553,19 @@ class _YantraProductDetailsWidgetState
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           24, 0, 24, 0),
                                       iconPadding:
-                                      EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 0),
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0, 0, 0, 0),
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xFF740074),
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      elevation: 3,
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xFF740074),
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                      elevation: 0,
                                       borderSide: BorderSide(
                                         color: Color(0xFF740074),
                                         width: 1,
@@ -2351,8 +2575,111 @@ class _YantraProductDetailsWidgetState
                                     showLoadingIndicator: false,
                                   ),
                                   FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
+                                    onPressed: () async {
+                                      if (currentAuthenticationToken != null &&
+                                          currentAuthenticationToken != '') {
+                                        FFAppState().productid =
+                                            OtherProductsDetailsCall.productid(
+                                          containerOtherProductsDetailsResponse
+                                              .jsonBody,
+                                        ).toString();
+                                        FFAppState().productvariationId =
+                                            OtherProductsDetailsCall
+                                                .productVariantDataId(
+                                          containerOtherProductsDetailsResponse
+                                              .jsonBody,
+                                        )?[_model.selectedCertificationindex!];
+                                        FFAppState().productType =
+                                            OtherProductsDetailsCall
+                                                .productMainType(
+                                          containerOtherProductsDetailsResponse
+                                              .jsonBody,
+                                        ).toString();
+                                        FFAppState().energizationId =
+                                            OtherProductsDetailsCall
+                                                .datapujaenergizationlistid(
+                                          containerOtherProductsDetailsResponse
+                                              .jsonBody,
+                                        )?[_model.selectedEnergizationIndex!];
+                                        FFAppState().productvariation =
+                                            OtherProductsDetailsCall
+                                                .productVariantStatus(
+                                          containerOtherProductsDetailsResponse
+                                              .jsonBody,
+                                        );
+                                        FFAppState().desingId =
+                                            _model.selecteddesignid;
+                                        print(FFAppState().productvariation);
+
+                                        FFAppState().quantity = _model
+                                            .countControllerValue
+                                            .toString();
+
+                                        print(
+                                            "FFAppState().selectedCertificationId ${FFAppState().selectedCertificationId}");
+                                        /*    energization:
+                                          OtherProductsDetailsCall
+                                              .pujaenergizationlistid(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )?[_model.selectedEnergizationIndex!];
+                                          certification:
+                                          (OtherProductsDetailsCall
+                                                  .certificationlistid(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )?[_model
+                                                  .selectedCertificationindex!])
+                                              ?.toString();
+                                          design:
+                                          _model.selecteddesignid;*/
+                                        FFAppState().buynow = true;
+                                        print(
+                                            "FFAppState().buynow ${FFAppState().buynow}");
+                                        print(
+                                            "FFAppState().quantity ${FFAppState().quantity}");
+                                        print(
+                                            "FFAppState().productvariation ${FFAppState().productvariation}");
+                                        print(
+                                            "FFAppState().productType ${FFAppState().productType}");
+                                        print(
+                                            "FFAppState().desingId ${FFAppState().desingId}");
+                                        print(
+                                            "FFAppState().productvariationId ${FFAppState().productvariationId}");
+                                        print(
+                                            "FFAppState().productid ${FFAppState().productid}");
+                                        print(
+                                            "FFAppState().energizationId ${FFAppState().energizationId}");
+
+                                        context.pushNamed(
+                                          'DeliveryAddress',
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey:
+                                                const TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType: PageTransitionType
+                                                  .bottomToTop,
+                                              duration:
+                                                  Duration(milliseconds: 400),
+                                            ),
+                                          },
+                                        );
+
+                                        print('Button pressed ...');
+                                      } else {
+                                        context.pushNamed(
+                                          'LoginPage',
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                            ),
+                                          },
+                                        );
+                                      }
                                     },
                                     text: 'Buy Now',
                                     options: FFButtonOptions(
@@ -2362,19 +2689,19 @@ class _YantraProductDetailsWidgetState
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           24, 0, 24, 0),
                                       iconPadding:
-                                      EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 0),
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0, 0, 0, 0),
                                       color: Color(0xFF740074),
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
-                                        fontFamily: 'Montserrat',
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      elevation: 3,
+                                            fontFamily: 'Montserrat',
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryBackground,
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                      elevation: 0,
                                       borderSide: BorderSide(
                                         color: Color(0xFF740074),
                                         width: 1,
@@ -2392,7 +2719,7 @@ class _YantraProductDetailsWidgetState
                             ),
                             Padding(
                               padding:
-                              EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                                  EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(
@@ -2404,7 +2731,7 @@ class _YantraProductDetailsWidgetState
                                   color: Colors.white,
                                   child: ExpandableNotifier(
                                     controller:
-                                    _model.expandableExpandableController2,
+                                        _model.expandableExpandableController2,
                                     child: ExpandablePanel(
                                       header: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
@@ -2414,12 +2741,12 @@ class _YantraProductDetailsWidgetState
                                           style: FlutterFlowTheme.of(context)
                                               .displaySmall
                                               .override(
-                                            fontFamily: 'Outfit',
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
+                                                fontFamily: 'Outfit',
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                letterSpacing: 0,
+                                                fontWeight: FontWeight.normal,
+                                              ),
                                         ),
                                       ),
                                       collapsed: Container(),
@@ -2432,22 +2759,21 @@ class _YantraProductDetailsWidgetState
                                           ),
                                           'Description',
                                         ),
-
                                       ),
                                       theme: ExpandableThemeData(
                                         tapHeaderToExpand: true,
                                         tapBodyToExpand: false,
                                         tapBodyToCollapse: false,
                                         headerAlignment:
-                                        ExpandablePanelHeaderAlignment
-                                            .center,
+                                            ExpandablePanelHeaderAlignment
+                                                .center,
                                         hasIcon: true,
                                         expandIcon: Icons.keyboard_arrow_down,
                                         collapseIcon: Icons.keyboard_arrow_up,
                                         iconColor: FlutterFlowTheme.of(context)
                                             .primaryText,
                                         iconPadding:
-                                        EdgeInsets.fromLTRB(16, 16, 14, 16),
+                                            EdgeInsets.fromLTRB(16, 16, 14, 16),
                                       ),
                                     ),
                                   ),
@@ -2461,7 +2787,7 @@ class _YantraProductDetailsWidgetState
                             ),
                             Padding(
                               padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                  EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context)
@@ -2472,49 +2798,49 @@ class _YantraProductDetailsWidgetState
                                   color: Colors.white,
                                   child: ExpandableNotifier(
                                     controller:
-                                    _model.expandableExpandableController3,
+                                        _model.expandableExpandableController3,
                                     child: ExpandablePanel(
                                       header: Text(
                                         'Ratings & Reviews',
                                         style: FlutterFlowTheme.of(context)
                                             .displaySmall
                                             .override(
-                                          fontFamily: 'Outfit',
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
+                                              fontFamily: 'Outfit',
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.normal,
+                                            ),
                                       ),
                                       collapsed: Container(),
                                       expanded: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                    EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                        0, 0, 10, 0),
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 0, 10, 0),
                                                     child: RichText(
                                                       textScaler:
-                                                      MediaQuery.of(context)
-                                                          .textScaler,
+                                                          MediaQuery.of(context)
+                                                              .textScaler,
                                                       text: TextSpan(
                                                         children: [
                                                           TextSpan(
                                                             text:
-                                                            valueOrDefault<
-                                                                String>(
+                                                                valueOrDefault<
+                                                                    String>(
                                                               OtherProductsDetailsCall
                                                                   .productrating(
                                                                 containerOtherProductsDetailsResponse
@@ -2523,31 +2849,31 @@ class _YantraProductDetailsWidgetState
                                                               '0.0',
                                                             ),
                                                             style: FlutterFlowTheme
-                                                                .of(context)
+                                                                    .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              color: FlutterFlowTheme.of(
-                                                                  context)
-                                                                  .primaryText,
-                                                              fontSize: 24,
-                                                              letterSpacing:
-                                                              0,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w600,
-                                                            ),
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryText,
+                                                                  fontSize: 24,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
                                                           ),
                                                           TextSpan(
                                                             text: '/',
                                                             style: TextStyle(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .secondaryText,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w600,
+                                                                  FontWeight
+                                                                      .w600,
                                                               fontSize: 24,
                                                             ),
                                                           ),
@@ -2555,59 +2881,59 @@ class _YantraProductDetailsWidgetState
                                                             text: '5',
                                                             style: TextStyle(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .secondaryText,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w600,
+                                                                  FontWeight
+                                                                      .w600,
                                                               fontSize: 24,
                                                             ),
                                                           )
                                                         ],
                                                         style: FlutterFlowTheme
-                                                            .of(context)
+                                                                .of(context)
                                                             .bodyMedium
                                                             .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          letterSpacing: 0,
-                                                        ),
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              letterSpacing: 0,
+                                                            ),
                                                       ),
                                                     ),
                                                   ),
                                                   Column(
                                                     mainAxisSize:
-                                                    MainAxisSize.max,
+                                                        MainAxisSize.max,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'Overall Rating',
                                                         style: FlutterFlowTheme
-                                                            .of(context)
+                                                                .of(context)
                                                             .bodyMedium
                                                             .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          fontSize: 16,
-                                                          letterSpacing: 0,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w500,
-                                                        ),
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontSize: 16,
+                                                              letterSpacing: 0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
                                                       ),
                                                       RichText(
                                                         textScaler:
-                                                        MediaQuery.of(
-                                                            context)
-                                                            .textScaler,
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaler,
                                                         text: TextSpan(
                                                           children: [
                                                             TextSpan(
                                                               text:
-                                                              valueOrDefault<
-                                                                  String>(
+                                                                  valueOrDefault<
+                                                                      String>(
                                                                 OtherProductsDetailsCall
                                                                     .productcount(
                                                                   containerOtherProductsDetailsResponse
@@ -2616,39 +2942,39 @@ class _YantraProductDetailsWidgetState
                                                                 '0.0',
                                                               ),
                                                               style: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .bodyMedium
                                                                   .override(
-                                                                fontFamily:
-                                                                'Montserrat',
-                                                                fontSize:
-                                                                12,
-                                                                letterSpacing:
-                                                                0,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500,
-                                                              ),
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    fontSize:
+                                                                        12,
+                                                                    letterSpacing:
+                                                                        0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
                                                             ),
                                                             TextSpan(
                                                               text: ' Ratings',
                                                               style:
-                                                              TextStyle(),
+                                                                  TextStyle(),
                                                             )
                                                           ],
                                                           style: FlutterFlowTheme
-                                                              .of(context)
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            fontSize: 12,
-                                                            letterSpacing:
-                                                            0,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500,
-                                                          ),
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize: 12,
+                                                                letterSpacing:
+                                                                    0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
                                                         ),
                                                       ),
                                                     ],
@@ -2665,41 +2991,41 @@ class _YantraProductDetailsWidgetState
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(24, 0, 24, 0),
                                                   iconPadding:
-                                                  EdgeInsetsDirectional
-                                                      .fromSTEB(0, 0, 0, 0),
+                                                      EdgeInsetsDirectional
+                                                          .fromSTEB(0, 0, 0, 0),
                                                   color: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .secondaryBackground,
                                                   textStyle: FlutterFlowTheme
-                                                      .of(context)
+                                                          .of(context)
                                                       .titleSmall
                                                       .override(
-                                                    fontFamily:
-                                                    'Montserrat',
-                                                    color:
-                                                    Color(0xFF740074),
-                                                    fontSize: 12,
-                                                    letterSpacing: 0,
-                                                  ),
-                                                  elevation: 3,
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        color:
+                                                            Color(0xFF740074),
+                                                        fontSize: 12,
+                                                        letterSpacing: 0,
+                                                      ),
+                                                  elevation: 0,
                                                   borderSide: BorderSide(
                                                     color: Color(0xFF740074),
                                                     width: 1,
                                                   ),
                                                   borderRadius:
-                                                  BorderRadius.circular(8),
+                                                      BorderRadius.circular(8),
                                                 ),
                                               ),
                                             ],
                                           ),
                                           if (OtherProductsDetailsCall
-                                              .reviewdata(
-                                            containerOtherProductsDetailsResponse
-                                                .jsonBody,
-                                          ) !=
-                                              null &&
+                                                      .reviewdata(
+                                                    containerOtherProductsDetailsResponse
+                                                        .jsonBody,
+                                                  ) !=
+                                                  null &&
                                               (OtherProductsDetailsCall
-                                                  .reviewdata(
+                                                      .reviewdata(
                                                 containerOtherProductsDetailsResponse
                                                     .jsonBody,
                                               ))!
@@ -2707,7 +3033,7 @@ class _YantraProductDetailsWidgetState
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 RatingBarIndicator(
                                                   itemBuilder:
@@ -2717,52 +3043,52 @@ class _YantraProductDetailsWidgetState
                                                   ),
                                                   direction: Axis.horizontal,
                                                   rating:
-                                                  OtherProductsDetailsCall
-                                                      .productrating(
+                                                      OtherProductsDetailsCall
+                                                          .productrating(
                                                     containerOtherProductsDetailsResponse
                                                         .jsonBody,
                                                   )!,
                                                   unratedColor:
-                                                  Color(0x69F59E0B),
+                                                      Color(0x69F59E0B),
                                                   itemCount: 5,
                                                   itemSize: 20,
                                                 ),
                                                 Text(
                                                   'Truly impressed!',
                                                   style: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .bodyMedium
                                                       .override(
-                                                    fontFamily:
-                                                    'Montserrat',
-                                                    fontSize: 16,
-                                                    letterSpacing: 0,
-                                                    fontWeight:
-                                                    FontWeight.w600,
-                                                  ),
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontSize: 16,
+                                                        letterSpacing: 0,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
                                                 ),
                                                 Text(
                                                   'I was amazed at how accurately he could describe my personality, current situation of my life and problem areas just by analyzing my birth chart.',
                                                   style: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .bodyMedium
                                                       .override(
-                                                    fontFamily:
-                                                    'Montserrat',
-                                                    color:
-                                                    Color(0xFF696969),
-                                                    fontSize: 16,
-                                                    letterSpacing: 0,
-                                                  ),
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        color:
+                                                            Color(0xFF696969),
+                                                        fontSize: 16,
+                                                        letterSpacing: 0,
+                                                      ),
                                                 ),
                                                 Row(
                                                   mainAxisSize:
-                                                  MainAxisSize.max,
+                                                      MainAxisSize.max,
                                                   children: [
                                                     ClipRRect(
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          10),
+                                                          BorderRadius.circular(
+                                                              10),
                                                       child: Image.asset(
                                                         'assets/images/Image_(2).png',
                                                         width: 70,
@@ -2772,8 +3098,8 @@ class _YantraProductDetailsWidgetState
                                                     ),
                                                     ClipRRect(
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          10),
+                                                          BorderRadius.circular(
+                                                              10),
                                                       child: Image.asset(
                                                         'assets/images/Image.png',
                                                         width: 70,
@@ -2783,8 +3109,8 @@ class _YantraProductDetailsWidgetState
                                                     ),
                                                     ClipRRect(
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          10),
+                                                          BorderRadius.circular(
+                                                              10),
                                                       child: Image.asset(
                                                         'assets/images/Image_(1).png',
                                                         width: 70,
@@ -2797,92 +3123,92 @@ class _YantraProductDetailsWidgetState
                                                 Text(
                                                   'David Johnson, 1st Jan 2023',
                                                   style: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .bodyMedium
                                                       .override(
-                                                    fontFamily:
-                                                    'Montserrat',
-                                                    color:
-                                                    Color(0xFF696969),
-                                                    letterSpacing: 0,
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                  ),
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        color:
+                                                            Color(0xFF696969),
+                                                        letterSpacing: 0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
                                                 ),
                                                 Row(
                                                   mainAxisSize:
-                                                  MainAxisSize.max,
+                                                      MainAxisSize.max,
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     RichText(
                                                       textScaler:
-                                                      MediaQuery.of(context)
-                                                          .textScaler,
+                                                          MediaQuery.of(context)
+                                                              .textScaler,
                                                       text: TextSpan(
                                                         children: [
                                                           TextSpan(
                                                             text: 'View All ',
                                                             style: FlutterFlowTheme
-                                                                .of(context)
+                                                                    .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              letterSpacing:
-                                                              0,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500,
-                                                            ),
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  letterSpacing:
+                                                                      0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
                                                           ),
                                                           TextSpan(
                                                             text: '6,461',
                                                             style: TextStyle(
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w500,
+                                                                  FontWeight
+                                                                      .w500,
                                                             ),
                                                           ),
                                                           TextSpan(
                                                             text: ' Reviews',
                                                             style: TextStyle(
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w500,
+                                                                  FontWeight
+                                                                      .w500,
                                                             ),
                                                           )
                                                         ],
                                                         style: FlutterFlowTheme
-                                                            .of(context)
+                                                                .of(context)
                                                             .bodyMedium
                                                             .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          letterSpacing: 0,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w500,
-                                                        ),
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              letterSpacing: 0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
                                                       ),
                                                     ),
                                                     FlutterFlowIconButton(
                                                       borderColor:
-                                                      Colors.transparent,
+                                                          Colors.transparent,
                                                       borderRadius: 30,
                                                       borderWidth: 1,
                                                       buttonSize:
-                                                      MediaQuery.sizeOf(
-                                                          context)
-                                                          .width *
-                                                          0.1,
+                                                          MediaQuery.sizeOf(
+                                                                      context)
+                                                                  .width *
+                                                              0.1,
                                                       icon: Icon(
                                                         Icons.navigate_next,
                                                         color:
-                                                        FlutterFlowTheme.of(
-                                                            context)
-                                                            .primaryText,
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
                                                         size: 25,
                                                       ),
                                                       onPressed: () {
@@ -2901,16 +3227,16 @@ class _YantraProductDetailsWidgetState
                                         tapBodyToExpand: false,
                                         tapBodyToCollapse: false,
                                         headerAlignment:
-                                        ExpandablePanelHeaderAlignment
-                                            .center,
+                                            ExpandablePanelHeaderAlignment
+                                                .center,
                                         hasIcon: true,
                                         expandIcon:
-                                        Icons.keyboard_arrow_down_sharp,
+                                            Icons.keyboard_arrow_down_sharp,
                                         collapseIcon: Icons.keyboard_arrow_up,
                                         iconColor: FlutterFlowTheme.of(context)
                                             .primaryText,
                                         iconPadding:
-                                        EdgeInsets.fromLTRB(16, 16, 8, 16),
+                                            EdgeInsets.fromLTRB(16, 16, 8, 16),
                                       ),
                                     ),
                                   ),
@@ -2924,7 +3250,7 @@ class _YantraProductDetailsWidgetState
                             ),
                             Padding(
                               padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 16, 0, 0),
+                                  EdgeInsetsDirectional.fromSTEB(16, 16, 0, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -2934,11 +3260,11 @@ class _YantraProductDetailsWidgetState
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      letterSpacing: 0,
-                                    ),
+                                          fontFamily: 'Montserrat',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          letterSpacing: 0,
+                                        ),
                                   ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
@@ -2947,10 +3273,10 @@ class _YantraProductDetailsWidgetState
                                       builder: (context) {
                                         final relatedProduct =
                                             OtherProductsDetailsCall
-                                                .otherProductsimilarcategoryproduct(
-                                              containerOtherProductsDetailsResponse
-                                                  .jsonBody,
-                                            )?.toList() ??
+                                                    .otherProductsimilarcategoryproduct(
+                                                  containerOtherProductsDetailsResponse
+                                                      .jsonBody,
+                                                )?.toList() ??
                                                 [];
                                         return SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
@@ -2958,262 +3284,262 @@ class _YantraProductDetailsWidgetState
                                             mainAxisSize: MainAxisSize.max,
                                             children: List.generate(
                                                 relatedProduct.length,
-                                                    (relatedProductIndex) {
-                                                  final relatedProductItem =
+                                                (relatedProductIndex) {
+                                              final relatedProductItem =
                                                   relatedProduct[
-                                                  relatedProductIndex];
-                                                  return InkWell(
-                                                    splashColor: Colors.transparent,
-                                                    focusColor: Colors.transparent,
-                                                    hoverColor: Colors.transparent,
-                                                    highlightColor:
+                                                      relatedProductIndex];
+                                              return InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
                                                     Colors.transparent,
-                                                    onTap: () async {
-                                                      if (widget.producttype ==
+                                                onTap: () async {
+                                                  if (widget.producttype ==
+                                                      FFAppConstants
+                                                          .RudrakshaMasterProductDetailsApi) {
+                                                    context.pushNamed(
+                                                      'YantraProductDetails',
+                                                      queryParameters: {
+                                                        'productSlugValue':
+                                                            serializeParam(
+                                                          getJsonField(
+                                                            relatedProductItem,
+                                                            r'''$.slug_value''',
+                                                          ).toString(),
+                                                          ParamType.String,
+                                                        ),
+                                                        'producttype':
+                                                            serializeParam(
                                                           FFAppConstants
-                                                              .RudrakshaMasterProductDetailsApi) {
-                                                        context.pushNamed(
-                                                          'YantraProductDetails',
-                                                          queryParameters: {
-                                                            'productSlugValue':
-                                                            serializeParam(
-                                                              getJsonField(
-                                                                relatedProductItem,
-                                                                r'''$.slug_value''',
-                                                              ).toString(),
-                                                              ParamType.String,
-                                                            ),
-                                                            'producttype':
-                                                            serializeParam(
-                                                              FFAppConstants
-                                                                  .RudrakshaMasterProductDetailsApi,
-                                                              ParamType.String,
-                                                            ),
-                                                          }.withoutNulls,
-                                                          extra: <String, dynamic>{
-                                                            kTransitionInfoKey:
+                                                              .RudrakshaMasterProductDetailsApi,
+                                                          ParamType.String,
+                                                        ),
+                                                      }.withoutNulls,
+                                                      extra: <String, dynamic>{
+                                                        kTransitionInfoKey:
                                                             TransitionInfo(
-                                                              hasTransition: true,
-                                                              transitionType:
+                                                          hasTransition: true,
+                                                          transitionType:
                                                               PageTransitionType
                                                                   .bottomToTop,
-                                                            ),
-                                                          },
-                                                        );
-                                                      } else {
-                                                        context.pushNamed(
-                                                          'YantraProductDetails',
-                                                          queryParameters: {
-                                                            'productSlugValue':
+                                                        ),
+                                                      },
+                                                    );
+                                                  } else {
+                                                    context.pushNamed(
+                                                      'YantraProductDetails',
+                                                      queryParameters: {
+                                                        'productSlugValue':
                                                             serializeParam(
-                                                              getJsonField(
-                                                                relatedProductItem,
-                                                                r'''$.slug_value''',
-                                                              ).toString(),
-                                                              ParamType.String,
-                                                            ),
-                                                            'producttype':
+                                                          getJsonField(
+                                                            relatedProductItem,
+                                                            r'''$.slug_value''',
+                                                          ).toString(),
+                                                          ParamType.String,
+                                                        ),
+                                                        'producttype':
                                                             serializeParam(
-                                                              FFAppConstants
-                                                                  .GemstoneMasterProductDetailsApi,
-                                                              ParamType.String,
-                                                            ),
-                                                          }.withoutNulls,
-                                                          extra: <String, dynamic>{
-                                                            kTransitionInfoKey:
+                                                          FFAppConstants
+                                                              .GemstoneMasterProductDetailsApi,
+                                                          ParamType.String,
+                                                        ),
+                                                      }.withoutNulls,
+                                                      extra: <String, dynamic>{
+                                                        kTransitionInfoKey:
                                                             TransitionInfo(
-                                                              hasTransition: true,
-                                                              transitionType:
+                                                          hasTransition: true,
+                                                          transitionType:
                                                               PageTransitionType
                                                                   .bottomToTop,
-                                                            ),
-                                                          },
-                                                        );
+                                                        ),
+                                                      },
+                                                    );
 
-                                                        return;
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      width: 148,
-                                                      height: 220,
-                                                      decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme.of(
+                                                    return;
+                                                  }
+                                                },
+                                                child: Container(
+                                                  width: 148,
+                                                  height: 220,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
                                                             context)
-                                                            .secondaryBackground,
-                                                      ),
-                                                      child: Column(
-                                                        mainAxisSize:
+                                                        .secondaryBackground,
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize:
                                                         MainAxisSize.max,
-                                                        mainAxisAlignment:
+                                                    mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceBetween,
-                                                        crossAxisAlignment:
+                                                    crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
-                                                        children: [
-                                                          ClipRRect(
-                                                            borderRadius:
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
                                                             BorderRadius
                                                                 .circular(10),
-                                                            child: Image.network(
-                                                              getJsonField(
-                                                                relatedProductItem,
-                                                                r'''$.thumbnail''',
-                                                              ).toString(),
-                                                              width: 152,
-                                                              height: 104,
-                                                              fit: BoxFit.fitWidth,
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            width: double.infinity,
-                                                            height: 50,
-                                                            decoration:
+                                                        child: Image.network(
+                                                          getJsonField(
+                                                            relatedProductItem,
+                                                            r'''$.thumbnail''',
+                                                          ).toString(),
+                                                          width: 152,
+                                                          height: 104,
+                                                          fit: BoxFit.fitWidth,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: double.infinity,
+                                                        height: 50,
+                                                        decoration:
                                                             BoxDecoration(),
-                                                            child: AutoSizeText(
-                                                              getJsonField(
-                                                                relatedProductItem,
-                                                                r'''$.name''',
-                                                              ).toString(),
-                                                              style: FlutterFlowTheme
+                                                        child: AutoSizeText(
+                                                          getJsonField(
+                                                            relatedProductItem,
+                                                            r'''$.name''',
+                                                          ).toString(),
+                                                          style: FlutterFlowTheme
                                                                   .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
+                                                              .bodyMedium
+                                                              .override(
                                                                 fontFamily:
-                                                                'Montserrat',
+                                                                    'Montserrat',
                                                                 color: Color(
                                                                     0xFF696969),
                                                                 fontSize: 14,
                                                                 letterSpacing:
-                                                                0,
+                                                                    0,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                                    FontWeight
+                                                                        .normal,
                                                                 lineHeight: 1.5,
                                                               ),
+                                                        ),
+                                                      ),
+                                                      RichText(
+                                                        textScaler:
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .textScaler,
+                                                        text: TextSpan(
+                                                          children: [
+                                                            TextSpan(
+                                                              text: 'INR ',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    fontSize:
+                                                                        14,
+                                                                    letterSpacing:
+                                                                        0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                  ),
+                                                            ),
+                                                            TextSpan(
+                                                              text:
+                                                                  getJsonField(
+                                                                relatedProductItem,
+                                                                r'''$.selling_price''',
+                                                              ).toString(),
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 14,
+                                                              ),
+                                                            )
+                                                          ],
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize: 14,
+                                                                letterSpacing:
+                                                                    0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                        ),
+                                                        maxLines: 2,
+                                                      ),
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
+                                                            child: Image.asset(
+                                                              'assets/images/Rating_Icon.png',
+                                                              width: 16,
+                                                              height: 16,
+                                                              fit: BoxFit.fill,
                                                             ),
                                                           ),
                                                           RichText(
                                                             textScaler:
-                                                            MediaQuery.of(
-                                                                context)
-                                                                .textScaler,
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .textScaler,
                                                             text: TextSpan(
                                                               children: [
                                                                 TextSpan(
-                                                                  text: 'INR ',
-                                                                  style: FlutterFlowTheme
-                                                                      .of(context)
+                                                                  text: '4.4',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
                                                                       .bodyMedium
                                                                       .override(
-                                                                    fontFamily:
-                                                                    'Montserrat',
-                                                                    fontSize:
-                                                                    14,
-                                                                    letterSpacing:
-                                                                    0,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                  ),
+                                                                        fontFamily:
+                                                                            'Montserrat',
+                                                                        letterSpacing:
+                                                                            0,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
                                                                 ),
                                                                 TextSpan(
                                                                   text:
-                                                                  getJsonField(
-                                                                    relatedProductItem,
-                                                                    r'''$.selling_price''',
-                                                                  ).toString(),
-                                                                  style: TextStyle(
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                    fontSize: 14,
+                                                                      ' (412)',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryText,
                                                                   ),
                                                                 )
                                                               ],
                                                               style: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .bodyMedium
                                                                   .override(
-                                                                fontFamily:
-                                                                'Montserrat',
-                                                                fontSize: 14,
-                                                                letterSpacing:
-                                                                0,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w600,
-                                                              ),
-                                                            ),
-                                                            maxLines: 2,
-                                                          ),
-                                                          Row(
-                                                            mainAxisSize:
-                                                            MainAxisSize.max,
-                                                            children: [
-                                                              ClipRRect(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    0),
-                                                                child: Image.asset(
-                                                                  'assets/images/Rating_Icon.png',
-                                                                  width: 16,
-                                                                  height: 16,
-                                                                  fit: BoxFit.fill,
-                                                                ),
-                                                              ),
-                                                              RichText(
-                                                                textScaler:
-                                                                MediaQuery.of(
-                                                                    context)
-                                                                    .textScaler,
-                                                                text: TextSpan(
-                                                                  children: [
-                                                                    TextSpan(
-                                                                      text: '4.4',
-                                                                      style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                        fontFamily:
-                                                                        'Montserrat',
-                                                                        letterSpacing:
-                                                                        0,
-                                                                        fontWeight:
-                                                                        FontWeight.w500,
-                                                                      ),
-                                                                    ),
-                                                                    TextSpan(
-                                                                      text:
-                                                                      ' (412)',
-                                                                      style:
-                                                                      TextStyle(
-                                                                        color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                            .secondaryText,
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                  style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                      .bodyMedium
-                                                                      .override(
                                                                     fontFamily:
-                                                                    'Montserrat',
+                                                                        'Montserrat',
                                                                     letterSpacing:
-                                                                    0,
+                                                                        0,
                                                                   ),
-                                                                ),
-                                                              ),
-                                                            ].divide(
-                                                                SizedBox(width: 5)),
+                                                            ),
                                                           ),
-                                                        ],
+                                                        ].divide(
+                                                            SizedBox(width: 5)),
                                                       ),
-                                                    ),
-                                                  );
-                                                }).divide(SizedBox(width: 16)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            }).divide(SizedBox(width: 16)),
                                           ),
                                         );
                                       },

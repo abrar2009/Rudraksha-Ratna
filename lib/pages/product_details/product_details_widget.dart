@@ -1126,9 +1126,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         children: [
                                           TextSpan(
                                             text: 'INR ',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
+                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
                                               fontFamily: 'Montserrat',
                                               fontSize: 18,
                                               letterSpacing: 0,
@@ -1138,18 +1136,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                           TextSpan(
                                             text: formatNumber(
                                               valueOrDefault<int>(
-                                                ProductDetailsCall
-                                                    .productsellingprice(
-                                                  containerProductDetailsResponse
-                                                      .jsonBody,
-                                                ),
-                                                00000,
-                                              ) *
-                                                  (_model
-                                                      .countControllerValue!),
+                                                ProductDetailsCall.productsellingprice(containerProductDetailsResponse.jsonBody,
+                                                ), 00000,) *
+                                                  (_model.countControllerValue!),
                                               formatType: FormatType.decimal,
-                                              decimalType:
-                                              DecimalType.periodDecimal,
+                                              decimalType: DecimalType.periodDecimal,
                                             ),
                                             style: TextStyle(
                                               fontWeight: FontWeight.w600,
@@ -1157,9 +1148,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                             ),
                                           )
                                         ],
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
+                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
                                           fontFamily: 'Montserrat',
                                           fontSize: 18,
                                           letterSpacing: 0,

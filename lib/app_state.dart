@@ -1,180 +1,3 @@
-/*
-import 'package:flutter/material.dart';
-import '/backend/schema/structs/index.dart';
-import 'backend/api_requests/api_manager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'flutter_flow/flutter_flow_util.dart';
-
-class FFAppState extends ChangeNotifier {
-  static FFAppState _instance = FFAppState._internal();
-
-  factory FFAppState() {
-    return _instance;
-  }
-
-  FFAppState._internal();
-
-  static void reset() {
-    _instance = FFAppState._internal();
-  }
-
-  Future initializePersistedState() async {}
-
-  void update(VoidCallback callback) {
-    callback();
-    notifyListeners();
-  }
-
-  List<ProductDetailsStruct> _RudrakshaInfo = [
-    ProductDetailsStruct.fromSerializableMap(jsonDecode(
-        '{\"ProductImage\":\"https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/rudraksha-ratna-kjh2wo/assets/3kj7daavi39l/placeholder-3.png\",\"ProductName\":\"Nepal Rudraksha\"}')),
-    ProductDetailsStruct.fromSerializableMap(jsonDecode(
-        '{\"ProductImage\":\"https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/rudraksha-ratna-kjh2wo/assets/v7w27qrt5acr/Ellipse_37-1.png\",\"ProductName\":\"Java,Rudrakash\"}'))
-  ];
-  List<ProductDetailsStruct> get RudrakshaInfo => _RudrakshaInfo;
-  set RudrakshaInfo(List<ProductDetailsStruct> _value) {
-    _RudrakshaInfo = _value;
-  }
-
-  void addToRudrakshaInfo(ProductDetailsStruct _value) {
-    _RudrakshaInfo.add(_value);
-  }
-
-  void removeFromRudrakshaInfo(ProductDetailsStruct _value) {
-    _RudrakshaInfo.remove(_value);
-  }
-
-  void removeAtIndexFromRudrakshaInfo(int _index) {
-    _RudrakshaInfo.removeAt(_index);
-  }
-
-  void updateRudrakshaInfoAtIndex(
-    int _index,
-    ProductDetailsStruct Function(ProductDetailsStruct) updateFn,
-  ) {
-    _RudrakshaInfo[_index] = updateFn(_RudrakshaInfo[_index]);
-  }
-
-  void insertAtIndexInRudrakshaInfo(int _index, ProductDetailsStruct _value) {
-    _RudrakshaInfo.insert(_index, _value);
-  }
-
-  List<ProductDetailsStruct> _Gemstone = [
-    ProductDetailsStruct.fromSerializableMap(jsonDecode(
-        '{\"ProductImage\":\"https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/rudraksha-ratna-kjh2wo/assets/dgm4p44i4w2o/placeholder.png\",\"ProductName\":\"Natural Loose Gemstones\"}')),
-    ProductDetailsStruct.fromSerializableMap(jsonDecode(
-        '{\"ProductImage\":\"https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/rudraksha-ratna-kjh2wo/assets/11ua8veky6u8/placeholder-1.png\",\"ProductName\":\"Natural Loose Gemstones\"}')),
-    ProductDetailsStruct.fromSerializableMap(jsonDecode(
-        '{\"ProductImage\":\"https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/rudraksha-ratna-kjh2wo/assets/zkut37ydz1nl/placeholder-2.png\",\"ProductName\":\"Natural Gemstone Bracelets\"}')),
-    ProductDetailsStruct.fromSerializableMap(jsonDecode(
-        '{\"ProductImage\":\"https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/rudraksha-ratna-kjh2wo/assets/zfh0bmdbd93n/placeholder-3.png\",\"ProductName\":\"Gemstone Earrings\"}'))
-  ];
-  List<ProductDetailsStruct> get Gemstone => _Gemstone;
-  set Gemstone(List<ProductDetailsStruct> _value) {
-    _Gemstone = _value;
-  }
-
-  void addToGemstone(ProductDetailsStruct _value) {
-    _Gemstone.add(_value);
-  }
-
-  void removeFromGemstone(ProductDetailsStruct _value) {
-    _Gemstone.remove(_value);
-  }
-
-  void removeAtIndexFromGemstone(int _index) {
-    _Gemstone.removeAt(_index);
-  }
-
-  void updateGemstoneAtIndex(
-    int _index,
-    ProductDetailsStruct Function(ProductDetailsStruct) updateFn,
-  ) {
-    _Gemstone[_index] = updateFn(_Gemstone[_index]);
-  }
-
-  void insertAtIndexInGemstone(int _index, ProductDetailsStruct _value) {
-    _Gemstone.insert(_index, _value);
-  }
-
-  String _pagename = 'Homepage';
-  String get pagename => _pagename;
-  set pagename(String _value) {
-    _pagename = _value;
-  }
-
-  List<AddressDatatypeStruct> _AddressList = [
-    AddressDatatypeStruct.fromSerializableMap(jsonDecode(
-        '{\"Firstname\":\"Kaustubh Chalke\",\"lastname\":\"Hello World\",\"phonenumber\":\"0\",\"emailaddress\":\"Hello World\",\"addressline1\":\"3910 Crim Lane, Greendale County, Colorado. Zip Code 410348\",\"landmark\":\"Hello World\",\"country\":\"Hello World\",\"state\":\"Hello World\",\"city\":\"Hello World\",\"pincode\":\"0\"}')),
-    AddressDatatypeStruct.fromSerializableMap(jsonDecode(
-        '{\"Firstname\":\"Sagar Caudhari\",\"lastname\":\"Hello World\",\"phonenumber\":\"0\",\"emailaddress\":\"Hello World\",\"addressline1\":\"21 Yellow Av, Greendale County, Colorado. Zip Code 410236\",\"landmark\":\"Hello World\",\"country\":\"Hello World\",\"state\":\"Hello World\",\"city\":\"Hello World\",\"pincode\":\"0\"}'))
-  ];
-  List<AddressDatatypeStruct> get AddressList => _AddressList;
-  set AddressList(List<AddressDatatypeStruct> _value) {
-    _AddressList = _value;
-  }
-
-  void addToAddressList(AddressDatatypeStruct _value) {
-    _AddressList.add(_value);
-  }
-
-  void removeFromAddressList(AddressDatatypeStruct _value) {
-    _AddressList.remove(_value);
-  }
-
-  void removeAtIndexFromAddressList(int _index) {
-    _AddressList.removeAt(_index);
-  }
-
-  void updateAddressListAtIndex(
-    int _index,
-    AddressDatatypeStruct Function(AddressDatatypeStruct) updateFn,
-  ) {
-    _AddressList[_index] = updateFn(_AddressList[_index]);
-  }
-
-  void insertAtIndexInAddressList(int _index, AddressDatatypeStruct _value) {
-    _AddressList.insert(_index, _value);
-  }
-
-  String _category = 'Rudraksha';
-  String get category => _category;
-  set category(String _value) {
-    _category = _value;
-  }
-
-  String _categoryId = '';
-  String get categoryId => _categoryId;
-  set categoryId(String _value) {
-    _categoryId = _value;
-  }
-
-  String _countrycode = '';
-  String get countrycode => _countrycode;
-  set countrycode(String _value) {
-    _countrycode = _value;
-  }
-
-  String _statusSuccess = 'success';
-  String get statusSuccess => _statusSuccess;
-  set statusSuccess(String _value) {
-    _statusSuccess = _value;
-  }
-
-  String _statusFailed = 'failed';
-  String get statusFailed => _statusFailed;
-  set statusFailed(String _value) {
-    _statusFailed = _value;
-  }
-
-  DateTime? _expiryToken;
-  DateTime? get expiryToken => _expiryToken;
-  set expiryToken(DateTime? _value) {
-    _expiryToken = _value;
-  }
-}
-*/
-
 import 'package:flutter/material.dart';
 import '/backend/schema/structs/index.dart';
 import 'backend/api_requests/api_manager.dart';
@@ -445,6 +268,83 @@ class FFAppState extends ChangeNotifier {
   int? get intinvoiceNumber => _intinvoiceNumber;
   set intinvoiceNumber(int? value) {
     _intinvoiceNumber = value;
+  }
+
+  String _Selectedsortby = '';
+  String get sortby => _Selectedsortby;
+  set sortby(String value) {
+    _Selectedsortby = value;
+  }
+
+  String _productid = '';
+  String get productid => _productid;
+  set productid(String value) {
+    _productid = value;
+  }
+
+  String _productType = '';
+  String get productType => _productType;
+  set productType(String value) {
+    _productType = value;
+  }
+
+/*  bool _productvariation;
+  bool get productvariation => _productvariation;
+  set productvariation(bool value) {
+    _productvariation = value;
+  }*/
+
+  String _quantity= '';
+  String get quantity => _quantity;
+  set quantity(String value) {
+    _quantity = value;
+  }
+
+  List<String> _freeGiftsList = [];
+  List<String> get freeGiftsList => _freeGiftsList;
+  set freeGiftsList(List<String> values) {
+    _freeGiftsList = values;
+  }
+
+  List<String> _couponCodeList = [];
+  List<String> get couponCodeList => _couponCodeList;
+  set couponCodeList(List<String> values) {
+    _couponCodeList = values;
+  }
+
+  int? _productvariationId;
+  int? get productvariationId => _productvariationId;
+  set productvariationId(int? value) {
+    _productvariationId = value;
+  }
+
+  int? _desingId;
+  int? get desingId => _desingId;
+  set desingId(int? value) {
+    _desingId = value;
+  }
+
+  int? _energizationId;
+  int? get energizationId => _energizationId;
+  set energizationId(int? value) {
+    _energizationId = value;
+  }
+  int? _selectedCertificationId=0;
+  int? get selectedCertificationId => _selectedCertificationId;
+  set selectedCertificationId(int? value) {
+    _selectedCertificationId = value;
+  }
+
+  bool? _buynow;
+  bool? get buynow => _buynow;
+  set buynow(bool? value) {
+    _buynow = value;
+  }
+
+  bool? _productvariation;
+  bool? get productvariation => _productvariation;
+  set productvariation(bool? value) {
+    _productvariation = value;
   }
 
   String _rangestartString = '';

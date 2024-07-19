@@ -249,222 +249,286 @@ class _DiamondProductDetailsWidgetState
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0, 0, 0, 22),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
-                                            ),
-                                            child: Builder(
-                                              builder: (context) {
-                                                if (_model
-                                                    .wishlistlikedislike) {
-                                                  return
-                                                      // Generated code for this CircleImage Widget...
-                                                      Padding(
-                                                    padding: EdgeInsets.all(5),
-                                                    child: InkWell(
-                                                      splashColor:
-                                                          Colors.transparent,
-                                                      focusColor:
-                                                          Colors.transparent,
-                                                      hoverColor:
-                                                          Colors.transparent,
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      onTap: () async {
-                                                        _model.addtoWishlist =
-                                                            await AddToWishlistCall
-                                                                .call(
-                                                          hosturl:
-                                                              FFAppConstants
-                                                                  .sanityurl,
-                                                          token:
-                                                              currentAuthenticationToken,
-                                                          productid:
-                                                              OtherProductsDetailsCall
-                                                                  .rudrakshaProductid(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          ),
-                                                          productType:
-                                                              OtherProductsDetailsCall
-                                                                  .rudrakshaMainProductType(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          ),
-                                                        );
-                                                        if ((_model
-                                                                .addtoWishlist
-                                                                ?.succeeded ??
-                                                            true)) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                               "Product added in wishlist",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .containerFillColor,
-                                                                ),
-                                                              ),
-                                                              duration: Duration(
-                                                                  milliseconds:
-                                                                      4000),
-                                                              backgroundColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primary,
-                                                            ),
-                                                          );
-                                                        } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                getJsonField(
-                                                                  (_model.addtoWishlist
-                                                                          ?.jsonBody ??
-                                                                      ''),
-                                                                  r'''$.status''',
-                                                                ).toString(),
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .containerFillColor,
-                                                                ),
-                                                              ),
-                                                              duration: Duration(
-                                                                  milliseconds:
-                                                                      4000),
-                                                              backgroundColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primary,
-                                                            ),
-                                                          );
-                                                        }
-                                                        setState(() {});
-                                                        _model.wishlistlikedislike =
-                                                            !_model
-                                                                .wishlistlikedislike;
-                                                        setState(() {});
-                                                        HapticFeedback
-                                                            .lightImpact();
-                                                      },
-                                                      child: Container(
-                                                        width: 28,
-                                                        height: 28,
-                                                        clipBehavior:
-                                                            Clip.antiAlias,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                        ),
-                                                        child: Image.asset(
-                                                          'assets/images/HeartEmpty.png',
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                } else {
-                                                  return Padding(
-                                                    padding: EdgeInsets.all(5),
-                                                    child: InkWell(
-                                                      onTap: () async
-                                                      {
-                                                        var _shouldSetState = false;
-                                                        _model.apiResult5ep = await RemovefromWishlistCall.call(
-                                                          token: currentAuthenticationToken,
-                                                          hosturl: FFAppConstants.hosturl,
-                                                          productId:
-                                                          OtherProductsDetailsCall
-                                                              .rudrakshaProductid(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          ),
-                                                          productType:
-                                                          OtherProductsDetailsCall
-                                                              .rudrakshaMainProductType(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          ),
-                                                        );
-
-                                                        _shouldSetState = true;
-                                                        if ((_model.apiResult5ep?.succeeded ?? true)) {
-                                                          FFAppState().statusFailed = getJsonField(
-                                                              (_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
-                                                          setState(() {});
-                                                          ScaffoldMessenger.of(context).clearSnackBars();
-                                                          ScaffoldMessenger.of(context).showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.msg''').toString(),
-                                                                style:
-                                                                TextStyle(
-                                                                  color: FlutterFlowTheme.of(
-                                                                      context)
-                                                                      .containerFillColor,
-                                                                ),
-                                                              ),
-                                                              duration: Duration(
-                                                                  milliseconds:
-                                                                  4000),
-                                                              backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                  context)
-                                                                  .primary,
-                                                            ),
-                                                          );
-                                                          if (FFAppState().statusFailed == 'success') {
-
-                                                          } else {
-                                                            if (_shouldSetState) setState(() {});
-                                                            return;
-                                                          }
-                                                        } else {
-                                                          if (_shouldSetState) setState(() {});
-                                                          return;
-                                                        }
-                                                        setState(() {});
-                                                        _model.wishlistlikedislike =
-                                                            !_model
-                                                                .wishlistlikedislike;
-                                                        setState(() {});
-                                                        HapticFeedback
-                                                            .lightImpact();
-                                                      },
-                                                      child: Container(
-                                                        width: 28,
-                                                        height: 28,
-                                                        clipBehavior:
-                                                            Clip.antiAlias,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                        ),
-                                                        child: Image.asset(
-                                                          'assets/images/HeartFilled.png',
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
+                                          child: FutureBuilder<ApiCallResponse>(
+                                              future: WishListCall.call(
+                                                hosturl:
+                                                    FFAppConstants.sanityurl,
+                                                token:
+                                                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4ZDg2NDUwLWQ1MzEtNGU2OC1hZjdkLWUxZmM5YjNhMTg3YyIsImVtYWlsIjoibW9odXJsZWF0aGFydmExNEBnbWFpbC5jb20iLCJtb2JpbGUiOjgzMjk2ODM0NjgsInNvdXJjZSI6ImFwcCJ9.FMQyI6U4wmC2zog3zVcGwB87ehlrP0UBSmLuShXWphU',
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Container(
+                                                    width: 5,
+                                                    height: 5,
+                                                    child: ShimmerWidget(),
                                                   );
                                                 }
-                                              },
-                                            ),
-                                          ),
+                                                final containerWishlistResponse =
+                                                    snapshot.data!;
+
+                                                return Container(
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            24),
+                                                  ),
+                                                  child: Builder(
+                                                    builder: (context) {
+                                                      print(WishListCall.id(
+                                                          containerWishlistResponse
+                                                              .jsonBody));
+                                                      print(OtherProductsDetailsCall
+                                                          .rudrakshaProductid(
+                                                              containerOtherProductsDetailsResponse
+                                                                  .jsonBody));
+                                                      if (!WishListCall.id(
+                                                        containerWishlistResponse
+                                                            .jsonBody,
+                                                      )!
+                                                          .contains(
+                                                              OtherProductsDetailsCall
+                                                                  .rudrakshaProductid(
+                                                        containerOtherProductsDetailsResponse
+                                                            .jsonBody,
+                                                      ))) {
+                                                        return
+                                                            // Generated code for this CircleImage Widget...
+                                                            Padding(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              _model.addtoWishlist =
+                                                                  await AddToWishlistCall
+                                                                      .call(
+                                                                hosturl:
+                                                                    FFAppConstants
+                                                                        .sanityurl,
+                                                                token:
+                                                                    currentAuthenticationToken,
+                                                                productid:
+                                                                    OtherProductsDetailsCall
+                                                                        .rudrakshaProductid(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                                productType:
+                                                                    OtherProductsDetailsCall
+                                                                        .rudrakshaMainProductType(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                              );
+                                                              if ((_model
+                                                                      .addtoWishlist
+                                                                      ?.succeeded ??
+                                                                  true)) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      "Product added in wishlist",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .containerFillColor,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                  ),
+                                                                );
+                                                              } else {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      getJsonField(
+                                                                        (_model.addtoWishlist?.jsonBody ??
+                                                                            ''),
+                                                                        r'''$.status''',
+                                                                      ).toString(),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .containerFillColor,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                  ),
+                                                                );
+                                                              }
+                                                              setState(() {});
+                                                              _model.wishlistlikedislike =
+                                                                  !_model
+                                                                      .wishlistlikedislike;
+                                                              setState(() {});
+                                                              HapticFeedback
+                                                                  .lightImpact();
+                                                            },
+                                                            child: Container(
+                                                              width: 28,
+                                                              height: 28,
+                                                              clipBehavior: Clip
+                                                                  .antiAlias,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/HeartEmpty.png',
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        return Padding(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              var _shouldSetState =
+                                                                  false;
+                                                              _model.apiResult5ep =
+                                                                  await RemovefromWishlistCall
+                                                                      .call(
+                                                                token:
+                                                                    currentAuthenticationToken,
+                                                                hosturl:
+                                                                    FFAppConstants
+                                                                        .hosturl,
+                                                                productId:
+                                                                    OtherProductsDetailsCall
+                                                                        .rudrakshaProductid(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                                productType:
+                                                                    OtherProductsDetailsCall
+                                                                        .rudrakshaMainProductType(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                              );
+
+                                                              _shouldSetState =
+                                                                  true;
+                                                              if ((_model
+                                                                      .apiResult5ep
+                                                                      ?.succeeded ??
+                                                                  true)) {
+                                                                FFAppState()
+                                                                    .statusFailed = getJsonField(
+                                                                        (_model.apiResult5ep?.jsonBody ??
+                                                                            ''),
+                                                                        r'''$.status''')
+                                                                    .toString();
+                                                                setState(() {});
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .clearSnackBars();
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      getJsonField(
+                                                                              (_model.apiResult5ep?.jsonBody ?? ''),
+                                                                              r'''$.msg''')
+                                                                          .toString(),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .containerFillColor,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                  ),
+                                                                );
+                                                                if (FFAppState()
+                                                                        .statusFailed ==
+                                                                    'success') {
+                                                                } else {
+                                                                  if (_shouldSetState)
+                                                                    setState(
+                                                                        () {});
+                                                                  return;
+                                                                }
+                                                              } else {
+                                                                if (_shouldSetState)
+                                                                  setState(
+                                                                      () {});
+                                                                return;
+                                                              }
+                                                              setState(() {});
+                                                              _model.wishlistlikedislike =
+                                                                  !_model
+                                                                      .wishlistlikedislike;
+                                                              setState(() {});
+                                                              HapticFeedback
+                                                                  .lightImpact();
+                                                            },
+                                                            child: Container(
+                                                              width: 28,
+                                                              height: 28,
+                                                              clipBehavior: Clip
+                                                                  .antiAlias,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/HeartFilled.png',
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                );
+                                              }),
                                         ),
                                       ),
                                     ],
@@ -697,7 +761,7 @@ class _DiamondProductDetailsWidgetState
                                                     setState(() {});
                                                   },
                                                   child: Container(
-                                                    width: 224,
+                                                    // width: 224,
                                                     height: 44,
                                                     decoration: BoxDecoration(
                                                       color: _model
@@ -721,27 +785,30 @@ class _DiamondProductDetailsWidgetState
                                                       ),
                                                     ),
                                                     child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(5),
-                                                      child: AutoSizeText(
-                                                        getJsonField(
-                                                          selectVariationItem,
-                                                          r'''$.name''',
-                                                        ).toString(),
-                                                        maxLines: 2,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Montserrat',
-                                                              fontSize: 13,
-                                                              letterSpacing: 0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              lineHeight: 1.5,
-                                                            ),
+                                                      padding: EdgeInsets.only(
+                                                          left: 15, right: 15),
+                                                      child: Center(
+                                                        child: AutoSizeText(
+                                                          getJsonField(
+                                                            selectVariationItem,
+                                                            r'''$.name''',
+                                                          ).toString(),
+                                                          maxLines: 2,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize: 13,
+                                                                letterSpacing:
+                                                                    0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                lineHeight: 1.5,
+                                                              ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -806,7 +873,7 @@ class _DiamondProductDetailsWidgetState
                                           TextSpan(
                                             text: valueOrDefault<String>(
                                               _model.selectedCertification,
-                                              'xxxx',
+                                              'Certificat',
                                             ),
                                             style: TextStyle(
                                               fontWeight: FontWeight.w600,
@@ -883,7 +950,7 @@ class _DiamondProductDetailsWidgetState
                                                     setState(() {});
                                                   },
                                                   child: Container(
-                                                    width: 224,
+                                                    // width: 224,
                                                     height: 44,
                                                     decoration: BoxDecoration(
                                                       color: _model
@@ -907,27 +974,30 @@ class _DiamondProductDetailsWidgetState
                                                       ),
                                                     ),
                                                     child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(5),
-                                                      child: AutoSizeText(
-                                                        getJsonField(
-                                                          selectVariationItem,
-                                                          r'''$.name''',
-                                                        ).toString(),
-                                                        maxLines: 2,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Montserrat',
-                                                              fontSize: 13,
-                                                              letterSpacing: 0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              lineHeight: 1.5,
-                                                            ),
+                                                      padding: EdgeInsets.only(
+                                                          left: 15, right: 15),
+                                                      child: Center(
+                                                        child: AutoSizeText(
+                                                          getJsonField(
+                                                            selectVariationItem,
+                                                            r'''$.name''',
+                                                          ).toString(),
+                                                          maxLines: 2,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize: 13,
+                                                                letterSpacing:
+                                                                    0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                lineHeight: 1.5,
+                                                              ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -1287,7 +1357,7 @@ class _DiamondProductDetailsWidgetState
                                             text: TextSpan(
                                               children: [
                                                 TextSpan(
-                                                  text: 'Select Designs:',
+                                                  text: 'Select Designs: ',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -1444,9 +1514,14 @@ class _DiamondProductDetailsWidgetState
                                                                       borderRadius:
                                                                           BorderRadius.circular(
                                                                               8),
-                                                                      child: Image
-                                                                          .network(
-                                                                        getJsonField(
+                                                                      child:
+                                                                          CachedNetworkImage(
+                                                                        fadeInDuration:
+                                                                            Duration(milliseconds: 100),
+                                                                        fadeOutDuration:
+                                                                            Duration(milliseconds: 100),
+                                                                        imageUrl:
+                                                                            getJsonField(
                                                                           selectDesgnItem,
                                                                           r'''$.image''',
                                                                         ).toString(),
@@ -1665,9 +1740,14 @@ class _DiamondProductDetailsWidgetState
                                                                       borderRadius:
                                                                           BorderRadius.circular(
                                                                               8),
-                                                                      child: Image
-                                                                          .network(
-                                                                        getJsonField(
+                                                                      child:
+                                                                          CachedNetworkImage(
+                                                                        fadeInDuration:
+                                                                            Duration(milliseconds: 100),
+                                                                        fadeOutDuration:
+                                                                            Duration(milliseconds: 100),
+                                                                        imageUrl:
+                                                                            getJsonField(
                                                                           selectBraceletDesignItem,
                                                                           r'''$.image''',
                                                                         ).toString(),
@@ -1879,9 +1959,14 @@ class _DiamondProductDetailsWidgetState
                                                                       borderRadius:
                                                                           BorderRadius.circular(
                                                                               8),
-                                                                      child: Image
-                                                                          .network(
-                                                                        getJsonField(
+                                                                      child:
+                                                                          CachedNetworkImage(
+                                                                        fadeInDuration:
+                                                                            Duration(milliseconds: 100),
+                                                                        fadeOutDuration:
+                                                                            Duration(milliseconds: 100),
+                                                                        imageUrl:
+                                                                            getJsonField(
                                                                           ringDesignItem,
                                                                           r'''$.image''',
                                                                         ).toString(),
@@ -2118,15 +2203,12 @@ class _DiamondProductDetailsWidgetState
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 10, 0),
                                     child: RichText(
-                                      textScaler:
-                                          MediaQuery.of(context).textScaler,
+                                      textScaler: MediaQuery.of(context).textScaler,
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
                                             text: 'INR ',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
+                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                   fontFamily: 'Montserrat',
                                                   fontSize: 18,
                                                   letterSpacing: 0,
@@ -2135,21 +2217,12 @@ class _DiamondProductDetailsWidgetState
                                           ),
                                           TextSpan(
                                             text: formatNumber(
-                                              (valueOrDefault<int>(
-                                                        OtherProductsDetailsCall
-                                                            .productsellingprice(
-                                                          containerOtherProductsDetailsResponse
-                                                              .jsonBody,
-                                                        ),
-                                                        00000,
-                                                      ) +
-                                                      (_model.designprice!) +
-                                                      (_model
-                                                          .energizationprice!) +
-                                                      (_model
-                                                          .selectedcertificateprice!)) *
-                                                  (_model
-                                                      .countControllerValue!),
+                                              (valueOrDefault<int>(OtherProductsDetailsCall.productsellingprice(
+                                                containerOtherProductsDetailsResponse.jsonBody,
+                                              ), 00000,) +
+                                                  (_model.designprice!) +
+                                                  (_model.energizationprice!) + (_model.selectedcertificateprice!)) *
+                                                  (_model.countControllerValue!),
                                               formatType: FormatType.decimal,
                                               decimalType:
                                                   DecimalType.periodDecimal,
@@ -2171,6 +2244,41 @@ class _DiamondProductDetailsWidgetState
                                       ),
                                       maxLines: 2,
                                     ),
+                                    /*RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: '${valueOrDefault<String>(FFAppState().currencyName, 'INR')}',
+                                            style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              color: FlutterFlowTheme.of(context).primaryText,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: ' ${formatNumber(
+                                              (valueOrDefault<int>(OtherProductsDetailsCall.productsellingprice(
+                                                containerOtherProductsDetailsResponse.jsonBody,
+                                              ), 0) +
+                                                  (_model.designprice ?? 0) +
+                                                  (_model.energizationprice ?? 0) +
+                                                  (_model.selectedcertificateprice ?? 0)) *
+                                                  (_model.countControllerValue ?? 1),
+                                              formatType: FormatType.decimal,
+                                              decimalType: DecimalType.periodDecimal,
+                                            )}',
+                                            style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              color: FlutterFlowTheme.of(context).primaryText,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      maxLines: 2,
+                                    ),*/
                                   ),
                                   Text(
                                     '(Inc all taxes)',
@@ -2204,6 +2312,7 @@ class _DiamondProductDetailsWidgetState
                                     onPressed: () async {
                                       if (currentAuthenticationToken != null &&
                                           currentAuthenticationToken != '') {
+                                        FFAppState().buynow = false;
                                         if (widget.producttype ==
                                             FFAppConstants
                                                 .RudrakshaMasterProductDetailsApi) {
@@ -2275,34 +2384,39 @@ class _DiamondProductDetailsWidgetState
                                                         .secondary,
                                               ),
                                             );
-                                            if( getJsonField(
-                                              (_model.apiResultj7i?.jsonBody ?? ''), r'''$.status''',).toString() !="failed")
-                                            await showModalBottomSheet(
-                                              isScrollControlled: true,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              enableDrag: false,
-                                              context: context,
-                                              builder: (context) {
-                                                return GestureDetector(
-                                                  onTap: () => _model
-                                                          .unfocusNode
-                                                          .canRequestFocus
-                                                      ? FocusScope.of(context)
-                                                          .requestFocus(_model
-                                                              .unfocusNode)
-                                                      : FocusScope.of(context)
-                                                          .unfocus(),
-                                                  child: Padding(
-                                                    padding:
-                                                        MediaQuery.viewInsetsOf(
-                                                            context),
-                                                    child: MyCartWidget(),
-                                                  ),
-                                                );
-                                              },
-                                            ).then(
-                                                (value) => safeSetState(() {}));
+                                            if (getJsonField(
+                                                  (_model.apiResultj7i
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                  r'''$.status''',
+                                                ).toString() !=
+                                                "failed")
+                                              await showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                enableDrag: false,
+                                                context: context,
+                                                builder: (context) {
+                                                  return GestureDetector(
+                                                    onTap: () => _model
+                                                            .unfocusNode
+                                                            .canRequestFocus
+                                                        ? FocusScope.of(context)
+                                                            .requestFocus(_model
+                                                                .unfocusNode)
+                                                        : FocusScope.of(context)
+                                                            .unfocus(),
+                                                    child: Padding(
+                                                      padding: MediaQuery
+                                                          .viewInsetsOf(
+                                                              context),
+                                                      child: MyCartWidget(),
+                                                    ),
+                                                  );
+                                                },
+                                              ).then((value) =>
+                                                  safeSetState(() {}));
                                           } else {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
@@ -2542,8 +2656,121 @@ class _DiamondProductDetailsWidgetState
                                   ),
 
                                   FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
+                                    onPressed: () async {
+                                      if (currentAuthenticationToken != null &&
+                                          currentAuthenticationToken != '') {
+                                        if (widget.producttype ==
+                                                FFAppConstants
+                                                    .RudrakshaMasterProductDetailsApi ||
+                                            widget.producttype ==
+                                                FFAppConstants
+                                                    .GemstoneMasterProductDetailsApi) {
+                                          FFAppState().productid =
+                                              OtherProductsDetailsCall
+                                                      .rudrakshaProductid(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )!
+                                                  .toString();
+                                          FFAppState().productvariationId = 2;
+                                          FFAppState().productType =
+                                              OtherProductsDetailsCall
+                                                      .rudrakshaMainProductType(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )!
+                                                  .toString();
+
+                                          FFAppState().productvariation =
+                                              OtherProductsDetailsCall
+                                                  .productVariantStatus(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          );
+                                          print(FFAppState().productvariation);
+
+                                          FFAppState().quantity = _model
+                                              .countControllerValue!
+                                              .toString();
+                                          FFAppState().energizationId =
+                                              OtherProductsDetailsCall
+                                                  .pujaenergizationlistid(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )?[_model.selectedEnergizationIndex!];
+                                          print(
+                                              "_model.selecteddesignid ${_model.selecteddesignid}");
+                                          print(
+                                              "FFAppState().energizationId ${FFAppState().energizationId}");
+
+                                          FFAppState().desingId =
+                                              _model.selecteddesignid;
+                                          FFAppState().selectedCertificationId =
+                                              (OtherProductsDetailsCall
+                                                  .certificationlistid(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )?[_model
+                                                  .selectedCertificationindex!]);
+
+                                          print(
+                                              "FFAppState().selectedCertificationId ${FFAppState().selectedCertificationId}");
+                                          /*    energization:
+                                          OtherProductsDetailsCall
+                                              .pujaenergizationlistid(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )?[_model.selectedEnergizationIndex!];
+                                          certification:
+                                          (OtherProductsDetailsCall
+                                                  .certificationlistid(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )?[_model
+                                                  .selectedCertificationindex!])
+                                              ?.toString();
+                                          design:
+                                          _model.selecteddesignid;*/
+                                          FFAppState().buynow = true;
+                                          print(FFAppState().buynow);
+                                          print(FFAppState().quantity);
+                                          print(FFAppState().productvariation);
+                                          print(FFAppState().productType);
+                                          print(
+                                              FFAppState().productvariationId);
+                                          print(FFAppState().productid);
+                                          print(FFAppState().productid);
+                                          context.pushNamed(
+                                            'DeliveryAddress',
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  const TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType
+                                                        .bottomToTop,
+                                                duration:
+                                                    Duration(milliseconds: 400),
+                                              ),
+                                            },
+                                          );
+                                        }
+
+                                        print('Button pressed ...');
+                                      } else {
+                                        context.pushNamed(
+                                          'LoginPage',
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                            ),
+                                          },
+                                        );
+                                      }
                                     },
                                     text: 'Buy Now',
                                     options: FFButtonOptions(

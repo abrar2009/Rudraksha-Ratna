@@ -180,7 +180,7 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                        /*  context.pushNamed(
+                                          /*  context.pushNamed(
                                             'ProductImage',
                                             queryParameters: {
                                               'productimage': serializeParam(
@@ -246,227 +246,291 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                       ),
                                       Align(
                                         alignment:
-                                        AlignmentDirectional(0.99, 1),
+                                            AlignmentDirectional(0.99, 1),
                                         child: Padding(
                                           padding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0, 0, 0, 22),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                              borderRadius:
-                                              BorderRadius.circular(24),
-                                            ),
-                                            child: Builder(
-                                              builder: (context) {
-                                                if (_model
-                                                    .wishlistlikedislike) {
-                                                  return
-                                                    // Generated code for this CircleImage Widget...
-                                                    Padding(
-                                                      padding: EdgeInsets.all(5),
-                                                      child: InkWell(
-                                                        splashColor:
-                                                        Colors.transparent,
-                                                        focusColor:
-                                                        Colors.transparent,
-                                                        hoverColor:
-                                                        Colors.transparent,
-                                                        highlightColor:
-                                                        Colors.transparent,
-                                                        onTap: () async {
-                                                          _model.addtoWishlist =
-                                                          await AddToWishlistCall
-                                                              .call(
-                                                            hosturl:
-                                                            FFAppConstants
-                                                                .sanityurl,
-                                                            token:
-                                                            currentAuthenticationToken,
-                                                            productid:
-                                                            OtherProductsDetailsCall
-                                                                .productid(
-                                                              containerOtherProductsDetailsResponse
-                                                                  .jsonBody,
-                                                            ),
-                                                            productType:
-                                                            OtherProductsDetailsCall
-                                                                .productMainType(
-                                                              containerOtherProductsDetailsResponse
-                                                                  .jsonBody,
-                                                            ),
-                                                          );
-                                                          if ((_model
-                                                              .addtoWishlist
-                                                              ?.succeeded ??
-                                                              true)) {
-                                                            ScaffoldMessenger.of(
-                                                                context)
-                                                                .showSnackBar(
-                                                              SnackBar(
-                                                                content: Text(
-                                                                  "Product added in wishlist",
-                                                                  style:
-                                                                  TextStyle(
-                                                                    color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                        .containerFillColor,
-                                                                  ),
-                                                                ),
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                    4000),
-                                                                backgroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                    context)
-                                                                    .primary,
-                                                              ),
-                                                            );
-                                                          } else {
-                                                            ScaffoldMessenger.of(
-                                                                context)
-                                                                .showSnackBar(
-                                                              SnackBar(
-                                                                content: Text(
-                                                                  getJsonField(
-                                                                    (_model.addtoWishlist
-                                                                        ?.jsonBody ??
-                                                                        ''),
-                                                                    r'''$.status''',
-                                                                  ).toString(),
-                                                                  style:
-                                                                  TextStyle(
-                                                                    color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                        .containerFillColor,
-                                                                  ),
-                                                                ),
-                                                                duration: Duration(
-                                                                    milliseconds:
-                                                                    4000),
-                                                                backgroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                    context)
-                                                                    .primary,
-                                                              ),
-                                                            );
-                                                          }
-                                                          setState(() {});
-                                                          _model.wishlistlikedislike =
-                                                          !_model
-                                                              .wishlistlikedislike;
-                                                          setState(() {});
-                                                          HapticFeedback
-                                                              .lightImpact();
-                                                        },
-                                                        child: Container(
-                                                          width: 28,
-                                                          height: 28,
-                                                          clipBehavior:
-                                                          Clip.antiAlias,
-                                                          decoration:
-                                                          BoxDecoration(
-                                                            shape:
-                                                            BoxShape.circle,
-                                                          ),
-                                                          child: Image.asset(
-                                                            'assets/images/HeartEmpty.png',
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                } else {
-                                                  return Padding(
-                                                    padding: EdgeInsets.all(5),
-                                                    child: InkWell(
-                                                      onTap: () async
-                                                      {
-                                                        var _shouldSetState = false;
-                                                        _model.apiResult5ep = await RemovefromWishlistCall.call(
-                                                          token: currentAuthenticationToken,
-                                                          hosturl: FFAppConstants.hosturl,
-                                                          productId:
-                                                          OtherProductsDetailsCall
-                                                              .productid(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          ),
-                                                          productType:
-                                                          OtherProductsDetailsCall
-                                                              .productMainType(
-                                                            containerOtherProductsDetailsResponse
-                                                                .jsonBody,
-                                                          ),
-                                                        );
-
-                                                        _shouldSetState = true;
-                                                        if ((_model.apiResult5ep?.succeeded ?? true)) {
-                                                          FFAppState().statusFailed = getJsonField(
-                                                              (_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
-                                                          setState(() {});
-                                                          ScaffoldMessenger.of(context).clearSnackBars();
-                                                          ScaffoldMessenger.of(context).showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.msg''').toString(),
-                                                                style:
-                                                                TextStyle(
-                                                                  color: FlutterFlowTheme.of(
-                                                                      context)
-                                                                      .containerFillColor,
-                                                                ),
-                                                              ),
-                                                              duration: Duration(
-                                                                  milliseconds:
-                                                                  4000),
-                                                              backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                  context)
-                                                                  .primary,
-                                                            ),
-                                                          );
-                                                          if (FFAppState().statusFailed == 'success') {
-
-                                                          } else {
-                                                            if (_shouldSetState) setState(() {});
-                                                            return;
-                                                          }
-                                                        } else {
-                                                          if (_shouldSetState) setState(() {});
-                                                          return;
-                                                        }
-                                                        setState(() {});
-                                                        _model.wishlistlikedislike =
-                                                        !_model
-                                                            .wishlistlikedislike;
-                                                        setState(() {});
-                                                        HapticFeedback
-                                                            .lightImpact();
-                                                      },
-                                                      child: Container(
-                                                        width: 28,
-                                                        height: 28,
-                                                        clipBehavior:
-                                                        Clip.antiAlias,
-                                                        decoration:
-                                                        BoxDecoration(
-                                                          shape:
-                                                          BoxShape.circle,
-                                                        ),
-                                                        child: Image.asset(
-                                                          'assets/images/HeartFilled.png',
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 22),
+                                          child: FutureBuilder<ApiCallResponse>(
+                                              future: WishListCall.call(
+                                                hosturl:
+                                                    FFAppConstants.sanityurl,
+                                                token: currentAuthenticationToken
+                                              ),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Container(
+                                                    width: 5,
+                                                    height: 5,
+                                                    child: ShimmerWidget(),
                                                   );
                                                 }
-                                              },
-                                            ),
-                                          ),
+                                                final containerWishlistResponse =
+                                                    snapshot.data!;
+
+                                                return Container(
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            24),
+                                                  ),
+                                                  child: Builder(
+                                                    builder: (context) {
+                                                      print(WishListCall.id(
+                                                          containerWishlistResponse
+                                                              .jsonBody));
+                                                      print(OtherProductsDetailsCall
+                                                          .rudrakshaProductid(
+                                                              containerOtherProductsDetailsResponse
+                                                                  .jsonBody));
+                                                      if (!WishListCall.id(
+                                                        containerWishlistResponse
+                                                            .jsonBody,
+                                                      )!
+                                                          .contains(
+                                                              OtherProductsDetailsCall
+                                                                  .productid(
+                                                        containerOtherProductsDetailsResponse
+                                                            .jsonBody,
+                                                      ))) {
+                                                        return
+
+                                                            // Generated code for this CircleImage Widget...
+                                                            Padding(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              _model.addtoWishlist =
+                                                                  await AddToWishlistCall
+                                                                      .call(
+                                                                hosturl:
+                                                                    FFAppConstants
+                                                                        .sanityurl,
+                                                                token:
+                                                                    currentAuthenticationToken,
+                                                                productid:
+                                                                    OtherProductsDetailsCall
+                                                                        .productid(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                                productType:
+                                                                    OtherProductsDetailsCall
+                                                                        .productMainType(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                              );
+                                                              if ((_model
+                                                                      .addtoWishlist
+                                                                      ?.succeeded ??
+                                                                  true)) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      "Product added in wishlist",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .containerFillColor,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                  ),
+                                                                );
+                                                              } else {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      getJsonField(
+                                                                        (_model.addtoWishlist?.jsonBody ??
+                                                                            ''),
+                                                                        r'''$.status''',
+                                                                      ).toString(),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .containerFillColor,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                  ),
+                                                                );
+                                                              }
+                                                              setState(() {});
+                                                              _model.wishlistlikedislike =
+                                                                  !_model
+                                                                      .wishlistlikedislike;
+                                                              setState(() {});
+                                                              HapticFeedback
+                                                                  .lightImpact();
+                                                            },
+                                                            child: Container(
+                                                              width: 28,
+                                                              height: 28,
+                                                              clipBehavior: Clip
+                                                                  .antiAlias,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/HeartEmpty.png',
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        return Padding(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              var _shouldSetState =
+                                                                  false;
+                                                              _model.apiResult5ep =
+                                                                  await RemovefromWishlistCall
+                                                                      .call(
+                                                                token:
+                                                                    currentAuthenticationToken,
+                                                                hosturl:
+                                                                    FFAppConstants
+                                                                        .hosturl,
+                                                                productId:
+                                                                    OtherProductsDetailsCall
+                                                                        .productid(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                                productType:
+                                                                    OtherProductsDetailsCall
+                                                                        .productMainType(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                ),
+                                                              );
+
+                                                              _shouldSetState =
+                                                                  true;
+                                                              if ((_model
+                                                                      .apiResult5ep
+                                                                      ?.succeeded ??
+                                                                  true)) {
+                                                                FFAppState()
+                                                                    .statusFailed = getJsonField(
+                                                                        (_model.apiResult5ep?.jsonBody ??
+                                                                            ''),
+                                                                        r'''$.status''')
+                                                                    .toString();
+                                                                setState(() {});
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .clearSnackBars();
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      getJsonField(
+                                                                              (_model.apiResult5ep?.jsonBody ?? ''),
+                                                                              r'''$.msg''')
+                                                                          .toString(),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .containerFillColor,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                  ),
+                                                                );
+                                                                if (FFAppState()
+                                                                        .statusFailed ==
+                                                                    'success') {
+                                                                } else {
+                                                                  if (_shouldSetState)
+                                                                    setState(
+                                                                        () {});
+                                                                  return;
+                                                                }
+                                                              } else {
+                                                                if (_shouldSetState)
+                                                                  setState(
+                                                                      () {});
+                                                                return;
+                                                              }
+                                                              setState(() {});
+                                                              _model.wishlistlikedislike =
+                                                                  !_model
+                                                                      .wishlistlikedislike;
+                                                              setState(() {});
+                                                              HapticFeedback
+                                                                  .lightImpact();
+                                                            },
+                                                            child: Container(
+                                                              width: 28,
+                                                              height: 28,
+                                                              clipBehavior: Clip
+                                                                  .antiAlias,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/HeartFilled.png',
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                );
+                                              }),
                                         ),
                                       ),
                                     ],
@@ -737,25 +801,29 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                                     ),
                                                   ),
                                                   child: Padding(
-                                                    padding: EdgeInsets.all(5),
-                                                    child: AutoSizeText(
-                                                      getJsonField(
-                                                        selectVariationItem,
-                                                        r'''$.variant_name''',
-                                                      ).toString(),
-                                                      maxLines: 2,
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 13,
-                                                            letterSpacing: 0,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            lineHeight: 1.5,
-                                                          ),
+                                                    padding: EdgeInsets.only(
+                                                        left: 15, right: 15),
+                                                    child: Center(
+                                                      child: AutoSizeText(
+                                                        getJsonField(
+                                                          selectVariationItem,
+                                                          r'''$.variant_name''',
+                                                        ).toString(),
+                                                        maxLines: 2,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontSize: 13,
+                                                              letterSpacing: 0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              lineHeight: 1.5,
+                                                            ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -1016,20 +1084,20 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-
                                   FFButtonWidget(
                                     onPressed: () async {
                                       var _shouldSetState = false;
                                       if (currentAuthenticationToken != null &&
                                           currentAuthenticationToken != '') {
+                                        FFAppState().buynow = false;
                                         if (OtherProductsDetailsCall
-                                            .productVariantStatus(
-                                          containerOtherProductsDetailsResponse
-                                              .jsonBody,
-                                        ) ==
+                                                .productVariantStatus(
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            ) ==
                                             true) {
                                           _model.apiResultj7i =
-                                          await AddToCartCall.call(
+                                              await AddToCartCall.call(
                                             hosturl: FFAppConstants.sanityurl,
                                             token: currentAuthenticationToken,
                                             productid: OtherProductsDetailsCall
@@ -1037,32 +1105,34 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                               containerOtherProductsDetailsResponse
                                                   .jsonBody,
                                             )?.toString(),
-                                            productType: OtherProductsDetailsCall
-                                                .productMainType(
+                                            productType:
+                                                OtherProductsDetailsCall
+                                                    .productMainType(
                                               containerOtherProductsDetailsResponse
                                                   .jsonBody,
                                             )?.toString(),
                                             productvariation:
-                                            OtherProductsDetailsCall
-                                                .productVariantStatus(
+                                                OtherProductsDetailsCall
+                                                    .productVariantStatus(
                                               containerOtherProductsDetailsResponse
                                                   .jsonBody,
                                             ),
                                             productvariationId:
-                                            OtherProductsDetailsCall
-                                                .productVariantStatus(
-                                              containerOtherProductsDetailsResponse
-                                                  .jsonBody,
-                                            ) ==
-                                                true
-                                                ? (OtherProductsDetailsCall
-                                                .otherproductvariantdataid(
-                                              containerOtherProductsDetailsResponse
-                                                  .jsonBody,
-                                            )?[_model
-                                                .selectedVariatoinindex!])
-                                                : 0,
-                                            quantity: _model.countControllerValue
+                                                OtherProductsDetailsCall
+                                                            .productVariantStatus(
+                                                          containerOtherProductsDetailsResponse
+                                                              .jsonBody,
+                                                        ) ==
+                                                        true
+                                                    ? (OtherProductsDetailsCall
+                                                        .otherproductvariantdataid(
+                                                        containerOtherProductsDetailsResponse
+                                                            .jsonBody,
+                                                      )?[_model
+                                                        .selectedVariatoinindex!])
+                                                    : 0,
+                                            quantity: _model
+                                                .countControllerValue
                                                 ?.toString(),
                                           );
                                           _shouldSetState = true;
@@ -1074,87 +1144,90 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                                 content: Text(
                                                   getJsonField(
                                                     (_model.apiResultj7i
-                                                        ?.jsonBody ??
+                                                            ?.jsonBody ??
                                                         ''),
                                                     r'''$.msg''',
                                                   ).toString(),
                                                   style: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                        context)
+                                                            context)
                                                         .primaryText,
                                                   ),
                                                 ),
-                                                duration:
-                                                Duration(milliseconds: 4000),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
                                                 backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondary,
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
                                               ),
                                             );
                                             _model.otherproductid =
                                                 OtherProductsDetailsCall
                                                     .productid(
-                                                  containerOtherProductsDetailsResponse
-                                                      .jsonBody,
-                                                );
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
                                             _model.otherproductvarientstattus =
                                                 OtherProductsDetailsCall
                                                     .productVariantStatus(
-                                                  containerOtherProductsDetailsResponse
-                                                      .jsonBody,
-                                                );
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
                                             _model.otherproductmaintype =
                                                 OtherProductsDetailsCall
                                                     .productMainType(
-                                                  containerOtherProductsDetailsResponse
-                                                      .jsonBody,
-                                                );
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
                                             setState(() {});
-                                            if( getJsonField(
-                                              (_model.apiResultj7i
-                                                  ?.jsonBody ??
-                                                  ''),
-                                              r'''$.status''',
-                                            ).toString() !="failed")
-                                            await showModalBottomSheet(
-                                              isScrollControlled: true,
-                                              backgroundColor:
-                                              Colors.transparent,
-                                              enableDrag: false,
-                                              context: context,
-                                              builder: (context) {
-                                                return GestureDetector(
-                                                  onTap: () => _model
-                                                      .unfocusNode
-                                                      .canRequestFocus
-                                                      ? FocusScope.of(context)
-                                                      .requestFocus(_model
-                                                      .unfocusNode)
-                                                      : FocusScope.of(context)
-                                                      .unfocus(),
-                                                  child: Padding(
-                                                    padding:
-                                                    MediaQuery.viewInsetsOf(
-                                                        context),
-                                                    child: MyCartWidget(),
-                                                  ),
-                                                );
-                                              },
-                                            ).then(
-                                                    (value) => safeSetState(() {}));
+                                            if (getJsonField(
+                                                  (_model.apiResultj7i
+                                                          ?.jsonBody ??
+                                                      ''),
+                                                  r'''$.status''',
+                                                ).toString() !=
+                                                "failed")
+                                              await showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                enableDrag: false,
+                                                context: context,
+                                                builder: (context) {
+                                                  return GestureDetector(
+                                                    onTap: () => _model
+                                                            .unfocusNode
+                                                            .canRequestFocus
+                                                        ? FocusScope.of(context)
+                                                            .requestFocus(_model
+                                                                .unfocusNode)
+                                                        : FocusScope.of(context)
+                                                            .unfocus(),
+                                                    child: Padding(
+                                                      padding: MediaQuery
+                                                          .viewInsetsOf(
+                                                              context),
+                                                      child: MyCartWidget(),
+                                                    ),
+                                                  );
+                                                },
+                                              ).then((value) =>
+                                                  safeSetState(() {}));
                                           } else {
                                             _model.apiResultj7i =
-                                            await OtherSinglePriceAddToCartCall.call(
+                                                await OtherSinglePriceAddToCartCall
+                                                    .call(
                                               hosturl: FFAppConstants.sanityurl,
                                               token: currentAuthenticationToken,
-                                              productid: OtherProductsDetailsCall
-                                                  .productid(
+                                              productid:
+                                                  OtherProductsDetailsCall
+                                                      .productid(
                                                 containerOtherProductsDetailsResponse
                                                     .jsonBody,
                                               )?.toString(),
                                               productType:
-                                              OtherProductsDetailsCall
-                                                  .productMainType(
+                                                  OtherProductsDetailsCall
+                                                      .productMainType(
                                                 containerOtherProductsDetailsResponse
                                                     .jsonBody,
                                               )?.toString(),
@@ -1163,7 +1236,8 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                                   ?.toString(),
                                             );
                                             _shouldSetState = true;
-                                            if ((_model.apiResultj7i?.succeeded ??
+                                            if ((_model
+                                                    .apiResultj7i?.succeeded ??
                                                 true)) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
@@ -1171,102 +1245,106 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                                   content: Text(
                                                     getJsonField(
                                                       (_model.apiResultj7i
-                                                          ?.jsonBody ??
+                                                              ?.jsonBody ??
                                                           ''),
                                                       r'''$.msg''',
                                                     ).toString(),
                                                     style: TextStyle(
-                                                      color: FlutterFlowTheme.of(
-                                                          context)
-                                                          .primaryText,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
                                                     ),
                                                   ),
                                                   duration: Duration(
                                                       milliseconds: 4000),
                                                   backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
                                                 ),
                                               );
                                               _model.otherproductid =
                                                   OtherProductsDetailsCall
                                                       .productid(
-                                                    containerOtherProductsDetailsResponse
-                                                        .jsonBody,
-                                                  );
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              );
                                               _model.otherproductvarientstattus =
                                                   OtherProductsDetailsCall
                                                       .productVariantStatus(
-                                                    containerOtherProductsDetailsResponse
-                                                        .jsonBody,
-                                                  );
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              );
                                               _model.otherproductmaintype =
                                                   OtherProductsDetailsCall
                                                       .productMainType(
-                                                    containerOtherProductsDetailsResponse
-                                                        .jsonBody,
-                                                  );
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              );
                                               setState(() {});
                                               await showModalBottomSheet(
                                                 isScrollControlled: true,
                                                 backgroundColor:
-                                                Colors.transparent,
+                                                    Colors.transparent,
                                                 enableDrag: false,
                                                 context: context,
                                                 builder: (context) {
                                                   return GestureDetector(
                                                     onTap: () => _model
-                                                        .unfocusNode
-                                                        .canRequestFocus
+                                                            .unfocusNode
+                                                            .canRequestFocus
                                                         ? FocusScope.of(context)
-                                                        .requestFocus(_model
-                                                        .unfocusNode)
+                                                            .requestFocus(_model
+                                                                .unfocusNode)
                                                         : FocusScope.of(context)
-                                                        .unfocus(),
+                                                            .unfocus(),
                                                     child: Padding(
-                                                      padding:
-                                                      MediaQuery.viewInsetsOf(
-                                                          context),
+                                                      padding: MediaQuery
+                                                          .viewInsetsOf(
+                                                              context),
                                                       child: MyCartWidget(),
                                                     ),
                                                   );
                                                 },
-                                              ).then(
-                                                      (value) => safeSetState(() {}));
+                                              ).then((value) =>
+                                                  safeSetState(() {}));
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
                                                   content: Text(
                                                     (_model.apiResultj7i
-                                                        ?.statusCode ??
-                                                        200)
+                                                                ?.statusCode ??
+                                                            200)
                                                         .toString(),
                                                     style: TextStyle(
-                                                      color: FlutterFlowTheme.of(
-                                                          context)
-                                                          .primaryText,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
                                                     ),
                                                   ),
                                                   duration: Duration(
                                                       milliseconds: 4000),
                                                   backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
                                                 ),
                                               );
                                               if (_shouldSetState)
                                                 setState(() {});
                                               return;
                                             }
-                                            if (_shouldSetState) setState(() {});
+                                            if (_shouldSetState)
+                                              setState(() {});
                                           }
                                           if (_shouldSetState) setState(() {});
-                                        }
-                                        else{
+                                        } else {
                                           _model.apiResultj7i =
-                                          await OtherSinglePriceAddToCartCall
-                                              .call(
+                                              await OtherSinglePriceAddToCartCall
+                                                  .call(
                                             hosturl: FFAppConstants.sanityurl,
                                             token: currentAuthenticationToken,
                                             productid: OtherProductsDetailsCall
@@ -1275,8 +1353,8 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                                   .jsonBody,
                                             )?.toString(),
                                             productType:
-                                            OtherProductsDetailsCall
-                                                .productMainType(
+                                                OtherProductsDetailsCall
+                                                    .productMainType(
                                               containerOtherProductsDetailsResponse
                                                   .jsonBody,
                                             )?.toString(),
@@ -1293,88 +1371,88 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                                 content: Text(
                                                   getJsonField(
                                                     (_model.apiResultj7i
-                                                        ?.jsonBody ??
+                                                            ?.jsonBody ??
                                                         ''),
                                                     r'''$.msg''',
                                                   ).toString(),
                                                   style: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                        context)
+                                                            context)
                                                         .primaryText,
                                                   ),
                                                 ),
                                                 duration: Duration(
                                                     milliseconds: 4000),
                                                 backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondary,
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
                                               ),
                                             );
                                             _model.otherproductid =
                                                 OtherProductsDetailsCall
                                                     .productid(
-                                                  containerOtherProductsDetailsResponse
-                                                      .jsonBody,
-                                                );
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
                                             _model.otherproductvarientstattus =
                                                 OtherProductsDetailsCall
                                                     .productVariantStatus(
-                                                  containerOtherProductsDetailsResponse
-                                                      .jsonBody,
-                                                );
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
                                             _model.otherproductmaintype =
                                                 OtherProductsDetailsCall
                                                     .productMainType(
-                                                  containerOtherProductsDetailsResponse
-                                                      .jsonBody,
-                                                );
+                                              containerOtherProductsDetailsResponse
+                                                  .jsonBody,
+                                            );
                                             setState(() {});
                                             await showModalBottomSheet(
                                               isScrollControlled: true,
                                               backgroundColor:
-                                              Colors.transparent,
+                                                  Colors.transparent,
                                               enableDrag: false,
                                               context: context,
                                               builder: (context) {
                                                 return GestureDetector(
                                                   onTap: () => _model
-                                                      .unfocusNode
-                                                      .canRequestFocus
+                                                          .unfocusNode
+                                                          .canRequestFocus
                                                       ? FocusScope.of(context)
-                                                      .requestFocus(_model
-                                                      .unfocusNode)
+                                                          .requestFocus(_model
+                                                              .unfocusNode)
                                                       : FocusScope.of(context)
-                                                      .unfocus(),
+                                                          .unfocus(),
                                                   child: Padding(
                                                     padding:
-                                                    MediaQuery.viewInsetsOf(
-                                                        context),
+                                                        MediaQuery.viewInsetsOf(
+                                                            context),
                                                     child: MyCartWidget(),
                                                   ),
                                                 );
                                               },
                                             ).then(
-                                                    (value) => safeSetState(() {}));
+                                                (value) => safeSetState(() {}));
                                           } else {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               SnackBar(
                                                 content: Text(
                                                   (_model.apiResultj7i
-                                                      ?.statusCode ??
-                                                      200)
+                                                              ?.statusCode ??
+                                                          200)
                                                       .toString(),
                                                   style: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                        context)
+                                                            context)
                                                         .primaryText,
                                                   ),
                                                 ),
                                                 duration: Duration(
                                                     milliseconds: 4000),
                                                 backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondary,
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
                                               ),
                                             );
                                             if (_shouldSetState)
@@ -1389,196 +1467,16 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                           extra: <String, dynamic>{
                                             kTransitionInfoKey: TransitionInfo(
                                               hasTransition: true,
-                                              transitionType: PageTransitionType.fade,
-                                              duration: Duration(milliseconds: 0),
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
                                             ),
                                           },
                                         );
                                       }
                                     },
-                                    /* onPressed: () async {
-                                      var _shouldSetState = false;
-                                      _model.apiResultj7i = await AddToCartCall.call(
-                                        hosturl: FFAppConstants.sanityurl,
-                                        token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4ZDg2NDUwLWQ1MzEtNGU2OC1hZjdkLWUxZmM5YjNhMTg3YyIsImVtYWlsIjoibW9odXJsZWF0aGFydmExNEBnbWFpbC5jb20iLCJtb2JpbGUiOjgzMjk2ODM0NjgsInNvdXJjZSI6ImFwcCJ9.FMQyI6U4wmC2zog3zVcGwB87ehlrP0UBSmLuShXWphU',
-                                        productid: OtherProductsDetailsCall.productid(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?.toString(),
-                                        productType: OtherProductsDetailsCall.productMainType(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?.toString(),
-                                        productvariation: OtherProductsDetailsCall.productVariantStatus(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        ),
-                                        productvariationId: OtherProductsDetailsCall.productVariantStatus(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        ) ==
-                                            true
-                                            ? (OtherProductsDetailsCall.otherproductvariantdataid(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?[_model.selectedVariatoinindex!])
-                                            : 0,
-                                        quantity: _model.countControllerValue?.toString(),
-                                      );
-                                      _shouldSetState = true;
-                                      if ((_model.apiResultj7i?.succeeded ?? true)) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultj7i?.jsonBody ?? ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).primaryText,
-                                              ),
-                                            ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                          ),
-                                        );
-                                        _model.otherproductid = OtherProductsDetailsCall.productid(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        );
-                                        _model.otherproductvarientstattus =
-                                            OtherProductsDetailsCall.productVariantStatus(
-                                              containerOtherProductsDetailsResponse.jsonBody,
-                                            );
-                                        _model.otherproductmaintype = OtherProductsDetailsCall.productMainType(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        );
-                                        setState(() {});
-                                      } else {
-                                        _model.apiResultj7i = await OtherSinglePriceAddToCartCall.call(
-                                          hosturl: FFAppConstants.sanityurl,
-                                          token:
-                                          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4ZDg2NDUwLWQ1MzEtNGU2OC1hZjdkLWUxZmM5YjNhMTg3YyIsImVtYWlsIjoibW9odXJsZWF0aGFydmExNEBnbWFpbC5jb20iLCJtb2JpbGUiOjgzMjk2ODM0NjgsInNvdXJjZSI6ImFwcCJ9.FMQyI6U4wmC2zog3zVcGwB87ehlrP0UBSmLuShXWphU',
-                                          productid: OtherProductsDetailsCall.productid(
-                                            containerOtherProductsDetailsResponse.jsonBody,
-                                          )?.toString(),
-                                          productType: OtherProductsDetailsCall.productMainType(
-                                            containerOtherProductsDetailsResponse.jsonBody,
-                                          )?.toString(),
-                                          quantity: _model.countControllerValue?.toString(),
-                                        );
-                                        _shouldSetState = true;
-                                        if ((_model.apiResultj7i?.succeeded ?? true)) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                getJsonField(
-                                                  (_model.apiResultj7i?.jsonBody ?? ''),
-                                                  r'''$.msg''',
-                                                ).toString(),
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(context).primaryText,
-                                                ),
-                                              ),
-                                              duration: Duration(milliseconds: 4000),
-                                              backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                            ),
-                                          );
-                                          _model.otherproductid = OtherProductsDetailsCall.productid(
-                                            containerOtherProductsDetailsResponse.jsonBody,
-                                          );
-                                          _model.otherproductvarientstattus =
-                                              OtherProductsDetailsCall.productVariantStatus(
-                                                containerOtherProductsDetailsResponse.jsonBody,
-                                              );
-                                          _model.otherproductmaintype = OtherProductsDetailsCall.productMainType(
-                                            containerOtherProductsDetailsResponse.jsonBody,
-                                          );
-                                          setState(() {});
-                                        } else {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                (_model.apiResultj7i?.statusCode ?? 200).toString(),
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(context).primaryText,
-                                                ),
-                                              ),
-                                              duration: Duration(milliseconds: 4000),
-                                              backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                            ),
-                                          );
-                                          if (_shouldSetState) setState(() {});
-                                          return;
-                                        }
-                                        if (_shouldSetState) setState(() {});
-                                      }
-                                      if (_shouldSetState) setState(() {});
-                                    },*/
-                                    /*onPressed: () async {
-                                      var _shouldSetState = false;
-                                      _model.apiResultj7i = await AddToCartCall.call(
-                                        hosturl: FFAppConstants.sanityurl,
-                                        token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4ZDg2NDUwLWQ1MzEtNGU2OC1hZjdkLWUxZmM5YjNhMTg3YyIsImVtYWlsIjoibW9odXJsZWF0aGFydmExNEBnbWFpbC5jb20iLCJtb2JpbGUiOjgzMjk2ODM0NjgsInNvdXJjZSI6ImFwcCJ9.FMQyI6U4wmC2zog3zVcGwB87ehlrP0UBSmLuShXWphU',
-                                        productid: OtherProductsDetailsCall.productid(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?.toString(),
-                                        productType: OtherProductsDetailsCall.productMainType(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?.toString(),
-                                        productvariation: OtherProductsDetailsCall.productVariantStatus(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        ),
-                                        productvariationId: OtherProductsDetailsCall.productVariantStatus(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        ) ==
-                                            true
-                                            ? (OtherProductsDetailsCall.otherproductvariantdataid(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        )?[_model.selectedVariatoinindex!])
-                                            : 0,
-                                        quantity: _model.countControllerValue?.toString(),
-                                      );
-                                      _shouldSetState = true;
-                                      if ((_model.apiResultj7i?.succeeded ?? true)) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultj7i?.jsonBody ?? ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).primaryText,
-                                              ),
-                                            ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                          ),
-                                        );
-                                        _model.otherproductid = OtherProductsDetailsCall.productid(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        );
-                                        _model.otherproductvarientstattus =
-                                            OtherProductsDetailsCall.productVariantStatus(
-                                              containerOtherProductsDetailsResponse.jsonBody,
-                                            );
-                                        _model.otherproductmaintype = OtherProductsDetailsCall.productMainType(
-                                          containerOtherProductsDetailsResponse.jsonBody,
-                                        );
-                                        setState(() {});
-                                      } else {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              (_model.apiResultj7i?.statusCode ?? 200).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).primaryText,
-                                              ),
-                                            ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                          ),
-                                        );
-                                        if (_shouldSetState) setState(() {});
-                                        return;
-                                      }
-                                      if (_shouldSetState) setState(() {});
-                                    },*/
+
                                     text: 'Add to Cart',
                                     options: FFButtonOptions(
                                       width: MediaQuery.sizeOf(context).width *
@@ -1608,10 +1506,100 @@ class _OtherProductDetailsWidgetState extends State<OtherProductDetailsWidget> {
                                     ),
                                     showLoadingIndicator: false,
                                   ),
-
                                   FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
+                                    onPressed: () async {
+                                      if (currentAuthenticationToken != null &&
+                                          currentAuthenticationToken != '') {
+
+                                          FFAppState().productid =
+                                              OtherProductsDetailsCall
+                                                  .productid(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              ).toString();
+                                          FFAppState().productvariationId =OtherProductsDetailsCall
+                                              .productVariantDataId(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )?[_model
+                                              .selectedVariatoinindex!];
+                                          FFAppState().productType =
+                                              OtherProductsDetailsCall
+                                                  .productMainType(
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
+                                              ).toString();
+
+                                          FFAppState().productvariation =
+                                              OtherProductsDetailsCall
+                                                  .productVariantStatus(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          );
+                                          print(FFAppState().productvariation);
+
+                                          FFAppState().quantity = _model
+                                              .countControllerValue!
+                                              .toString();
+
+
+                                          print(
+                                              "FFAppState().selectedCertificationId ${FFAppState().selectedCertificationId}");
+                                          /*    energization:
+                                          OtherProductsDetailsCall
+                                              .pujaenergizationlistid(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )?[_model.selectedEnergizationIndex!];
+                                          certification:
+                                          (OtherProductsDetailsCall
+                                                  .certificationlistid(
+                                            containerOtherProductsDetailsResponse
+                                                .jsonBody,
+                                          )?[_model
+                                                  .selectedCertificationindex!])
+                                              ?.toString();
+                                          design:
+                                          _model.selecteddesignid;*/
+                                          FFAppState().buynow = true;
+                                          print("FFAppState().buynow ${FFAppState().buynow}");
+                                          print("FFAppState().quantity ${FFAppState().quantity}");
+                                          print("FFAppState().productvariation ${FFAppState().productvariation}");
+                                          print("FFAppState().productType ${FFAppState().productType}");
+                                          print("FFAppState().productvariationId ${FFAppState().productvariationId}");
+                                          print("FFAppState().productid ${FFAppState().productid}");
+
+                                          context.pushNamed(
+                                            'DeliveryAddress',
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  const TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType
+                                                        .bottomToTop,
+                                                duration:
+                                                    Duration(milliseconds: 400),
+                                              ),
+                                            },
+                                          );
+
+
+                                        print('Button pressed ...');
+                                      } else {
+                                        context.pushNamed(
+                                          'LoginPage',
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 0),
+                                            ),
+                                          },
+                                        );
+                                      }
                                     },
                                     text: 'Buy Now',
                                     options: FFButtonOptions(

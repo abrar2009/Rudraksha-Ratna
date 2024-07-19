@@ -21,7 +21,11 @@ class WishlistModel extends FlutterFlowModel<WishlistWidget> {
       wishlist.insert(index, item);
   void updateWishlistAtIndex(int index, Function(int) updateFn) =>
       wishlist[index] = updateFn(wishlist[index]);
-
+  String? producttype;
+  int? level;
+  bool productlist = true;
+  int? mainprodtype;
+  ApiCallResponse? apiResulth6o;
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

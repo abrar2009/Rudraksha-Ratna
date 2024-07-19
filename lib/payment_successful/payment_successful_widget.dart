@@ -331,7 +331,7 @@ class _PaymentSuccessfulWidgetState extends State<PaymentSuccessfulWidget> {
                       ),
                     );
                   },
-                  text: 'Button',
+                  text: 'Continue Shopping',
                   options: FFButtonOptions(
                     width: double.infinity,
                     height: 48,

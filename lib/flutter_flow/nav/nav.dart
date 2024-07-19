@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import '../../pages/OrderTracking/order_tracking_widget.dart';
+import '../../pages/Yantra_product_details/yantra_product_details_widget.dart';
 import '../../pages/diamond_product_details/diamond_product_details_widget.dart';
 import '../../pages/main_products/main_products_widget.dart';
 import '../../pages/other_product_details/other_product_details_widget.dart';
@@ -264,6 +265,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'productslugvalue',
               ParamType.String,
             ),
+            producttitle: params.getParam(
+              'producttitle',
+              ParamType.String,
+            ),
           ),
         ),
         FFRoute(
@@ -381,6 +386,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
+          name: 'YantraProductDetails',
+          path: '/yantraProductDetails',
+          builder: (context, params) => YantraProductDetailsWidget(
+            productSlugValue: params.getParam(
+              'productSlugValue',
+              ParamType.String,
+            ),
+            producttype: params.getParam(
+              'producttype',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
           name: 'SignUpOTP',
           path: '/signUpOTP',
           builder: (context, params) => SignUpOTPWidget(
@@ -398,6 +417,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             ),
             customerName: params.getParam(
               'customerName',
+              ParamType.String,
+            ),
+            firstName: params.getParam(
+              'firstName',
+              ParamType.String,
+            ),
+            lastName: params.getParam(
+              'lastName',
               ParamType.String,
             ),
           ),

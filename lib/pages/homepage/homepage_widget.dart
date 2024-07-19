@@ -1067,17 +1067,10 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                         options: FFButtonOptions(
                                           height: 33.0,
                                           padding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              24.0, 0.0, 24.0, 0.0),
-                                          iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          textStyle:
-                                          FlutterFlowTheme.of(context)
-                                              .titleSmall
-                                              .override(
+                                          EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                                          iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context).primary,
+                                          textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                             fontFamily: 'Montserrat',
                                             color: Colors.white,
                                             fontSize: 5.0,
@@ -1824,7 +1817,21 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                                       );}
                                                       else if(_model.mainprodtype==4)
                                                       {
-
+                                                        context.pushNamed(
+                                                          'YantraProductDetails',
+                                                          queryParameters: {
+                                                            'productSlugValue':
+                                                            serializeParam(
+                                                              getJsonField(
+                                                                productsListItem,
+                                                                r'''$.slug_value''',
+                                                              ).toString(),
+                                                              ParamType.String,
+                                                            ),
+                                                            'producttype': FFAppConstants
+                                                                .YantraMasterProductDetailsApi,
+                                                          }.withoutNulls,
+                                                        );
                                                       }
                                                       else
                                                       { context.pushNamed(
@@ -1947,35 +1954,18 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                                             children: [
                                                               Align(
                                                                 alignment:
-                                                                AlignmentDirectional(
-                                                                    -1, 0),
+                                                                AlignmentDirectional(-1, 0),
                                                                 child: Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                      0,
-                                                                      0,
-                                                                      0,
-                                                                      8),
+                                                                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
                                                                   child: Text(
-                                                                    getJsonField(
-                                                                      productsListItem,
-                                                                      r'''$.productname''',
-                                                                    ).toString(),
+                                                                    getJsonField(productsListItem, r'''$.productname''',).toString(),
                                                                     maxLines: 2,
-                                                                    style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                      fontFamily:
-                                                                      'Montserrat',
-                                                                      color:
-                                                                      FlutterFlowTheme.of(context).Productnamecolor,
-                                                                      fontSize:
-                                                                      15,
-                                                                      letterSpacing:
-                                                                      0,
-                                                                      lineHeight:
-                                                                      1.5,
+                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                      fontFamily: 'Montserrat',
+                                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
+                                                                      fontSize: 15,
+                                                                      letterSpacing: 0,
+                                                                      lineHeight: 1.5,
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1984,7 +1974,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                                                 alignment:
                                                                 AlignmentDirectional(
                                                                     -1, 0),
-                                                                child: Text(
+                                                                child: /*Text(
                                                                   'INR ${getJsonField(
                                                                     productsListItem,
                                                                     r'''$.selling_price''',
@@ -2007,6 +1997,20 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                                                     fontWeight:
                                                                     FontWeight.w600,
                                                                   ),
+                                                                ),*/
+                                                                Text('${valueOrDefault<String>(FFAppState().currencyName, 'INR',)} '
+                                                                    '${formatNumber(functions.currencyConversion(FFAppState().currencyRate, getJsonField(productsListItem, r'''$.selling_price''',).toString()),
+                                                                  formatType: FormatType.decimal,
+                                                                  decimalType: DecimalType.automatic,
+                                                                )}',
+                                                                  textAlign: TextAlign.start,
+                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                    fontFamily: 'Montserrat',
+                                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                                    fontSize: 18,
+                                                                    letterSpacing: 0,
+                                                                    fontWeight: FontWeight.w600,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ],
@@ -2024,47 +2028,62 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             10, 0, 0, 0),
-                                        child: Container(
-                                          width: 160,
-                                          height: 198,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            borderRadius:
-                                            BorderRadius.circular(16),
-                                            border: Border.all(
-                                              color: FlutterFlowTheme.of(context).primary,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'View all',
-                                                style: FlutterFlowTheme.of(
-                                                    context)
-                                                    .bodyMedium
-                                                    .override(
-                                                  fontFamily: 'Montserrat',
-                                                  color: FlutterFlowTheme.of(context).primary,
-                                                  fontSize: 16,
-                                                  letterSpacing: 0,
-                                                  fontWeight:
-                                                  FontWeight.w500,
+                                        child: InkWell(
+                                          onTap: (){
+                                            context.pushNamed(
+                                              'CategoriesListViewChooseChip',
+                                              extra: <String, dynamic>{
+                                                kTransitionInfoKey: TransitionInfo(
+                                                  hasTransition: true,
+                                                  transitionType:
+                                                  PageTransitionType.rightToLeft,
+                                                  duration: Duration(milliseconds: 400),
                                                 ),
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 160,
+                                            height: 198,
+                                            decoration: BoxDecoration(
+                                              color: FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
+                                              borderRadius:
+                                              BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: FlutterFlowTheme.of(context).primary,
+                                                width: 2,
                                               ),
-                                              Icon(
-                                                Icons
-                                                    .arrow_circle_right_outlined,
-                                                color:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                                size: 30,
-                                              ),
-                                            ],
+                                            ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'View all',
+                                                  style: FlutterFlowTheme.of(
+                                                      context)
+                                                      .bodyMedium
+                                                      .override(
+                                                    fontFamily: 'Montserrat',
+                                                    color: FlutterFlowTheme.of(context).primary,
+                                                    fontSize: 16,
+                                                    letterSpacing: 0,
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                  ),
+                                                ),
+                                                Icon(
+                                                  Icons
+                                                      .arrow_circle_right_outlined,
+                                                  color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                                  size: 30,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),

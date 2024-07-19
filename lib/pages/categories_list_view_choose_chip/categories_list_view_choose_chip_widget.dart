@@ -416,6 +416,10 @@ class _CategoriesListViewChooseChipWidgetState
                                                               productDetailsItem,
                                                               r'''$.slug_value''',
                                                             ).toString();
+                                                            _model.producttitle = getJsonField(
+                                                              productDetailsItem,
+                                                              r'''$.name''',
+                                                            ).toString();
                                                             context.pushNamed(
                                                               'MainProducts',
                                                               queryParameters: {
@@ -426,6 +430,10 @@ class _CategoriesListViewChooseChipWidgetState
                                                                 ),
                                                                 'productslugvalue': serializeParam(
                                                                   _model.selectedproductslugvale,
+                                                                  ParamType.String,
+                                                                ),
+                                                                'producttitle': serializeParam(
+                                                                  _model.producttitle,
                                                                   ParamType.String,
                                                                 ),
                                                               }.withoutNulls,
@@ -467,6 +475,10 @@ class _CategoriesListViewChooseChipWidgetState
                                                               productDetailsItem,
                                                               r'''$.slug_value''',
                                                             ).toString();
+                                                            _model.producttitle = getJsonField(
+                                                              productDetailsItem,
+                                                              r'''$.name''',
+                                                            ).toString();
                                                             context.pushNamed(
                                                               'MainProducts',
                                                               queryParameters: {
@@ -477,6 +489,10 @@ class _CategoriesListViewChooseChipWidgetState
                                                                 ),
                                                                 'productslugvalue': serializeParam(
                                                                   _model.selectedproductslugvale,
+                                                                  ParamType.String,
+                                                                ),
+                                                                'producttitle': serializeParam(
+                                                                  _model.producttitle,
                                                                   ParamType.String,
                                                                 ),
                                                               }.withoutNulls,
@@ -612,6 +628,10 @@ class _CategoriesListViewChooseChipWidgetState
                                                               productDetailsItem,
                                                               r'''$.slug_value''',
                                                             ).toString();
+                                                            _model.producttitle = getJsonField(
+                                                              productDetailsItem,
+                                                              r'''$.name''',
+                                                            ).toString();
                                                             context.pushNamed(
                                                               'MainProducts',
                                                               queryParameters: {
@@ -623,6 +643,10 @@ class _CategoriesListViewChooseChipWidgetState
                                                                 ),
                                                                 'productslugvalue': serializeParam(
                                                                   _model.selectedproductslugvale,
+                                                                  ParamType.String,
+                                                                ),
+                                                                'producttitle': serializeParam(
+                                                                  _model.producttitle,
                                                                   ParamType.String,
                                                                 ),
                                                               }.withoutNulls,
@@ -718,6 +742,10 @@ class _CategoriesListViewChooseChipWidgetState
                                                               productDetailsItem,
                                                               r'''$.slug_value''',
                                                             ).toString();
+                                                            _model.producttitle = getJsonField(
+                                                              productDetailsItem,
+                                                              r'''$.name''',
+                                                            ).toString();
                                                             context.pushNamed(
                                                               'MainProducts',
                                                               queryParameters: {
@@ -727,6 +755,10 @@ class _CategoriesListViewChooseChipWidgetState
                                                                 ),
                                                                 'productslugvalue': serializeParam(
                                                                   _model.selectedproductslugvale,
+                                                                  ParamType.String,
+                                                                ),
+                                                                'producttitle': serializeParam(
+                                                                  _model.producttitle,
                                                                   ParamType.String,
                                                                 ),
                                                               }.withoutNulls,
@@ -977,6 +1009,11 @@ class _CategoriesListViewChooseChipWidgetState
                                                               _model.producttype = _model.choiceChipsValue;
                                                             }
                                                           _model.selectedproduct = true;
+                                                          _model.producttitle = getJsonField(
+                                                            subProductsItem,
+                                                            r'''$.name''',
+                                                          ).toString();
+                                                          print("_model.producttitle:${_model.producttitle}");
                                                           context.pushNamed(
                                                             'MainProducts',
                                                             queryParameters: {
@@ -996,6 +1033,10 @@ class _CategoriesListViewChooseChipWidgetState
                                                                  r'''$.slug_value''',
 
                                                                 ).toString(),
+                                                                ParamType.String,
+                                                              ),
+                                                              'producttitle': serializeParam(
+                                                                _model.producttitle,
                                                                 ParamType.String,
                                                               ),
                                                              /* 'productType': serializeParam(

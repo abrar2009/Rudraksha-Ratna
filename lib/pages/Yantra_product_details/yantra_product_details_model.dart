@@ -43,9 +43,9 @@ class YantraProductDetailsModel
 
   String? selectedEnergization;
 
-  int? selectedEnergizationIndex;
+  int? selectedEnergizationIndex=0;
 
-  int? selectedEnergizationlist;
+  int? selectedEnergizationlist=0;
 
   int? selectvariationindex=0;
 

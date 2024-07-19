@@ -22,7 +22,7 @@ class CategoriesListViewChooseChipModel
   String? producttype;
   int? level;
   String? apicall;
-
+  String? producttitle;
   bool productlist = true;
   String? selectedproductslugvale;
   ApiCallResponse? apiResulth6o;

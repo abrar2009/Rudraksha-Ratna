@@ -21,6 +21,8 @@ class SigninOTPModel extends FlutterFlowModel<SigninOTPWidget> {
   String? Function(BuildContext, String?)? textControllerValidator;
   // Stores action output result for [Backend Call - API (Login)] action in Button widget.
   ApiCallResponse? apiResultjp8;
+  // Stores action output result for [Backend Call - API (LoginWithOTP)] action in Text widget.
+  ApiCallResponse? apiResultjba;
 
   @override
   void initState(BuildContext context) {}

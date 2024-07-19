@@ -439,8 +439,7 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                 ],
               ),
             ),
-            // Generated code for this Button Widget...
-            /*Align(
+            Align(
               alignment: AlignmentDirectional(0, 1),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 60),
@@ -453,56 +452,6 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                       ),
                     );
                   } : () async {
-                    context.pushNamed(
-                      'SelectPaymentMethod',
-                      queryParameters: {
-                        'address1': serializeParam(_model.address1, ParamType.String,),
-                        'address2': serializeParam(_model.address2, ParamType.String,),
-                        'city': serializeParam(_model.city, ParamType.String,),
-                        'state': serializeParam(_model.state, ParamType.String,),
-                        'pinCode': serializeParam(_model.zipCode, ParamType.String,),
-                        'addressId': serializeParam(_model.id, ParamType.int,),
-                        'name': serializeParam(_model.nameFL, ParamType.String,),
-                        'email': serializeParam(_model.emailAddress, ParamType.String,),
-                        'contact': serializeParam(_model.contactNo, ParamType.String,),
-                        'country': serializeParam(_model.countryName, ParamType.String,),
-                      }.withoutNulls,
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: const TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 400),
-                        ),
-                      },
-                    );
-                  },
-                  text: 'Proceed to Checkout',
-                  options: FFButtonOptions(
-                    width: double.infinity,
-                    height: 48,
-                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                    color: Color(0xFF740074),
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                      letterSpacing: 0,
-                    ),
-                    elevation: 0,
-                    borderSide: BorderSide(color: Colors.transparent, width: 1,),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-
-              ),
-            ),*/
-            // Generated code for this Button Widget...
-            Align(
-              alignment: AlignmentDirectional(0, 1),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 60),
-                child: FFButtonWidget(
-                  onPressed: () async {
                     // Prepare the request data
                     final requestData = {
                       'hosturl': FFAppConstants.hosturl,
@@ -536,10 +485,30 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                       (_model.fetchShippingOutput?.jsonBody ?? ''),
                       r'''$.shippingdata[0].rewards_point''', // Adjusted JSON path for single item in array
                     ).toInt();
+                    FFAppState().freeGiftsList = (getJsonField(
+                      (_model.fetchShippingOutput?.jsonBody ?? ''),
+                      r'''$.giftdata''',
+                      true,
+                    ) as List)
+                        .map<String>((s) => s.toString())
+                        .toList()!
+                        .toList()
+                        .cast<String>();
+                    FFAppState().couponCodeList = (getJsonField(
+                      (_model.fetchShippingOutput?.jsonBody ?? ''),
+                      r'''$.coupondata''',
+                      true,
+                    ) as List)
+                        .map<String>((s) => s.toString())
+                        .toList()!
+                        .toList()
+                        .cast<String>();
 
                     // Print the parsed response data
                     print('Shipping Amount from delivery: ${FFAppState().shippingAmount}');
                     print('Reward points from delivery: ${FFAppState().rewardPoints}');
+                    print('Free Gifts List from delivery: ${FFAppState().freeGiftsList}');
+                    print('Coupon Code List from delivery: ${FFAppState().couponCodeList}');
 
                     //setState(() {});
 
@@ -596,7 +565,6 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                         ),
                       },
                     );
-
                     //setState(() {});
                   },
                   text: 'Proceed to Checkout',

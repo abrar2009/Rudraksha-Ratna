@@ -195,6 +195,10 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                     ),
                   ),
                 ),
+                if(getJsonField(
+                  profileCustomerDetailsResponse.jsonBody,
+                  r'''$.data.reward_points''',
+                ) !=null)
                 Align(
                   alignment: AlignmentDirectional(-0.04, -0.73),
                   child: Container(

@@ -150,9 +150,9 @@ class RegisterModel extends FlutterFlowModel<RegisterWidget> {
       return 'Field is required';
     }
 
-    if (!RegExp('^\\d{10}\$').hasMatch(val)) {
+    /*if (!RegExp('^\\d{10}\$').hasMatch(val)) {
       return 'Please enter a valid phone number';
-    }
+    }*/
     return null;
   }
 

@@ -321,6 +321,8 @@ class _WishlistWidgetState extends State<WishlistWidget> {
 }
 */
 
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/components/custom_nav_bar_widget.dart';
@@ -504,7 +506,7 @@ class _WishlistWidgetState extends State<WishlistWidget> {
                     );
                   } else {
                     return GridView.builder(
-                      padding: EdgeInsetsDirectional.fromSTEB(16.0, 18.0, 16.0, 0.0),
+                      padding: EdgeInsetsDirectional.fromSTEB(16.0, 18.0, 16.0, 60.0),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 7.0,
@@ -536,7 +538,16 @@ class _WishlistWidgetState extends State<WishlistWidget> {
                                     padding: EdgeInsets.all(4.0),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.network(
+                                      child:   CachedNetworkImage(
+                                        fadeInDuration:
+                                        Duration(
+                                            milliseconds:
+                                            100),
+                                        fadeOutDuration:
+                                        Duration(
+                                            milliseconds:
+                                            100),
+                                        imageUrl:
                                         getJsonField(wishListItem, r'''$.thumbnail_image''').toString(),
                                         width: double.infinity,
                                         height: 104.65,
@@ -550,12 +561,17 @@ class _WishlistWidgetState extends State<WishlistWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          getJsonField(wishListItem, r'''$.product_name''').toString(),
-                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF696969),
-                                            letterSpacing: 0.0,
+                                        Container(
+                                          width:200,
+                                          height:30,
+                                          child: Text(
+                                            getJsonField(wishListItem, r'''$.product_name''').toString(),
+                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xFF696969),
+                                              letterSpacing: 0.0,
+                                            ),
+                                            maxLines: 2,
                                           ),
                                         ),
                                         RichText(
@@ -590,10 +606,112 @@ class _WishlistWidgetState extends State<WishlistWidget> {
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 4.0, 0.0),
                                     child: FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
+                                      onPressed: () async {
+                                        _model.apiResulth6o =  await SlugSearchCall.call(
+                                          hosturl: FFAppConstants.hosturl,
+                                          slugValue: getJsonField(
+                                            wishListItem,
+                                            r'''$.slug_value''',
+                                          ).toString(),
+                                        );
+                                        _model.mainprodtype = SlugSearchCall.datamainprodtype(
+                                          (_model.apiResulth6o?.jsonBody ?? ''),
+                                        );
+                                        _model.level = SlugSearchCall.datalevel(
+                                          (_model.apiResulth6o?.jsonBody ?? ''),
+                                        );
+                                        _model.productlist = SlugSearchCall.dataproductlist(
+                                          (_model.apiResulth6o?.jsonBody ?? ''),
+                                        )!;
+                                        setState(() {
+                                          print("_model.mainprodtype${_model.mainprodtype}");
+                                          print("_model.level${_model.level}");
+                                          print("_model.productlist${_model.productlist}");
+
+                                        });
+                                        if(_model.mainprodtype==5)
+                                        { context.pushNamed(
+                                          'OtherProductDetails',
+                                          queryParameters: {
+                                            'productSlugValue': serializeParam(
+                                              getJsonField(
+                                                wishListItem,
+                                                r'''$.slug_value''',
+                                              ).toString(),
+                                              ParamType.String,
+                                            ),'producttype': FFAppConstants.RudrakshaMasterProductDetailsApi,
+
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType: PageTransitionType.bottomToTop,
+                                              duration: Duration(milliseconds: 400),
+                                            ),
+                                          },
+                                        );}
+                                        else if(_model.mainprodtype==3)
+                                        { context.pushNamed(
+                                          'DiamondProductDetails',
+                                          queryParameters: {
+                                            'productSlugValue': serializeParam(
+                                              getJsonField(
+                                                wishListItem,
+                                                r'''$.slug_value''',
+                                              ).toString(),
+                                              ParamType.String,
+                                            ),'producttype': FFAppConstants.RudrakshaMasterProductDetailsApi,
+
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType: PageTransitionType.bottomToTop,
+                                              duration: Duration(milliseconds: 400),
+                                            ),
+                                          },
+                                        );}
+                                        else if(_model.mainprodtype==4)
+                                        {
+                                          context.pushNamed(
+                                            'YantraProductDetails',
+                                            queryParameters: {
+                                              'productSlugValue':
+                                              serializeParam(
+                                                getJsonField(
+                                                  wishListItem,
+                                                  r'''$.slug_value''',
+                                                ).toString(),
+                                                ParamType.String,
+                                              ),
+                                              'producttype': FFAppConstants
+                                                  .YantraMasterProductDetailsApi,
+                                            }.withoutNulls,
+                                          );
+                                        }
+                                        else
+                                        { context.pushNamed(
+                                          'DiamondProductDetails',
+                                          queryParameters: {
+                                            'productSlugValue': serializeParam(
+                                              getJsonField(
+                                                wishListItem,
+                                                r'''$.slug_value''',
+                                              ).toString(),
+                                              ParamType.String,
+                                            ),'producttype': FFAppConstants.GemstoneMasterProductDetailsApi,
+
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType: PageTransitionType.bottomToTop,
+                                              duration: Duration(milliseconds: 400),
+                                            ),
+                                          },
+                                        );}
                                       },
-                                      text: 'Add to Cart',
+                                      text: 'Proceed to Buy',
                                       options: FFButtonOptions(
                                         width: double.infinity,
                                         height: 40.0,

@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:core';
 import 'dart:core';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
 export 'api_manager.dart' show ApiCallResponse;
+import 'package:http/http.dart' as http;
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
@@ -177,6 +179,7 @@ class UpdateCustomerCall {
     String? hosturl = '',
     String? customerName = '',
     String? token = '',
+    String? imagePath,
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'UpdateCustomer',
@@ -187,9 +190,10 @@ class UpdateCustomerCall {
       },
       params: {
         'email': email,
-        'mobile_number': mobileNumber,
+        'mobilenumber': mobileNumber,
         'country_code': countryCode,
         'customer_name': customerName,
+        'profilepic': imagePath,
       },
       bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
       returnBody: true,
@@ -1604,6 +1608,7 @@ class RudrakshaProductCall {
     String? beadMinSize = '',
     String? pageNo = '',
     String? hosturl = '',
+    String? sort_by = '',
   }) async {
     final ffApiRequestBody = '''
 {
@@ -1613,7 +1618,8 @@ class RudrakshaProductCall {
   "min_price": "${minPrice}",
   "bead_max_size": "${beadMaxSize}",
   "bead_min_size": "${beadMinSize}",
-  "page_no": "${pageNo}"
+  "page_no": "${pageNo}",
+  "sort_by": "${sort_by}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'RudrakshaProduct',
@@ -1665,6 +1671,7 @@ class YantraProductCall {
     String? maxPrice = '',
     String? minPrice = '',
     String? diety = '',
+
   }) async {
     final ffApiRequestBody = '''
 {
@@ -1672,6 +1679,7 @@ class YantraProductCall {
   "max_price": "${maxPrice}",
   "min_price": "${minPrice}",
   "diety": "${diety}"
+   
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'YantraProduct',
@@ -1773,6 +1781,7 @@ class OtherProductMainCategoryCall {
     String? minPrice = '',
     String? filter = '',
     String? subMainProductCategory = '',
+    String? sort_by = '',
   }) async {
     final ffApiRequestBody = '''
 {
@@ -1780,6 +1789,7 @@ class OtherProductMainCategoryCall {
   "max_price": "${maxPrice}",
   "min_price": "${minPrice}",
   "filters": "${filter}",
+    "sort_by": "${sort_by}",
   "page_no": "1"
 }''';
     return ApiManager.instance.makeApiCall(
@@ -1839,6 +1849,7 @@ class GemstoneProductOnSubCategoriesCall {
     String? maxPrice = '',
     String? minPrice = '',
     String? origi = '',
+    String? sort_by = '',
   }) async {
     final ffApiRequestBody = '''
 {
@@ -1851,7 +1862,8 @@ class GemstoneProductOnSubCategoriesCall {
   "min_price_per_carat": "${minPricePerCarat}",
   "max_price": "${maxPrice}",
   "min_price": "${minPrice}",
-  "origin": "${origi}"
+  "origin": "${origi}",
+  "sort_by": "${sort_by}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Gemstone Product On Sub Categories',
@@ -1929,7 +1941,7 @@ class GemstoneProductOnSubCategoriesCall {
 class Product {
   final int? productType;
   final int? product;
-  final int? productVariation;
+  final String? productVariation;
   final int? quantity;
   final String personName;
   final String dob;
@@ -1982,7 +1994,7 @@ class Product {
       productVariation: json['productVariation'],*/
       productType: json['mainprodtype'],
       product: json['product_id'],
-      productVariation: json['product_variation_id'],
+      productVariation: json['product_variation_id']?.toString() ?? '',
       quantity: json['quantity'],
       personName: json['person_name'] ?? '',
       dob: json['dob'] ?? '',
@@ -2009,7 +2021,7 @@ class Product {
     return {
       'productType': productType,
       'product': product,
-      'productVariation': productVariation?.toString() ?? '',
+      'productVariation': productVariation ?? '',
       'quantity': quantity,
       'person_name': personName,
       'dob': dob,
@@ -2264,7 +2276,7 @@ class OtherSinglePriceAddToCartCall {
   "productvariation": null,
   "productvariationId": null,
   "quantity": "${quantity}",
-  "energization": null,
+  "energization":"${energization}",
   "certification": null,
   "design": null,
   "chain": null,
@@ -2433,6 +2445,80 @@ class FetchShippingCall {
       .map((x) => castToType<int>(x))
       .withoutNulls
       .toList();
+}
+
+class BuyNowCall {
+  static Future<ApiCallResponse> call({
+    String? hosturl = '',
+    String? token = '',
+    String? productid = '',
+    String? productType = '',
+    bool? productvariation,
+    int? productvariationId = 2,
+    String? quantity = '1',
+    int? energization = 2,
+    String? certification = '0',
+    int? design ,
+    int? chain = 2,
+    int? bundlekit = 2,
+    String? ringSizeSystem = '',
+    String? ringSize = '',
+    String? wristSize = '',
+    String? personName = '',
+    String? sankalp = '',
+    String? specialInstructions = '',
+    String? dob = '',
+    String? tob = '',
+    String? pob = '',
+    String? fatherName = '',
+    String? motherName = '',
+    String? gotra = '',
+    String? photo = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "productid": "${productid}",
+  "productType": "${productType}",
+  "productvariation": ${productvariation} ,
+  "productvariationId": ${productvariationId},
+  "quantity": "${quantity}",
+  "energization": ${energization},
+  "certification": " ${certification}",
+  "design": ${design},
+  "chain": ${chain},
+  "bundlekit": ${bundlekit},
+   "ring_size_system": null,
+  "ring_size": null,
+  "wrist_size": null,
+  "person_name": null,
+  "sankalp": null,
+  "special_instructions": null,
+  "dob": null,
+  "tob": null,
+  "pob": null,
+  "father_name": null,
+  "mother_name": null,
+  "gotra": null,
+  "photo": null
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Add To Cart',
+      apiUrl: '${hosturl}/mobileapp/buy-now',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
 }
 
 class ApiPagingParams {
