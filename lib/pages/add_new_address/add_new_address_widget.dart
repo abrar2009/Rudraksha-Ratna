@@ -94,7 +94,17 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
               context.pop();
             },
           ),
-          title: RichText(
+          title: Text(
+            'Add New Address',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+              fontFamily: 'Outfit',
+              color: Color(0xFF272728),
+              fontSize: 16,
+              letterSpacing: 0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          /*RichText(
             textScaler: MediaQuery.of(context).textScaler,
             text: TextSpan(
               children: [
@@ -131,7 +141,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-          ),
+          ),*/
           actions: [],
           centerTitle: true,
           elevation: 0.0,
@@ -988,7 +998,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                             ),
-                            FFButtonWidget(
+                            /*FFButtonWidget(
                               onPressed: () async {
                                 var _shouldSetState = false;
                                 _model.apiResult35l = await AddAddressCall.call(
@@ -1071,6 +1081,129 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                ),
+                                elevation: 0.0,
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),*/
+                            FFButtonWidget(
+                              onPressed: () async {
+                                var _shouldSetState = false;
+
+                                // Make the API call to add the address
+                                _model.apiResult35l = await AddAddressCall.call(
+                                  token: currentAuthenticationToken,
+                                  hosturl: FFAppConstants.hosturl,
+                                  name: functions.joinName(
+                                    _model.firstNameTextController.text,
+                                    _model.lastNameTextController.text,
+                                  ),
+                                  contactNo: _model.phoneNumberTextController.text,
+                                  address: _model.address1TextController.text,
+                                  addresstwo: _model.address2TextController.text,
+                                  email: _model.emailTextController.text,
+                                  landmark: _model.landmarkTextController.text,
+                                  countryCode: _model.countryCodeValue,
+                                  city: _model.cityTextController.text,
+                                  pincode: _model.pinCodeTextController.text,
+                                  country: _model.countryId,
+                                  state: _model.stateId,
+                                );
+
+                                _shouldSetState = true;
+
+                                if ((_model.apiResult35l?.succeeded ?? true)) {
+                                  ScaffoldMessenger.of(context).clearSnackBars();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        getJsonField(
+                                          (_model.apiResult35l?.jsonBody ?? ''),
+                                          r'''$.msg''',
+                                        ).toString(),
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context).primaryBackground,
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor: Color(0xFF4BB543),
+                                    ),
+                                  );
+
+                                  FFAppState().statusFailed = getJsonField(
+                                    (_model.apiResult35l?.jsonBody ?? ''),
+                                    r'''$.status''',
+                                  ).toString();
+
+                                  setState(() {});
+
+                                  if (FFAppState().statusFailed == 'success') {
+                                    if (FFAppState().isDeliveryAddress) {
+                                      context.pushNamed(
+                                        'DeliveryAddress',
+                                        extra: <String, dynamic>{
+                                          kTransitionInfoKey: TransitionInfo(
+                                            hasTransition: true,
+                                            transitionType: PageTransitionType.bottomToTop,
+                                            duration: Duration(milliseconds: 400),
+                                          ),
+                                        },
+                                      );
+                                    } else {
+                                      context.pushNamed(
+                                        'MyAddresses',
+                                        extra: <String, dynamic>{
+                                          kTransitionInfoKey: TransitionInfo(
+                                            hasTransition: true,
+                                            transitionType: PageTransitionType.rightToLeft,
+                                            duration: Duration(milliseconds: 400),
+                                          ),
+                                        },
+                                      );
+                                    }
+                                  } else {
+                                    if (_shouldSetState) setState(() {});
+                                    return;
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).clearSnackBars();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        getJsonField(
+                                          (_model.apiResult35l?.jsonBody ?? ''),
+                                          r'''$.msg''',
+                                        ).toString(),
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context).primaryBackground,
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor: Color(0xFFFC100D),
+                                    ),
+                                  );
+                                  if (_shouldSetState) setState(() {});
+                                  return;
+                                }
+
+                                if (_shouldSetState) setState(() {});
+                              },
+                              text: 'Add',
+                              options: FFButtonOptions(
+                                height: 40.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(62.5, 11.0, 62.5, 11.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context).primary,
+                                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                   fontFamily: 'Montserrat',
                                   color: Colors.white,
                                   letterSpacing: 0.0,

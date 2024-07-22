@@ -121,7 +121,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                               ),
                               Form(
                                 key: _model.formKey2,
-                                autovalidateMode: AutovalidateMode.always,
+                                //autovalidateMode: AutovalidateMode.always,
                                 child: TextFormField(
                                   controller: _model.emailTextController,
                                   focusNode: _model.emailFocusNode,
@@ -216,7 +216,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                               ),
                               Form(
                                 key: _model.formKey1,
-                                autovalidateMode: AutovalidateMode.always,
+                                //autovalidateMode: AutovalidateMode.always,
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 24),
                                   child: Row(
@@ -314,117 +314,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 ),
                               ),
                               /*Align(
-                                alignment: AlignmentDirectional(0, 0),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 24),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      var _shouldSetState = false;
-                                      _model.apiResultjba = await LoginWithOTPCall.call(
-                                        email: _model.emailTextController.text,
-                                        mobileNumber: _model.phoneTextController.text,
-                                        countryCode: functions.operatorRemover(_model.dropDownValue),
-                                        hosturl: FFAppConstants.hosturl,
-                                      );
-                                      _shouldSetState = true;
-                                      if ((_model.apiResultjba?.succeeded ?? true)) {
-                                        ScaffoldMessenger.of(context).clearSnackBars();
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultjba?.jsonBody ?? ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: Color(0xFF4BB543),
-                                          ),
-                                        );
-                                        FFAppState().statusFailed = getJsonField(
-                                          (_model.apiResultjba?.jsonBody ?? ''),
-                                          r'''$.status''',
-                                        ).toString();
-                                        setState(() {});
-                                        if (FFAppState().statusFailed == 'success') {
-                                          context.pushNamed(
-                                            'SigninOTP',
-                                            queryParameters: {
-                                              'emailAddress': serializeParam(
-                                                _model.emailTextController.text,
-                                                ParamType.String,
-                                              ),
-                                              'phoneNumber': serializeParam(
-                                                _model.phoneTextController.text,
-                                                ParamType.String,
-                                              ),
-                                              'countryCode': serializeParam(
-                                                functions.operatorRemover(FFAppState().countrycode),
-                                                ParamType.String,
-                                              ),
-                                            }.withoutNulls,
-                                            extra: <String, dynamic>{
-                                              kTransitionInfoKey: TransitionInfo(
-                                                hasTransition: true,
-                                                transitionType: PageTransitionType.rightToLeft,
-                                                duration: Duration(milliseconds: 400),
-                                              ),
-                                            },
-                                          );
-                                        } else {
-                                          if (_shouldSetState) setState(() {});
-                                          return;
-                                        }
-                                      } else {
-                                        ScaffoldMessenger.of(context).clearSnackBars();
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultjba?.jsonBody ?? ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: Color(0xFFFC100D),
-                                          ),
-                                        );
-                                        if (_shouldSetState) setState(() {});
-                                        return;
-                                      }
-                                      if (_shouldSetState) setState(() {});
-                                    },
-                                    text: 'SEND OTP',
-                                    options: FFButtonOptions(
-                                      width: 160,
-                                      height: 48,
-                                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                      color: FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                        fontFamily: 'Montserrat',
-                                        color: Colors.white,
-                                        letterSpacing: 0,
-                                      ),
-                                      elevation: 0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                              ),*/
-                              Align(
                                 alignment: AlignmentDirectional(0, 0),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 24),
@@ -569,8 +458,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                     ),
                                   ),
                                 ),
-                              ),
-                              /*Align(
+                              ),*/
+                              Align(
                                 alignment: AlignmentDirectional(0, 0),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 24),
@@ -579,11 +468,12 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                       var _shouldSetState = false;
 
                                       // Validate email and phone number inputs
-                                      bool isEmailValid = _model.emailTextController.text.isNotEmpty && _model.phoneTextController.text.isEmpty;
-                                      bool isPhoneNumberValid = _model.phoneTextController.text.isNotEmpty && _model.emailTextController.text.isEmpty;
-                                      bool isCountryCodeValid = functions.operatorRemover(_model.dropDownValue)!.isNotEmpty;
+                                      bool isEmailValid = _model.emailTextController.text.isNotEmpty;
+                                      bool isPhoneNumberValid = _model.phoneTextController.text.isNotEmpty;
+                                      bool isCountryCodeValid = functions.operatorRemover(_model.dropDownValue) != null && functions.operatorRemover(_model.dropDownValue)!.isNotEmpty;
 
                                       if (!isEmailValid && !isPhoneNumberValid) {
+                                        ScaffoldMessenger.of(context).clearSnackBars();
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
                                             content: Text('Please enter either an email or a phone number.'),
@@ -595,6 +485,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                       }
 
                                       if (isPhoneNumberValid && !isCountryCodeValid) {
+                                        ScaffoldMessenger.of(context).clearSnackBars();
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
                                             content: Text('Please select a country code.'),
@@ -636,8 +527,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                           (_model.apiResultjba?.jsonBody ?? ''),
                                           r'''$.status''',
                                         ).toString();
+                                        FFAppState().countrycode = functions.operatorRemover(_model.dropDownValue) ?? '';
                                         setState(() {});
                                         if (FFAppState().statusFailed == 'success') {
+                                          print('Country Code: ${FFAppState().countrycode}');
                                           context.pushNamed(
                                             'SigninOTP',
                                             queryParameters: {
@@ -650,7 +543,152 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                 ParamType.String,
                                               ),
                                               'countryCode': serializeParam(
-                                                functions.operatorRemover(FFAppState().countrycode),
+                                                functions.operatorRemover(_model.dropDownValue) ?? '',
+                                                ParamType.String,
+                                              ),
+                                            }.withoutNulls,
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey: TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType: PageTransitionType.rightToLeft,
+                                                duration: Duration(milliseconds: 400),
+                                              ),
+                                            },
+                                          );
+                                        } else {
+                                          if (_shouldSetState) setState(() {});
+                                          return;
+                                        }
+                                      } else {
+                                        ScaffoldMessenger.of(context).clearSnackBars();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              getJsonField(
+                                                (_model.apiResultjba?.jsonBody ?? ''),
+                                                r'''$.msg''',
+                                              ).toString(),
+                                              style: TextStyle(
+                                                color: FlutterFlowTheme.of(context).primaryBackground,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            duration: Duration(milliseconds: 4000),
+                                            backgroundColor: Color(0xFFFC100D),
+                                          ),
+                                        );
+                                        if (_shouldSetState) setState(() {});
+                                        return;
+                                      }
+                                      if (_shouldSetState) setState(() {});
+                                    },
+                                    text: 'SEND OTP',
+                                    options: FFButtonOptions(
+                                      width: 160,
+                                      height: 48,
+                                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                      color: FlutterFlowTheme.of(context).primary,
+                                      textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                                        fontFamily: 'Montserrat',
+                                        color: Colors.white,
+                                        letterSpacing: 0,
+                                      ),
+                                      elevation: 0,
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              /*Align(
+                                alignment: AlignmentDirectional(0, 0),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 24),
+                                  child: FFButtonWidget(
+                                    onPressed: () async {
+                                      var _shouldSetState = false;
+
+                                      // Validate email and phone number inputs
+                                      bool isEmailValid = _model.emailTextController.text.isNotEmpty;
+                                      bool isPhoneNumberValid = _model.phoneTextController.text.isNotEmpty;
+                                      bool isCountryCodeValid = functions.operatorRemover(_model.dropDownValue) != null && functions.operatorRemover(_model.dropDownValue)!.isNotEmpty;
+
+                                      if (!isEmailValid && !isPhoneNumberValid) {
+                                        ScaffoldMessenger.of(context).clearSnackBars();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Please enter either an email or a phone number.'),
+                                            duration: Duration(milliseconds: 4000),
+                                            backgroundColor: Color(0xFFFC100D),
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      if (isPhoneNumberValid && !isCountryCodeValid) {
+                                        ScaffoldMessenger.of(context).clearSnackBars();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Please select a country code.'),
+                                            duration: Duration(milliseconds: 4000),
+                                            backgroundColor: Color(0xFFFC100D),
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      // Proceed with the API call if inputs are valid
+                                      _model.apiResultjba = await LoginWithOTPCall.call(
+                                        email: isEmailValid ? _model.emailTextController.text : '',
+                                        mobileNumber: isPhoneNumberValid ? _model.phoneTextController.text : '',
+                                        countryCode: isPhoneNumberValid ? functions.operatorRemover(_model.dropDownValue) : '',
+                                        hosturl: FFAppConstants.hosturl,
+                                      );
+                                      _shouldSetState = true;
+
+                                      if ((_model.apiResultjba?.succeeded ?? true)) {
+                                        ScaffoldMessenger.of(context).clearSnackBars();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              getJsonField(
+                                                (_model.apiResultjba?.jsonBody ?? ''),
+                                                r'''$.msg''',
+                                              ).toString(),
+                                              style: TextStyle(
+                                                color: FlutterFlowTheme.of(context).primaryBackground,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            duration: Duration(milliseconds: 4000),
+                                            backgroundColor: Color(0xFF4BB543),
+                                          ),
+                                        );
+                                        FFAppState().statusFailed = getJsonField(
+                                          (_model.apiResultjba?.jsonBody ?? ''),
+                                          r'''$.status''',
+                                        ).toString();
+                                        FFAppState().countrycode = functions.operatorRemover(_model.dropDownValue)!;
+                                        setState(() {});
+                                        if (FFAppState().statusFailed == 'success') {
+                                          print('Country Code: ${FFAppState().countrycode}');
+                                          context.pushNamed(
+                                            'SigninOTP',
+                                            queryParameters: {
+                                              'emailAddress': serializeParam(
+                                                _model.emailTextController.text,
+                                                ParamType.String,
+                                              ),
+                                              'phoneNumber': serializeParam(
+                                                _model.phoneTextController.text,
+                                                ParamType.String,
+                                              ),
+                                              'countryCode': serializeParam(
+                                                functions.operatorRemover(_model.dropDownValue),
                                                 ParamType.String,
                                               ),
                                             }.withoutNulls,

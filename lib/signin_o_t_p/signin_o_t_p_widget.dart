@@ -195,7 +195,7 @@ class _SigninOTPWidgetState extends State<SigninOTPWidget> {
                                   ),
                                 ],
                               ),
-                              Align(
+                              /*Align(
                                 alignment: AlignmentDirectional(0, 0),
                                 child: RichText(
                                   textScaler: MediaQuery.of(context).textScaler,
@@ -247,6 +247,111 @@ class _SigninOTPWidgetState extends State<SigninOTPWidget> {
                                       letterSpacing: 0,
                                     ),
                                   ),
+                                ),
+                              ),*/
+                              Align(
+                                alignment: AlignmentDirectional(0, 0),
+                                child: Builder(
+                                  builder: (context) {
+                                    if ((widget!.phoneNumber != null && widget!.phoneNumber != '') &&
+                                        (widget!.countryCode != null && widget!.countryCode != '')) {
+                                      return RichText(
+                                        textScaler: MediaQuery.of(context).textScaler,
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: 'OTP has been sent on ',
+                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                letterSpacing: 0,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: '+',
+                                              style: TextStyle(
+                                                color: FlutterFlowTheme.of(context).primary,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: valueOrDefault<String>(
+                                                widget!.countryCode,
+                                                '+91',
+                                              ),
+                                              style: TextStyle(
+                                                color: FlutterFlowTheme.of(context).primary,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: '-',
+                                              style: TextStyle(
+                                                color: FlutterFlowTheme.of(context).primary,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: valueOrDefault<String>(
+                                                widget!.phoneNumber,
+                                                '993521178',
+                                              ),
+                                              style: TextStyle(
+                                                color: FlutterFlowTheme.of(context).primary,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
+                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                            fontFamily: 'Montserrat',
+                                            letterSpacing: 0,
+                                          ),
+                                        ),
+                                      );
+                                    } else if (widget!.emailAddress != null &&
+                                        widget!.emailAddress != '') {
+                                      return RichText(
+                                        textScaler: MediaQuery.of(context).textScaler,
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: 'OTP has been sent on ',
+                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                fontFamily: 'Montserrat',
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                letterSpacing: 0,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: valueOrDefault<String>(
+                                                widget!.emailAddress,
+                                                'example@mail.com',
+                                              ),
+                                              style: TextStyle(
+                                                color: FlutterFlowTheme.of(context).primary,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12,
+                                              ),
+                                            )
+                                          ],
+                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                            fontFamily: 'Montserrat',
+                                            letterSpacing: 0,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return Container();
+                                    }
+                                  },
                                 ),
                               ),
                               Padding(

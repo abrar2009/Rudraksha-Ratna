@@ -402,6 +402,7 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 120),
                           child: FFButtonWidget(
                             onPressed: () async {
+                              FFAppState().isDeliveryAddress = true;
                               context.pushNamed(
                                 'AddNewAddress',
                                 extra: <String, dynamic>{
@@ -452,6 +453,56 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                       ),
                     );
                   } : () async {
+                    // Fetch cart details
+                    /*_model.fetchCartforShipping = await CartCall.call(
+                      hosturl: FFAppConstants.hosturl,
+                      token: currentAuthenticationToken,
+                    );
+
+                    // Check if the cart API call was successful and contains data
+                    if (_model.fetchCartforShipping != null && _model.fetchCartforShipping?.jsonBody['data'] != null) {
+                      List<dynamic> cartData = _model.fetchCartforShipping?.jsonBody['data'];
+
+                      // Map cart items to Product objects
+                      List<Product> products = cartData.map((cartListItem) {
+                        return Product.fromJson(cartListItem);
+                      }).toList();
+
+                      // Fetch checkout details
+                      _model.fetchShippingOutput = await FetchcheckoutDetailsCall.call(
+                        hosturl: FFAppConstants.hosturl,
+                        shippingCountry: FFAppState().countryName,
+                        shippingMethod: 'fedex',
+                        rewardUsed: false,
+                        couponCode: FFAppState().couponCode,
+                        products: products,
+                        token: currentAuthenticationToken,
+                      );
+
+                      final requestData2 = {
+                        'hosturl': FFAppConstants.hosturl,
+                        'shippingCountry': FFAppState().countryName,
+                        'shippingMethod': 'fedex',
+                        'rewardUsed': false,
+                        'couponCode': FFAppState().couponCode,
+                        'products': products,
+                        'token': currentAuthenticationToken,
+                      };
+
+                      print('Reuest  Data 2: $requestData2');
+
+                      // Handle the response from FetchcheckoutDetailsCall
+                      if (_model.fetchShippingOutput != null && _model.fetchShippingOutput?.jsonBody['data'] != null) {
+                        // Process the shipping output as needed
+                        var shippingDetails = _model.fetchShippingOutput?.jsonBody['data'];
+                        print("Shipping Details: $shippingDetails");
+                      } else {
+                        print("Failed to fetch shipping details");
+                      }
+                    } else {
+                      print("Failed to fetch cart details");
+                    }*/
+
                     // Prepare the request data
                     final requestData = {
                       'hosturl': FFAppConstants.hosturl,

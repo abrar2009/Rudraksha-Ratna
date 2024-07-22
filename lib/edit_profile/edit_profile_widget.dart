@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../flutter_flow/custom_functions.dart';
 import '../flutter_flow/upload_data.dart';
 import '/auth/custom_auth/auth_util.dart';
@@ -25,6 +29,7 @@ class EditProfileWidget extends StatefulWidget {
 class _EditProfileWidgetState extends State<EditProfileWidget> {
   late EditProfileModel _model;
   File? _selectedImage;
+  String? _cachedImagePath;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -36,7 +41,30 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
     _model.lastNameFocusNode ??= FocusNode();
     _model.emailFocusNode ??= FocusNode();
     _model.phoneNoFocusNode ??= FocusNode();
+    _loadCachedImagePath();
   }
+
+  Future<void> _loadCachedImagePath() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _cachedImagePath = prefs.getString('cachedImagePath');
+      if (_cachedImagePath != null) {
+        _selectedImage = File(_cachedImagePath!);
+      }
+    });
+  }
+
+  Future<File> getCachedImageFile(File imageFile) async {
+    final directory = await getTemporaryDirectory();
+    final fileName = imageFile.uri.pathSegments.last;
+    final cachedFile = File('${directory.path}/$fileName');
+    if (!await cachedFile.exists()) {
+      await imageFile.copy(cachedFile.path);
+    }
+    return cachedFile;
+  }
+
+
 
   @override
   void dispose() {
@@ -145,11 +173,22 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                   ),
                                 ),*/
                                 // Display uploaded or selected image
-                                Align(
+                                /*Align(
                                   alignment: AlignmentDirectional(-0.07, -0.77),
                                   child: _selectedImage != null
                                       ? ClipRRect(
                                     borderRadius: BorderRadius.circular(60),
+                                    child: Image.file(
+                                      _selectedImage!,
+                                      width: 120,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ) : Container(
+                                    width: 120,
+                                    height: 120,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(shape: BoxShape.circle,),
                                     child: Image.network(
                                       getJsonField(
                                         columnCustomerDetailsResponse.jsonBody,
@@ -157,18 +196,37 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                       ).toString(),
                                       fit: BoxFit.cover,
                                     ),
-                                  ) : Container(
-                                        width: 120,
-                                        height: 120,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(shape: BoxShape.circle,),
-                                        child: Image.asset(
-                                          'assets/images/Ellipse_71_(1).png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                ), // Placeholder if no image is selected
+                                  ),
+                                ),*/ // Placeholder if no image is selected
 
+                                Align(
+                                  alignment: AlignmentDirectional(-0.07, -0.77),
+                                  child: _selectedImage != null
+                                      ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(60),
+                                    child: Image.memory(
+                                      _selectedImage!.readAsBytesSync(),
+                                      width: 120,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ) : Container(
+                                    width: 120,
+                                    height: 120,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(shape: BoxShape.circle),
+                                    child: CachedNetworkImage(
+                                      imageUrl: getJsonField(
+                                        columnCustomerDetailsResponse.jsonBody,
+                                        r'''$.data.profilepic''',
+                                      ).toString(),
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => CircularProgressIndicator(
+                                        color: FlutterFlowTheme.of(context).primary,),
+                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                    ),
+                                  ),
+                                ),
                                 // Camera icon to trigger image selection
                                 Align(
                                   alignment: AlignmentDirectional(0.19, 0.39),
@@ -178,7 +236,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                       await selectMediaWithSourceBottomSheet(context, allowMultiple: false);
                                       if (selectedMedia.isNotEmpty &&
                                           validateFileFormat(selectedMedia.first.path, context)) {
-                                        setState(() {
+                                        setState(() async {
                                           _selectedImage = File(selectedMedia.first.path);
                                         });
                                       }
@@ -529,20 +587,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 60),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          String? filename;
-                          if (_selectedImage != null) {
-                            filename = _selectedImage!.path.split('/').last; // Extract filename from path
-                            // Ensure filename doesn't have 'File: ' prefix
-                            if (filename.startsWith('File: ')) {
-                              filename = filename.substring('File: '.length);
-                            }
-                          }
-
-                          FFUploadedFile uploadedFile = FFUploadedFile(
-                            name: path.basename(_selectedImage!.path),
-                            bytes: await _selectedImage!.readAsBytes(),
-                          );
-
+                          FFAppState().imagePath = _selectedImage.toString();
+                          print('FFAppState imagePath: ${FFAppState().imagePath}');
                           // Regular expression to match alphabetic characters
                           final nameRegExp = RegExp(r'^[a-zA-Z]+$');
 
@@ -574,6 +620,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           print('Customer Name: ${_model.firstNameTextController.text}');
                           print('Token: $currentAuthenticationToken');
                           print('Profile Image: $_selectedImage');
+                          print('FFAppState imagePath: ${FFAppState().imagePath}');
 
                           _model.apiResultt41 = await UpdateCustomerCall.call(
                             email: _model.emailTextController.text,
@@ -585,7 +632,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                               _model.lastNameTextController.text,
                             ),
                             token: currentAuthenticationToken,
-                            imagePath: _selectedImage.toString()
+                            imagePath: _selectedImage
                           );
 
                           final requestData = {
@@ -596,7 +643,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                               _model.firstNameTextController.text,
                               _model.lastNameTextController.text,
                             ),
-                            'profilepic': base64Encode(uploadedFile.bytes!)
+                            'profilepic': _selectedImage
                           };
 
                           print('Profile Request Body: $requestData');

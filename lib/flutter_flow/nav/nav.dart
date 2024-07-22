@@ -303,6 +303,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'orderId',
               ParamType.int,
             ),
+            invoiceNo: params.getParam(
+              'invoiceNo',
+              ParamType.String,
+            ),
             productIndex: params.getParam(
               'productIndex',
               ParamType.int,

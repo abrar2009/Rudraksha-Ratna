@@ -18,6 +18,8 @@ class FreeGiftComponentModel extends FlutterFlowModel<FreeGiftComponentWidget> {
 
   String? coupenCode;
 
+  double? coupenValue;
+
   @override
   void initState(BuildContext context) {}
 

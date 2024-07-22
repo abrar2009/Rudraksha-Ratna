@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-
 import '../auth/custom_auth/auth_util.dart';
 import '../flutter_flow/custom_functions.dart';
 import '/backend/api_requests/api_calls.dart';
@@ -138,9 +137,7 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                       quantity: FFAppState().quantity,
                       design: FFAppState().desingId,
                       energization: FFAppState().energizationId,
-                      certification:
-                          (FFAppState().selectedCertificationId ?? '0')
-                              .toString(),
+                      certification: (FFAppState().selectedCertificationId ?? '0').toString(),
                     ),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
@@ -193,108 +190,77 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                             return Column(
                                               mainAxisSize: MainAxisSize.max,
                                               children: List.generate(cartList.length,
-                                                      (cartListIndex) {
-                                                    final cartListItem =
-                                                    cartList[cartListIndex];
-                                                    return Container(
-                                                      width: double.infinity,
-                                                      height: 72,
-                                                      decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                        border: Border.all(
-                                                          color: Color(0xFFE7E7E8),
+                                                  (cartListIndex) {
+                                                final cartListItem = cartList[cartListIndex];
+                                                return Container(
+                                                  width: double.infinity,
+                                                  height: 72,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                    border: Border.all(
+                                                      color: Color(0xFFE7E7E8),
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius: BorderRadius.circular(8),
+                                                          child: Image.network(
+                                                            getJsonField(
+                                                              cartListItem,
+                                                              r'''$.thumbnail_image''',
+                                                            ).toString(),
+                                                            width: 50,
+                                                            height: 48,
+                                                            fit: BoxFit.cover,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      child: Padding(
-                                                        padding: EdgeInsetsDirectional
-                                                            .fromSTEB(16, 0, 0, 0),
-                                                        child: Row(
-                                                          mainAxisSize: MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.start,
-                                                          children: [
-                                                            ClipRRect(
-                                                              borderRadius:
-                                                              BorderRadius.circular(
-                                                                  8),
-                                                              child: Image.network(
-                                                                getJsonField(
-                                                                  cartListItem,
-                                                                  r'''$.thumbnail_image''',
-                                                                ).toString(),
-                                                                width: 50,
-                                                                height: 48,
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                  18, 0, 0, 0),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                MainAxisSize.max,
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                                crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                                children: [
-                                                                  Container(
-                                                                    width: 250,
-                                                                    child: Text(
-                                                                      getJsonField(
-                                                                        cartListItem,
-                                                                        r'''$.product_name''',
-                                                                      ).toString(),
-                                                                      style: FlutterFlowTheme
-                                                                          .of(context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                        fontFamily:
-                                                                        'Montserrat',
-                                                                        color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                            .primaryText,
-                                                                        fontSize: 13,
-                                                                        letterSpacing:
-                                                                        0,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                      ),
-                                                                    ),
+                                                        Padding(
+                                                          padding: EdgeInsetsDirectional.fromSTEB(18, 0, 0, 0),
+                                                          child: Column(
+                                                            mainAxisSize: MainAxisSize.max,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Container(
+                                                                width: 250,
+                                                                child: Text(
+                                                                  getJsonField(
+                                                                    cartListItem,
+                                                                    r'''$.product_name''',
+                                                                  ).toString(),
+                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                    fontFamily: 'Montserrat',
+                                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                                    fontSize: 13,
+                                                                    letterSpacing: 0,
+                                                                    fontWeight: FontWeight.w500,
                                                                   ),
-                                                                  Text(
-                                                                    'View Details',
-                                                                    style: FlutterFlowTheme
-                                                                        .of(context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                      fontFamily:
-                                                                      'Montserrat',
-                                                                      color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                          .primary,
-                                                                      fontSize: 12,
-                                                                      letterSpacing:
-                                                                      0,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                    ),
-                                                                  ),
-                                                                ].divide(
-                                                                    SizedBox(height: 8)),
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ],
+                                                              Text(
+                                                                'View Details',
+                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                  fontFamily: 'Montserrat',
+                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                  fontSize: 12,
+                                                                  letterSpacing: 0,
+                                                                  fontWeight: FontWeight.w500,
+                                                                ),
+                                                              ),
+                                                            ].divide(SizedBox(height: 8)),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  }),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
                                             );
                                           },
                                         );
@@ -303,46 +269,28 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Padding(
-                                              padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 16, 0, 0),
+                                              padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                                               child: Container(
                                                 width: double.infinity,
                                                 height: 72,
                                                 decoration: BoxDecoration(
-                                                  color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
+                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
                                                   border: Border.all(
                                                     color: Color(0xFFE7E7E8),
                                                   ),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(16, 0, 0, 0),
+                                                  padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                                                   child: Row(
-                                                    mainAxisSize:
-                                                    MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
                                                     children: [
                                                       ClipRRect(
-                                                        borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                        child:    CachedNetworkImage(
-                                                          fadeInDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              100),
-                                                          fadeOutDuration:
-                                                          Duration(
-                                                              milliseconds:
-                                                              100),
-                                                          imageUrl:
-                                                          getJsonField(
-                                                            columnBuyNowResponse
-                                                                .jsonBody,
+                                                        borderRadius: BorderRadius.circular(8),
+                                                        child: CachedNetworkImage(
+                                                          fadeInDuration: Duration(milliseconds: 100),
+                                                          fadeOutDuration: Duration(milliseconds: 100),
+                                                          imageUrl: getJsonField(columnBuyNowResponse.jsonBody,
                                                             r'''$.data[0].thumbnail_image''',
                                                           ).toString(),
                                                           width: 50,
@@ -351,60 +299,36 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                         ),
                                                       ),
                                                       Padding(
-                                                        padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                            18, 0, 0, 0),
+                                                        padding: EdgeInsetsDirectional.fromSTEB(18, 0, 0, 0),
                                                         child: Column(
-                                                          mainAxisSize:
-                                                          MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                          mainAxisSize: MainAxisSize.max,
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             Container(
                                                               width: 80,
                                                               child: Text(
                                                                 getJsonField(columnBuyNowResponse.jsonBody,r'''$.data[:].product_name''',).toString(),
                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                  fontFamily:
-                                                                  'Montserrat',
-                                                                  color: FlutterFlowTheme.of(
-                                                                      context)
-                                                                      .primaryText,
+                                                                  fontFamily: 'Montserrat',
+                                                                  color: FlutterFlowTheme.of(context).primaryText,
                                                                   fontSize: 13,
-                                                                  letterSpacing:
-                                                                  0,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
+                                                                  letterSpacing: 0,
+                                                                  fontWeight: FontWeight.w500,
                                                                 ),
                                                               ),
                                                             ),
                                                             Text(
                                                               'View Details',
-                                                              style: FlutterFlowTheme
-                                                                  .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                fontFamily:
-                                                                'Montserrat',
-                                                                color: FlutterFlowTheme.of(
-                                                                    context)
-                                                                    .primary,
+                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                fontFamily: 'Montserrat',
+                                                                color: FlutterFlowTheme.of(context).primary,
                                                                 fontSize: 12,
-                                                                letterSpacing:
-                                                                0,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500,
+                                                                letterSpacing: 0,
+                                                                fontWeight: FontWeight.w500,
                                                               ),
                                                             ),
-                                                          ].divide(SizedBox(
-                                                              height: 8)),
+                                                          ].divide(SizedBox(height: 8)),
                                                         ),
                                                       ),
                                                     ],
@@ -422,40 +346,30 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                     width: double.infinity,
                                     height: 159,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      color: FlutterFlowTheme.of(context).secondaryBackground,
                                       border: Border.all(
                                         color: Color(0xFFE7E7E8),
                                       ),
                                     ),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16, 10, 16, 0),
+                                          padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               Text(
                                                 'Ship to',
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyMedium
-                                                    .override(
+                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                       fontFamily: 'Montserrat',
                                                       color: Color(0xFF696969),
                                                       fontSize: 15,
                                                       letterSpacing: 0,
-                                                      fontWeight:
-                                                          FontWeight.w500,
+                                                      fontWeight: FontWeight.w500,
                                                     ),
                                               ),
                                               Container(
@@ -463,86 +377,55 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                 decoration: BoxDecoration(),
                                                 child: Text(
                                                   '${widget.address1}, ${widget.address2}, ${widget.city}, ${widget.state}, ${widget.pinCode}',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        fontFamily: 'Montserrat',
                                                         letterSpacing: 0,
                                                       ),
                                                 ),
                                               ),
                                               Icon(
                                                 Icons.arrow_forward_ios,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
+                                                color: FlutterFlowTheme.of(context).secondaryText,
                                                 size: 24,
                                               ),
                                             ],
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16, 5, 0, 5),
+                                          padding: EdgeInsetsDirectional.fromSTEB(16, 5, 0, 5),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Theme(
                                                 data: ThemeData(
-                                                  checkboxTheme:
-                                                      CheckboxThemeData(
-                                                    visualDensity:
-                                                        VisualDensity.compact,
-                                                    materialTapTargetSize:
-                                                        MaterialTapTargetSize
-                                                            .shrinkWrap,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
+                                                  checkboxTheme: CheckboxThemeData(
+                                                    visualDensity: VisualDensity.compact,
+                                                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(4),
                                                     ),
                                                   ),
-                                                  unselectedWidgetColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryText,
+                                                  unselectedWidgetColor: FlutterFlowTheme.of(context).secondaryText,
                                                 ),
                                                 child: Checkbox(
-                                                  value: _model
-                                                      .checkboxValue1 ??= false,
+                                                  value: _model.checkboxValue1 ??= false,
                                                   onChanged: (newValue) async {
-                                                    setState(() =>
-                                                        _model.checkboxValue1 =
-                                                            newValue!);
+                                                    setState(() => _model.checkboxValue1 = newValue!);
                                                   },
                                                   side: BorderSide(
                                                     width: 2,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
+                                                    color: FlutterFlowTheme.of(context).secondaryText,
                                                   ),
-                                                  activeColor:
-                                                      Color(0xFF740074),
-                                                  checkColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .info,
+                                                  activeColor: Color(0xFF740074),
+                                                  checkColor: FlutterFlowTheme.of(context).info,
                                                 ),
                                               ),
                                               Text(
                                                 'Billing address as same as shipping address',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              'Montserrat',
-                                                          letterSpacing: 0,
-                                                        ),
+                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                  fontFamily: 'Montserrat',
+                                                  letterSpacing: 0,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -551,23 +434,17 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                           width: 327,
                                           height: 30,
                                           decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            borderRadius:
-                                                BorderRadius.circular(4),
+                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                            borderRadius: BorderRadius.circular(4),
                                             border: Border.all(
                                               color: Color(0xFFE7E7E8),
                                             ),
                                           ),
                                           child: Align(
-                                            alignment:
-                                                AlignmentDirectional(0, 0),
+                                            alignment: AlignmentDirectional(0, 0),
                                             child: Text(
                                               ' + Add billing address',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
+                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                     fontFamily: 'Montserrat',
                                                     color: Color(0xFF696969),
                                                     fontSize: 13,
@@ -649,21 +526,15 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
+                                                    padding: EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
                                                     child: Text(
                                                       'Apply Coupon',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 16,
-                                                            letterSpacing: 0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
+                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        fontFamily: 'Montserrat',
+                                                        fontSize: 16,
+                                                        letterSpacing: 0,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -684,15 +555,13 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                     width: double.infinity,
                                     height: 80,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      color: FlutterFlowTheme.of(context).secondaryBackground,
                                       border: Border.all(
                                         color: Color(0xFFE7E7E8),
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16, 14, 16, 14),
+                                      padding: EdgeInsetsDirectional.fromSTEB(16, 14, 16, 14),
                                       child: InkWell(
                                         splashColor: Colors.transparent,
                                         focusColor: Colors.transparent,
@@ -705,17 +574,11 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                             context: context,
                                             builder: (context) {
                                               return GestureDetector(
-                                                onTap: () => _model.unfocusNode
-                                                        .canRequestFocus
-                                                    ? FocusScope.of(context)
-                                                        .requestFocus(
-                                                            _model.unfocusNode)
-                                                    : FocusScope.of(context)
-                                                        .unfocus(),
+                                                onTap: () => _model.unfocusNode.canRequestFocus
+                                                    ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                                                    : FocusScope.of(context).unfocus(),
                                                 child: Padding(
-                                                  padding:
-                                                      MediaQuery.viewInsetsOf(
-                                                          context),
+                                                  padding: MediaQuery.viewInsetsOf(context),
                                                   child: Container(
                                                     height: 734,
                                                     child: const SelectFreeGiftWidget(),
@@ -723,51 +586,37 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                 ),
                                               );
                                             },
-                                          ).then(
-                                              (value) => safeSetState(() {}));
+                                          ).then((value) => safeSetState(() {}));
                                         },
                                         child: Container(
                                           width: 343,
                                           height: 50,
                                           decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
+                                            color: FlutterFlowTheme.of(context).secondaryBackground,
                                             boxShadow: [
                                               BoxShadow(
                                                 blurRadius: 4,
                                                 color: Color(0x14000014),
-                                                offset: Offset(
-                                                  0,
-                                                  2,
-                                                ),
+                                                offset: Offset(0, 2,),
                                                 spreadRadius: 0,
                                               )
                                             ],
                                           ),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
                                                   Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16, 0, 0, 0),
+                                                    padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                                                     child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                        bottomLeft:
-                                                            Radius.circular(0),
-                                                        bottomRight:
-                                                            Radius.circular(0),
-                                                        topLeft:
-                                                            Radius.circular(0),
-                                                        topRight:
-                                                            Radius.circular(0),
+                                                      borderRadius: BorderRadius.only(
+                                                        bottomLeft: Radius.circular(0),
+                                                        bottomRight: Radius.circular(0),
+                                                        topLeft: Radius.circular(0),
+                                                        topRight: Radius.circular(0),
                                                       ),
                                                       child: Image.asset(
                                                         'assets/images/giftbox_1.png',
@@ -778,32 +627,22 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                25, 0, 0, 0),
+                                                    padding: EdgeInsetsDirectional.fromSTEB(25, 0, 0, 0),
                                                     child: Text(
                                                       'Select a Free Gift',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            fontSize: 16,
-                                                            letterSpacing: 0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
+                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        fontFamily: 'Montserrat',
+                                                        fontSize: 16,
+                                                        letterSpacing: 0,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                               Icon(
                                                 Icons.arrow_forward_ios,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
+                                                color: FlutterFlowTheme.of(context).secondaryText,
                                                 size: 22,
                                               ),
                                             ],
@@ -815,78 +654,51 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                   Container(
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      color: FlutterFlowTheme.of(context).secondaryBackground,
                                       border: Border.all(
                                         color: Color(0xFFE7E7E8),
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16, 10, 16, 5),
+                                      padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 5),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Order Summary',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Montserrat',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                  fontSize: 16,
-                                                  letterSpacing: 0,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
+                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                              fontFamily: 'Montserrat',
+                                              color: FlutterFlowTheme.of(context).primaryText,
+                                              fontSize: 16,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                           Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 9, 0, 0),
+                                            padding: EdgeInsetsDirectional.fromSTEB(0, 9, 0, 0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
                                                   'Product',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryText,
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        fontFamily: 'Montserrat',
+                                                        color: FlutterFlowTheme.of(context).primaryText,
                                                         fontSize: 15,
                                                         letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                        fontWeight: FontWeight.w600,
                                                       ),
                                                 ),
                                                 Text(
                                                   'Amount',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryText,
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        fontFamily: 'Montserrat',
+                                                        color: FlutterFlowTheme.of(context).primaryText,
                                                         fontSize: 15,
                                                         letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                        fontWeight: FontWeight.w600,
                                                       ),
                                                 ),
                                               ],
@@ -904,22 +716,14 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                     return Column(
                                                       mainAxisSize: MainAxisSize.max,
                                                       children: List.generate(
-                                                          cartProducts.length,
-                                                              (cartProductsIndex) {
-                                                            final cartProductsItem =
-                                                            cartProducts[
-                                                            cartProductsIndex];
+                                                          cartProducts.length, (cartProductsIndex) {
+                                                            final cartProductsItem = cartProducts[cartProductsIndex];
+
                                                             return Padding(
-                                                              padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                  0, 9, 0, 0),
+                                                              padding: EdgeInsetsDirectional.fromSTEB(0, 9, 0, 0),
                                                               child: Row(
-                                                                mainAxisSize:
-                                                                MainAxisSize.max,
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
+                                                                mainAxisSize: MainAxisSize.max,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                 children: [
                                                                   Container(
                                                                     width: 250,
@@ -928,63 +732,37 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                                         cartProductsItem,
                                                                         r'''$.product_name''',
                                                                       ).toString(),
-                                                                      style: FlutterFlowTheme
-                                                                          .of(context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                        fontFamily:
-                                                                        'Montserrat',
-                                                                        color: Color(
-                                                                            0xFF222222),
+                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                        fontFamily: 'Montserrat',
+                                                                        color: Color(0xFF222222),
                                                                         fontSize: 14,
-                                                                        letterSpacing:
-                                                                        0,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
+                                                                        letterSpacing: 0,
+                                                                        fontWeight: FontWeight.normal,
                                                                       ),
                                                                     ),
                                                                   ),
                                                                   Align(
-                                                                    alignment:
-                                                                    AlignmentDirectional(
-                                                                        -1, 0),
+                                                                    alignment: AlignmentDirectional(-1, 0),
                                                                     child: Text(
                                                                       '${valueOrDefault<String>(
-                                                                        FFAppState()
-                                                                            .currencyName,
+                                                                        FFAppState().currencyName,
                                                                         'INR',
                                                                       )} ${formatNumber(
                                                                         currencyConversion(
-                                                                            FFAppState()
-                                                                                .currencyRate,
+                                                                            FFAppState().currencyRate,
                                                                             getJsonField(
-                                                                              cartProductsItem,
-                                                                              r'''$.selling_price''',
+                                                                              cartProductsItem, r'''$.selling_price''',
                                                                             ).toString()),
-                                                                        formatType:
-                                                                        FormatType
-                                                                            .decimal,
-                                                                        decimalType:
-                                                                        DecimalType
-                                                                            .automatic,
+                                                                        formatType: FormatType.decimal,
+                                                                        decimalType: DecimalType.automatic,
                                                                       )}',
-                                                                      textAlign:
-                                                                      TextAlign.start,
-                                                                      style: FlutterFlowTheme
-                                                                          .of(context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                        fontFamily:
-                                                                        'Montserrat',
-                                                                        color: Color(
-                                                                            0xFF222222),
+                                                                      textAlign: TextAlign.start,
+                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                        fontFamily: 'Montserrat',
+                                                                        color: Color(0xFF222222),
                                                                         fontSize: 14,
-                                                                        letterSpacing:
-                                                                        0,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
+                                                                        letterSpacing: 0,
+                                                                        fontWeight: FontWeight.normal,
                                                                       ),
                                                                     ),
                                                                   ),
@@ -999,32 +777,21 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                 return Builder(
                                                   builder: (context) {
                                                     return Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         Container(
                                                           width: 250,
                                                           child: Text(
                                                             getJsonField(
-                                                              columnBuyNowResponse
-                                                                  .jsonBody,
+                                                              columnBuyNowResponse.jsonBody,
                                                               r'''$.data[:].product_name''',
                                                             ).toString(),
-                                                            style: FlutterFlowTheme
-                                                                .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              color: Color(
-                                                                  0xFF222222),
+                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                              fontFamily: 'Montserrat',
+                                                              color: Color(0xFF222222),
                                                               fontSize: 14,
-                                                              letterSpacing:
-                                                              0,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .normal,
+                                                              letterSpacing: 0,
+                                                              fontWeight: FontWeight.normal,
                                                             ),
                                                           ),
                                                         ),
@@ -1034,19 +801,12 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                                 .jsonBody,
                                                             r'''$.data[:].selling_price''',
                                                           ).toString(),
-                                                          style: FlutterFlowTheme
-                                                              .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color: Color(
-                                                                0xFF222222),
+                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                            fontFamily: 'Montserrat',
+                                                            color: Color(0xFF222222),
                                                             fontSize: 14,
                                                             letterSpacing: 0,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .normal,
+                                                            fontWeight: FontWeight.normal,
                                                           ),
                                                         ),
                                                       ],
@@ -1062,41 +822,29 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                 return Padding(padding: EdgeInsetsDirectional.fromSTEB(0, 9, 0, 0),
                                                   child: Row(
                                                     mainAxisSize: MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       Text(
                                                         'Subtotal',
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
-                                                            .bodyMedium
-                                                            .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          color:
-                                                          Color(0xFF222222),
+                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                          fontFamily: 'Montserrat',
+                                                          color: Color(0xFF222222),
                                                           fontSize: 14,
                                                           letterSpacing: 0,
-                                                          fontWeight:
-                                                          FontWeight.normal,
+                                                          fontWeight: FontWeight.w500,
                                                         ),
                                                       ),
                                                       Align(
-                                                        alignment:
-                                                        AlignmentDirectional(
-                                                            -1, 0),
+                                                        alignment: AlignmentDirectional(-1, 0),
                                                         child: Text(
                                                           '${valueOrDefault<String>(
                                                             FFAppState().currencyName,
                                                             'INR',
                                                           )} ${formatNumber(
                                                             currencyConversion(
-                                                                FFAppState()
-                                                                    .currencyRate,
+                                                                FFAppState().currencyRate,
                                                                 getJsonField(
-                                                                  stackCartResponse
-                                                                      .jsonBody,
+                                                                  stackCartResponse.jsonBody,
                                                                   r'''$.cart_total''',
                                                                 ).toString()),
                                                             formatType:
@@ -1105,18 +853,12 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                             DecimalType.automatic,
                                                           )}',
                                                           textAlign: TextAlign.start,
-                                                          style: FlutterFlowTheme.of(
-                                                              context)
-                                                              .bodyMedium
-                                                              .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color:
-                                                            Color(0xFF222222),
+                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                            fontFamily: 'Montserrat',
+                                                            color: Color(0xFF222222),
                                                             fontSize: 14,
                                                             letterSpacing: 0,
-                                                            fontWeight:
-                                                            FontWeight.normal,
+                                                            fontWeight: FontWeight.w500,
                                                           ),
                                                         ),
                                                       ),
@@ -1125,85 +867,43 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                 );
                                               } else {
                                                 return Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0, 9, 0, 0),
+                                                  padding: EdgeInsetsDirectional.fromSTEB(0, 9, 0, 0),
                                                   child: Row(
-                                                    mainAxisSize:
-                                                    MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       Text(
                                                         'Subtotal',
-                                                        style: FlutterFlowTheme
-                                                            .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          color: Color(
-                                                              0xFF222222),
+                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                          fontFamily: 'Montserrat',
+                                                          color: Color(0xFF222222),
                                                           fontSize: 14,
                                                           letterSpacing: 0,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .normal,
+                                                          fontWeight: FontWeight.normal,
                                                         ),
                                                       ),
-                                                      // Generated code for this Text Widget...
-                                                      /*Text(
-                                            formatPriceWithCommas(getJsonField(
-                                              stackCartResponse.jsonBody,
-                                              r'''$.cart_total''',
-                                            )),
-                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xFF222222),
-                                              fontSize: 14,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          )*/
                                                       Align(
-                                                        alignment:
-                                                        AlignmentDirectional(
-                                                            -1, 0),
+                                                        alignment: AlignmentDirectional(-1, 0),
                                                         child: Text(
                                                           '${valueOrDefault<String>(
-                                                            FFAppState()
-                                                                .currencyName,
-                                                            'INR',
-                                                          )} ${formatNumber(
+                                                            FFAppState().currencyName,
+                                                            'INR',)} ${formatNumber(
                                                             currencyConversion(
-                                                                FFAppState()
-                                                                    .currencyRate,
+                                                                FFAppState().currencyRate,
                                                                 getJsonField(
-                                                                  columnBuyNowResponse
-                                                                      .jsonBody,
-                                                                  r'''$.data[:].productsubtotal''',
-                                                                ).toString()),
-                                                            formatType: FormatType
-                                                                .decimal,
-                                                            decimalType:
-                                                            DecimalType
-                                                                .automatic,
+                                                                  columnBuyNowResponse.jsonBody,
+                                                                  r'''$.data[:].productsubtotal''',).toString()),
+                                                            formatType: FormatType.decimal,
+                                                            decimalType: DecimalType.automatic,
                                                           )}',
                                                           textAlign:
                                                           TextAlign.start,
-                                                          style: FlutterFlowTheme
-                                                              .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color: Color(
-                                                                0xFF222222),
+                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                            fontFamily: 'Montserrat',
+                                                            color: Color(0xFF222222),
                                                             fontSize: 14,
                                                             letterSpacing: 0,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .normal,
+                                                            fontWeight: FontWeight.normal,
                                                           ),
                                                         ),
                                                       ),
@@ -1213,76 +913,58 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                               }
                                             },
                                           ),
+                                          if(FFAppState().couponCode.isNotEmpty)
                                           Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 9, 0, 0),
+                                            padding: EdgeInsetsDirectional.fromSTEB(0, 9, 0, 0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Discount 10%',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF009D48),
-                                                        fontSize: 14,
-                                                        letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
+                                                  'Discount',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    fontFamily: 'Montserrat',
+                                                    color: Color(0xFF009D48),
+                                                    fontSize: 14,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
                                                 Text(
-                                                  'INR 51,000',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF009D48),
-                                                        fontSize: 14,
-                                                        letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
+                                                  '-${formatNumber(
+                                                      getJsonField(
+                                                            stackCartResponse.jsonBody,
+                                                            r'''$.cart_total''',
+                                                          ) * (FFAppState().couponValue / 100),
+                                                      formatType: FormatType.decimal,
+                                                      decimalType: DecimalType.automatic,
+                                                    )}',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    fontFamily: 'Montserrat',
+                                                    color: Color(0xFF009D48),
+                                                    fontSize: 14,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
                                           Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 9, 0, 0),
+                                            padding: EdgeInsetsDirectional.fromSTEB(0, 9, 0, 0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
                                                   'Shipping Charges',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF222222),
-                                                        fontSize: 14,
-                                                        letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                      ),
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    fontFamily: 'Montserrat',
+                                                    color: Color(0xFF222222),
+                                                    fontSize: 14,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
                                                 ),
                                                 Text(
                                                   '${valueOrDefault<String>(
@@ -1290,200 +972,127 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                     'INR',
                                                   )} ${formatNumber(
                                                     currencyConversion(
-                                                        FFAppState()
-                                                            .currencyRate,
-                                                        FFAppState()
-                                                            .shippingAmount!
-                                                            .toString()),
-                                                    formatType:
-                                                        FormatType.decimal,
-                                                    decimalType:
-                                                        DecimalType.automatic,
+                                                        FFAppState().currencyRate,
+                                                        FFAppState().shippingAmount!.toString()),
+                                                    formatType: FormatType.decimal,
+                                                    decimalType: DecimalType.automatic,
                                                   )}',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF222222),
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        fontFamily: 'Montserrat',
+                                                        color: Color(0xFF222222),
                                                         fontSize: 14,
                                                         letterSpacing: 0,
                                                         fontWeight:
-                                                            FontWeight.normal,
+                                                        FontWeight.normal,
                                                       ),
                                                 ),
                                               ],
                                             ),
                                           ),
                                           Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 9, 0, 0),
+                                            padding: EdgeInsetsDirectional.fromSTEB(0, 9, 0, 0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
                                                   'Reward points earned',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        fontFamily: 'Montserrat',
+                                                        color: FlutterFlowTheme.of(context).primary,
                                                         fontSize: 14,
                                                         letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
+                                                        fontWeight: FontWeight.normal,
                                                       ),
                                                 ),
                                                 Text(
                                                   '${formatNumber(
-                                                    currencyConversion(
-                                                        FFAppState()
-                                                            .currencyRate,
-                                                        FFAppState()
-                                                            .rewardPoints
-                                                            .toString()),
-                                                    formatType:
-                                                        FormatType.decimal,
-                                                    decimalType:
-                                                        DecimalType.automatic,
+                                                    currencyConversion(FFAppState().currencyRate, FFAppState().rewardPoints.toString()),
+                                                    formatType: FormatType.decimal,
+                                                    decimalType: DecimalType.automatic,
                                                   )} (${valueOrDefault<String>(
                                                     FFAppState().currencyName,
                                                     'INR',
                                                   )} ${formatNumber(
                                                     currencyConversion(
-                                                        FFAppState()
-                                                            .currencyRate,
-                                                        FFAppState()
-                                                            .rewardPoints
-                                                            .toString()),
-                                                    formatType:
-                                                        FormatType.decimal,
-                                                    decimalType:
-                                                        DecimalType.automatic,
+                                                        FFAppState().currencyRate,
+                                                        FFAppState().rewardPoints.toString()),
+                                                    formatType: FormatType.decimal,
+                                                    decimalType: DecimalType.automatic,
                                                   )})',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        fontFamily: 'Montserrat',
+                                                        color: FlutterFlowTheme.of(context).primary,
                                                         fontSize: 14,
                                                         letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
+                                                        fontWeight: FontWeight.normal,
                                                       ),
                                                 ),
                                               ],
                                             ),
                                           ),
+                                          if(FFAppState().rewardPoints! != 0.0)
                                           Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 6, 0, 0),
+                                            padding: EdgeInsetsDirectional.fromSTEB(0, 6, 0, 0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
+                                                  mainAxisSize: MainAxisSize.max,
                                                   children: [
                                                     Theme(
                                                       data: ThemeData(
-                                                        checkboxTheme:
-                                                            CheckboxThemeData(
-                                                          visualDensity:
-                                                              VisualDensity
-                                                                  .compact,
-                                                          materialTapTargetSize:
-                                                              MaterialTapTargetSize
-                                                                  .shrinkWrap,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4),
+                                                        checkboxTheme: CheckboxThemeData(
+                                                          visualDensity: VisualDensity.compact,
+                                                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(4),
                                                           ),
                                                         ),
-                                                        unselectedWidgetColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondaryText,
+                                                        unselectedWidgetColor: FlutterFlowTheme.of(context).secondaryText,
                                                       ),
                                                       child: Checkbox(
-                                                        value: _model
-                                                                .checkboxValue2 ??=
-                                                            false,
-                                                        onChanged:
-                                                            (newValue) async {
-                                                          setState(() => _model
-                                                                  .checkboxValue2 =
-                                                              newValue!);
+                                                        value: _model.checkboxValue2 ??= false,
+                                                        onChanged: (newValue) async {
+                                                          setState(() => _model.checkboxValue2 = newValue!);
                                                         },
                                                         side: BorderSide(
                                                           width: 2,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryText,
+                                                          color: FlutterFlowTheme.of(context).secondaryText,
                                                         ),
-                                                        activeColor:
-                                                            Color(0xFF740074),
-                                                        checkColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .info,
+                                                        activeColor: Color(0xFF740074),
+                                                        checkColor: FlutterFlowTheme.of(context).info,
                                                       ),
                                                     ),
                                                     Text(
                                                       'Use Rewards Points',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Montserrat',
-                                                            color: Color(
-                                                                0xFF696969),
+                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                            fontFamily: 'Montserrat',
+                                                            color: Color(0xFF696969),
                                                             letterSpacing: 0,
                                                           ),
                                                     ),
                                                   ],
                                                 ),
-                                                Text(
-                                                  'Total points: 414',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
+                                                /*Text(
+                                                  'Total points: 0',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                        fontFamily: 'Montserrat',
+                                                        color: FlutterFlowTheme.of(context).primary,
                                                         letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                        fontWeight: FontWeight.w500,
                                                       ),
-                                                ),
+                                                ),*/
+                                                Text(
+                                                  'Total points: ${formatPriceWithCommas(FFAppState().rewardPoints!)}',
+                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                    fontFamily: 'Montserrat',
+                                                    color: FlutterFlowTheme.of(context).primary,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -1493,24 +1102,16 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                           ),
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 'Order Total',
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyMedium
-                                                    .override(
+                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                       fontFamily: 'Montserrat',
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
+                                                      color: FlutterFlowTheme.of(context).primaryText,
                                                       fontSize: 15,
                                                       letterSpacing: 0,
-                                                      fontWeight:
-                                                          FontWeight.w600,
+                                                      fontWeight: FontWeight.w600,
                                                     ),
                                               ),
                                               Builder(
@@ -1525,104 +1126,104 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                                           currencyConversion(
                                                             FFAppState().currencyRate,
                                                             getJsonField(
-                                                              stackCartResponse
-                                                                  .jsonBody,
+                                                              stackCartResponse.jsonBody,
                                                               r'''$.cart_total''',
                                                             ).toString(),
                                                           );
 
                                                           // Update cartAmount in FFAppState
-                                                          FFAppState().cartAmount =
-                                                          cartTotal!;
+                                                          FFAppState().cartAmount = cartTotal!;
 
-                                                          return Text(
+                                                          return /*Text(
                                                             '${valueOrDefault<String>(
-                                                              FFAppState()
-                                                                  .currencyName,
-                                                              'INR',
-                                                            )} ${formatNumber(
+                                                              FFAppState().currencyName, 'INR',)} ${formatNumber(
                                                               cartTotal,
-                                                              formatType:
-                                                              FormatType.decimal,
-                                                              decimalType: DecimalType
-                                                                  .automatic,
+                                                              formatType: FormatType.decimal,
+                                                              decimalType: DecimalType.automatic,
                                                             )}',
-                                                            textAlign:
-                                                            TextAlign.start,
-                                                            style: FlutterFlowTheme
-                                                                .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              color: FlutterFlowTheme
-                                                                  .of(context)
-                                                                  .primaryText,
+                                                            textAlign: TextAlign.start,
+                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                              fontFamily: 'Montserrat',
+                                                              color: FlutterFlowTheme.of(context).primaryText,
                                                               fontSize: 15,
                                                               letterSpacing: 0,
-                                                              fontWeight:
-                                                              FontWeight.w600,
+                                                              fontWeight: FontWeight.w600,
                                                             ),
-                                                          );
+                                                          );*/
+                                                            Text(
+                                                              formatNumber(
+                                                                FFAppState().shippingAmount!.toDouble() +
+                                                                cartTotal - (getJsonField(
+                                                                      stackCartResponse.jsonBody,
+                                                                      r'''$.cart_total''',
+                                                                    ) * (FFAppState().couponValue / 100)),
+                                                                formatType: FormatType.decimal,
+                                                                decimalType: DecimalType.automatic,
+                                                              ),
+                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                fontFamily: 'Montserrat',
+                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                fontSize: 15,
+                                                                letterSpacing: 0,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                            );
                                                         },
                                                       ),
                                                     );
                                                   } else {
                                                     return Align(
-                                                      alignment:
-                                                      AlignmentDirectional(
-                                                          -1, 0),
+                                                      alignment: AlignmentDirectional(-1, 0),
                                                       child: Builder(
                                                         builder: (context) {
                                                           final cartTotal =
                                                           currencyConversion(
-                                                              FFAppState()
-                                                                  .currencyRate,
+                                                              FFAppState().currencyRate,
                                                               getJsonField(
-                                                                columnBuyNowResponse
-                                                                    .jsonBody,
+                                                                columnBuyNowResponse.jsonBody,
                                                                 r'''$.cart_total''',
                                                               ).toString()
                                                           );
 
                                                           // Update cartAmount in FFAppState
-                                                          FFAppState()
-                                                              .cartAmount =
-                                                          cartTotal!;
+                                                          FFAppState().cartAmount = cartTotal!;
 
-                                                          return Text(
+                                                          return /*Text(
                                                             '${valueOrDefault<String>(
-                                                              FFAppState()
-                                                                  .currencyName,
+                                                              FFAppState().currencyName,
                                                               'INR',
                                                             )} ${formatNumber(
                                                               cartTotal,
-                                                              formatType:
-                                                              FormatType
-                                                                  .decimal,
-                                                              decimalType:
-                                                              DecimalType
-                                                                  .automatic,
+                                                              formatType: FormatType.decimal,
+                                                              decimalType: DecimalType.automatic,
                                                             )}',
-                                                            textAlign:
-                                                            TextAlign.start,
-                                                            style: FlutterFlowTheme
-                                                                .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              color: FlutterFlowTheme.of(
-                                                                  context)
-                                                                  .primaryText,
+                                                            textAlign: TextAlign.start,
+                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                              fontFamily: 'Montserrat',
+                                                              color: FlutterFlowTheme.of(context).primaryText,
                                                               fontSize: 15,
-                                                              letterSpacing:
-                                                              0,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w600,
+                                                              letterSpacing: 0,
+                                                              fontWeight: FontWeight.w600,
                                                             ),
-                                                          );
+                                                          );*/
+                                                            Text(
+                                                              formatNumber(
+                                                                FFAppState().shippingAmount!.toDouble() +
+                                                                    cartTotal - (getJsonField(
+                                                                  stackCartResponse.jsonBody,
+                                                                  r'''$.cart_total''',
+                                                                ) * (FFAppState().couponValue / 100)),
+                                                                formatType: FormatType.decimal,
+                                                                decimalType: DecimalType.automatic,
+                                                              ),
+                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                fontFamily: 'Montserrat',
+                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                fontSize: 15,
+                                                                letterSpacing: 0,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                            );
                                                         },
                                                       ),
                                                     );
@@ -1642,19 +1243,16 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                           Container(
                             decoration: BoxDecoration(),
                             child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 4, 16, 4),
+                              padding: EdgeInsetsDirectional.fromSTEB(16, 4, 16, 4),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  print(
-                                      'Product IDs: ${getJsonField(stackCartResponse.jsonBody, r'''$.data[:].product_id''')}');
+                                  print('Product IDs: ${getJsonField(stackCartResponse.jsonBody, r'''$.data[:].product_id''')}');
                                   _model.cartTotal = getJsonField(
                                     stackCartResponse.jsonBody,
                                     r'''$.cart_total''',
                                   ).toString();
 
-                                  print(
-                                      'Cart API Response JSON: ${stackCartResponse.jsonBody}');
+                                  print('Cart API Response JSON: ${stackCartResponse.jsonBody}');
 
                                   if (stackCartResponse.jsonBody == null) {
                                     print('Cart API Response Data is null');
@@ -1776,8 +1374,7 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                     'digital_source': 'not sponsored',
                                   };
 
-                                  print(
-                                      'Request Body: ${jsonEncode(requestBody)}');
+                                  print('Request Body: ${jsonEncode(requestBody)}');
 
                                   ApiCallResponse apiResponse =
                                       await AddOrderCall.call(
@@ -1810,13 +1407,11 @@ class _SelectPaymentMethodWidgetState extends State<SelectPaymentMethodWidget> {
                                     deliveryCharges: 90,
                                     coupenCode: FFAppState().couponCode,
                                     coupenAmount: 0,
-                                    giftId:
-                                        FFAppState().selectedGiftId?.toString(),
+                                    giftId: FFAppState().selectedGiftId?.toString(),
                                     rewardUsed: false,
                                     pendingamount: 365,
                                     rewardPoints: 0,
-                                    products:
-                                        products, // Pass the List<Product> directly
+                                    products: products, // Pass the List<Product> directly
                                     customerInstructions: '',
                                     shippingType: 'Fedex/DHL',
                                     digitalSource: 'not sponsored',

@@ -27,6 +27,8 @@ class DeliveryAddressModel extends FlutterFlowModel<DeliveryAddressWidget> {
 
   // Stores action output result for [Backend Call - API (FetchShipping)] action in Button widget.
   ApiCallResponse? fetchShippingOutput;
+  // Stores action output result for [Backend Call - API (Cart)] action in Button widget.
+  ApiCallResponse? fetchCartforShipping;
 
   bool selectedContainer = true;
 

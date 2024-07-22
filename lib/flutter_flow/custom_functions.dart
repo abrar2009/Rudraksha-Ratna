@@ -241,25 +241,7 @@ int? stringtoIntFunction(String? numberstring) {
   return int.tryParse(numberstring ?? '');
 }
 
-/*String? joinAddress(
-    String? address1,
-    String? address2,
-    String? city,
-    String? state,
-    String? pinCode,
-    ) {
-  // create a function that adds 4 strings with a space between every string
-  final components = [
-    address1,
-    address2,
-    city,
-    state,
-    pinCode,
-  ].where((component) => component != null && component.isNotEmpty).toList();
 
-  // Join the components with a space
-  return components.isNotEmpty ? components.join(' ') : null;
-}*/
 String? joinAddress(
     String? address1,
     String? address2,
@@ -312,25 +294,6 @@ String? nameSeparator(
   /// MODIFY CODE ONLY ABOVE THIS LINE
 }
 
-/*Map<String, int?>? productIdbyName(
-    List<dynamic>? productData,
-    int? orderId,
-    String? productName,
-    ) {
-  /// MODIFY CODE ONLY BELOW THIS LINE
-
-  for (var product in productData!) {
-    if (product['productname'] == productName) {
-      return {
-        'orderId': int.parse(orderId! as String),
-        'productId': product['id'] as int?,
-      };
-    }
-  }
-  return null;
-
-  /// MODIFY CODE ONLY ABOVE THIS LINE
-}*/
 
 
 int? productIdbyName(

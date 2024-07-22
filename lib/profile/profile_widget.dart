@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../components/logout_confirmation_widget.dart';
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
@@ -113,11 +117,21 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                           ),
-                          child: Image.asset(
-                            'assets/images/Ellipse_71.png',
+                          child: FFAppState().imagePath.isNotEmpty && File(FFAppState().imagePath).existsSync()
+                              ? Image.file(
+                            File(FFAppState().imagePath),
                             fit: BoxFit.cover,
+                          ) : CachedNetworkImage(
+                            imageUrl: getJsonField(
+                              profileCustomerDetailsResponse.jsonBody,
+                              r'''$.data.profilepic''',
+                            ).toString(),
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => CircularProgressIndicator(
+                              color: FlutterFlowTheme.of(context).primary,),
+                            errorWidget: (context, url, error) => Icon(Icons.error),
                           ),
-                        ),
+                        )
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(21, 23, 0, 0),

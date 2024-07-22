@@ -113,8 +113,8 @@ class LoginWithOTPCall {
       headers: {},
       params: {
         'email': email,
-        'mobile_number': mobileNumber,
-        'country_code': countryCode,
+        'mobile_number': mobileNumber != null ? mobileNumber : '',
+        'country_code': countryCode != null ? countryCode : '',
       },
       bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
       returnBody: true,
@@ -171,7 +171,7 @@ class LoginCall {
       ));
 }
 
-class UpdateCustomerCall {
+/*class UpdateCustomerCall {
   static Future<ApiCallResponse> call({
     String? email = '',
     String? mobileNumber = '',
@@ -179,7 +179,7 @@ class UpdateCustomerCall {
     String? hosturl = '',
     String? customerName = '',
     String? token = '',
-    String? imagePath,
+    File? imagePath,
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'UpdateCustomer',
@@ -202,6 +202,47 @@ class UpdateCustomerCall {
       cache: false,
       alwaysAllowBody: false,
     );
+  }
+}*/
+
+class UpdateCustomerCall {
+  static Future<ApiCallResponse> call({
+    String? email = '',
+    String? mobileNumber = '',
+    String? countryCode = '',
+    String? hosturl = '',
+    String? customerName = '',
+    String? token = '',
+    File? imagePath,
+  }) async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('${hosturl}/customermaster/update-customer-admin'),
+    );
+
+    request.headers.addAll({
+      'Authorization': 'Bearer $token',
+    });
+
+    request.fields.addAll({
+      'email': email ?? '',
+      'mobilenumber': mobileNumber ?? '',
+      'country_code': countryCode ?? '',
+      'customer_name': customerName ?? '',
+      'profilepic': imagePath != null ? imagePath.path : '',
+    });
+
+    if (imagePath != null) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'profilepic',
+        imagePath.path,
+      ));
+    }
+
+    http.StreamedResponse streamedResponse = await request.send();
+    http.Response response = await http.Response.fromStream(streamedResponse);
+
+    return ApiCallResponse.fromHttpResponse(response, true, false);
   }
 }
 
@@ -2137,6 +2178,127 @@ class AddOrderCall {
   ));*/
 }
 
+class FetchcheckoutDetailsCall {
+  static Future<ApiCallResponse> call({
+    String? hosturl = '',
+    String? token = '',
+    String? shippingCountry = '',
+    String? shippingMethod = 'fedex',
+    bool? rewardUsed = false,
+    String? couponCode,
+    List<Product>? products,
+  }) async {
+    final ffApiRequestBody = jsonEncode({
+      "shipping_country": shippingCountry,
+      "shipping_method": shippingMethod,
+      "reward_used": rewardUsed,
+      "coupon_code": couponCode,
+      "product_list": products?.map((product) => product.toJson()).toList(),
+    });
+
+    print('Request Body: $ffApiRequestBody');
+    print('Request Headers: ${{
+      'Authorization': 'Bearer $token',
+    }}');
+
+    final response = await ApiManager.instance.makeApiCall(
+      callName: 'AddOrder',
+      apiUrl: '$hosturl/checkout/add-order',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+
+    print('Response: ${response.jsonBody}');
+    return response;
+  }
+
+  static String? customerName(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.data.customer_name''',
+      ));
+  static String? email(dynamic response) => castToType<String>(getJsonField(
+    response,
+    r'''$.data.email''',
+  ));
+  static int? phone(dynamic response) => castToType<int>(getJsonField(
+    response,
+    r'''$.data.mobilenumber''',
+  ));
+  static String? invoiceNo(dynamic response) => castToType<String>(getJsonField(
+    response,
+    r'''$.data.invoiceNumber''',
+  ));
+/*static int? invoiceNo(dynamic response) => castToType<int>(getJsonField(
+    response,
+    r'''$.data.invoiceNumber''',
+  ));*/
+}
+
+class FetchShippingCall {
+  static Future<ApiCallResponse> call({
+    String? hosturl = '',
+    String? token = '',
+    String? shippingCountry = '',
+    int? shippingWeight,
+    int? totalPrice,
+    int? orderTotal,
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "shipping_country": "${shippingCountry}",
+  "shipping_weight": "${shippingWeight}",
+  "total_price": "${totalPrice}",
+  "order_total": "${orderTotal}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'FetchShipping',
+      apiUrl: '${hosturl}/ordermanagement/fetch-shipping',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+  static List<int>? giftsIds(dynamic response) => (getJsonField(
+    response,
+    r'''$.giftdata[:].id''',
+    true,
+  ) as List?)
+      ?.withoutNulls
+      .map((x) => castToType<int>(x))
+      .withoutNulls
+      .toList();
+
+  static List<int>? couponsIds(dynamic response) => (getJsonField(
+    response,
+    r'''$.coupondata[:].id''',
+    true,
+  ) as List?)
+      ?.withoutNulls
+      .map((x) => castToType<int>(x))
+      .withoutNulls
+      .toList();
+}
+
 class OrderPaymentStatusCall {
   static Future<ApiCallResponse> call({
     String? hosturl = '',
@@ -2390,59 +2552,6 @@ class OrderDetailCall {
   ) as List?)
       ?.withoutNulls
       .map((x) => castToType<String>(x))
-      .withoutNulls
-      .toList();
-}
-
-class FetchShippingCall {
-  static Future<ApiCallResponse> call({
-    String? hosturl = '',
-    String? token = '',
-    String? shippingCountry = '',
-    int? shippingWeight,
-    int? totalPrice,
-    int? orderTotal,
-  }) async {
-    final ffApiRequestBody = '''
-{
-  "shipping_country": "${shippingCountry}",
-  "shipping_weight": "${shippingWeight}",
-  "total_price": "${totalPrice}",
-  "order_total": "${orderTotal}"
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: 'FetchShipping',
-      apiUrl: '${hosturl}/ordermanagement/fetch-shipping',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      isStreamingApi: false,
-      alwaysAllowBody: false,
-    );
-  }
-  static List<int>? giftsIds(dynamic response) => (getJsonField(
-    response,
-    r'''$.giftdata[:].id''',
-    true,
-  ) as List?)
-      ?.withoutNulls
-      .map((x) => castToType<int>(x))
-      .withoutNulls
-      .toList();
-
-  static List<int>? couponsIds(dynamic response) => (getJsonField(
-    response,
-    r'''$.coupondata[:].id''',
-    true,
-  ) as List?)
-      ?.withoutNulls
-      .map((x) => castToType<int>(x))
       .withoutNulls
       .toList();
 }

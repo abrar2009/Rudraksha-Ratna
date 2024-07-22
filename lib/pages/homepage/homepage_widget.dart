@@ -197,7 +197,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              InkWell(
+                              /*InkWell(
                                 splashColor: Colors.transparent,
                                 focusColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
@@ -287,6 +287,116 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                     ),
                                   ),
                                 ),
+                              ),*/
+                              if(currentAuthenticationToken != null)
+                              FutureBuilder<ApiCallResponse>(
+                                future: CustomerDetailsCall.call(
+                                  token: currentAuthenticationToken,
+                                  hosturl: FFAppConstants.hosturl,
+                                ),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                          AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  final containerCustomerDetailsResponse =
+                                  snapshot.data!;
+
+                                  return Container(
+                                    width: double.infinity,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      border: Border.all(
+                                        color: Color(0xFFE7E7E8),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          17, 0, 18, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                BorderRadius.only(
+                                                  bottomLeft:
+                                                  Radius.circular(0),
+                                                  bottomRight:
+                                                  Radius.circular(0),
+                                                  topLeft: Radius.circular(0),
+                                                  topRight:
+                                                  Radius.circular(0),
+                                                ),
+                                                child: Image.asset(
+                                                  'assets/images/Star.png',
+                                                  width: 24,
+                                                  height: 24,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              Text(
+                                                'My Rewards',
+                                                style: FlutterFlowTheme.of(
+                                                    context)
+                                                    .bodyMedium
+                                                    .override(
+                                                  fontFamily:
+                                                  'Montserrat',
+                                                  color:
+                                                  FlutterFlowTheme.of(
+                                                      context)
+                                                      .primaryText,
+                                                  fontSize: 15,
+                                                  letterSpacing: 0,
+                                                  fontWeight:
+                                                  FontWeight.w500,
+                                                ),
+                                              ),
+                                            ].divide(SizedBox(width: 10)),
+                                          ),
+                                          Text(
+                                            'Bal: ${getJsonField(
+                                              containerCustomerDetailsResponse
+                                                  .jsonBody,
+                                              r'''$.data.reward_points''',
+                                            ).toStringAsFixed(0)}',
+                                            style: FlutterFlowTheme.of(
+                                                context)
+                                                .bodyMedium
+                                                .override(
+                                              fontFamily: 'Montserrat',
+                                              color: FlutterFlowTheme.of(
+                                                  context)
+                                                  .primary,
+                                              fontSize: 15,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ].divide(SizedBox(width: 10)),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                               Container(
                                 width: double.infinity,
@@ -774,6 +884,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                       ),
                     ),
                   ),
+
                   /*Container(
                     width: double.infinity,
                     height: 48.0,
@@ -819,159 +930,171 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                       ),
                     ),
                   ),*/
-                  Builder(
-                    builder: (context) {
-                      if (currentAuthenticationToken != null &&
-                          currentAuthenticationToken != '') {
-                        return InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text('App Version: 1.0.0',
+                        style: TextStyle(
+                            color: FlutterFlowTheme.of(context).productName
+                        )),
+                      ),
+                      Builder(
+                        builder: (context) {
+                          if (currentAuthenticationToken != null &&
+                              currentAuthenticationToken != '') {
+                            return InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
 
-                            /*GoRouter.of(context).prepareAuthEvent();
-                            await authManager.signOut();
-                            GoRouter.of(context).clearRedirectLocation();
+                                /*GoRouter.of(context).prepareAuthEvent();
+                                await authManager.signOut();
+                                GoRouter.of(context).clearRedirectLocation();
 
-                            // Navigate to the login page and remove all previous routes
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                              'LoginPage',
-                                  (Route<dynamic> route) => false,
-                              arguments: <String, dynamic>{
-                                kTransitionInfoKey: TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType: PageTransitionType.bottomToTop,
-                                  duration: Duration(milliseconds: 400),
-                                ),
+                                // Navigate to the login page and remove all previous routes
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  'LoginPage',
+                                      (Route<dynamic> route) => false,
+                                  arguments: <String, dynamic>{
+                                    kTransitionInfoKey: TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType: PageTransitionType.bottomToTop,
+                                      duration: Duration(milliseconds: 400),
+                                    ),
+                                  },
+                                );*/
+                                await showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  enableDrag: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return GestureDetector(
+                                      onTap: () => _model.unfocusNode.canRequestFocus
+                                          ? FocusScope.of(context)
+                                          .requestFocus(_model.unfocusNode)
+                                          : FocusScope.of(context).unfocus(),
+                                      child: Padding(
+                                        padding: MediaQuery.viewInsetsOf(context),
+                                        child: const LogoutConfirmationWidget(),
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => safeSetState(() {}));
                               },
-                            );*/
-                            await showModalBottomSheet(
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              enableDrag: false,
-                              context: context,
-                              builder: (context) {
-                                return GestureDetector(
-                                  onTap: () => _model.unfocusNode.canRequestFocus
-                                      ? FocusScope.of(context)
-                                      .requestFocus(_model.unfocusNode)
-                                      : FocusScope.of(context).unfocus(),
-                                  child: Padding(
-                                    padding: MediaQuery.viewInsetsOf(context),
-                                    child: const LogoutConfirmationWidget(),
+                              child: Container(
+                                width: double.infinity,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  border: Border.all(
+                                    color: Color(0xFFE7E7E8),
                                   ),
+                                ),
+                                child: Padding(
+                                  padding:
+                                  EdgeInsetsDirectional.fromSTEB(18, 0, 0, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(0),
+                                          bottomRight: Radius.circular(0),
+                                          topLeft: Radius.circular(0),
+                                          topRight: Radius.circular(0),
+                                        ),
+                                        child: Image.asset(
+                                          'assets/images/Logout.png',
+                                          width: 19.04,
+                                          height: 18.5,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Logout',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF272728),
+                                          fontSize: 15,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ].divide(SizedBox(width: 10)),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed(
+                                  'LoginPage',
+                                  extra: <String, dynamic>{
+                                    kTransitionInfoKey: TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType:
+                                      PageTransitionType.bottomToTop,
+                                      duration: Duration(milliseconds: 400),
+                                    ),
+                                  },
                                 );
                               },
-                            ).then((value) => safeSetState(() {}));
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              border: Border.all(
-                                color: Color(0xFFE7E7E8),
-                              ),
-                            ),
-                            child: Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(18, 0, 0, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(0),
-                                      bottomRight: Radius.circular(0),
-                                      topLeft: Radius.circular(0),
-                                      topRight: Radius.circular(0),
-                                    ),
-                                    child: Image.asset(
-                                      'assets/images/Logout.png',
-                                      width: 19.04,
-                                      height: 18.5,
-                                      fit: BoxFit.cover,
-                                    ),
+                              child: Container(
+                                width: double.infinity,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  border: Border.all(
+                                    color: Color(0xFFE7E7E8),
                                   ),
-                                  Text(
-                                    'Logout',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF272728),
-                                      fontSize: 15,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ].divide(SizedBox(width: 10)),
-                              ),
-                            ),
-                          ),
-                        );
-                      } else {
-                        return InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
-                            context.pushNamed(
-                              'LoginPage',
-                              extra: <String, dynamic>{
-                                kTransitionInfoKey: TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType:
-                                  PageTransitionType.bottomToTop,
-                                  duration: Duration(milliseconds: 400),
                                 ),
-                              },
+                                child: Padding(
+                                  padding:
+                                  EdgeInsetsDirectional.fromSTEB(18, 0, 0, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Icon(
+                                        Icons.login_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        size: 24,
+                                      ),
+                                      Text(
+                                        'Login',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                          fontFamily: 'Montserrat',
+                                          color: Color(0xFF272728),
+                                          fontSize: 15,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ].divide(SizedBox(width: 10)),
+                                  ),
+                                ),
+                              ),
                             );
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              border: Border.all(
-                                color: Color(0xFFE7E7E8),
-                              ),
-                            ),
-                            child: Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(18, 0, 0, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Icon(
-                                    Icons.login_rounded,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    size: 24,
-                                  ),
-                                  Text(
-                                    'Login',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF272728),
-                                      fontSize: 15,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ].divide(SizedBox(width: 10)),
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                    },
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),

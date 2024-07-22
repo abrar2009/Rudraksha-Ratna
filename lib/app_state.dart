@@ -21,6 +21,7 @@ class FFAppState extends ChangeNotifier {
     prefs = await SharedPreferences.getInstance();
     _safeInit(() {
       _token = prefs.getString('ff_token') ?? _token;
+      _imagePath = prefs.getString('ff_imagePath') ?? _imagePath;
     });
   }
 
@@ -161,6 +162,13 @@ class FFAppState extends ChangeNotifier {
     _countrycode = value;
   }
 
+  String _imagePath = '';
+  String get imagePath => _imagePath;
+  set imagePath(String value) {
+    _imagePath = value;
+    prefs.setString('ff_imagePath', value);
+  }
+
   String _statusSuccess = 'success';
   String get statusSuccess => _statusSuccess;
   set statusSuccess(String value) {
@@ -240,9 +248,9 @@ class FFAppState extends ChangeNotifier {
     _shippingAmount = value;
   }
 
-  int? _rewardPoints;
-  int? get rewardPoints => _rewardPoints;
-  set rewardPoints(int? value) {
+  double? _rewardPoints;
+  double? get rewardPoints => _rewardPoints;
+  set rewardPoints(double? value) {
     _rewardPoints = value;
   }
 
@@ -250,6 +258,12 @@ class FFAppState extends ChangeNotifier {
   String get couponCode => _couponCode;
   set couponCode(String value) {
     _couponCode = value;
+  }
+
+  double _couponValue = 0.0;
+  double get couponValue => _couponValue;
+  set couponValue(double value) {
+    _couponValue = value;
   }
 
   int? _selectedGiftId;
@@ -339,6 +353,12 @@ class FFAppState extends ChangeNotifier {
   bool? get buynow => _buynow;
   set buynow(bool? value) {
     _buynow = value;
+  }
+
+  bool _isDeliveryAddress = false;
+  bool get isDeliveryAddress => _isDeliveryAddress;
+  set isDeliveryAddress(bool value) {
+    _isDeliveryAddress = value;
   }
 
   bool? _productvariation;

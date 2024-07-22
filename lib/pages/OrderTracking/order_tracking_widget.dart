@@ -15,10 +15,12 @@ class OrderTrackingWidget extends StatefulWidget {
     super.key,
     required this.orderId,
     required this.productIndex,
+    required this.invoiceNo,
   });
 
   final int? orderId;
   final int productIndex;
+  final String? invoiceNo;
 
   @override
   State<OrderTrackingWidget> createState() => _OrderTrackingWidgetState();
@@ -200,7 +202,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                       ),
                     ),
                   ),
-                  Align(
+                  /*Align(
                     alignment: AlignmentDirectional(0, 0),
                     child: Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 24),
@@ -257,10 +259,10 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                               ),
                             ),
                             TextSpan(
-                              text: /*getJsonField(
+                              text: *//*getJsonField(
                                 columnOrderDetailResponse.jsonBody,
                                 r'''$.data[:].order_product_data[:].productcode''',
-                              ).toString(),*/
+                              ).toString(),*//*
                               products[widget.productIndex]['productcode'].toString(),
                               style: TextStyle(),
                             )
@@ -325,10 +327,10 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                               ),
                             ),
                             TextSpan(
-                              text: /*getJsonField(
+                              text: *//*getJsonField(
                                 columnOrderDetailResponse.jsonBody,
                                 r'''$.data[:].order_product_data[:].quantity''',
-                              ).toString(),*/
+                              ).toString(),*//*
                               products[widget.productIndex]['quantity'].toString(),
                               style: TextStyle(),
                             )
@@ -365,10 +367,10 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                               style: TextStyle(),
                             ),
                             TextSpan(
-                              text: /*getJsonField(
+                              text: *//*getJsonField(
                                 columnOrderDetailResponse.jsonBody,
                                 r'''$.data[:].order_product_data[:].sellingprice''',
-                              ).toString(),*/
+                              ).toString(),*//*
                               products[widget.productIndex]['sellingprice'].toString(),
                               style: TextStyle(),
                             )
@@ -464,9 +466,166 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                         ),
                       ),
                     ].divide(SizedBox(height: 8)),
+                  ),*/
+
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(19, 10, 19, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Order ID: ${getJsonField(
+                            columnOrderDetailResponse.jsonBody,
+                            r'''$.data[:].payment_list[:].order_no''',
+                          ).toString()}',
+                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Montserrat',
+                            letterSpacing: 0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(19, 40, 19, 0),
+                    padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                    child: Column(
+                      children: products.map((product) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Container(
+                            decoration: BoxDecoration(),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      product['img'].toString(),
+                                      width: 58,
+                                      //height: 58,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          product['productname'].toString(),
+                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                            fontFamily: 'Montserrat',
+                                            color: Colors.black,
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        SizedBox(height: 4),
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: 'Product Code: ',
+                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: product['productcode'].toString(),
+                                                style: TextStyle(),
+                                              ),
+                                            ],
+                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xFF6E6E70),
+                                              fontSize: 12,
+                                              letterSpacing: 0,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 4),
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: 'Quantity: ',
+                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: product['quantity'].toString(),
+                                                style: TextStyle(),
+                                              ),
+                                            ],
+                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xFF6E6E70),
+                                              fontSize: 12,
+                                              letterSpacing: 0,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 4),
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: 'Price: ',
+                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: FFAppState().currencyName,
+                                                style: TextStyle(),
+                                              ),
+                                              TextSpan(
+                                                text: ' ',
+                                                style: TextStyle(),
+                                              ),
+                                              TextSpan(
+                                                text: product['sellingprice'].toString(),
+                                                style: TextStyle(),
+                                              ),
+                                            ],
+                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xFF6E6E70),
+                                              fontSize: 12,
+                                              letterSpacing: 0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(19, 10, 19, 0),
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -500,6 +659,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                       ),
                     ),
                   ),
+
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 15),
                     child: Container(
@@ -528,7 +688,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                   ),
                                 ),
                                 // Generated code for this RichText Widget...
-                                RichText(
+                                /*RichText(
                                   textScaler: MediaQuery.of(context).textScaler,
                                   text: TextSpan(
                                     children: [
@@ -555,7 +715,22 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                )
+                                ),*/
+                                Text('${valueOrDefault<String>(FFAppState().currencyName, 'INR',)} '
+                                    '${formatNumber(currencyConversion(FFAppState().currencyRate, getJsonField(
+                                  columnOrderDetailResponse.jsonBody,
+                                  r'''$.data[:].amount''',
+                                ).toString()),
+                                  formatType: FormatType.decimal,
+                                  decimalType: DecimalType.automatic,
+                                )}',
+                                  textAlign: TextAlign.start,
+                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Montserrat',
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ],
                             ),
                             Row(
@@ -573,7 +748,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                   ),
                                 ),
                                 // Generated code for this RichText Widget...
-                                RichText(
+                                /*RichText(
                                   textScaler: MediaQuery.of(context).textScaler,
                                   text: TextSpan(
                                     children: [
@@ -603,7 +778,22 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                )
+                                ),*/
+                                Text('${valueOrDefault<String>(FFAppState().currencyName, 'INR',)} '
+                                    '${formatNumber(currencyConversion(FFAppState().currencyRate, getJsonField(
+                                  columnOrderDetailResponse.jsonBody,
+                                  r'''$.data[0].deliveryCharges''',
+                                ).toString()),
+                                  formatType: FormatType.decimal,
+                                  decimalType: DecimalType.automatic,
+                                )}',
+                                  textAlign: TextAlign.start,
+                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Montserrat',
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ],
                             ),
                             Padding(
@@ -626,7 +816,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                     ),
                                   ),
                                   // Generated code for this RichText Widget...
-                                  RichText(
+                                  /*RichText(
                                     textScaler: MediaQuery.of(context).textScaler,
                                     text: TextSpan(
                                       children: [
@@ -661,7 +851,23 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                  )
+                                  ),*/
+                                  Text('${valueOrDefault<String>(FFAppState().currencyName, 'INR',)} '
+                                      '${formatNumber(currencyConversion(FFAppState().currencyRate, getJsonField(
+                                    columnOrderDetailResponse.jsonBody,
+                                    r'''$.data[:].totalAmount''',
+                                  ).toString()),
+                                    formatType: FormatType.decimal,
+                                    decimalType: DecimalType.automatic,
+                                  )}',
+                                    textAlign: TextAlign.start,
+                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 20,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
