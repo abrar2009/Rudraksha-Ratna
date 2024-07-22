@@ -916,7 +916,7 @@ print("widget.subproductslugvalue : ${widget.subproductslugvalue}");
                                         print("_model.choiceChipsValue Start ${_model.choiceChipsValue}");
                                        // print("_model.choiceChipsValue Vastu ${_model.choiceChipsValue} ${_model.mainprodtype} ${_model.level} ${_model.productlist}");
                                         if (_model.choiceChipsValue == 'Rudraksha') {
-                                         if(widget.isSelected==true)
+                                         if(widget.isSelected==true && widget.subproductslugvalue=="p/rudraksha-kantha-rudraksha-mala" )
                                            {
                                              _model.mainprodtype=5 ;
                                              _model.level=2 ;

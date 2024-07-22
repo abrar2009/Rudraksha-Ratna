@@ -2111,9 +2111,9 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                                   context.pushNamed(
                                                     'CategoriesListViewChooseChip',
                                                     queryParameters: {
-                                                      'isSelected': "false",
-                                                      'defaultcategories': "Gemstone" ,
-                                                      'subproductslugvalue':"",
+                                                      'isSelected': "true",
+                                                      'defaultcategories': "Others" ,
+                                                      'subproductslugvalue':"p/parad",
                                                     },
                                                   );
                                                 }else if (_model.choiceChipsValue == 'Shivling') {
@@ -2122,7 +2122,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                                     queryParameters: {
                                                       'isSelected': "true",
                                                       'defaultcategories': "Others" ,
-                                                      'subproductslugvalue':"",
+                                                      'subproductslugvalue':"p/shivling",
                                                     },
                                                   );
                                                 }else if (_model.choiceChipsValue == 'Abhishek Products') {
