@@ -16,7 +16,16 @@ import 'categories_list_view_choose_chip_model.dart';
 export 'categories_list_view_choose_chip_model.dart';
 
 class CategoriesListViewChooseChipWidget extends StatefulWidget {
-  const CategoriesListViewChooseChipWidget({super.key});
+  bool isSelected;
+  final String defaultcategories;
+  final String subproductslugvalue;
+
+  CategoriesListViewChooseChipWidget({
+    Key? key,
+    this.isSelected = false,
+    this.defaultcategories = 'Rudraksha',
+    this.subproductslugvalue = 'p/chakra-vastu-pyramids',
+  }) : super(key: key);
 
   @override
   State<CategoriesListViewChooseChipWidget> createState() =>
@@ -32,7 +41,9 @@ class _CategoriesListViewChooseChipWidgetState
   @override
   void initState() {
     super.initState();
+print("widget.subproductslugvalue : ${widget.subproductslugvalue}");
     _model = createModel(context, () => CategoriesListViewChooseChipModel());
+
   }
 
   @override
@@ -118,6 +129,7 @@ class _CategoriesListViewChooseChipWidgetState
                 {
                   setState(() {});
                   _model.selectedproduct = true;
+                  widget.isSelected=false;
                   setState(() {});
                 }
               else
@@ -255,7 +267,18 @@ class _CategoriesListViewChooseChipWidgetState
                                   'xxxxx',
                                 );
                                 setState(() {});
-                                _model.selectedproduct = true;
+                                print("isSelected : ${widget.isSelected}");
+                                if(widget.isSelected==true){
+                                  print("isSelected : ${widget.isSelected}");
+                                  _model.selectedproduct = false;
+
+
+                                  print("isSelected : ${widget.isSelected}");
+                                }
+                                else
+                                  _model.selectedproduct = true;
+
+
                                 setState(() {});
                               },
                               selectedChipStyle: ChipStyle(
@@ -295,9 +318,11 @@ class _CategoriesListViewChooseChipWidgetState
                               multiselect: false,
                               initialized: _model.choiceChipsValue != null,
                               alignment: WrapAlignment.start,
-                              controller: _model.choiceChipsValueController ??=
+                              controller:
+
+                              _model.choiceChipsValueController ??=
                                   FormFieldController<List<String>>(
-                                    ['Rudraksha'],
+                                    [widget.defaultcategories],
                                   ),
                               wrapped: false,
                             );
@@ -886,18 +911,25 @@ class _CategoriesListViewChooseChipWidgetState
                                   return FutureBuilder<ApiCallResponse>(
                                     future: SubProductHeirarchyCall.call(
                                       sanityurl: FFAppConstants.sanityurl,
-                                      slugValue: _model.selectedproductslugvale,
+                                      slugValue: widget.isSelected ? widget.subproductslugvalue : _model.selectedproductslugvale,//_model.selectedproductslugvale,
                                       subcategory: () {
                                         print("_model.choiceChipsValue Start ${_model.choiceChipsValue}");
                                        // print("_model.choiceChipsValue Vastu ${_model.choiceChipsValue} ${_model.mainprodtype} ${_model.level} ${_model.productlist}");
                                         if (_model.choiceChipsValue == 'Rudraksha') {
+                                         if(widget.isSelected==true)
+                                           {
+                                             _model.mainprodtype=5 ;
+                                             _model.level=2 ;
+                                             _model.productlist=false;
+                                           }
                                           if(_model.mainprodtype==5 && _model.level==2 && _model.productlist==false)
-                                            {      return 'other-dependent-sub-category';}
+                                            {  return 'other-dependent-sub-category';}
                                          /* else if (_model.mainprodtype==5 && _model.level==2 && _model.productlist==true)
                                           {return 'other-product-basedon-maincategory';
                                           print("_model.choiceChipsValue Vastu ${_model.choiceChipsValue} ${_model.mainprodtype} ${_model.level} ${_model.productlist}");
                                           }*/
                                           else
+
                                             return 'rudraksha-dependent-sub-category';
                                         }else if(_model.choiceChipsValue == 'Idols') {
                                           return 'other-dependent-sub-category';
@@ -958,6 +990,7 @@ class _CategoriesListViewChooseChipWidgetState
                                                     .jsonBody,
                                               )?.toList() ??
                                                   [];
+                                          widget.isSelected=!widget.isSelected;
                                           return SingleChildScrollView(
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,

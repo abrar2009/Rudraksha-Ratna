@@ -28,7 +28,9 @@ class PujaProductDetailsModel
   bool selecteddesign = true;
 
   bool wishlistlikedislike = true;
-
+  ApiCallResponse? addtoWishlist;
+  ApiCallResponse? removefromwishlist;
+  ApiCallResponse? apiResult5ep;
   List<int> selectedDesing = [];
   void addToSelectedDesing(int item) => selectedDesing.add(item);
   void removeFromSelectedDesing(int item) => selectedDesing.remove(item);

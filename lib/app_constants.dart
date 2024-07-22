@@ -8,4 +8,5 @@ abstract class FFAppConstants {
   static const String OtherMasterProductDetailsApi = 'otherproductmaster/web-other-product-detail?otherproduct';
   static const String GemstoneMasterProductDetailsApi = 'gemstonemaster/web-gemstone-product-detail?gemstoneproduct';
   static const String YantraMasterProductDetailsApi = 'yantras/web-yantraproduct-detail?yantraproduct';
+  static const String PujaMasterProductDetailsApi = 'mobileapp/puja-product-detail?slug_value';
 }

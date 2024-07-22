@@ -61,6 +61,11 @@ class _DiamondProductDetailsWidgetState
         ExpandableController(initialExpanded: false);
   }
 
+  String formatDate(String dateTimeString) {
+    final DateTime dateTime = DateTime.parse(dateTimeString);
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(dateTime);
+  }
   @override
   void dispose() {
     _model.dispose();
@@ -254,8 +259,7 @@ class _DiamondProductDetailsWidgetState
                                                 hosturl:
                                                     FFAppConstants.sanityurl,
                                                 token:
-                                                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk4ZDg2NDUwLWQ1MzEtNGU2OC1hZjdkLWUxZmM5YjNhMTg3YyIsImVtYWlsIjoibW9odXJsZWF0aGFydmExNEBnbWFpbC5jb20iLCJtb2JpbGUiOjgzMjk2ODM0NjgsInNvdXJjZSI6ImFwcCJ9.FMQyI6U4wmC2zog3zVcGwB87ehlrP0UBSmLuShXWphU',
-                                              ),
+                                                currentAuthenticationToken,                                              ),
                                               builder: (context, snapshot) {
                                                 // Customize what your widget looks like when it's loading.
                                                 if (!snapshot.hasData) {
@@ -860,7 +864,7 @@ class _DiamondProductDetailsWidgetState
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
-                                            text: 'Certificat : ',
+                                            text: 'Certificate : ',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -3076,7 +3080,50 @@ class _DiamondProductDetailsWidgetState
                                               ),
                                               FFButtonWidget(
                                                 onPressed: () {
-                                                  print('Button pressed ...');
+                                                  print("Productid:${  OtherProductsDetailsCall
+                                                      .rudrakshaProductid(
+                                                    containerOtherProductsDetailsResponse
+                                                        .jsonBody,
+                                                  )?.toString()}");
+                                                  print("productMainType:${  OtherProductsDetailsCall
+                                                      .rudrakshaMainProductType(
+                                                    containerOtherProductsDetailsResponse
+                                                        .jsonBody,
+                                                  )?.toString()}");
+
+                                                  print("reviewcustomercomment:${  OtherProductsDetailsCall.reviewcustomercomment(
+                                                    containerOtherProductsDetailsResponse.jsonBody,
+                                                  )}");
+                                                  context.pushNamed(
+
+                                                    'AddRatingDetails',
+                                                    queryParameters: {
+                                                      'mainproducttype': serializeParam(
+                                                        OtherProductsDetailsCall
+                                                            .rudrakshaMainProductType(
+                                                          containerOtherProductsDetailsResponse
+                                                              .jsonBody,
+                                                        )?.toString(),
+
+                                                        ParamType.String,
+                                                      ),
+                                                      'productid': serializeParam(
+                                                        OtherProductsDetailsCall
+                                                            .rudrakshaProductid(
+                                                          containerOtherProductsDetailsResponse
+                                                              .jsonBody,
+                                                        )?.toString(),
+                                                        ParamType.String,
+                                                      ),
+                                                    }.withoutNulls,
+                                                    extra: <String, dynamic>{
+                                                      kTransitionInfoKey: TransitionInfo(
+                                                        hasTransition: true,
+                                                        transitionType: PageTransitionType.rightToLeft,
+                                                        duration: Duration(milliseconds: 400),
+                                                      ),
+                                                    },
+                                                  );
                                                 },
                                                 text: 'Rate',
                                                 options: FFButtonOptions(
@@ -3160,8 +3207,17 @@ class _DiamondProductDetailsWidgetState
                                                             FontWeight.w600,
                                                       ),
                                                 ),
+
                                                 Text(
-                                                  'I was amazed at how accurately he could describe my personality, current situation of my life and problem areas just by analyzing my birth chart.',
+
+                                                  valueOrDefault<String>(
+                                                    OtherProductsDetailsCall.reviewcustomercomment(
+                                                      containerOtherProductsDetailsResponse.jsonBody,
+                                                    ),
+                                                    'x',
+
+                                                  ),
+
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -3174,7 +3230,7 @@ class _DiamondProductDetailsWidgetState
                                                         letterSpacing: 0,
                                                       ),
                                                 ),
-                                                Row(
+                                                /*Row(
                                                   mainAxisSize:
                                                       MainAxisSize.max,
                                                   children: [
@@ -3212,21 +3268,53 @@ class _DiamondProductDetailsWidgetState
                                                       ),
                                                     ),
                                                   ].divide(SizedBox(width: 8)),
-                                                ),
-                                                Text(
-                                                  'David Johnson, 1st Jan 2023',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF696969),
-                                                        letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                ),*/
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      valueOrDefault<String>(
+                                                        OtherProductsDetailsCall.reviewcustomername(
+                                                          containerOtherProductsDetailsResponse.jsonBody,
+                                                        ),
+                                                        'x',
+
                                                       ),
+                                                      style: FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            color:
+                                                                Color(0xFF696969),
+                                                            letterSpacing: 0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                    ),
+                                                    SizedBox(width: 5),
+
+                                                    Text(
+                                                      valueOrDefault<String>(
+                                                        OtherProductsDetailsCall.reviewdate(
+                                                          containerOtherProductsDetailsResponse.jsonBody,
+                                                        ) != null
+                                                            ? formatDate(OtherProductsDetailsCall.reviewdate(
+                                                          containerOtherProductsDetailsResponse.jsonBody,
+                                                        )!)
+                                                            : 'x',
+                                                        'x',
+                                                      ),
+                                                      style: FlutterFlowTheme.of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                        fontFamily: 'Montserrat',
+                                                        color: Color(0xFF696969),
+                                                        letterSpacing: 0,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                                 Row(
                                                   mainAxisSize:
@@ -3257,7 +3345,15 @@ class _DiamondProductDetailsWidgetState
                                                                 ),
                                                           ),
                                                           TextSpan(
-                                                            text: '6,461',
+                                                            text:  valueOrDefault<
+                                                          String>(
+                  OtherProductsDetailsCall
+                      .reviewcount(
+                  containerOtherProductsDetailsResponse
+                      .jsonBody,
+                  ).toString(),
+                  '0.0',
+                  ),
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight

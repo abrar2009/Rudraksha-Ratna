@@ -1101,14 +1101,14 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                         borderRadius:
                                         BorderRadius.circular(16.0),
                                         child: Image.asset(
-                                          'assets/images/placeholder.png',
+                                          'assets/images/banner2.png',
                                           width: 327.0,
                                           height: 189.0,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                    Align(
+                                /*    Align(
                                       alignment:
                                       AlignmentDirectional(0.0, -0.77),
                                       child: Padding(
@@ -1168,7 +1168,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                           ),
                                         ),
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                               ),
@@ -1184,14 +1184,14 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                         borderRadius:
                                         BorderRadius.circular(16.0),
                                         child: Image.asset(
-                                          'assets/images/placeholder.png',
+                                          'assets/images/banner3.png',
                                           width: 327.0,
                                           height: 189.0,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                    Align(
+                                   /* Align(
                                       alignment:
                                       AlignmentDirectional(0.0, -0.77),
                                       child: Padding(
@@ -1251,7 +1251,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                           ),
                                         ),
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                               ),
@@ -1297,13 +1297,10 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                   onTap: () async {
                                     context.pushNamed(
                                       'CategoriesListViewChooseChip',
-                                      extra: <String, dynamic>{
-                                        kTransitionInfoKey: TransitionInfo(
-                                          hasTransition: true,
-                                          transitionType:
-                                          PageTransitionType.rightToLeft,
-                                          duration: Duration(milliseconds: 400),
-                                        ),
+                                      queryParameters: {
+                                        'isSelected': "false",
+                                        'defaultcategories': "Rudraksha" ,
+                                        'subproductslugvalue':"",
                                       },
                                     );
                                   },
@@ -1356,6 +1353,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                           true,
                                         )!)!;
                                     setState(() {});
+                                    print("_model.iD :${_model.iD}");
                                   },
                                   selectedChipStyle: ChipStyle(
                                     backgroundColor: Colors.white,
@@ -1853,7 +1851,8 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                                             duration: Duration(milliseconds: 400),
                                                           ),
                                                         },
-                                                      );}
+                                                      )
+                                                      ;}
                                                       /*  context.pushNamed(
                                                         'ProductDetails',
                                                         queryParameters: {
@@ -2032,13 +2031,10 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                           onTap: (){
                                             context.pushNamed(
                                               'CategoriesListViewChooseChip',
-                                              extra: <String, dynamic>{
-                                                kTransitionInfoKey: TransitionInfo(
-                                                  hasTransition: true,
-                                                  transitionType:
-                                                  PageTransitionType.rightToLeft,
-                                                  duration: Duration(milliseconds: 400),
-                                                ),
+                                              queryParameters: {
+                                                'isSelected': "false",
+                                                'defaultcategories': "Rudraksha" ,
+                                                'subproductslugvalue':"",
                                               },
                                             );
                                           },
@@ -2055,34 +2051,129 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                                 width: 2,
                                               ),
                                             ),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'View all',
-                                                  style: FlutterFlowTheme.of(
-                                                      context)
-                                                      .bodyMedium
-                                                      .override(
-                                                    fontFamily: 'Montserrat',
-                                                    color: FlutterFlowTheme.of(context).primary,
-                                                    fontSize: 16,
-                                                    letterSpacing: 0,
-                                                    fontWeight:
-                                                    FontWeight.w500,
+                                            child: InkWell(
+                                              onTap: (){
+                                                if (_model.choiceChipsValue == 'Rudraksha') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "false",
+                                                      'defaultcategories': "Rudraksha" ,
+                                                      'subproductslugvalue':"",
+                                                    },
+                                                  );
+                                                } else if (_model.choiceChipsValue == 'Gemstone') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "false",
+                                                      'defaultcategories': "Gemstone" ,
+                                                      'subproductslugvalue':"",
+                                                    },
+                                                  );
+                                                }else if (_model.choiceChipsValue == 'Kanthas & Malas') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "true",
+                                                      'defaultcategories': "Rudraksha" ,
+                                                      'subproductslugvalue':"p/rudraksha-kantha-rudraksha-mala",
+                                                    },
+                                                  );
+                                                }else if (_model.choiceChipsValue == 'Yantra') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "false",
+                                                      'defaultcategories': "Yantras" ,
+                                                      'subproductslugvalue':"",
+                                                    },
+                                                  );
+                                                }else if (_model.choiceChipsValue == 'Idols') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "false",
+                                                      'defaultcategories': "Idols" ,
+                                                      'subproductslugvalue':"",
+                                                    },
+                                                  );
+                                                }else if (_model.choiceChipsValue == 'Gold & Silver products') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "false",
+                                                      'defaultcategories': "Gemstone" ,
+                                                      'subproductslugvalue':"",
+                                                    },
+                                                  );
+                                                }else if (_model.choiceChipsValue == 'Parad') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "false",
+                                                      'defaultcategories': "Gemstone" ,
+                                                      'subproductslugvalue':"",
+                                                    },
+                                                  );
+                                                }else if (_model.choiceChipsValue == 'Shivling') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "true",
+                                                      'defaultcategories': "Others" ,
+                                                      'subproductslugvalue':"",
+                                                    },
+                                                  );
+                                                }else if (_model.choiceChipsValue == 'Abhishek Products') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "false",
+                                                      'defaultcategories': "Gemstone" ,
+                                                      'subproductslugvalue':"",
+                                                    },
+                                                  );
+                                                }else if (_model.choiceChipsValue == 'Fresh Items') {
+                                                  context.pushNamed(
+                                                    'CategoriesListViewChooseChip',
+                                                    queryParameters: {
+                                                      'isSelected': "false",
+                                                      'defaultcategories': "Gemstone" ,
+                                                      'subproductslugvalue':"",
+                                                    },
+                                                  );
+                                                }
+                                              },
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'View all',
+                                                    style: FlutterFlowTheme.of(
+                                                        context)
+                                                        .bodyMedium
+                                                        .override(
+                                                      fontFamily: 'Montserrat',
+                                                      color: FlutterFlowTheme.of(context).primary,
+                                                      fontSize: 16,
+                                                      letterSpacing: 0,
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                    ),
                                                   ),
-                                                ),
-                                                Icon(
-                                                  Icons
-                                                      .arrow_circle_right_outlined,
-                                                  color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                                  size: 30,
-                                                ),
-                                              ],
+                                                  Icon(
+                                                    Icons
+                                                        .arrow_circle_right_outlined,
+                                                    color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                    size: 30,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -2296,81 +2387,115 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(16),
-                                      child: Image.asset(
-                                        'assets/images/image_24.png',
-                                        width: MediaQuery.sizeOf(context).width * 0.44,
-                                        height: MediaQuery.sizeOf(context).height * 0.20,
-                                        /*height: () {
-                                          if (MediaQuery.sizeOf(context).height <= 375.0) {
-                                            return 160.0;
-                                          } else if (MediaQuery.sizeOf(context).height <= 400.0) {
-                                            return 180.0;
-                                          } else if (MediaQuery.sizeOf(context).height <= 430.0) {
-                                            return 195.0;
-                                          } else if (MediaQuery.sizeOf(context).height <= 393.0) {
-                                            return 175.0;
-                                          } else {
-                                            return 165.0;
-                                          }
-                                        }(),*/
-                                        fit: BoxFit.cover,
+                                InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor:
+                                  Colors.transparent,
+                                  onTap: () async {
+                                    context.pushNamed(
+                                      'MainProducts',
+                                      queryParameters: {
+                                        'productType': "OthersMainCategory",
+                                        'productslugvalue': "p/silver-idols-gods-goddesses" ,
+                                        'producttitle':"Silver Idols",
+                                      }.withoutNulls,
+                                    );
+                                  },
+                                  child:Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Image.asset(
+                                          'assets/images/image_24.png',
+                                          width: MediaQuery.sizeOf(context).width * 0.44,
+                                          height: MediaQuery.sizeOf(context).height * 0.20,
+                                          /*height: () {
+                                            if (MediaQuery.sizeOf(context).height <= 375.0) {
+                                              return 160.0;
+                                            } else if (MediaQuery.sizeOf(context).height <= 400.0) {
+                                              return 180.0;
+                                            } else if (MediaQuery.sizeOf(context).height <= 430.0) {
+                                              return 195.0;
+                                            } else if (MediaQuery.sizeOf(context).height <= 393.0) {
+                                              return 175.0;
+                                            } else {
+                                              return 165.0;
+                                            }
+                                          }(),*/
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      'Silver Idols',
-                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                        fontFamily: 'Montserrat',
-                                        color: FlutterFlowTheme.of(context).primaryText,
-                                        fontSize: 16,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600,
+                                      Text(
+                                        'Silver Idols',
+                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                          fontFamily: 'Montserrat',
+                                          color: FlutterFlowTheme.of(context).primaryText,
+                                          fontSize: 16,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                  ].divide(SizedBox(height: 8)),
+                                    ].divide(SizedBox(height: 8)),
+                                  ),
                                 ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(16),
-                                      child: Image.asset(
-                                        'assets/images/image_24_(1).png',
-                                        width: MediaQuery.sizeOf(context).width * 0.44,
-                                        height: MediaQuery.sizeOf(context).height * 0.20,
-                                        /*height: () {
-                                          if (MediaQuery.sizeOf(context).height <= 375.0) {
-                                            return 160.0;
-                                          } else if (MediaQuery.sizeOf(context).height <= 400.0) {
-                                            return 180.0;
-                                          } else if (MediaQuery.sizeOf(context).height <= 430.0) {
-                                            return 195.0;
-                                          } else if (MediaQuery.sizeOf(context).height <= 393.0) {
-                                            return 175.0;
-                                          } else {
-                                            return 165.0;
-                                          }
-                                        }(),*/
-                                        fit: BoxFit.cover,
+                                InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor:
+                                  Colors.transparent,
+                                  onTap: () async {
+                                    context.pushNamed(
+                                      'CategoriesListViewChooseChip',
+                                      queryParameters: {
+                                        'isSelected': "true",
+                                        'defaultcategories': "Vastu" ,
+                                        'subproductslugvalue':"p/chakra-vastu-pyramids",
+                                      },
+                                    );
+                                  },
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Image.asset(
+                                          'assets/images/image_24_(1).png',
+                                          width: MediaQuery.sizeOf(context).width * 0.44,
+                                          height: MediaQuery.sizeOf(context).height * 0.20,
+                                          /*height: () {
+                                            if (MediaQuery.sizeOf(context).height <= 375.0) {
+                                              return 160.0;
+                                            } else if (MediaQuery.sizeOf(context).height <= 400.0) {
+                                              return 180.0;
+                                            } else if (MediaQuery.sizeOf(context).height <= 430.0) {
+                                              return 195.0;
+                                            } else if (MediaQuery.sizeOf(context).height <= 393.0) {
+                                              return 175.0;
+                                            } else {
+                                              return 165.0;
+                                            }
+                                          }(),*/
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      'Pyramids',
-                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                        fontFamily: 'Montserrat',
-                                        color: FlutterFlowTheme.of(context).primaryText,
-                                        fontSize: 16,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600,
+                                      Text(
+                                        'Pyramids',
+                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                          fontFamily: 'Montserrat',
+                                          color: FlutterFlowTheme.of(context).primaryText,
+                                          fontSize: 16,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                  ].divide(SizedBox(height: 8)),
+                                    ].divide(SizedBox(height: 8)),
+                                  ),
                                 ),
                               ].divide(SizedBox(width: 8)),
                             ),
@@ -2381,163 +2506,197 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.circular(16.0),
-                                        child: Image.asset(
-                                          'assets/images/image_24_(2).png',
-                                          width: MediaQuery.sizeOf(context).width * 0.44,
-                                          height: MediaQuery.sizeOf(context).height * 0.20,
-                                          /*width: () {
-                                            if (MediaQuery.sizeOf(context)
-                                                .width <=
-                                                375.0) {
-                                              return 160.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .width <=
-                                                400.0) {
-                                              return 170.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .width <=
-                                                430.0) {
-                                              return 190.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .width <=
-                                                393.0) {
-                                              return 175.0;
-                                            } else {
-                                              return 165.0;
-                                            }
-                                          }(),
-                                          height: () {
-                                            if (MediaQuery.sizeOf(context)
-                                                .height <=
-                                                375.0) {
-                                              return 160.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .height <=
-                                                400.0) {
-                                              return 180.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .height <=
-                                                430.0) {
-                                              return 195.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .height <=
-                                                393.0) {
-                                              return 175.0;
-                                            } else {
-                                              return 165.0;
-                                            }
-                                          }(),*/
-                                          fit: BoxFit.cover,
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor:
+                                    Colors.transparent,
+                                    onTap: () async {
+                                      context.pushNamed(
+                                        'CategoriesListViewChooseChip',
+                                        queryParameters: {
+                                          'isSelected': "false",
+                                          'defaultcategories': "Jewellery" ,
+                                          'subproductslugvalue':"p/chakra-vastu-pyramids",
+                                        },
+                                      );
+                                    },
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                          BorderRadius.circular(16.0),
+                                          child: Image.asset(
+                                            'assets/images/image_24_(2).png',
+                                            width: MediaQuery.sizeOf(context).width * 0.44,
+                                            height: MediaQuery.sizeOf(context).height * 0.20,
+                                            /*width: () {
+                                              if (MediaQuery.sizeOf(context)
+                                                  .width <=
+                                                  375.0) {
+                                                return 160.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .width <=
+                                                  400.0) {
+                                                return 170.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .width <=
+                                                  430.0) {
+                                                return 190.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .width <=
+                                                  393.0) {
+                                                return 175.0;
+                                              } else {
+                                                return 165.0;
+                                              }
+                                            }(),
+                                            height: () {
+                                              if (MediaQuery.sizeOf(context)
+                                                  .height <=
+                                                  375.0) {
+                                                return 160.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .height <=
+                                                  400.0) {
+                                                return 180.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .height <=
+                                                  430.0) {
+                                                return 195.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .height <=
+                                                  393.0) {
+                                                return 175.0;
+                                              } else {
+                                                return 165.0;
+                                              }
+                                            }(),*/
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Spiritual Jewellery',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                          fontFamily: 'Montserrat',
-                                          color:
-                                          FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          fontSize: 16.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w600,
+                                        Text(
+                                          'Spiritual Jewellery',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                            fontFamily: 'Montserrat',
+                                            color:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            fontSize: 16.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
-                                      ),
-                                    ].divide(SizedBox(height: 8.0)),
+                                      ].divide(SizedBox(height: 8.0)),
+                                    ),
                                   ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                        BorderRadius.circular(16.0),
-                                        child: Image.asset(
-                                          'assets/images/image_24_(3).png',
-                                          /*width: () {
-                                            if (MediaQuery.sizeOf(context)
-                                                .width <=
-                                                375.0) {
-                                              return 160.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .width <=
-                                                400.0) {
-                                              return 170.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .width <=
-                                                430.0) {
-                                              return 190.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .width <=
-                                                393.0) {
-                                              return 175.0;
-                                            } else {
-                                              return 165.0;
-                                            }
-                                          }(),
-                                          height: () {
-                                            if (MediaQuery.sizeOf(context)
-                                                .height <=
-                                                375.0) {
-                                              return 160.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .height <=
-                                                400.0) {
-                                              return 180.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .height <=
-                                                430.0) {
-                                              return 195.0;
-                                            } else if (MediaQuery.sizeOf(
-                                                context)
-                                                .height <=
-                                                393.0) {
-                                              return 175.0;
-                                            } else {
-                                              return 165.0;
-                                            }
-                                          }(),*/
-                                          width: MediaQuery.sizeOf(context).width * 0.44,
-                                          height: MediaQuery.sizeOf(context).height * 0.20,
-                                          fit: BoxFit.cover,
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor:
+                                    Colors.transparent,
+                                    onTap: () async {
+                                      context.pushNamed(
+                                        'MainProducts',
+                                        queryParameters: {
+                                          'productType': "OthersSubCategory",
+                                          'productslugvalue': "k/shree-yantra-in-sphatik" ,
+                                          'producttitle':"Sphatik Crystal Quartz Shree Yantra",
+                                        }.withoutNulls,
+                                      );
+                                    },
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                          BorderRadius.circular(16.0),
+                                          child: Image.asset(
+                                            'assets/images/image_24_(3).png',
+                                            /*width: () {
+                                              if (MediaQuery.sizeOf(context)
+                                                  .width <=
+                                                  375.0) {
+                                                return 160.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .width <=
+                                                  400.0) {
+                                                return 170.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .width <=
+                                                  430.0) {
+                                                return 190.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .width <=
+                                                  393.0) {
+                                                return 175.0;
+                                              } else {
+                                                return 165.0;
+                                              }
+                                            }(),
+                                            height: () {
+                                              if (MediaQuery.sizeOf(context)
+                                                  .height <=
+                                                  375.0) {
+                                                return 160.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .height <=
+                                                  400.0) {
+                                                return 180.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .height <=
+                                                  430.0) {
+                                                return 195.0;
+                                              } else if (MediaQuery.sizeOf(
+                                                  context)
+                                                  .height <=
+                                                  393.0) {
+                                                return 175.0;
+                                              } else {
+                                                return 165.0;
+                                              }
+                                            }(),*/
+                                            width: MediaQuery.sizeOf(context).width * 0.44,
+                                            height: MediaQuery.sizeOf(context).height * 0.20,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Shree Yantras',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                          fontFamily: 'Montserrat',
-                                          color:
-                                          FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          fontSize: 16.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w600,
+                                        Text(
+                                          'Shree Yantras',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                            fontFamily: 'Montserrat',
+                                            color:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            fontSize: 16.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
-                                      ),
-                                    ].divide(SizedBox(height: 8.0)),
+                                      ].divide(SizedBox(height: 8.0)),
+                                    ),
                                   ),
                                 ].divide(SizedBox(width: 8.0)),
                               ),

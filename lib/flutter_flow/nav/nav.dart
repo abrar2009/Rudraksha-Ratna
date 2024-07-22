@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:rudraksha_cart/pages/Puja_product_details/puja_product_details_widget.dart';
+import 'package:rudraksha_cart/pages/add_review/add_review_widget.dart';
 
 import '../../pages/OrderTracking/order_tracking_widget.dart';
 import '../../pages/Yantra_product_details/yantra_product_details_widget.dart';
@@ -101,6 +103,36 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: '_initialize',
           path: '/',
           builder: (context, _) => HomepageWidget(), // This should be your homepage widget
+        ),
+
+        FFRoute(
+          name: 'PujaProductDetails',
+          path: '/pujaProductDetails',
+          builder: (context, params) => PujaProductDetailsWidget(
+            productSlugValue: params.getParam(
+              'productSlugValue',
+              ParamType.String,
+            ),
+            producttype: params.getParam(
+              'producttype',
+              ParamType.String,
+            ),
+          ),
+        ),
+
+        FFRoute(
+          name: 'AddRatingDetails',
+          path: '/AddRatingDetails',
+          builder: (context, params) => AddRatingWidget(
+            mainproducttype: params.getParam(
+              'mainproducttype',
+              ParamType.String,
+            ),
+            productid: params.getParam(
+              'productid',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: 'Homepage',
@@ -319,10 +351,28 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/categoriesGridView',
           builder: (context, params) => CategoriesGridViewWidget(),
         ),
-        FFRoute(
+      /*  FFRoute(
           name: 'CategoriesListViewChooseChip',
           path: '/categoriesListViewChooseChip',
           builder: (context, params) => CategoriesListViewChooseChipWidget(),
+        ),*/
+        FFRoute(
+          name: 'CategoriesListViewChooseChip',
+          path: '/categoriesListViewChooseChip',
+          builder: (context, params) => CategoriesListViewChooseChipWidget(
+            isSelected: params.getParam(
+              'isSelected',
+              ParamType.bool,
+            ),
+            defaultcategories: params.getParam(
+              'defaultcategories',
+              ParamType.String,
+            ),
+            subproductslugvalue: params.getParam(
+              'subproductslugvalue',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: 'MyAddresses',

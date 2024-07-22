@@ -274,6 +274,7 @@ class FFAppState extends ChangeNotifier {
   String get sortby => _Selectedsortby;
   set sortby(String value) {
     _Selectedsortby = value;
+    notifyListeners();
   }
 
   String _productid = '';
@@ -436,6 +437,39 @@ class FFAppState extends ChangeNotifier {
   set originlist(String value) {
     _originlist = value;
   }
+
+  String _personName = '';
+  String get personName => _personName;
+  set personName(String value) {
+    _personName = value;
+  }
+  String _sankalp = '';
+  String get sankalp => _sankalp;
+  set sankalp(String value) {
+    _sankalp = value;
+  }
+  String _specialInstructions = '';
+  String get specialInstructions => _specialInstructions;
+  set specialInstructions(String value) {
+    _specialInstructions = value;
+  }
+  String _fatherName = '';
+  String get fatherName => _fatherName;
+  set fatherName(String value) {
+    _fatherName = value;
+  }
+  String _motherName = '';
+  String get motherName => _motherName;
+  set motherName(String value) {
+    _motherName = value;
+  }
+
+  String _Stringproductvariation = '';
+  String get productvariationString => _Stringproductvariation;
+  set  productvariationString(String value) {
+    _Stringproductvariation = value;
+  }
+
 }
 
 void _safeInit(Function() initializeField) {

@@ -10,6 +10,8 @@ import 'package:http/http.dart' as http;
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
+
+
 class ExploreCategoryListCall {
   static Future<ApiCallResponse> call({
     String? sanityurl = '',
@@ -204,7 +206,52 @@ class UpdateCustomerCall {
     );
   }
 }
+class GlobalSearchCall {
+  static Future<ApiCallResponse> call({
+    String? search = '',
 
+    String? hosturl = '',
+
+
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "search": "${search}"
+ 
+  
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'GlobalSearch',
+      apiUrl: '${hosturl}/otherproductmaster/global-search',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static List? data(dynamic response) => getJsonField(
+    response,
+    r'''$.data''',
+    true,
+  ) as List?;
+  static List<String>? productname(dynamic response) => (getJsonField(
+    response,
+    r'''$.data[:].product_name''',
+    true,
+  ) as List?)
+      ?.withoutNulls
+      .map((x) => castToType<String>(x))
+      .withoutNulls
+      .toList();
+}
 class CustomerDetailsCall {
   static Future<ApiCallResponse> call({
     String? token = '',
@@ -617,7 +664,7 @@ class WishListCall {
     );
   }
 
-  static List<int>? id(dynamic response) => (getJsonField(
+  static List<int> id(dynamic response) => (getJsonField(
     response,
     r'''$.data[:].id''',
     true,
@@ -625,7 +672,8 @@ class WishListCall {
       ?.withoutNulls
       .map((x) => castToType<int>(x))
       .withoutNulls
-      .toList();
+      .toList() ?? [];
+
   static List<String>? name(dynamic response) => (getJsonField(
     response,
     r'''$.data[:].name''',
@@ -1414,6 +1462,36 @@ class OtherProductsDetailsCall {
     r'''$.review_data''',
     true,
   ) as List?;
+
+  static String? reviewcustomercomment(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.data.review_data[:].comment''',
+      ));
+
+  static int? reviewcount(dynamic response) =>
+      castToType<int>(getJsonField(
+        response,
+        r'''$.review_count''',
+      ));
+
+  static String? reviewcustomername(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.data.review_data[:].customer_name''',
+      ));
+
+  static String? reviewdate(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.data.review_data[:].createdAt''',
+      ));
+/*  static String? reviewcustomercomment(dynamic response) => getJsonField(
+    response,
+    r'''$.data[:].review_data.comment''',
+    true,
+  ) ;*/
+
   static List<String>? yantradesigngrpimage(dynamic response) => (getJsonField(
     response,
     r'''$.data[:].designgrp[:].image''',
@@ -1522,8 +1600,173 @@ class OtherProductsDetailsCall {
           .map((x) => castToType<int>(x))
           .withoutNulls
           .toList();
-}
 
+  static List<int>? pujadataproductvariantdatasellingprice(dynamic response) =>
+      (getJsonField(
+        response,
+        r'''$.data.product_variant_data[:].selling_price''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+
+  static List<String>? pujavariantpath(dynamic response) =>
+      (getJsonField(
+        response,
+        r'''$.data.product_variant_data[:].image_url[:].path''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+
+  static List<String>? pujavariantname(dynamic response) =>
+      (getJsonField(
+        response,
+        r'''$.data.product_variant_data[:].variant_name''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+
+  static List<Map<String, dynamic>>? pujavariantdata(dynamic response) {
+    var jsonList = getJsonField(
+      response,
+      r'''$.data.product_variant_data''',
+      true,
+    ) as List?;
+
+    if (jsonList == null) {
+      return null;
+    }
+
+    List<Map<String, dynamic>> variantPaths = [];
+
+    for (var item in jsonList.withoutNulls) {
+      if (item is Map<String, dynamic>) {
+        variantPaths.add(item);
+      } else {
+        print('Invalid item format: $item');
+      }
+    }
+
+    return variantPaths;
+  }
+
+  static double? pujaRating(dynamic response) =>
+      castToType<double>(getJsonField(
+        response,
+        r'''$.data.overall_rating''',
+      ));
+
+  static List<int>? pujadataproductvariantdataproductid(dynamic response) => (getJsonField(
+    response,
+    r'''$.data.product_variant_data[:].id''',
+    true,
+  ) as List?)
+      ?.withoutNulls
+      .map((x) => castToType<int>(x))
+      .withoutNulls
+      .toList();
+  static List<String>? pujaimageurlpath(dynamic response) =>
+      (getJsonField(
+        response,
+        r'''$.data.image_url[:].path''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  static String? Stringproductsellingprice(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.data.selling_price''',
+      ));
+  static bool? pujavariantstatus(dynamic response) =>
+      castToType<bool>(getJsonField(
+        response,
+        r'''$.data.variant_status''',
+      ));
+}
+class PujaproductAddToCartCall {
+  static Future<ApiCallResponse> call({
+    String? hosturl = '',
+    String? token = '',
+    String? productid = '',
+    String? productType = '',
+    bool? productvariation,
+    int? productvariationId = 2,
+    String? quantity = '1',
+    int? energization = 2,
+    String? certification = '2',
+    int? design = 2,
+    int? chain = 2,
+    int? bundlekit = 2,
+    String? ringSizeSystem = '',
+    String? ringSize = '',
+    String? wristSize = '',
+    String? personName = '',
+    String? sankalp = '',
+    String? specialInstructions = '',
+    String? dob = '',
+    String? tob = '',
+    String? pob = '',
+    String? fatherName = '',
+    String? motherName = '',
+    String? gotra = '',
+    String? photo = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "productid": "${productid}",
+  "productType": "${productType}",
+  "productvariation": ${productvariation} ,
+  "productvariationId": ${productvariationId},
+  "quantity": "${quantity}",
+  "energization": ${energization},
+  "certification": " ${certification}",
+  "design": ${design},
+  "chain": ${chain},
+  "bundlekit": ${bundlekit},
+   "ring_size_system": null,
+  "ring_size": null,
+  "wrist_size": null,
+   "person_name": "${personName}",
+  "sankalp": "${sankalp}",
+  "special_instructions": "${specialInstructions}",
+  "dob": null,
+  "tob": null,
+  "pob": null,
+  "father_name": "${fatherName}",
+  "mother_name": "${motherName}",
+  "gotra": "${gotra}",
+  "photo": null
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Puja Add To Cart',
+      apiUrl: '${hosturl}/cart/add-to-cart',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
 class AddToCartCall {
   static Future<ApiCallResponse> call({
     String? hosturl = '',
@@ -1773,7 +2016,7 @@ class PujaProductCall {
       ));
 }
 
-class OtherProductMainCategoryCall {
+  class OtherProductMainCategoryCall {
   static Future<ApiCallResponse> call({
     String? hosturl = '',
     String? slugValue = '',
@@ -1782,6 +2025,7 @@ class OtherProductMainCategoryCall {
     String? filter = '',
     String? subMainProductCategory = '',
     String? sort_by = '',
+    String? page_no = '',
   }) async {
     final ffApiRequestBody = '''
 {
@@ -1789,8 +2033,8 @@ class OtherProductMainCategoryCall {
   "max_price": "${maxPrice}",
   "min_price": "${minPrice}",
   "filters": "${filter}",
-    "sort_by": "${sort_by}",
-  "page_no": "1"
+  "sort_by": "${sort_by}",
+  "page_no": "${page_no}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'OtherProductMainCategory',
@@ -1836,6 +2080,45 @@ class OtherProductMainCategoryCall {
           .toList();
 }
 
+class AddReviewCall {
+  static Future<ApiCallResponse> call({
+    String? hosturl = '',
+    String? main_product_type = '',
+    String? star_rating = '',
+    String? comment = '',
+    String? product_id = '',
+    String? token = ''
+
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "main_product_type": "${main_product_type}",
+  "star_rating": "${star_rating}",
+  "comment": "${comment}",
+  "product_id": "${product_id}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Add Review',
+      apiUrl: '${hosturl}/customermaster/add-customer-review',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer ${token}',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+
+}
+
 class GemstoneProductOnSubCategoriesCall {
   static Future<ApiCallResponse> call({
     String? sanityurl = '',
@@ -1850,6 +2133,7 @@ class GemstoneProductOnSubCategoriesCall {
     String? minPrice = '',
     String? origi = '',
     String? sort_by = '',
+    String? page_no = '',
   }) async {
     final ffApiRequestBody = '''
 {
@@ -1863,6 +2147,7 @@ class GemstoneProductOnSubCategoriesCall {
   "max_price": "${maxPrice}",
   "min_price": "${minPrice}",
   "origin": "${origi}",
+  "page_no": "${page_no}",
   "sort_by": "${sort_by}"
 }''';
     return ApiManager.instance.makeApiCall(
@@ -1993,7 +2278,7 @@ class Product {
       product: json['product'],
       productVariation: json['productVariation'],*/
       productType: json['mainprodtype'],
-      product: json['product_id'],
+      product: json['product'] is int ? json['product'] : null,
       productVariation: json['product_variation_id']?.toString() ?? '',
       quantity: json['quantity'],
       personName: json['person_name'] ?? '',
@@ -2020,7 +2305,7 @@ class Product {
   Map<String, dynamic> toJson() {
     return {
       'productType': productType,
-      'product': product,
+      'product': product ?? FFAppState().productid,
       'productVariation': productVariation ?? '',
       'quantity': quantity,
       'person_name': personName,

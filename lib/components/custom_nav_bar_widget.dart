@@ -317,14 +317,12 @@ class _CustomNavBarWidgetState extends State<CustomNavBarWidget> {
                 FFAppState().pagename = 'CategoriesListViewChooseChip';
                 setState(() {});
 
-                context.goNamed(
+                context.pushNamed(
                   'CategoriesListViewChooseChip',
-                  extra: <String, dynamic>{
-                    kTransitionInfoKey: TransitionInfo(
-                      hasTransition: true,
-                      transitionType: PageTransitionType.fade,
-                      duration: Duration(milliseconds: 0),
-                    ),
+                  queryParameters: {
+                    'isSelected': "false",
+                    'defaultcategories': "Rudraksha" ,
+                    'subproductslugvalue':"",
                   },
                 );
               },
@@ -342,14 +340,12 @@ class _CustomNavBarWidgetState extends State<CustomNavBarWidget> {
                       FFAppState().pagename = 'CategoriesListViewChooseChip';
                       setState(() {});
 
-                      context.goNamed(
+                      context.pushNamed(
                         'CategoriesListViewChooseChip',
-                        extra: <String, dynamic>{
-                          kTransitionInfoKey: TransitionInfo(
-                            hasTransition: true,
-                            transitionType: PageTransitionType.fade,
-                            duration: Duration(milliseconds: 0),
-                          ),
+                        queryParameters: {
+                          'isSelected': "false",
+                          'defaultcategories': "Rudraksha" ,
+                          'subproductslugvalue':"",
                         },
                       );
                     },
@@ -371,14 +367,12 @@ class _CustomNavBarWidgetState extends State<CustomNavBarWidget> {
                                       'CategoriesListViewChooseChip';
                                   setState(() {});
 
-                                  context.goNamed(
+                                  context.pushNamed(
                                     'CategoriesListViewChooseChip',
-                                    extra: <String, dynamic>{
-                                      kTransitionInfoKey: TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType: PageTransitionType.fade,
-                                        duration: Duration(milliseconds: 0),
-                                      ),
+                                    queryParameters: {
+                                      'isSelected': "false",
+                                      'defaultcategories': "Rudraksha" ,
+                                      'subproductslugvalue':"",
                                     },
                                   );
                                 },
@@ -404,14 +398,12 @@ class _CustomNavBarWidgetState extends State<CustomNavBarWidget> {
                                       'CategoriesListViewChooseChip';
                                   setState(() {});
 
-                                  context.goNamed(
+                                  context.pushNamed(
                                     'CategoriesListViewChooseChip',
-                                    extra: <String, dynamic>{
-                                      kTransitionInfoKey: TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType: PageTransitionType.fade,
-                                        duration: Duration(milliseconds: 0),
-                                      ),
+                                    queryParameters: {
+                                      'isSelected': "false",
+                                      'defaultcategories': "Rudraksha" ,
+                                      'subproductslugvalue':"",
                                     },
                                   );
                                 },

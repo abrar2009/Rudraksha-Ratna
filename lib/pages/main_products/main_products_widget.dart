@@ -37,6 +37,7 @@ class MainProductsWidget extends StatefulWidget {
 
 class _MainProductsWidgetState extends State<MainProductsWidget> {
   late MainProductsModel _model;
+  String sortby=FFAppState().sortby;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -44,7 +45,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
   void initState() {
     print("widget.producttitle:${widget.producttitle}");
     super.initState();
+
     _model = createModel(context, () => MainProductsModel());
+    _scrollController.addListener(_onScroll);
+
+    _fetchData();
+
+
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
@@ -77,14 +84,14 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
         setState(() {});
       } else if (widget.productType == 'OthersSubCategory') {
         _model.otherSubProductResult =
-            await OtherProductMainCategoryCall.call();
+        await OtherProductMainCategoryCall.call();
 
         _model.statuscode = (_model.otherSubProductResult?.statusCode ?? 200);
         print(widget.productType);
         setState(() {});
       } else if (widget.productType == 'OthersMainCategory') {
         _model.otherMainProductResult =
-            await OtherProductMainCategoryCall.call();
+        await OtherProductMainCategoryCall.call();
 
         _model.statuscode = (_model.otherMainProductResult?.statusCode ?? 200);
         print(widget.productType);
@@ -102,10 +109,106 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
     });
   }
 
+  ScrollController _scrollController = ScrollController();
+  int _currentPage = 1;
+  List<dynamic> _productsList = [];
+  bool _isLoading = false;
+  bool _hasMoreData = true;
+
+
+  void _handleSortChange() {
+
+    initState();
+
+    print("FFAppState().sortby ${FFAppState().sortby}");
+
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      if (_hasMoreData && !_isLoading) {
+        _fetchData();
+
+      }
+    }
+  }
+
+
+  Future<void> _fetchData() async {
+    setState(() {
+      _isLoading = true;
+
+    });
+
+    ApiCallResponse response;
+    List<dynamic> newItems = [];
+
+    try {
+      if (widget.productType == 'Rudraksha') {
+        response = await RudrakshaProductCall.call(
+          hosturl: FFAppConstants.hosturl,
+          slugValue: widget.productslugvalue,
+          maxPrice: FFAppState().rangeendString,
+          minPrice: FFAppState().rangestartString,
+          sizeGrade: FFAppState().SelectedSizeGrade,
+          sort_by: sortby,//FFAppState().sortby,
+          pageNo: _currentPage.toString(),
+        );
+        newItems = RudrakshaProductCall.productlist(response.jsonBody)?.toList() ?? [];
+      } else if (widget.productType == 'OthersMainCategory'||widget.productType == 'OthersSubCategory' ) {
+        response = await OtherProductMainCategoryCall.call(
+          hosturl: FFAppConstants.hosturl,
+          slugValue:  widget.productslugvalue,
+          maxPrice: FFAppState().rangeendString,
+          minPrice: FFAppState().rangestartString,
+          subMainProductCategory: widget.productType == 'OthersMainCategory'
+              ? 'other-product-basedon-maincategory'
+              : 'other-product-basedon-subcategory',
+          sort_by: FFAppState().sortby,
+          page_no: _currentPage.toString(),
+        );
+        newItems = OtherProductMainCategoryCall.yantrProductData(response.jsonBody)?.toList() ?? [];
+      } else if (widget.productType == 'Gemstone') {
+        response = await GemstoneProductOnSubCategoriesCall.call(
+          sanityurl: FFAppConstants.sanityurl,
+          slugValue: widget.productslugvalue,
+          maxCaratWeight: FFAppState().maxcaratweightString,
+          minCaratWeight: FFAppState().mincaratweightString,
+          maxRattiWeight: FFAppState().maxrattiweightString,
+          minRattiWeight: FFAppState().minrattiweightString,
+          maxPricePerCarat: FFAppState().maxpricepercaratString,
+          minPricePerCarat: FFAppState().minpricepercaratString,
+          maxPrice: FFAppState().rangeendString,
+          minPrice: FFAppState().rangestartString,
+          origi: FFAppState().originlist,
+          sort_by:  FFAppState().sortby,
+          page_no:  _currentPage.toString(),
+        );
+        newItems = GemstoneProductOnSubCategoriesCall.productDataList(response.jsonBody)?.toList() ?? [];
+      }
+
+      setState(() {
+        _currentPage++;
+        print("sort_by FFAppState().sortby ${FFAppState().sortby}");
+        _productsList.addAll(newItems);
+        _isLoading = false;
+        if (newItems.isEmpty) {
+          _hasMoreData = false;
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _hasMoreData = false;
+      });
+      print('Error fetching data: $e');
+    }
+  }
   @override
   void dispose() {
     _model.dispose();
-
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -122,84 +225,84 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: _model.statuscode == 200
             ? AppBar(
-                backgroundColor: Colors.white,
-                automaticallyImplyLeading: false,
-                leading: FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 30,
-                  borderWidth: 1,
-                  buttonSize: 54,
-                  icon: Icon(
-                    Icons.arrow_back_rounded,
-                    color: Color(0xFF272728),
-                    size: 30,
-                  ),
-                  onPressed: () async {
-                    context.safePop();
-                  },
-                ),
-                title: Text(
-                  // 'Page Title',
-                  widget.producttitle!,
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 54,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: Color(0xFF272728),
+              size: 30,
+            ),
+            onPressed: () async {
+              context.safePop();
+            },
+          ),
+          title: Text(
+            // 'Page Title',
+            widget.producttitle!,
 
-                  style: FlutterFlowTheme.of(context).headlineMedium.override(
-                        fontFamily: 'Outfit',
-                        color: Color(0xFF272728),
-                        fontSize: 16,
-                        letterSpacing: 0,
-                      ),
-                ),
-                actions: [],
-                centerTitle: true,
-                elevation: 0,
-              )
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+              fontFamily: 'Outfit',
+              color: Color(0xFF272728),
+              fontSize: 16,
+              letterSpacing: 0,
+            ),
+          ),
+          actions: [],
+          centerTitle: true,
+          elevation: 0,
+        )
             : //null,
-            AppBar(
-                backgroundColor: Colors.white,
-                automaticallyImplyLeading: false,
-                leading: FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 30,
-                  borderWidth: 1,
-                  buttonSize: 54,
-                  icon: Icon(
-                    Icons.arrow_back_rounded,
-                    color: Color(0xFF272728),
-                    size: 30,
-                  ),
-                  onPressed: () async {
-                    context.pop();
-                    //  context.safePop();
-                    FFAppState().SelectedSizeGrade = '';
-                    FFAppState().BeadSizeMax = '';
-                    FFAppState().BeadSizeMin = '';
-                    FFAppState().YantraMaxPrice = '';
-                    FFAppState().YantraMinPrice = '';
-                    FFAppState().YantrasDeityPurpose = '';
-                    FFAppState().minpricepercaratString = '';
-                    FFAppState().maxpricepercaratString = '';
-                    FFAppState().minrattiweightString = '';
-                    FFAppState().maxrattiweightString = '';
-                    FFAppState().mincaratweightString = '';
-                    FFAppState().maxcaratweightString = '';
-                    FFAppState().rangeendString = '';
-                    FFAppState().rangestartString = '';
-                    setState(() {});
-                  },
-                ),
-                title: Text(
-                  widget.producttitle!,
-                  style: FlutterFlowTheme.of(context).headlineMedium.override(
-                        fontFamily: 'Outfit',
-                        color: Color(0xFF272728),
-                        fontSize: 16,
-                        letterSpacing: 0,
-                      ),
-                ),
-                actions: [],
-                centerTitle: true,
-                elevation: 0,
-              ),
+        AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 54,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: Color(0xFF272728),
+              size: 30,
+            ),
+            onPressed: () async {
+              context.pop();
+              //  context.safePop();
+              FFAppState().SelectedSizeGrade = '';
+              FFAppState().BeadSizeMax = '';
+              FFAppState().BeadSizeMin = '';
+              FFAppState().YantraMaxPrice = '';
+              FFAppState().YantraMinPrice = '';
+              FFAppState().YantrasDeityPurpose = '';
+              FFAppState().minpricepercaratString = '';
+              FFAppState().maxpricepercaratString = '';
+              FFAppState().minrattiweightString = '';
+              FFAppState().maxrattiweightString = '';
+              FFAppState().mincaratweightString = '';
+              FFAppState().maxcaratweightString = '';
+              FFAppState().rangeendString = '';
+              FFAppState().rangestartString = '';
+              setState(() {});
+            },
+          ),
+          title: Text(
+            widget.producttitle!,
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+              fontFamily: 'Outfit',
+              color: Color(0xFF272728),
+              fontSize: 16,
+              letterSpacing: 0,
+            ),
+          ),
+          actions: [],
+          centerTitle: true,
+          elevation: 0,
+        ),
         body: SafeArea(
           top: true,
           child: Container(
@@ -212,12 +315,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                     child: FutureBuilder<ApiCallResponse>(
                       future: RudrakshaProductCall.call(
-                        hosturl: FFAppConstants.hosturl,
-                        slugValue: widget.productslugvalue,
-                        maxPrice: FFAppState().rangeendString,
-                        minPrice: FFAppState().rangestartString,
-                        sizeGrade: FFAppState().SelectedSizeGrade,
-                        sort_by: FFAppState().sortby
+                          hosturl: FFAppConstants.hosturl,
+                          slugValue: widget.productslugvalue,
+                          maxPrice: FFAppState().rangeendString,
+                          minPrice: FFAppState().rangestartString,
+                          sizeGrade: FFAppState().SelectedSizeGrade,
+                          sort_by: FFAppState().sortby,
+                        pageNo: "1"
                       ),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
@@ -229,7 +333,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                           );
                         }
                         final rudrakshaRudrakshaProductResponse =
-                            snapshot.data!;
+                        snapshot.data!;
                         return Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -237,7 +341,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                           children: [
                             Padding(
                               padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                              EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -255,18 +359,18 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
                                               child: Container(
                                                 height: 356,
-                                                child: SortByWidget(),
+                                                child: SortByWidget( onSortChanged: _handleSortChange, ),
                                               ),
                                             ),
                                           );
@@ -291,7 +395,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
@@ -306,13 +410,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Sort',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8)),
                                         ),
@@ -332,12 +436,12 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
@@ -379,11 +483,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                              BorderRadius.circular(8),
                                               child: Image.asset(
                                                 'assets/images/sort.png',
                                                 width: 15,
@@ -394,13 +498,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Filter',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8)),
                                         ),
@@ -418,215 +522,215 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                   builder: (context) {
                                     final productgridlist =
                                         RudrakshaProductCall.productlist(
-                                              rudrakshaRudrakshaProductResponse
-                                                  .jsonBody,
-                                            )?.toList() ??
+                                          rudrakshaRudrakshaProductResponse
+                                              .jsonBody,
+                                        )?.toList() ??
                                             [];
-                                    return GridView.builder(
-                                      padding: EdgeInsets.zero,
-                                      gridDelegate:
+                                    return Stack(
+                                      children: [
+                                        GridView.builder(
+                                          controller: _scrollController,
+                                          padding: EdgeInsets.zero,
+                                          gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 9,
-                                        mainAxisSpacing: 9,
-                                        childAspectRatio: 0.82,
-                                      ),
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: productgridlist.length,
-                                      itemBuilder:
-                                          (context, productgridlistIndex) {
-                                        final productgridlistItem =
-                                            productgridlist[
-                                                productgridlistIndex];
-                                        return Stack(
-                                          children: [
-                                            InkWell(
-                                              splashColor: Colors.transparent,
-                                              focusColor: Colors.transparent,
-                                              hoverColor: Colors.transparent,
-                                              highlightColor:
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 9,
+                                            mainAxisSpacing: 9,
+                                            childAspectRatio: 0.82,
+                                          ),
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: _productsList.length,
+                                          itemBuilder:
+                                              (context, productgridlistIndex) {
+                                                final productgridlistItem = _productsList[productgridlistIndex];
+                                            return Stack(
+                                              children: [
+                                                InkWell(
+                                                  splashColor: Colors.transparent,
+                                                  focusColor: Colors.transparent,
+                                                  hoverColor: Colors.transparent,
+                                                  highlightColor:
                                                   Colors.transparent,
-                                              onTap: () async {
-                                                context.pushNamed(
-                                                  'DiamondProductDetails',
-                                                  queryParameters: {
-                                                    'productSlugValue':
+                                                  onTap: () async {
+                                                    context.pushNamed(
+                                                      'DiamondProductDetails',
+                                                      queryParameters: {
+                                                        'productSlugValue':
                                                         serializeParam(
-                                                      getJsonField(
-                                                        productgridlistItem,
-                                                        r'''$.slug_value''',
-                                                      ).toString(),
-                                                      ParamType.String,
-                                                    ),
-                                                    'producttype': FFAppConstants
-                                                        .RudrakshaMasterProductDetailsApi,
-                                                  }.withoutNulls,
-                                                );
-                                              },
-                                              child: Container(
-                                                // width: 168,
-                                                //height: 193,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  borderRadius:
-                                                      BorderRadius.circular(2),
-                                                  border: Border.all(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .borderColor,
-                                                  ),
-                                                ),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.all(4),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100),
-                                                          fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100),
-                                                          imageUrl:
-                                                              getJsonField(
+                                                          getJsonField(
                                                             productgridlistItem,
-                                                            r'''$.image''',
+                                                            r'''$.slug_value''',
                                                           ).toString(),
-                                                          width:
-                                                              double.infinity,
-                                                          height: 104.65,
-                                                          fit: BoxFit.cover,
+                                                          ParamType.String,
                                                         ),
+                                                        'producttype': FFAppConstants
+                                                            .RudrakshaMasterProductDetailsApi,
+                                                      }.withoutNulls,
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    // width: 168,
+                                                    //height: 193,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme.of(
+                                                          context)
+                                                          .secondaryBackground,
+                                                      borderRadius:
+                                                      BorderRadius.circular(2),
+                                                      border: Border.all(
+                                                        color: FlutterFlowTheme.of(
+                                                            context)
+                                                            .borderColor,
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  9, 8, 9, 10),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            width:
-                                                                double.infinity,
-                                                            height: 36,
-                                                            decoration:
-                                                                BoxDecoration(),
-                                                            child: Text(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                      MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                          EdgeInsets.all(4),
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                            child:
+                                                            CachedNetworkImage(
+                                                              fadeInDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  100),
+                                                              fadeOutDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  100),
+                                                              imageUrl:
                                                               getJsonField(
                                                                 productgridlistItem,
-                                                                r'''$.product_name''',
+                                                                r'''$.image''',
                                                               ).toString(),
-                                                              maxLines: 2,
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Montserrat',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .productName,
-                                                                    letterSpacing:
-                                                                        0,
-                                                                  ),
+                                                              width:
+                                                              double.infinity,
+                                                              height: 104.65,
+                                                              fit: BoxFit.cover,
                                                             ),
                                                           ),
-                                                          RichText(
-                                                            textScaler:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .textScaler,
-                                                            text: TextSpan(
-                                                              children: [
-                                                                TextSpan(
-                                                                  text: 'INR ',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                              9, 8, 9, 10),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize.max,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Container(
+                                                                width:
+                                                                double.infinity,
+                                                                height: 36,
+                                                                decoration:
+                                                                BoxDecoration(),
+                                                                child: Text(
+                                                                  getJsonField(
+                                                                    productgridlistItem,
+                                                                    r'''$.product_name''',
+                                                                  ).toString(),
+                                                                  maxLines: 2,
+                                                                  style: FlutterFlowTheme
+                                                                      .of(context)
                                                                       .bodyMedium
                                                                       .override(
+                                                                    fontFamily:
+                                                                    'Montserrat',
+                                                                    color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                        .productName,
+                                                                    letterSpacing:
+                                                                    0,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              RichText(
+                                                                textScaler:
+                                                                MediaQuery.of(
+                                                                    context)
+                                                                    .textScaler,
+                                                                text: TextSpan(
+                                                                  children: [
+                                                                    TextSpan(
+                                                                      text: 'INR ',
+                                                                      style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                          .bodyMedium
+                                                                          .override(
                                                                         fontFamily:
-                                                                            'Montserrat',
+                                                                        'Montserrat',
                                                                         color: Color(
                                                                             0xFF272728),
                                                                         letterSpacing:
-                                                                            0,
+                                                                        0,
                                                                         fontWeight:
-                                                                            FontWeight.w600,
+                                                                        FontWeight.w600,
                                                                       ),
-                                                                ),
-                                                                TextSpan(
-                                                                  text:
+                                                                    ),
+                                                                    TextSpan(
+                                                                      text:
                                                                       getJsonField(
-                                                                    productgridlistItem,
-                                                                    r'''$.selling_price''',
-                                                                  ).toString(),
-                                                                  style:
+                                                                        productgridlistItem,
+                                                                        r'''$.selling_price''',
+                                                                      ).toString(),
+                                                                      style:
                                                                       TextStyle(),
-                                                                )
-                                                              ],
-                                                              style: FlutterFlowTheme
+                                                                    )
+                                                                  ],
+                                                                  style: FlutterFlowTheme
                                                                       .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
+                                                                      .bodyMedium
+                                                                      .override(
                                                                     fontFamily:
-                                                                        'Montserrat',
+                                                                    'Montserrat',
                                                                     color: FlutterFlowTheme.of(
-                                                                            context)
+                                                                        context)
                                                                         .primaryText,
                                                                     letterSpacing:
-                                                                        0,
+                                                                    0,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
+                                                                    FontWeight
+                                                                        .w600,
                                                                   ),
-                                                            ),
+                                                                ),
+                                                              ),
+                                                            ].divide(SizedBox(
+                                                                height: 8)),
                                                           ),
-                                                        ].divide(SizedBox(
-                                                            height: 8)),
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment:
+                                                Align(
+                                                  alignment:
                                                   AlignmentDirectional(1, -1),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 5, 5, 0),
-                                                child:
+                                                  child: Padding(
+                                                    padding: EdgeInsetsDirectional
+                                                        .fromSTEB(0, 5, 5, 0),
+                                                    child:
                                                     FutureBuilder<
-                                                            ApiCallResponse>(
+                                                        ApiCallResponse>(
                                                         future:
-                                                            WishListCall.call(
+                                                        WishListCall.call(
                                                           hosturl:
-                                                              FFAppConstants
-                                                                  .sanityurl,
-                                                          token: currentAuthenticationToken
-                                                            ),
+                                                          FFAppConstants
+                                                              .sanityurl,
+                                                          token:currentAuthenticationToken,),
                                                         builder: (context,
                                                             snapshot) {
                                                           // Customize what your widget looks like when it's loading.
@@ -636,22 +740,22 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                               width: 1,
                                                               height: 1,
                                                               child:
-                                                                  ShimmerWidget(),
+                                                              ShimmerWidget(),
                                                             );
                                                           }
                                                           final containerWishlistResponse =
-                                                              snapshot.data!;
+                                                          snapshot.data!;
 
                                                           return Container(
                                                             decoration:
-                                                                BoxDecoration(
+                                                            BoxDecoration(
                                                               color: FlutterFlowTheme
-                                                                      .of(context)
+                                                                  .of(context)
                                                                   .secondaryBackground,
                                                               borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          24),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  24),
                                                             ),
                                                             child: Builder(
                                                               builder:
@@ -666,54 +770,54 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                   ).toString(),
                                                                 );
                                                                 if (!WishListCall
-                                                                        .id(
+                                                                    .id(
                                                                   containerWishlistResponse
                                                                       .jsonBody,
                                                                 )!
                                                                     .contains(
-                                                                        getJsonField(
-                                                                  productgridlistItem,
-                                                                  r'''$.product_id''',
-                                                                ))) {
+                                                                    getJsonField(
+                                                                      productgridlistItem,
+                                                                      r'''$.product_id''',
+                                                                    ))) {
                                                                   return Padding(
                                                                     padding:
-                                                                        EdgeInsets
-                                                                            .all(5),
+                                                                    EdgeInsets
+                                                                        .all(5),
                                                                     child:
-                                                                        InkWell(
+                                                                    InkWell(
                                                                       splashColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       focusColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       hoverColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       highlightColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       onTap:
                                                                           () async {
                                                                         _model.addToProductid(
                                                                             productgridlistIndex.toString());
                                                                         if (currentAuthenticationToken !=
-                                                                                null &&
+                                                                            null &&
                                                                             currentAuthenticationToken !=
                                                                                 '') {
                                                                           _model.addtoWishlist =
-                                                                              await AddToWishlistCall.call(
+                                                                          await AddToWishlistCall.call(
                                                                             hosturl:
-                                                                                FFAppConstants.sanityurl,
+                                                                            FFAppConstants.sanityurl,
                                                                             token:
-                                                                                currentAuthenticationToken,
+                                                                            currentAuthenticationToken,
                                                                             productid:
-                                                                                getJsonField(
+                                                                            getJsonField(
                                                                               productgridlistItem,
                                                                               r'''$.product_id''',
                                                                             ),
                                                                             productType:
-                                                                                getJsonField(
+                                                                            getJsonField(
                                                                               productgridlistItem,
                                                                               r'''$.mainprodtype''',
                                                                             ),
@@ -751,7 +855,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                           }
 
                                                                           setState(
-                                                                              () {});
+                                                                                  () {});
                                                                         } else {
                                                                           context
                                                                               .pushNamed(
@@ -768,22 +872,22 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                         }
 
                                                                         setState(
-                                                                            () {});
+                                                                                () {});
                                                                         HapticFeedback
                                                                             .lightImpact();
                                                                       },
                                                                       child:
-                                                                          Container(
+                                                                      Container(
                                                                         width:
-                                                                            24,
+                                                                        24,
                                                                         height:
-                                                                            24,
+                                                                        24,
                                                                         clipBehavior:
-                                                                            Clip.antiAlias,
+                                                                        Clip.antiAlias,
                                                                         decoration:
-                                                                            BoxDecoration(
+                                                                        BoxDecoration(
                                                                           shape:
-                                                                              BoxShape.circle,
+                                                                          BoxShape.circle,
                                                                         ),
                                                                         child: Image
                                                                             .asset(
@@ -797,52 +901,52 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                 } else {
                                                                   return Padding(
                                                                     padding:
-                                                                        EdgeInsets
-                                                                            .all(5),
+                                                                    EdgeInsets
+                                                                        .all(5),
                                                                     child:
-                                                                        InkWell(
+                                                                    InkWell(
                                                                       splashColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       focusColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       hoverColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       highlightColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       onTap:
                                                                           () async {
                                                                         var _shouldSetState =
-                                                                            false;
+                                                                        false;
                                                                         _model.apiResult5ep =
-                                                                            await RemovefromWishlistCall.call(
+                                                                        await RemovefromWishlistCall.call(
                                                                           token:
-                                                                              currentAuthenticationToken,
+                                                                          currentAuthenticationToken,
                                                                           hosturl:
-                                                                              FFAppConstants.hosturl,
+                                                                          FFAppConstants.hosturl,
                                                                           productId:
-                                                                              getJsonField(
+                                                                          getJsonField(
                                                                             productgridlistItem,
                                                                             r'''$.product_id''',
                                                                           ),
                                                                           productType:
-                                                                              getJsonField(
+                                                                          getJsonField(
                                                                             productgridlistItem,
                                                                             r'''$.mainprodtype''',
                                                                           ),
                                                                         );
 
                                                                         _shouldSetState =
-                                                                            true;
+                                                                        true;
                                                                         if ((_model.apiResult5ep?.succeeded ??
                                                                             true)) {
                                                                           FFAppState().statusFailed =
                                                                               getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
                                                                           setState(
-                                                                              () {});
+                                                                                  () {});
                                                                           ScaffoldMessenger.of(context)
                                                                               .clearSnackBars();
                                                                           ScaffoldMessenger.of(context)
@@ -873,25 +977,25 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                         _model.removeFromProductid(
                                                                             productgridlistIndex.toString());
                                                                         setState(
-                                                                            () {});
+                                                                                () {});
 
                                                                         setState(
-                                                                            () {});
+                                                                                () {});
                                                                         HapticFeedback
                                                                             .lightImpact();
                                                                       },
                                                                       child:
-                                                                          Container(
+                                                                      Container(
                                                                         width:
-                                                                            24,
+                                                                        24,
                                                                         height:
-                                                                            24,
+                                                                        24,
                                                                         clipBehavior:
-                                                                            Clip.antiAlias,
+                                                                        Clip.antiAlias,
                                                                         decoration:
-                                                                            BoxDecoration(
+                                                                        BoxDecoration(
                                                                           shape:
-                                                                              BoxShape.circle,
+                                                                          BoxShape.circle,
                                                                         ),
                                                                         child: Image
                                                                             .asset(
@@ -907,11 +1011,22 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                             ),
                                                           );
                                                         }),
-                                              ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                        if (_isLoading)
+                                          Positioned(
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 16.0,
+                                            child: Center(
+                                              child: CircularProgressIndicator(color: Color(0xFF740074),),
                                             ),
-                                          ],
-                                        );
-                                      },
+                                          ),
+                                      ],
                                     );
                                   },
                                 ),
@@ -923,10 +1038,10 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                     ),
                   );
                 } else if (/*((_model.apiResultd4z?.statusCode ?? 200) == 200) &&*/
-                    (widget.productType == 'Yantras')) {
+                (widget.productType == 'Yantras')) {
                   return Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                    EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                     child: FutureBuilder<ApiCallResponse>(
                       future: YantraProductCall.call(
                         hosturl: FFAppConstants.hosturl,
@@ -971,12 +1086,12 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
@@ -1010,7 +1125,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .containerFillColor,
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .borderColor,
@@ -1022,7 +1137,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
@@ -1037,13 +1152,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Sort',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -1063,12 +1178,12 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
@@ -1102,7 +1217,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .containerFillColor,
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .borderColor,
@@ -1114,11 +1229,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              BorderRadius.circular(8.0),
                                               child: Image.asset(
                                                 'assets/images/sort.png',
                                                 width: 15.0,
@@ -1129,13 +1244,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Filter',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -1153,14 +1268,14 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                   builder: (context) {
                                     final yantrasgridlist =
                                         YantraProductCall.yantrProductData(
-                                              yantrasYantraProductResponse
-                                                  .jsonBody,
-                                            )?.toList() ??
+                                          yantrasYantraProductResponse
+                                              .jsonBody,
+                                        )?.toList() ??
                                             [];
                                     return GridView.builder(
                                       padding: EdgeInsets.zero,
                                       gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
                                         /*crossAxisCount: 2,
                                         crossAxisSpacing: 7.0,
                                         mainAxisSpacing: 0.0,
@@ -1175,8 +1290,8 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                       itemBuilder:
                                           (context, yantrasgridlistIndex) {
                                         final yantrasgridlistItem =
-                                            yantrasgridlist[
-                                                yantrasgridlistIndex];
+                                        yantrasgridlist[
+                                        yantrasgridlistIndex];
                                         return Stack(
                                           children: [
                                             InkWell(
@@ -1207,39 +1322,39 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                 //height: 193.0,
                                                 decoration: BoxDecoration(
                                                   color:
-                                                      FlutterFlowTheme.of(context)
-                                                          .secondaryBackground,
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
                                                   borderRadius:
-                                                      BorderRadius.circular(2.0),
+                                                  BorderRadius.circular(2.0),
                                                   border: Border.all(
                                                     color: FlutterFlowTheme.of(
-                                                            context)
+                                                        context)
                                                         .borderColor,
                                                   ),
                                                 ),
                                                 child: Column(
                                                   mainAxisSize: MainAxisSize.max,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   children: [
                                                     Padding(
                                                       padding:
-                                                          EdgeInsets.all(4.0),
+                                                      EdgeInsets.all(4.0),
                                                       child: ClipRRect(
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                8.0),
+                                                        BorderRadius.circular(
+                                                            8.0),
                                                         child: CachedNetworkImage(
                                                           fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100),
+                                                          Duration(
+                                                              milliseconds:
+                                                              100),
                                                           fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100),
+                                                          Duration(
+                                                              milliseconds:
+                                                              100),
                                                           imageUrl: getJsonField(
                                                             yantrasgridlistItem,
                                                             r'''$.image''',
@@ -1252,22 +1367,22 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(9.0, 8.0,
-                                                                  9.0, 10.0),
+                                                      EdgeInsetsDirectional
+                                                          .fromSTEB(9.0, 8.0,
+                                                          9.0, 10.0),
                                                       child: Column(
                                                         mainAxisSize:
-                                                            MainAxisSize.max,
+                                                        MainAxisSize.max,
                                                         crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                         children: [
                                                           Container(
                                                             width:
-                                                                double.infinity,
+                                                            double.infinity,
                                                             height: 36.0,
                                                             decoration:
-                                                                BoxDecoration(),
+                                                            BoxDecoration(),
                                                             child: Text(
                                                               getJsonField(
                                                                 yantrasgridlistItem,
@@ -1275,68 +1390,68 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                               ).toString(),
                                                               maxLines: 2,
                                                               style: FlutterFlowTheme
-                                                                      .of(context)
+                                                                  .of(context)
                                                                   .bodyMedium
                                                                   .override(
-                                                                    fontFamily:
-                                                                        'Montserrat',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .productName,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                'Montserrat',
+                                                                color: FlutterFlowTheme.of(
+                                                                    context)
+                                                                    .productName,
+                                                                letterSpacing:
+                                                                0.0,
+                                                              ),
                                                             ),
                                                           ),
                                                           RichText(
                                                             textScaler:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .textScaler,
+                                                            MediaQuery.of(
+                                                                context)
+                                                                .textScaler,
                                                             text: TextSpan(
                                                               children: [
                                                                 TextSpan(
                                                                   text: 'INR ',
                                                                   style: FlutterFlowTheme.of(
-                                                                          context)
+                                                                      context)
                                                                       .bodyMedium
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Montserrat',
-                                                                        color: Color(
-                                                                            0xFF272728),
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w600,
-                                                                      ),
+                                                                    fontFamily:
+                                                                    'Montserrat',
+                                                                    color: Color(
+                                                                        0xFF272728),
+                                                                    letterSpacing:
+                                                                    0.0,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                  ),
                                                                 ),
                                                                 TextSpan(
                                                                   text:
-                                                                      getJsonField(
+                                                                  getJsonField(
                                                                     yantrasgridlistItem,
                                                                     r'''$.selling_price''',
                                                                   ).toString(),
                                                                   style:
-                                                                      TextStyle(),
+                                                                  TextStyle(),
                                                                 )
                                                               ],
                                                               style: FlutterFlowTheme
-                                                                      .of(context)
+                                                                  .of(context)
                                                                   .bodyMedium
                                                                   .override(
-                                                                    fontFamily:
-                                                                        'Montserrat',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryText,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
+                                                                fontFamily:
+                                                                'Montserrat',
+                                                                color: FlutterFlowTheme.of(
+                                                                    context)
+                                                                    .primaryText,
+                                                                letterSpacing:
+                                                                0.0,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w600,
+                                                              ),
                                                             ),
                                                           ),
                                                         ].divide(SizedBox(
@@ -1353,300 +1468,300 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(
-                                                        0.0, 5.0, 5.0, 0.0),
+                                                    0.0, 5.0, 5.0, 0.0),
                                                 child:
-                                                    FutureBuilder<
-                                                            ApiCallResponse>(
-                                                        future:
-                                                            WishListCall.call(
-                                                          hosturl:
-                                                              FFAppConstants
-                                                                  .sanityurl,
-                                                          token: currentAuthenticationToken
-                                                            ),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          // Customize what your widget looks like when it's loading.
-                                                          if (!snapshot
-                                                              .hasData) {
-                                                            return Container(
-                                                              width: 1,
-                                                              height: 1,
-                                                              child:
-                                                                  ShimmerWidget(),
-                                                            );
-                                                          }
-                                                          final containerWishlistResponse =
-                                                              snapshot.data!;
+                                                FutureBuilder<
+                                                    ApiCallResponse>(
+                                                    future:
+                                                    WishListCall.call(
+                                                      hosturl:
+                                                      FFAppConstants
+                                                          .sanityurl,
+                                                      token:currentAuthenticationToken,
+                                                    ),
+                                                    builder: (context,
+                                                        snapshot) {
+                                                      // Customize what your widget looks like when it's loading.
+                                                      if (!snapshot
+                                                          .hasData) {
+                                                        return Container(
+                                                          width: 1,
+                                                          height: 1,
+                                                          child:
+                                                          ShimmerWidget(),
+                                                        );
+                                                      }
+                                                      final containerWishlistResponse =
+                                                      snapshot.data!;
 
-                                                          return Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          24),
-                                                            ),
-                                                            child: Builder(
-                                                              builder:
-                                                                  (context) {
-                                                                print(WishListCall.id(
-                                                                    containerWishlistResponse
-                                                                        .jsonBody));
-                                                                print(
-                                                                  getJsonField(
-                                                                    yantrasgridlistItem,
-                                                                    r'''$.product_id''',
-                                                                  ).toString(),
-                                                                );
-                                                                if (!WishListCall
-                                                                        .id(
-                                                                  containerWishlistResponse
-                                                                      .jsonBody,
-                                                                )!
-                                                                    .contains(
-                                                                        getJsonField(
+                                                      return Container(
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                              .of(context)
+                                                              .secondaryBackground,
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              24),
+                                                        ),
+                                                        child: Builder(
+                                                          builder:
+                                                              (context) {
+                                                            print(WishListCall.id(
+                                                                containerWishlistResponse
+                                                                    .jsonBody));
+                                                            print(
+                                                              getJsonField(
+                                                                yantrasgridlistItem,
+                                                                r'''$.product_id''',
+                                                              ).toString(),
+                                                            );
+                                                            if (!WishListCall
+                                                                .id(
+                                                              containerWishlistResponse
+                                                                  .jsonBody,
+                                                            )!
+                                                                .contains(
+                                                                getJsonField(
                                                                   yantrasgridlistItem,
                                                                   r'''$.product_id''',
                                                                 ))) {
-                                                                  return Padding(
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                            5.0),
-                                                                    child:
-                                                                        InkWell(
-                                                                      splashColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      focusColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      hoverColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      onTap:
-                                                                          () async {
-                                                                        if (currentAuthenticationToken !=
-                                                                                null &&
-                                                                            currentAuthenticationToken !=
-                                                                                '') {
-                                                                          _model.addtoWishlist =
-                                                                              await AddToWishlistCall.call(
-                                                                            hosturl:
-                                                                                FFAppConstants.sanityurl,
-                                                                            token:
-                                                                                currentAuthenticationToken,
-                                                                            productid:
-                                                                                getJsonField(
-                                                                                  yantrasgridlistItem,
-                                                                              r'''$.product_id''',
-                                                                            ),
-                                                                            productType:
-                                                                                getJsonField(
-                                                                                  yantrasgridlistItem,
-                                                                              r'''$.mainprodtype''',
-                                                                            ),
-                                                                          );
-                                                                          if ((_model.addtoWishlist?.succeeded ??
-                                                                              true)) {
-                                                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                                              SnackBar(
-                                                                                content: Text(
-                                                                                  "Product added in wishlist",
-                                                                                  style: TextStyle(
-                                                                                    color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                                  ),
-                                                                                ),
-                                                                                duration: Duration(milliseconds: 4000),
-                                                                                backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                              return Padding(
+                                                                padding:
+                                                                EdgeInsets.all(
+                                                                    5.0),
+                                                                child:
+                                                                InkWell(
+                                                                  splashColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  focusColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  hoverColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    if (currentAuthenticationToken !=
+                                                                        null &&
+                                                                        currentAuthenticationToken !=
+                                                                            '') {
+                                                                      _model.addtoWishlist =
+                                                                      await AddToWishlistCall.call(
+                                                                        hosturl:
+                                                                        FFAppConstants.sanityurl,
+                                                                        token:
+                                                                        currentAuthenticationToken,
+                                                                        productid:
+                                                                        getJsonField(
+                                                                          yantrasgridlistItem,
+                                                                          r'''$.product_id''',
+                                                                        ),
+                                                                        productType:
+                                                                        getJsonField(
+                                                                          yantrasgridlistItem,
+                                                                          r'''$.mainprodtype''',
+                                                                        ),
+                                                                      );
+                                                                      if ((_model.addtoWishlist?.succeeded ??
+                                                                          true)) {
+                                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                                          SnackBar(
+                                                                            content: Text(
+                                                                              "Product added in wishlist",
+                                                                              style: TextStyle(
+                                                                                color: FlutterFlowTheme.of(context).containerFillColor,
                                                                               ),
-                                                                            );
-                                                                          } else {
-                                                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                                              SnackBar(
-                                                                                content: Text(
-                                                                                  getJsonField(
-                                                                                    (_model.addtoWishlist?.jsonBody ?? ''),
-                                                                                    r'''$.status''',
-                                                                                  ).toString(),
-                                                                                  style: TextStyle(
-                                                                                    color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                                  ),
-                                                                                ),
-                                                                                duration: Duration(milliseconds: 4000),
-                                                                                backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                            ),
+                                                                            duration: Duration(milliseconds: 4000),
+                                                                            backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                          ),
+                                                                        );
+                                                                      } else {
+                                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                                          SnackBar(
+                                                                            content: Text(
+                                                                              getJsonField(
+                                                                                (_model.addtoWishlist?.jsonBody ?? ''),
+                                                                                r'''$.status''',
+                                                                              ).toString(),
+                                                                              style: TextStyle(
+                                                                                color: FlutterFlowTheme.of(context).containerFillColor,
                                                                               ),
-                                                                            );
-                                                                          }
-                                                                          _model
-                                                                              .addToProductid(yantrasgridlistIndex.toString());
-                                                                          setState(
+                                                                            ),
+                                                                            duration: Duration(milliseconds: 4000),
+                                                                            backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                          ),
+                                                                        );
+                                                                      }
+                                                                      _model
+                                                                          .addToProductid(yantrasgridlistIndex.toString());
+                                                                      setState(
                                                                               () {});
-                                                                        } else {
-                                                                          context
-                                                                              .pushNamed(
-                                                                            'LoginPage',
-                                                                            extra: <String,
-                                                                                dynamic>{
-                                                                              kTransitionInfoKey: TransitionInfo(
-                                                                                hasTransition: true,
-                                                                                transitionType: PageTransitionType.fade,
-                                                                                duration: Duration(milliseconds: 0),
-                                                                              ),
-                                                                            },
-                                                                          );
-                                                                        }
+                                                                    } else {
+                                                                      context
+                                                                          .pushNamed(
+                                                                        'LoginPage',
+                                                                        extra: <String,
+                                                                            dynamic>{
+                                                                          kTransitionInfoKey: TransitionInfo(
+                                                                            hasTransition: true,
+                                                                            transitionType: PageTransitionType.fade,
+                                                                            duration: Duration(milliseconds: 0),
+                                                                          ),
+                                                                        },
+                                                                      );
+                                                                    }
 
-                                                                        setState(
+                                                                    setState(
                                                                             () {});
-                                                                        HapticFeedback
-                                                                            .lightImpact();
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        width:
-                                                                            24.0,
-                                                                        height:
-                                                                            24.0,
-                                                                        clipBehavior:
-                                                                            Clip.antiAlias,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          shape:
-                                                                              BoxShape.circle,
-                                                                        ),
-                                                                        child: Image
-                                                                            .asset(
-                                                                          'assets/images/HeartEmpty.png',
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
+                                                                    HapticFeedback
+                                                                        .lightImpact();
+                                                                  },
+                                                                  child:
+                                                                  Container(
+                                                                    width:
+                                                                    24.0,
+                                                                    height:
+                                                                    24.0,
+                                                                    clipBehavior:
+                                                                    Clip.antiAlias,
+                                                                    decoration:
+                                                                    BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
                                                                     ),
-                                                                  );
-                                                                } else {
-                                                                  return Padding(
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                            5.0),
-                                                                    child:
-                                                                        InkWell(
-                                                                      splashColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      focusColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      hoverColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      onTap:
-                                                                          () async {
-                                                                            var _shouldSetState =
-                                                                            false;
-                                                                            _model.apiResult5ep =
-                                                                            await RemovefromWishlistCall.call(
-                                                                              token:
-                                                                              currentAuthenticationToken,
-                                                                              hosturl:
-                                                                              FFAppConstants.hosturl,
-                                                                              productId:
-                                                                              getJsonField(
-                                                                                yantrasgridlistItem,
-                                                                                r'''$.product_id''',
-                                                                              ),
-                                                                              productType:
-                                                                              getJsonField(
-                                                                                yantrasgridlistItem,
-                                                                                r'''$.mainprodtype''',
-                                                                              ),
-                                                                            );
-
-                                                                            _shouldSetState =
-                                                                            true;
-                                                                            if ((_model.apiResult5ep?.succeeded ??
-                                                                                true)) {
-                                                                              FFAppState().statusFailed =
-                                                                                  getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
-                                                                              setState(
-                                                                                      () {});
-                                                                              ScaffoldMessenger.of(context)
-                                                                                  .clearSnackBars();
-                                                                              ScaffoldMessenger.of(context)
-                                                                                  .showSnackBar(
-                                                                                SnackBar(
-                                                                                  content: Text(
-                                                                                    getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.msg''').toString(),
-                                                                                    style: TextStyle(
-                                                                                      color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                                    ),
-                                                                                  ),
-                                                                                  duration: Duration(milliseconds: 4000),
-                                                                                  backgroundColor: FlutterFlowTheme.of(context).primary,
-                                                                                ),
-                                                                              );
-                                                                              if (FFAppState().statusFailed ==
-                                                                                  'success') {
-                                                                              } else {
-                                                                                if (_shouldSetState)
-                                                                                  setState(() {});
-                                                                                return;
-                                                                              }
-                                                                            } else {
-                                                                              if (_shouldSetState)
-                                                                                setState(() {});
-                                                                              return;
-                                                                            }
-
-                                                                            setState(
-                                                                                    () {});
-
-                                                                            _model.removeFromProductid(
-                                                                            yantrasgridlistIndex.toString());
-                                                                        setState(
-                                                                            () {});
-
-                                                                        setState(
-                                                                            () {});
-                                                                        HapticFeedback
-                                                                            .lightImpact();
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        width:
-                                                                            24.0,
-                                                                        height:
-                                                                            24.0,
-                                                                        clipBehavior:
-                                                                            Clip.antiAlias,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          shape:
-                                                                              BoxShape.circle,
-                                                                        ),
-                                                                        child: Image
-                                                                            .asset(
-                                                                          'assets/images/HeartFilled.png',
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
+                                                                    child: Image
+                                                                        .asset(
+                                                                      'assets/images/HeartEmpty.png',
+                                                                      fit: BoxFit
+                                                                          .cover,
                                                                     ),
-                                                                  );
-                                                                }
-                                                              },
-                                                            ),
-                                                          );
-                                                        }),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            } else {
+                                                              return Padding(
+                                                                padding:
+                                                                EdgeInsets.all(
+                                                                    5.0),
+                                                                child:
+                                                                InkWell(
+                                                                  splashColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  focusColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  hoverColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    var _shouldSetState =
+                                                                    false;
+                                                                    _model.apiResult5ep =
+                                                                    await RemovefromWishlistCall.call(
+                                                                      token:
+                                                                      currentAuthenticationToken,
+                                                                      hosturl:
+                                                                      FFAppConstants.hosturl,
+                                                                      productId:
+                                                                      getJsonField(
+                                                                        yantrasgridlistItem,
+                                                                        r'''$.product_id''',
+                                                                      ),
+                                                                      productType:
+                                                                      getJsonField(
+                                                                        yantrasgridlistItem,
+                                                                        r'''$.mainprodtype''',
+                                                                      ),
+                                                                    );
+
+                                                                    _shouldSetState =
+                                                                    true;
+                                                                    if ((_model.apiResult5ep?.succeeded ??
+                                                                        true)) {
+                                                                      FFAppState().statusFailed =
+                                                                          getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
+                                                                      setState(
+                                                                              () {});
+                                                                      ScaffoldMessenger.of(context)
+                                                                          .clearSnackBars();
+                                                                      ScaffoldMessenger.of(context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content: Text(
+                                                                            getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.msg''').toString(),
+                                                                            style: TextStyle(
+                                                                              color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                            ),
+                                                                          ),
+                                                                          duration: Duration(milliseconds: 4000),
+                                                                          backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                        ),
+                                                                      );
+                                                                      if (FFAppState().statusFailed ==
+                                                                          'success') {
+                                                                      } else {
+                                                                        if (_shouldSetState)
+                                                                          setState(() {});
+                                                                        return;
+                                                                      }
+                                                                    } else {
+                                                                      if (_shouldSetState)
+                                                                        setState(() {});
+                                                                      return;
+                                                                    }
+
+                                                                    setState(
+                                                                            () {});
+
+                                                                    _model.removeFromProductid(
+                                                                        yantrasgridlistIndex.toString());
+                                                                    setState(
+                                                                            () {});
+
+                                                                    setState(
+                                                                            () {});
+                                                                    HapticFeedback
+                                                                        .lightImpact();
+                                                                  },
+                                                                  child:
+                                                                  Container(
+                                                                    width:
+                                                                    24.0,
+                                                                    height:
+                                                                    24.0,
+                                                                    clipBehavior:
+                                                                    Clip.antiAlias,
+                                                                    decoration:
+                                                                    BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
+                                                                    ),
+                                                                    child: Image
+                                                                        .asset(
+                                                                      'assets/images/HeartFilled.png',
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                          },
+                                                        ),
+                                                      );
+                                                    }),
                                               ),
                                             ),
                                           ],
@@ -1663,23 +1778,24 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                     ),
                   );
                 } else if (/*((_model.apiResultd4z?.statusCode ?? 200) == 200) &&*/
-                    (widget.productType == 'Gemstone')) {
+                (widget.productType == 'Gemstone')) {
                   return Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                    EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                     child: FutureBuilder<ApiCallResponse>(
                       future: GemstoneProductOnSubCategoriesCall.call(
-                        sanityurl: FFAppConstants.sanityurl,
-                        slugValue: widget.productslugvalue,
-                        maxCaratWeight: FFAppState().maxcaratweightString,
-                        minCaratWeight: FFAppState().mincaratweightString,
-                        maxRattiWeight: FFAppState().maxrattiweightString,
-                        minRattiWeight: FFAppState().minrattiweightString,
-                        maxPricePerCarat: FFAppState().maxpricepercaratString,
-                        minPricePerCarat: FFAppState().minpricepercaratString,
-                        maxPrice: FFAppState().rangeendString,
-                        minPrice: FFAppState().rangestartString,
-                        origi: FFAppState().originlist,
+                          sanityurl: FFAppConstants.sanityurl,
+                          slugValue: widget.productslugvalue,
+                          maxCaratWeight: FFAppState().maxcaratweightString,
+                          minCaratWeight: FFAppState().mincaratweightString,
+                          maxRattiWeight: FFAppState().maxrattiweightString,
+                          minRattiWeight: FFAppState().minrattiweightString,
+                          maxPricePerCarat: FFAppState().maxpricepercaratString,
+                          minPricePerCarat: FFAppState().minpricepercaratString,
+                          maxPrice: FFAppState().rangeendString,
+                          minPrice: FFAppState().rangestartString,
+                          origi: FFAppState().originlist,
+
                           sort_by: FFAppState().sortby
                       ),
                       builder: (context, snapshot) {
@@ -1692,7 +1808,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                           );
                         }
                         final columnGemstoneProductOnSubCategoriesResponse =
-                            snapshot.data!;
+                        snapshot.data!;
                         return Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -1718,18 +1834,18 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
                                               child: Container(
                                                 height: 356.0,
-                                                child: SortByWidget(),
+                                                child: SortByWidget( onSortChanged: _handleSortChange, ),
                                               ),
                                             ),
                                           );
@@ -1742,7 +1858,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                       decoration: BoxDecoration(
                                         color: Color(0xFFF5F6FA),
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: Color(0xFFE7E7E8),
                                         ),
@@ -1753,11 +1869,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              BorderRadius.circular(8.0),
                                               child: Image.asset(
                                                 'assets/images/Swap.png',
                                                 width: 15.0,
@@ -1768,13 +1884,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Sort',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -1794,68 +1910,68 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
                                               child: FilterComponentWidget(
                                                 productFilterbytype: 'Gemstone',
                                                 maxprice:
-                                                    GemstoneProductOnSubCategoriesCall
-                                                        .constantmaxprice(
+                                                GemstoneProductOnSubCategoriesCall
+                                                    .constantmaxprice(
                                                   columnGemstoneProductOnSubCategoriesResponse
                                                       .jsonBody,
                                                 )?.toDouble(),
                                                 minprice:
-                                                    GemstoneProductOnSubCategoriesCall
-                                                        .constantminprice(
+                                                GemstoneProductOnSubCategoriesCall
+                                                    .constantminprice(
                                                   columnGemstoneProductOnSubCategoriesResponse
                                                       .jsonBody,
                                                 )?.toDouble(),
                                                 maxcaratweight:
-                                                    GemstoneProductOnSubCategoriesCall
-                                                        .constantmaxcaratweight(
+                                                GemstoneProductOnSubCategoriesCall
+                                                    .constantmaxcaratweight(
                                                   columnGemstoneProductOnSubCategoriesResponse
                                                       .jsonBody,
                                                 ),
                                                 mincaratweight:
-                                                    GemstoneProductOnSubCategoriesCall
-                                                        .constantmincaratweight(
+                                                GemstoneProductOnSubCategoriesCall
+                                                    .constantmincaratweight(
                                                   columnGemstoneProductOnSubCategoriesResponse
                                                       .jsonBody,
                                                 ),
                                                 maxrattiweight:
-                                                    GemstoneProductOnSubCategoriesCall
-                                                        .constantmaxrattiweight(
+                                                GemstoneProductOnSubCategoriesCall
+                                                    .constantmaxrattiweight(
                                                   columnGemstoneProductOnSubCategoriesResponse
                                                       .jsonBody,
                                                 ),
                                                 minrattiweight:
-                                                    GemstoneProductOnSubCategoriesCall
-                                                        .constantminrattiweight(
+                                                GemstoneProductOnSubCategoriesCall
+                                                    .constantminrattiweight(
                                                   columnGemstoneProductOnSubCategoriesResponse
                                                       .jsonBody,
                                                 )?.toDouble(),
                                                 maxpricepercarat:
-                                                    GemstoneProductOnSubCategoriesCall
-                                                        .constantmaxpricepercara(
+                                                GemstoneProductOnSubCategoriesCall
+                                                    .constantmaxpricepercara(
                                                   columnGemstoneProductOnSubCategoriesResponse
                                                       .jsonBody,
                                                 )?.toDouble(),
                                                 minpricepercarat:
-                                                    GemstoneProductOnSubCategoriesCall
-                                                        .constantminpricepercarat(
+                                                GemstoneProductOnSubCategoriesCall
+                                                    .constantminpricepercarat(
                                                   columnGemstoneProductOnSubCategoriesResponse
                                                       .jsonBody,
                                                 )?.toDouble(),
                                                 originlist:
-                                                    GemstoneProductOnSubCategoriesCall
-                                                        .constantoriginlist(
+                                                GemstoneProductOnSubCategoriesCall
+                                                    .constantoriginlist(
                                                   columnGemstoneProductOnSubCategoriesResponse
                                                       .jsonBody,
                                                 ),
@@ -1863,7 +1979,9 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             ),
                                           );
                                         },
-                                      ).then((value) => safeSetState(() {}));
+                                      ).then((value) => safeSetState(() {
+
+                                      }));
                                     },
                                     child: Container(
                                       width: 90.0,
@@ -1871,7 +1989,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                       decoration: BoxDecoration(
                                         color: Color(0xFFF5F6FA),
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: Color(0xFFE7E7E8),
                                         ),
@@ -1882,11 +2000,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              BorderRadius.circular(8.0),
                                               child: Image.asset(
                                                 'assets/images/sort.png',
                                                 width: 15.0,
@@ -1897,13 +2015,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Filter',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -1921,220 +2039,220 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                   builder: (context) {
                                     final productgridlist =
                                         GemstoneProductOnSubCategoriesCall
-                                                .productDataList(
-                                              columnGemstoneProductOnSubCategoriesResponse
-                                                  .jsonBody,
-                                            )?.toList() ??
+                                            .productDataList(
+                                          columnGemstoneProductOnSubCategoriesResponse
+                                              .jsonBody,
+                                        )?.toList() ??
                                             [];
-                                    return GridView.builder(
-                                      padding: EdgeInsets.zero,
-                                      gridDelegate:
+                                    return Stack(
+                                      children: [
+                                        GridView.builder(
+                                          controller: _scrollController,
+                                          padding: EdgeInsets.zero,
+                                          gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
-                                        /*crossAxisCount: 2,
-                                        crossAxisSpacing: 7.0,
-                                        mainAxisSpacing: 0.0,
-                                        childAspectRatio: 0.8,*/
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 9,
-                                        mainAxisSpacing: 9,
-                                        childAspectRatio: 0.82,
-                                      ),
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: productgridlist.length,
-                                      itemBuilder:
-                                          (context, productgridlistIndex) {
-                                        final productgridlistItem =
-                                            productgridlist[
-                                                productgridlistIndex];
-                                        return Stack(
-                                          children: [
-                                            InkWell(
-                                              splashColor: Colors.transparent,
-                                              focusColor: Colors.transparent,
-                                              hoverColor: Colors.transparent,
-                                              highlightColor:
+                                            /*crossAxisCount: 2,
+                                            crossAxisSpacing: 7.0,
+                                            mainAxisSpacing: 0.0,
+                                            childAspectRatio: 0.8,*/
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 9,
+                                            mainAxisSpacing: 9,
+                                            childAspectRatio: 0.82,
+                                          ),
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: _productsList.length,
+                                          itemBuilder: (context, productgridlistIndex) {
+                                            final productgridlistItem = _productsList[productgridlistIndex];
+                                            return Stack(
+                                              children: [
+                                                InkWell(
+                                                  splashColor: Colors.transparent,
+                                                  focusColor: Colors.transparent,
+                                                  hoverColor: Colors.transparent,
+                                                  highlightColor:
                                                   Colors.transparent,
-                                              onTap: () async {
-                                                context.pushNamed(
-                                                  'DiamondProductDetails',
-                                                  queryParameters: {
-                                                    'productSlugValue':
+                                                  onTap: () async {
+                                                    context.pushNamed(
+                                                      'DiamondProductDetails',
+                                                      queryParameters: {
+                                                        'productSlugValue':
                                                         serializeParam(
-                                                      getJsonField(
-                                                        productgridlistItem,
-                                                        r'''$.slug_value''',
-                                                      ).toString(),
-                                                      ParamType.String,
-                                                    ),
-                                                    'producttype': FFAppConstants
-                                                        .GemstoneMasterProductDetailsApi,
-                                                  }.withoutNulls,
-                                                );
-                                              },
-                                              child: Container(
-                                                //width: 168.0,
-                                                //height: 193.0,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
+                                                          getJsonField(
+                                                            productgridlistItem,
+                                                            r'''$.slug_value''',
+                                                          ).toString(),
+                                                          ParamType.String,
+                                                        ),
+                                                        'producttype': FFAppConstants
+                                                            .GemstoneMasterProductDetailsApi,
+                                                      }.withoutNulls,
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    //width: 168.0,
+                                                    //height: 193.0,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme.of(
                                                           context)
-                                                      .secondaryBackground,
-                                                  borderRadius:
+                                                          .secondaryBackground,
+                                                      borderRadius:
                                                       BorderRadius.circular(
                                                           2.0),
-                                                  border: Border.all(
-                                                    color: Color(0xFFE7E7E8),
-                                                  ),
-                                                ),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.all(4.0),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100),
-                                                          fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100),
-                                                          imageUrl:
-                                                              getJsonField(
-                                                            productgridlistItem,
-                                                            r'''$.image''',
-                                                          ).toString(),
-                                                          width:
-                                                              double.infinity,
-                                                          height: 104.65,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                      border: Border.all(
+                                                        color: Color(0xFFE7E7E8),
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  9.0,
-                                                                  8.0,
-                                                                  9.0,
-                                                                  10.0),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            width:
-                                                                double.infinity,
-                                                            height: 36.0,
-                                                            decoration:
-                                                                BoxDecoration(),
-                                                            child: Text(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                      MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                          EdgeInsets.all(4.0),
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                            child:
+                                                            CachedNetworkImage(
+                                                              fadeInDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  100),
+                                                              fadeOutDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  100),
+                                                              imageUrl:
                                                               getJsonField(
                                                                 productgridlistItem,
-                                                                r'''$.product_name''',
+                                                                r'''$.image''',
                                                               ).toString(),
-                                                              maxLines: 2,
-                                                              style: FlutterFlowTheme
+                                                              width:
+                                                              double.infinity,
+                                                              height: 104.65,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                              9.0,
+                                                              8.0,
+                                                              9.0,
+                                                              10.0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize.max,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Container(
+                                                                width:
+                                                                double.infinity,
+                                                                height: 36.0,
+                                                                decoration:
+                                                                BoxDecoration(),
+                                                                child: Text(
+                                                                  getJsonField(
+                                                                    productgridlistItem,
+                                                                    r'''$.product_name''',
+                                                                  ).toString(),
+                                                                  maxLines: 2,
+                                                                  style: FlutterFlowTheme
                                                                       .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
+                                                                      .bodyMedium
+                                                                      .override(
                                                                     fontFamily:
-                                                                        'Montserrat',
+                                                                    'Montserrat',
                                                                     color: Color(
                                                                         0xFF696969),
                                                                     letterSpacing:
-                                                                        0.0,
+                                                                    0.0,
                                                                   ),
-                                                            ),
-                                                          ),
-                                                          RichText(
-                                                            textScaler:
+                                                                ),
+                                                              ),
+                                                              RichText(
+                                                                textScaler:
                                                                 MediaQuery.of(
-                                                                        context)
+                                                                    context)
                                                                     .textScaler,
-                                                            text: TextSpan(
-                                                              children: [
-                                                                TextSpan(
-                                                                  text: 'INR ',
-                                                                  style: FlutterFlowTheme.of(
+                                                                text: TextSpan(
+                                                                  children: [
+                                                                    TextSpan(
+                                                                      text: 'INR ',
+                                                                      style: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .bodyMedium
-                                                                      .override(
+                                                                          .bodyMedium
+                                                                          .override(
                                                                         fontFamily:
-                                                                            'Montserrat',
+                                                                        'Montserrat',
                                                                         color: Color(
                                                                             0xFF272728),
                                                                         letterSpacing:
-                                                                            0.0,
+                                                                        0.0,
                                                                         fontWeight:
-                                                                            FontWeight.w600,
+                                                                        FontWeight.w600,
                                                                       ),
-                                                                ),
-                                                                TextSpan(
-                                                                  text:
+                                                                    ),
+                                                                    TextSpan(
+                                                                      text:
                                                                       getJsonField(
-                                                                    productgridlistItem,
-                                                                    r'''$.selling_price''',
-                                                                  ).toString(),
-                                                                  style:
+                                                                        productgridlistItem,
+                                                                        r'''$.selling_price''',
+                                                                      ).toString(),
+                                                                      style:
                                                                       TextStyle(),
-                                                                )
-                                                              ],
-                                                              style: FlutterFlowTheme
+                                                                    )
+                                                                  ],
+                                                                  style: FlutterFlowTheme
                                                                       .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
+                                                                      .bodyMedium
+                                                                      .override(
                                                                     fontFamily:
-                                                                        'Montserrat',
+                                                                    'Montserrat',
                                                                     color: Color(
                                                                         0xFF272728),
                                                                     letterSpacing:
-                                                                        0.0,
+                                                                    0.0,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
+                                                                    FontWeight
+                                                                        .w600,
                                                                   ),
-                                                            ),
+                                                                ),
+                                                              ),
+                                                            ].divide(SizedBox(
+                                                                height: 8.0)),
                                                           ),
-                                                        ].divide(SizedBox(
-                                                            height: 8.0)),
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment:
+                                                Align(
+                                                  alignment:
                                                   AlignmentDirectional(1, -1),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 5, 5, 0),
-                                                child:
+                                                  child: Padding(
+                                                    padding: EdgeInsetsDirectional
+                                                        .fromSTEB(0, 5, 5, 0),
+                                                    child:
                                                     FutureBuilder<
-                                                            ApiCallResponse>(
+                                                        ApiCallResponse>(
                                                         future:
-                                                            WishListCall.call(
+                                                        WishListCall.call(
                                                           hosturl:
-                                                              FFAppConstants
-                                                                  .sanityurl,
-                                                          token: currentAuthenticationToken
-                                                            ),
+                                                          FFAppConstants
+                                                              .sanityurl,
+                                                          token:currentAuthenticationToken,
+                                                        ),
                                                         builder: (context,
                                                             snapshot) {
                                                           // Customize what your widget looks like when it's loading.
@@ -2144,22 +2262,22 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                               width: 1,
                                                               height: 1,
                                                               child:
-                                                                  ShimmerWidget(),
+                                                              ShimmerWidget(),
                                                             );
                                                           }
                                                           final containerWishlistResponse =
-                                                              snapshot.data!;
+                                                          snapshot.data!;
 
                                                           return Container(
                                                             decoration:
-                                                                BoxDecoration(
+                                                            BoxDecoration(
                                                               color: FlutterFlowTheme
-                                                                      .of(context)
+                                                                  .of(context)
                                                                   .secondaryBackground,
                                                               borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          24),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  24),
                                                             ),
                                                             child: Builder(
                                                               builder:
@@ -2174,52 +2292,52 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                   ).toString(),
                                                                 );
                                                                 if (!WishListCall
-                                                                        .id(
+                                                                    .id(
                                                                   containerWishlistResponse
                                                                       .jsonBody,
                                                                 )!
                                                                     .contains(
-                                                                        getJsonField(
-                                                                  productgridlistItem,
-                                                                  r'''$.product_id''',
-                                                                ))) {
+                                                                    getJsonField(
+                                                                      productgridlistItem,
+                                                                      r'''$.product_id''',
+                                                                    ))) {
                                                                   return Padding(
                                                                     padding:
-                                                                        EdgeInsets
-                                                                            .all(5),
+                                                                    EdgeInsets
+                                                                        .all(5),
                                                                     child:
-                                                                        InkWell(
+                                                                    InkWell(
                                                                       splashColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       focusColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       hoverColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       highlightColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       onTap:
                                                                           () async {
                                                                         if (currentAuthenticationToken !=
-                                                                                null &&
+                                                                            null &&
                                                                             currentAuthenticationToken !=
                                                                                 '') {
                                                                           _model.addtoWishlist =
-                                                                              await AddToWishlistCall.call(
+                                                                          await AddToWishlistCall.call(
                                                                             hosturl:
-                                                                                FFAppConstants.sanityurl,
+                                                                            FFAppConstants.sanityurl,
                                                                             token:
-                                                                                currentAuthenticationToken,
+                                                                            currentAuthenticationToken,
                                                                             productid:
-                                                                                getJsonField(
+                                                                            getJsonField(
                                                                               productgridlistItem,
                                                                               r'''$.product_id''',
                                                                             ),
                                                                             productType:
-                                                                                getJsonField(
+                                                                            getJsonField(
                                                                               productgridlistItem,
                                                                               r'''$.mainprodtype''',
                                                                             ),
@@ -2258,7 +2376,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                           _model
                                                                               .addToProductid(productgridlistIndex.toString());
                                                                           setState(
-                                                                              () {});
+                                                                                  () {});
                                                                         } else {
                                                                           context
                                                                               .pushNamed(
@@ -2275,22 +2393,22 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                         }
 
                                                                         setState(
-                                                                            () {});
+                                                                                () {});
                                                                         HapticFeedback
                                                                             .lightImpact();
                                                                       },
                                                                       child:
-                                                                          Container(
+                                                                      Container(
                                                                         width:
-                                                                            24,
+                                                                        24,
                                                                         height:
-                                                                            24,
+                                                                        24,
                                                                         clipBehavior:
-                                                                            Clip.antiAlias,
+                                                                        Clip.antiAlias,
                                                                         decoration:
-                                                                            BoxDecoration(
+                                                                        BoxDecoration(
                                                                           shape:
-                                                                              BoxShape.circle,
+                                                                          BoxShape.circle,
                                                                         ),
                                                                         child: Image
                                                                             .asset(
@@ -2304,52 +2422,52 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                 } else {
                                                                   return Padding(
                                                                     padding:
-                                                                        EdgeInsets
-                                                                            .all(5),
+                                                                    EdgeInsets
+                                                                        .all(5),
                                                                     child:
-                                                                        InkWell(
+                                                                    InkWell(
                                                                       splashColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       focusColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       hoverColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       highlightColor:
-                                                                          Colors
-                                                                              .transparent,
+                                                                      Colors
+                                                                          .transparent,
                                                                       onTap:
                                                                           () async {
                                                                         var _shouldSetState =
-                                                                            false;
+                                                                        false;
                                                                         _model.apiResult5ep =
-                                                                            await RemovefromWishlistCall.call(
+                                                                        await RemovefromWishlistCall.call(
                                                                           token:
-                                                                              currentAuthenticationToken,
+                                                                          currentAuthenticationToken,
                                                                           hosturl:
-                                                                              FFAppConstants.hosturl,
+                                                                          FFAppConstants.hosturl,
                                                                           productId:
-                                                                              getJsonField(
+                                                                          getJsonField(
                                                                             productgridlistItem,
                                                                             r'''$.product_id''',
                                                                           ),
                                                                           productType:
-                                                                              getJsonField(
+                                                                          getJsonField(
                                                                             productgridlistItem,
                                                                             r'''$.mainprodtype''',
                                                                           ),
                                                                         );
 
                                                                         _shouldSetState =
-                                                                            true;
+                                                                        true;
                                                                         if ((_model.apiResult5ep?.succeeded ??
                                                                             true)) {
                                                                           FFAppState().statusFailed =
                                                                               getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
                                                                           setState(
-                                                                              () {});
+                                                                                  () {});
                                                                           ScaffoldMessenger.of(context)
                                                                               .clearSnackBars();
                                                                           ScaffoldMessenger.of(context)
@@ -2380,25 +2498,25 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                                         _model.removeFromProductid(
                                                                             productgridlistIndex.toString());
                                                                         setState(
-                                                                            () {});
+                                                                                () {});
 
                                                                         setState(
-                                                                            () {});
+                                                                                () {});
                                                                         HapticFeedback
                                                                             .lightImpact();
                                                                       },
                                                                       child:
-                                                                          Container(
+                                                                      Container(
                                                                         width:
-                                                                            24,
+                                                                        24,
                                                                         height:
-                                                                            24,
+                                                                        24,
                                                                         clipBehavior:
-                                                                            Clip.antiAlias,
+                                                                        Clip.antiAlias,
                                                                         decoration:
-                                                                            BoxDecoration(
+                                                                        BoxDecoration(
                                                                           shape:
-                                                                              BoxShape.circle,
+                                                                          BoxShape.circle,
                                                                         ),
                                                                         child: Image
                                                                             .asset(
@@ -2414,11 +2532,22 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                             ),
                                                           );
                                                         }),
-                                              ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                        if (_isLoading)
+                                          Positioned(
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 16.0,
+                                            child: Center(
+                                              child: CircularProgressIndicator(color: Color(0xFF740074),),
                                             ),
-                                          ],
-                                        );
-                                      },
+                                          ),
+                                      ],
                                     );
                                   },
                                 ),
@@ -2430,11 +2559,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                     ),
                   );
                 } else if (((_model.pujaActionResult?.statusCode ?? 200) ==
-                        200) &&
+                    200) &&
                     (widget.productType == 'Puja')) {
                   return Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                    EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                     child: FutureBuilder<ApiCallResponse>(
                       future: PujaProductCall.call(
                         slugValue: widget.productslugvalue,
@@ -2476,18 +2605,18 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
                                               child: Container(
                                                 height: 356.0,
-                                                child: SortByWidget(),
+                                                child:SortByWidget( onSortChanged: _handleSortChange, ),
                                               ),
                                             ),
                                           );
@@ -2501,7 +2630,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .containerFillColor,
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .borderColor,
@@ -2513,7 +2642,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
@@ -2528,13 +2657,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Sort',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -2554,12 +2683,12 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
@@ -2590,7 +2719,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .containerFillColor,
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .borderColor,
@@ -2602,11 +2731,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              BorderRadius.circular(8.0),
                                               child: Image.asset(
                                                 'assets/images/sort.png',
                                                 width: 15.0,
@@ -2617,13 +2746,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Filter',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -2641,14 +2770,14 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                   builder: (context) {
                                     final productgridlist =
                                         PujaProductCall.productlist(
-                                              pujaProductPujaProductResponse
-                                                  .jsonBody,
-                                            )?.toList() ??
+                                          pujaProductPujaProductResponse
+                                              .jsonBody,
+                                        )?.toList() ??
                                             [];
                                     return GridView.builder(
                                       padding: EdgeInsets.zero,
                                       gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                      SliverGridDelegateWithFixedCrossAxisCount(
                                         /*crossAxisCount: 2,
                                         crossAxisSpacing: 7.0,
                                         mainAxisSpacing: 0.0,
@@ -2663,8 +2792,8 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                       itemBuilder:
                                           (context, productgridlistIndex) {
                                         final productgridlistItem =
-                                            productgridlist[
-                                                productgridlistIndex];
+                                        productgridlist[
+                                        productgridlistIndex];
                                         return Stack(
                                           children: [
                                             Container(
@@ -2672,39 +2801,39 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                               //height: 193.0,
                                               decoration: BoxDecoration(
                                                 color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
+                                                FlutterFlowTheme.of(context)
+                                                    .secondaryBackground,
                                                 borderRadius:
-                                                    BorderRadius.circular(2.0),
+                                                BorderRadius.circular(2.0),
                                                 border: Border.all(
                                                   color: FlutterFlowTheme.of(
-                                                          context)
+                                                      context)
                                                       .borderColor,
                                                 ),
                                               ),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.max,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.all(4.0),
+                                                    EdgeInsets.all(4.0),
                                                     child: ClipRRect(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
+                                                      BorderRadius.circular(
+                                                          8.0),
                                                       child: CachedNetworkImage(
                                                         fadeInDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                    100),
+                                                        Duration(
+                                                            milliseconds:
+                                                            100),
                                                         fadeOutDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                    100),
+                                                        Duration(
+                                                            milliseconds:
+                                                            100),
                                                         imageUrl: getJsonField(
                                                           productgridlistItem,
                                                           r'''$.image''',
@@ -2717,22 +2846,22 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(9.0, 8.0,
-                                                                9.0, 10.0),
+                                                    EdgeInsetsDirectional
+                                                        .fromSTEB(9.0, 8.0,
+                                                        9.0, 10.0),
                                                     child: Column(
                                                       mainAxisSize:
-                                                          MainAxisSize.max,
+                                                      MainAxisSize.max,
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      CrossAxisAlignment
+                                                          .start,
                                                       children: [
                                                         Container(
                                                           width:
-                                                              double.infinity,
+                                                          double.infinity,
                                                           height: 36.0,
                                                           decoration:
-                                                              BoxDecoration(),
+                                                          BoxDecoration(),
                                                           child: Text(
                                                             getJsonField(
                                                               productgridlistItem,
@@ -2740,68 +2869,68 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                             ).toString(),
                                                             maxLines: 2,
                                                             style: FlutterFlowTheme
-                                                                    .of(context)
+                                                                .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .productName,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
+                                                              fontFamily:
+                                                              'Montserrat',
+                                                              color: FlutterFlowTheme.of(
+                                                                  context)
+                                                                  .productName,
+                                                              letterSpacing:
+                                                              0.0,
+                                                            ),
                                                           ),
                                                         ),
                                                         RichText(
                                                           textScaler:
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .textScaler,
+                                                          MediaQuery.of(
+                                                              context)
+                                                              .textScaler,
                                                           text: TextSpan(
                                                             children: [
                                                               TextSpan(
                                                                 text: 'INR ',
                                                                 style: FlutterFlowTheme.of(
-                                                                        context)
+                                                                    context)
                                                                     .bodyMedium
                                                                     .override(
-                                                                      fontFamily:
-                                                                          'Montserrat',
-                                                                      color: Color(
-                                                                          0xFF272728),
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                    ),
+                                                                  fontFamily:
+                                                                  'Montserrat',
+                                                                  color: Color(
+                                                                      0xFF272728),
+                                                                  letterSpacing:
+                                                                  0.0,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                                ),
                                                               ),
                                                               TextSpan(
                                                                 text:
-                                                                    getJsonField(
+                                                                getJsonField(
                                                                   productgridlistItem,
                                                                   r'''$.selling_price''',
                                                                 ).toString(),
                                                                 style:
-                                                                    TextStyle(),
+                                                                TextStyle(),
                                                               )
                                                             ],
                                                             style: FlutterFlowTheme
-                                                                    .of(context)
+                                                                .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryText,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
+                                                              fontFamily:
+                                                              'Montserrat',
+                                                              color: FlutterFlowTheme.of(
+                                                                  context)
+                                                                  .primaryText,
+                                                              letterSpacing:
+                                                              0.0,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w600,
+                                                            ),
                                                           ),
                                                         ),
                                                       ].divide(SizedBox(
@@ -2813,299 +2942,299 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             ),
                                             Align(
                                               alignment:
-                                                  AlignmentDirectional(1, -1),
+                                              AlignmentDirectional(1, -1),
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(0, 5, 5, 0),
                                                 child:
-                                                    FutureBuilder<
-                                                            ApiCallResponse>(
-                                                        future:
-                                                            WishListCall.call(
-                                                          hosturl:
-                                                              FFAppConstants
-                                                                  .sanityurl,
-                                                          token: currentAuthenticationToken
-                                                            ),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          // Customize what your widget looks like when it's loading.
-                                                          if (!snapshot
-                                                              .hasData) {
-                                                            return Container(
-                                                              width: 1,
-                                                              height: 1,
-                                                              child:
-                                                                  ShimmerWidget(),
-                                                            );
-                                                          }
-                                                          final containerWishlistResponse =
-                                                              snapshot.data!;
+                                                FutureBuilder<
+                                                    ApiCallResponse>(
+                                                    future:
+                                                    WishListCall.call(
+                                                      hosturl:
+                                                      FFAppConstants
+                                                          .sanityurl,
+                                                      token:currentAuthenticationToken,
+                                                    ),
+                                                    builder: (context,
+                                                        snapshot) {
+                                                      // Customize what your widget looks like when it's loading.
+                                                      if (!snapshot
+                                                          .hasData) {
+                                                        return Container(
+                                                          width: 1,
+                                                          height: 1,
+                                                          child:
+                                                          ShimmerWidget(),
+                                                        );
+                                                      }
+                                                      final containerWishlistResponse =
+                                                      snapshot.data!;
 
-                                                          return Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          24),
-                                                            ),
-                                                            child: Builder(
-                                                              builder:
-                                                                  (context) {
-                                                                print(WishListCall.id(
-                                                                    containerWishlistResponse
-                                                                        .jsonBody));
-                                                                print(
-                                                                  getJsonField(
-                                                                    productgridlistItem,
-                                                                    r'''$.product_id''',
-                                                                  ).toString(),
-                                                                );
-                                                                if (!WishListCall
-                                                                        .id(
-                                                                  containerWishlistResponse
-                                                                      .jsonBody,
-                                                                )!
-                                                                    .contains(
-                                                                        getJsonField(
+                                                      return Container(
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                              .of(context)
+                                                              .secondaryBackground,
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              24),
+                                                        ),
+                                                        child: Builder(
+                                                          builder:
+                                                              (context) {
+                                                            print(WishListCall.id(
+                                                                containerWishlistResponse
+                                                                    .jsonBody));
+                                                            print(
+                                                              getJsonField(
+                                                                productgridlistItem,
+                                                                r'''$.product_id''',
+                                                              ).toString(),
+                                                            );
+                                                            if (!WishListCall
+                                                                .id(
+                                                              containerWishlistResponse
+                                                                  .jsonBody,
+                                                            )!
+                                                                .contains(
+                                                                getJsonField(
                                                                   productgridlistItem,
                                                                   r'''$.product_id''',
                                                                 ))) {
-                                                                  return Padding(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .all(5),
-                                                                    child:
-                                                                        InkWell(
-                                                                      splashColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      focusColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      hoverColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      onTap:
-                                                                          () async {
-                                                                        if (currentAuthenticationToken !=
-                                                                                null &&
-                                                                            currentAuthenticationToken !=
-                                                                                '') {
-                                                                          _model.addtoWishlist =
-                                                                              await AddToWishlistCall.call(
-                                                                            hosturl:
-                                                                                FFAppConstants.sanityurl,
-                                                                            token:
-                                                                                currentAuthenticationToken,
-                                                                            productid:
-                                                                                getJsonField(
-                                                                              productgridlistItem,
-                                                                              r'''$.product_id''',
-                                                                            ),
-                                                                            productType:
-                                                                                getJsonField(
-                                                                              productgridlistItem,
-                                                                              r'''$.mainprodtype''',
-                                                                            ),
-                                                                          );
-                                                                          if ((_model.addtoWishlist?.succeeded ??
-                                                                              true)) {
-                                                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                                              SnackBar(
-                                                                                content: Text(
-                                                                                  "Product added in wishlist",
-                                                                                  style: TextStyle(
-                                                                                    color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                                  ),
-                                                                                ),
-                                                                                duration: Duration(milliseconds: 4000),
-                                                                                backgroundColor: FlutterFlowTheme.of(context).primary,
-                                                                              ),
-                                                                            );
-                                                                          } else {
-                                                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                                              SnackBar(
-                                                                                content: Text(
-                                                                                  getJsonField(
-                                                                                    (_model.addtoWishlist?.jsonBody ?? ''),
-                                                                                    r'''$.status''',
-                                                                                  ).toString(),
-                                                                                  style: TextStyle(
-                                                                                    color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                                  ),
-                                                                                ),
-                                                                                duration: Duration(milliseconds: 4000),
-                                                                                backgroundColor: FlutterFlowTheme.of(context).primary,
-                                                                              ),
-                                                                            );
-                                                                          }
-                                                                          _model
-                                                                              .addToProductid(productgridlistIndex.toString());
-                                                                          setState(
-                                                                              () {});
-                                                                        } else {
-                                                                          context
-                                                                              .pushNamed(
-                                                                            'LoginPage',
-                                                                            extra: <String,
-                                                                                dynamic>{
-                                                                              kTransitionInfoKey: TransitionInfo(
-                                                                                hasTransition: true,
-                                                                                transitionType: PageTransitionType.fade,
-                                                                                duration: Duration(milliseconds: 0),
-                                                                              ),
-                                                                            },
-                                                                          );
-                                                                        }
-
-                                                                        setState(
-                                                                            () {});
-                                                                        HapticFeedback
-                                                                            .lightImpact();
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        width:
-                                                                            24,
-                                                                        height:
-                                                                            24,
-                                                                        clipBehavior:
-                                                                            Clip.antiAlias,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          shape:
-                                                                              BoxShape.circle,
+                                                              return Padding(
+                                                                padding:
+                                                                EdgeInsets
+                                                                    .all(5),
+                                                                child:
+                                                                InkWell(
+                                                                  splashColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  focusColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  hoverColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    if (currentAuthenticationToken !=
+                                                                        null &&
+                                                                        currentAuthenticationToken !=
+                                                                            '') {
+                                                                      _model.addtoWishlist =
+                                                                      await AddToWishlistCall.call(
+                                                                        hosturl:
+                                                                        FFAppConstants.sanityurl,
+                                                                        token:
+                                                                        currentAuthenticationToken,
+                                                                        productid:
+                                                                        getJsonField(
+                                                                          productgridlistItem,
+                                                                          r'''$.product_id''',
                                                                         ),
-                                                                        child: Image
-                                                                            .asset(
-                                                                          'assets/images/HeartEmpty.png',
-                                                                          fit: BoxFit
-                                                                              .cover,
+                                                                        productType:
+                                                                        getJsonField(
+                                                                          productgridlistItem,
+                                                                          r'''$.mainprodtype''',
                                                                         ),
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                } else {
-                                                                  return Padding(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .all(5),
-                                                                    child:
-                                                                        InkWell(
-                                                                      splashColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      focusColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      hoverColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      onTap:
-                                                                          () async {
-                                                                        var _shouldSetState =
-                                                                            false;
-                                                                        _model.apiResult5ep =
-                                                                            await RemovefromWishlistCall.call(
-                                                                          token:
-                                                                              currentAuthenticationToken,
-                                                                          hosturl:
-                                                                              FFAppConstants.hosturl,
-                                                                          productId:
-                                                                              getJsonField(
-                                                                            productgridlistItem,
-                                                                            r'''$.product_id''',
-                                                                          ),
-                                                                          productType:
-                                                                              getJsonField(
-                                                                            productgridlistItem,
-                                                                            r'''$.mainprodtype''',
+                                                                      );
+                                                                      if ((_model.addtoWishlist?.succeeded ??
+                                                                          true)) {
+                                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                                          SnackBar(
+                                                                            content: Text(
+                                                                              "Product added in wishlist",
+                                                                              style: TextStyle(
+                                                                                color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                              ),
+                                                                            ),
+                                                                            duration: Duration(milliseconds: 4000),
+                                                                            backgroundColor: FlutterFlowTheme.of(context).primary,
                                                                           ),
                                                                         );
-
-                                                                        _shouldSetState =
-                                                                            true;
-                                                                        if ((_model.apiResult5ep?.succeeded ??
-                                                                            true)) {
-                                                                          FFAppState().statusFailed =
-                                                                              getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
-                                                                          setState(
-                                                                              () {});
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .clearSnackBars();
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .showSnackBar(
-                                                                            SnackBar(
-                                                                              content: Text(
-                                                                                getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.msg''').toString(),
-                                                                                style: TextStyle(
-                                                                                  color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                                ),
+                                                                      } else {
+                                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                                          SnackBar(
+                                                                            content: Text(
+                                                                              getJsonField(
+                                                                                (_model.addtoWishlist?.jsonBody ?? ''),
+                                                                                r'''$.status''',
+                                                                              ).toString(),
+                                                                              style: TextStyle(
+                                                                                color: FlutterFlowTheme.of(context).containerFillColor,
                                                                               ),
-                                                                              duration: Duration(milliseconds: 4000),
-                                                                              backgroundColor: FlutterFlowTheme.of(context).primary,
                                                                             ),
-                                                                          );
-                                                                          if (FFAppState().statusFailed ==
-                                                                              'success') {
-                                                                          } else {
-                                                                            if (_shouldSetState)
-                                                                              setState(() {});
-                                                                            return;
-                                                                          }
-                                                                        } else {
-                                                                          if (_shouldSetState)
-                                                                            setState(() {});
-                                                                          return;
-                                                                        }
-                                                                        _model.removeFromProductid(
-                                                                            productgridlistIndex.toString());
-                                                                        setState(
+                                                                            duration: Duration(milliseconds: 4000),
+                                                                            backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                          ),
+                                                                        );
+                                                                      }
+                                                                      _model
+                                                                          .addToProductid(productgridlistIndex.toString());
+                                                                      setState(
+                                                                              () {});
+                                                                    } else {
+                                                                      context
+                                                                          .pushNamed(
+                                                                        'LoginPage',
+                                                                        extra: <String,
+                                                                            dynamic>{
+                                                                          kTransitionInfoKey: TransitionInfo(
+                                                                            hasTransition: true,
+                                                                            transitionType: PageTransitionType.fade,
+                                                                            duration: Duration(milliseconds: 0),
+                                                                          ),
+                                                                        },
+                                                                      );
+                                                                    }
+
+                                                                    setState(
+                                                                            () {});
+                                                                    HapticFeedback
+                                                                        .lightImpact();
+                                                                  },
+                                                                  child:
+                                                                  Container(
+                                                                    width:
+                                                                    24,
+                                                                    height:
+                                                                    24,
+                                                                    clipBehavior:
+                                                                    Clip.antiAlias,
+                                                                    decoration:
+                                                                    BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
+                                                                    ),
+                                                                    child: Image
+                                                                        .asset(
+                                                                      'assets/images/HeartEmpty.png',
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            } else {
+                                                              return Padding(
+                                                                padding:
+                                                                EdgeInsets
+                                                                    .all(5),
+                                                                child:
+                                                                InkWell(
+                                                                  splashColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  focusColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  hoverColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    var _shouldSetState =
+                                                                    false;
+                                                                    _model.apiResult5ep =
+                                                                    await RemovefromWishlistCall.call(
+                                                                      token:
+                                                                      currentAuthenticationToken,
+                                                                      hosturl:
+                                                                      FFAppConstants.hosturl,
+                                                                      productId:
+                                                                      getJsonField(
+                                                                        productgridlistItem,
+                                                                        r'''$.product_id''',
+                                                                      ),
+                                                                      productType:
+                                                                      getJsonField(
+                                                                        productgridlistItem,
+                                                                        r'''$.mainprodtype''',
+                                                                      ),
+                                                                    );
+
+                                                                    _shouldSetState =
+                                                                    true;
+                                                                    if ((_model.apiResult5ep?.succeeded ??
+                                                                        true)) {
+                                                                      FFAppState().statusFailed =
+                                                                          getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
+                                                                      setState(
+                                                                              () {});
+                                                                      ScaffoldMessenger.of(context)
+                                                                          .clearSnackBars();
+                                                                      ScaffoldMessenger.of(context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content: Text(
+                                                                            getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.msg''').toString(),
+                                                                            style: TextStyle(
+                                                                              color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                            ),
+                                                                          ),
+                                                                          duration: Duration(milliseconds: 4000),
+                                                                          backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                        ),
+                                                                      );
+                                                                      if (FFAppState().statusFailed ==
+                                                                          'success') {
+                                                                      } else {
+                                                                        if (_shouldSetState)
+                                                                          setState(() {});
+                                                                        return;
+                                                                      }
+                                                                    } else {
+                                                                      if (_shouldSetState)
+                                                                        setState(() {});
+                                                                      return;
+                                                                    }
+                                                                    _model.removeFromProductid(
+                                                                        productgridlistIndex.toString());
+                                                                    setState(
                                                                             () {});
 
-                                                                        setState(
+                                                                    setState(
                                                                             () {});
-                                                                        HapticFeedback
-                                                                            .lightImpact();
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        width:
-                                                                            24,
-                                                                        height:
-                                                                            24,
-                                                                        clipBehavior:
-                                                                            Clip.antiAlias,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          shape:
-                                                                              BoxShape.circle,
-                                                                        ),
-                                                                        child: Image
-                                                                            .asset(
-                                                                          'assets/images/HeartFilled.png',
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
+                                                                    HapticFeedback
+                                                                        .lightImpact();
+                                                                  },
+                                                                  child:
+                                                                  Container(
+                                                                    width:
+                                                                    24,
+                                                                    height:
+                                                                    24,
+                                                                    clipBehavior:
+                                                                    Clip.antiAlias,
+                                                                    decoration:
+                                                                    BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
                                                                     ),
-                                                                  );
-                                                                }
-                                                              },
-                                                            ),
-                                                          );
-                                                        }),
+                                                                    child: Image
+                                                                        .asset(
+                                                                      'assets/images/HeartFilled.png',
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                          },
+                                                        ),
+                                                      );
+                                                    }),
                                               ),
                                             ),
                                           ],
@@ -3672,11 +3801,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                   );
                 } */
                 else if (/*((_model.pujaMainActionResult?.statusCode ?? 200) == 200) &&*/
-                    ((widget.productType == 'PujaMainCategory') ||
-                        (widget.productType == 'PujaSubCategory'))) {
+                ((widget.productType == 'PujaMainCategory') ||
+                    (widget.productType == 'PujaSubCategory'))) {
                   return Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                    EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                     child: FutureBuilder<ApiCallResponse>(
                       future: PujaProductCall.call(
                         slugValue: widget.productslugvalue,
@@ -3684,9 +3813,9 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                         maxPrice: FFAppState().rangeendString,
                         minPrice: FFAppState().rangestartString,
                         subMainCategoryType:
-                            widget.productType == 'PujaMainCategory'
-                                ? 'puja-product-basedon-maincategory'
-                                : 'puja-product-basedon-subcategory',
+                        widget.productType == 'PujaMainCategory'
+                            ? 'puja-product-basedon-maincategory'
+                            : 'puja-product-basedon-subcategory',
 
                       ),
                       builder: (context, snapshot) {
@@ -3724,18 +3853,18 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
                                               child: Container(
                                                 height: 356.0,
-                                                child: SortByWidget(),
+                                                child: SortByWidget( onSortChanged: _handleSortChange, ),
                                               ),
                                             ),
                                           );
@@ -3749,7 +3878,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .containerFillColor,
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .borderColor,
@@ -3761,7 +3890,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
@@ -3776,13 +3905,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Sort',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -3802,12 +3931,12 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
@@ -3838,7 +3967,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .containerFillColor,
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .borderColor,
@@ -3850,11 +3979,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              BorderRadius.circular(8.0),
                                               child: Image.asset(
                                                 'assets/images/sort.png',
                                                 width: 15.0,
@@ -3865,13 +3994,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Filter',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -3889,14 +4018,14 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                   builder: (context) {
                                     final productgridlist =
                                         PujaProductCall.productlist(
-                                              pujaProductPujaProductResponse
-                                                  .jsonBody,
-                                            )?.toList() ??
+                                          pujaProductPujaProductResponse
+                                              .jsonBody,
+                                        )?.toList() ??
                                             [];
                                     return GridView.builder(
                                       padding: EdgeInsets.zero,
                                       gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                      SliverGridDelegateWithFixedCrossAxisCount(
                                         /*crossAxisCount: 2,
                                         crossAxisSpacing: 7.0,
                                         mainAxisSpacing: 0.0,
@@ -3911,8 +4040,8 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                       itemBuilder:
                                           (context, productgridlistIndex) {
                                         final productgridlistItem =
-                                            productgridlist[
-                                                productgridlistIndex];
+                                        productgridlist[
+                                        productgridlistIndex];
                                         return Stack(
                                           children: [
                                             Container(
@@ -3920,39 +4049,39 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                               //height: 193.0,
                                               decoration: BoxDecoration(
                                                 color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
+                                                FlutterFlowTheme.of(context)
+                                                    .secondaryBackground,
                                                 borderRadius:
-                                                    BorderRadius.circular(2.0),
+                                                BorderRadius.circular(2.0),
                                                 border: Border.all(
                                                   color: FlutterFlowTheme.of(
-                                                          context)
+                                                      context)
                                                       .borderColor,
                                                 ),
                                               ),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.max,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.all(4.0),
+                                                    EdgeInsets.all(4.0),
                                                     child: ClipRRect(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
+                                                      BorderRadius.circular(
+                                                          8.0),
                                                       child: CachedNetworkImage(
                                                         fadeInDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                    100),
+                                                        Duration(
+                                                            milliseconds:
+                                                            100),
                                                         fadeOutDuration:
-                                                            Duration(
-                                                                milliseconds:
-                                                                    100),
+                                                        Duration(
+                                                            milliseconds:
+                                                            100),
                                                         imageUrl: getJsonField(
                                                           productgridlistItem,
                                                           r'''$.image''',
@@ -3965,22 +4094,22 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(9.0, 8.0,
-                                                                9.0, 10.0),
+                                                    EdgeInsetsDirectional
+                                                        .fromSTEB(9.0, 8.0,
+                                                        9.0, 10.0),
                                                     child: Column(
                                                       mainAxisSize:
-                                                          MainAxisSize.max,
+                                                      MainAxisSize.max,
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      CrossAxisAlignment
+                                                          .start,
                                                       children: [
                                                         Container(
                                                           width:
-                                                              double.infinity,
+                                                          double.infinity,
                                                           height: 36.0,
                                                           decoration:
-                                                              BoxDecoration(),
+                                                          BoxDecoration(),
                                                           child: Text(
                                                             getJsonField(
                                                               productgridlistItem,
@@ -3988,65 +4117,68 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                                             ).toString(),
                                                             maxLines: 2,
                                                             style: FlutterFlowTheme
-                                                                    .of(context)
+                                                                .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .productName,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
+                                                              fontFamily:
+                                                              'Montserrat',
+                                                              color: FlutterFlowTheme.of(
+                                                                  context)
+                                                                  .productName,
+                                                              letterSpacing:
+                                                              0.0,
+                                                            ),
                                                           ),
                                                         ),
                                                         RichText(
-                                                          textScaler: MediaQuery.of(context).textScaler,
+                                                          textScaler:
+                                                          MediaQuery.of(
+                                                              context)
+                                                              .textScaler,
                                                           text: TextSpan(
                                                             children: [
                                                               TextSpan(
                                                                 text: 'INR ',
                                                                 style: FlutterFlowTheme.of(
-                                                                        context)
+                                                                    context)
                                                                     .bodyMedium
                                                                     .override(
-                                                                      fontFamily:
-                                                                          'Montserrat',
-                                                                      color: Color(
-                                                                          0xFF272728),
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                    ),
+                                                                  fontFamily:
+                                                                  'Montserrat',
+                                                                  color: Color(
+                                                                      0xFF272728),
+                                                                  letterSpacing:
+                                                                  0.0,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                                ),
                                                               ),
                                                               TextSpan(
                                                                 text:
-                                                                    getJsonField(
+                                                                getJsonField(
                                                                   productgridlistItem,
                                                                   r'''$.selling_price''',
                                                                 ).toString(),
                                                                 style:
-                                                                    TextStyle(),
+                                                                TextStyle(),
                                                               )
                                                             ],
                                                             style: FlutterFlowTheme
-                                                                    .of(context)
+                                                                .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Montserrat',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryText,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
+                                                              fontFamily:
+                                                              'Montserrat',
+                                                              color: FlutterFlowTheme.of(
+                                                                  context)
+                                                                  .primaryText,
+                                                              letterSpacing:
+                                                              0.0,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w600,
+                                                            ),
                                                           ),
                                                         ),
                                                       ].divide(SizedBox(
@@ -4058,299 +4190,298 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             ),
                                             Align(
                                               alignment:
-                                                  AlignmentDirectional(1, -1),
+                                              AlignmentDirectional(1, -1),
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(0, 5, 5, 0),
                                                 child:
-                                                    FutureBuilder<
-                                                            ApiCallResponse>(
-                                                        future:
-                                                            WishListCall.call(
-                                                          hosturl:
-                                                              FFAppConstants
-                                                                  .sanityurl,
-                                                          token: currentAuthenticationToken
-                                                            ),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          // Customize what your widget looks like when it's loading.
-                                                          if (!snapshot
-                                                              .hasData) {
-                                                            return Container(
-                                                              width: 1,
-                                                              height: 1,
-                                                              child:
-                                                                  ShimmerWidget(),
-                                                            );
-                                                          }
-                                                          final containerWishlistResponse =
-                                                              snapshot.data!;
+                                                FutureBuilder<
+                                                    ApiCallResponse>(
+                                                    future:
+                                                    WishListCall.call(
+                                                      hosturl:
+                                                      FFAppConstants
+                                                          .sanityurl,
+                                                      token:currentAuthenticationToken,),
+                                                    builder: (context,
+                                                        snapshot) {
+                                                      // Customize what your widget looks like when it's loading.
+                                                      if (!snapshot
+                                                          .hasData) {
+                                                        return Container(
+                                                          width: 1,
+                                                          height: 1,
+                                                          child:
+                                                          ShimmerWidget(),
+                                                        );
+                                                      }
+                                                      final containerWishlistResponse =
+                                                      snapshot.data!;
 
-                                                          return Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          24),
-                                                            ),
-                                                            child: Builder(
-                                                              builder:
-                                                                  (context) {
-                                                                print(WishListCall.id(
-                                                                    containerWishlistResponse
-                                                                        .jsonBody));
-                                                                print(
-                                                                  getJsonField(
-                                                                    productgridlistItem,
-                                                                    r'''$.product_id''',
-                                                                  ).toString(),
-                                                                );
-                                                                if (!WishListCall
-                                                                        .id(
-                                                                  containerWishlistResponse
-                                                                      .jsonBody,
-                                                                )!
-                                                                    .contains(
-                                                                        getJsonField(
+                                                      return Container(
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                              .of(context)
+                                                              .secondaryBackground,
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              24),
+                                                        ),
+                                                        child: Builder(
+                                                          builder:
+                                                              (context) {
+                                                            print(WishListCall.id(
+                                                                containerWishlistResponse
+                                                                    .jsonBody));
+                                                            print(
+                                                              getJsonField(
+                                                                productgridlistItem,
+                                                                r'''$.product_id''',
+                                                              ).toString(),
+                                                            );
+                                                            if (!WishListCall
+                                                                .id(
+                                                              containerWishlistResponse
+                                                                  .jsonBody,
+                                                            )!
+                                                                .contains(
+                                                                getJsonField(
                                                                   productgridlistItem,
                                                                   r'''$.product_id''',
                                                                 ))) {
-                                                                  return Padding(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .all(5),
-                                                                    child:
-                                                                        InkWell(
-                                                                      splashColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      focusColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      hoverColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      onTap:
-                                                                          () async {
-                                                                        if (currentAuthenticationToken !=
-                                                                                null &&
-                                                                            currentAuthenticationToken !=
-                                                                                '') {
-                                                                          _model.addtoWishlist =
-                                                                              await AddToWishlistCall.call(
-                                                                            hosturl:
-                                                                                FFAppConstants.sanityurl,
-                                                                            token:
-                                                                                currentAuthenticationToken,
-                                                                            productid:
-                                                                                getJsonField(
-                                                                              productgridlistItem,
-                                                                              r'''$.product_id''',
-                                                                            ),
-                                                                            productType:
-                                                                                getJsonField(
-                                                                              productgridlistItem,
-                                                                              r'''$.mainprodtype''',
-                                                                            ),
-                                                                          );
-                                                                          if ((_model.addtoWishlist?.succeeded ??
-                                                                              true)) {
-                                                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                                              SnackBar(
-                                                                                content: Text(
-                                                                                  "Product added in wishlist",
-                                                                                  style: TextStyle(
-                                                                                    color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                                  ),
-                                                                                ),
-                                                                                duration: Duration(milliseconds: 4000),
-                                                                                backgroundColor: FlutterFlowTheme.of(context).primary,
-                                                                              ),
-                                                                            );
-                                                                          } else {
-                                                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                                              SnackBar(
-                                                                                content: Text(
-                                                                                  getJsonField(
-                                                                                    (_model.addtoWishlist?.jsonBody ?? ''),
-                                                                                    r'''$.status''',
-                                                                                  ).toString(),
-                                                                                  style: TextStyle(
-                                                                                    color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                                  ),
-                                                                                ),
-                                                                                duration: Duration(milliseconds: 4000),
-                                                                                backgroundColor: FlutterFlowTheme.of(context).primary,
-                                                                              ),
-                                                                            );
-                                                                          }
-                                                                          _model
-                                                                              .addToProductid(productgridlistIndex.toString());
-                                                                          setState(
-                                                                              () {});
-                                                                        } else {
-                                                                          context
-                                                                              .pushNamed(
-                                                                            'LoginPage',
-                                                                            extra: <String,
-                                                                                dynamic>{
-                                                                              kTransitionInfoKey: TransitionInfo(
-                                                                                hasTransition: true,
-                                                                                transitionType: PageTransitionType.fade,
-                                                                                duration: Duration(milliseconds: 0),
-                                                                              ),
-                                                                            },
-                                                                          );
-                                                                        }
-
-                                                                        setState(
-                                                                            () {});
-                                                                        HapticFeedback
-                                                                            .lightImpact();
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        width:
-                                                                            24,
-                                                                        height:
-                                                                            24,
-                                                                        clipBehavior:
-                                                                            Clip.antiAlias,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          shape:
-                                                                              BoxShape.circle,
+                                                              return Padding(
+                                                                padding:
+                                                                EdgeInsets
+                                                                    .all(5),
+                                                                child:
+                                                                InkWell(
+                                                                  splashColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  focusColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  hoverColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    if (currentAuthenticationToken !=
+                                                                        null &&
+                                                                        currentAuthenticationToken !=
+                                                                            '') {
+                                                                      _model.addtoWishlist =
+                                                                      await AddToWishlistCall.call(
+                                                                        hosturl:
+                                                                        FFAppConstants.sanityurl,
+                                                                        token:
+                                                                        currentAuthenticationToken,
+                                                                        productid:
+                                                                        getJsonField(
+                                                                          productgridlistItem,
+                                                                          r'''$.product_id''',
                                                                         ),
-                                                                        child: Image
-                                                                            .asset(
-                                                                          'assets/images/HeartEmpty.png',
-                                                                          fit: BoxFit
-                                                                              .cover,
+                                                                        productType:
+                                                                        getJsonField(
+                                                                          productgridlistItem,
+                                                                          r'''$.mainprodtype''',
                                                                         ),
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                } else {
-                                                                  return Padding(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .all(5),
-                                                                    child:
-                                                                        InkWell(
-                                                                      splashColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      focusColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      hoverColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      onTap:
-                                                                          () async {
-                                                                        var _shouldSetState =
-                                                                            false;
-                                                                        _model.apiResult5ep =
-                                                                            await RemovefromWishlistCall.call(
-                                                                          token:
-                                                                              currentAuthenticationToken,
-                                                                          hosturl:
-                                                                              FFAppConstants.hosturl,
-                                                                          productId:
-                                                                              getJsonField(
-                                                                            productgridlistItem,
-                                                                            r'''$.product_id''',
-                                                                          ),
-                                                                          productType:
-                                                                              getJsonField(
-                                                                            productgridlistItem,
-                                                                            r'''$.mainprodtype''',
+                                                                      );
+                                                                      if ((_model.addtoWishlist?.succeeded ??
+                                                                          true)) {
+                                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                                          SnackBar(
+                                                                            content: Text(
+                                                                              "Product added in wishlist",
+                                                                              style: TextStyle(
+                                                                                color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                              ),
+                                                                            ),
+                                                                            duration: Duration(milliseconds: 4000),
+                                                                            backgroundColor: FlutterFlowTheme.of(context).primary,
                                                                           ),
                                                                         );
-
-                                                                        _shouldSetState =
-                                                                            true;
-                                                                        if ((_model.apiResult5ep?.succeeded ??
-                                                                            true)) {
-                                                                          FFAppState().statusFailed =
-                                                                              getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
-                                                                          setState(
-                                                                              () {});
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .clearSnackBars();
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .showSnackBar(
-                                                                            SnackBar(
-                                                                              content: Text(
-                                                                                getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.msg''').toString(),
-                                                                                style: TextStyle(
-                                                                                  color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                                ),
+                                                                      } else {
+                                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                                          SnackBar(
+                                                                            content: Text(
+                                                                              getJsonField(
+                                                                                (_model.addtoWishlist?.jsonBody ?? ''),
+                                                                                r'''$.status''',
+                                                                              ).toString(),
+                                                                              style: TextStyle(
+                                                                                color: FlutterFlowTheme.of(context).containerFillColor,
                                                                               ),
-                                                                              duration: Duration(milliseconds: 4000),
-                                                                              backgroundColor: FlutterFlowTheme.of(context).primary,
                                                                             ),
-                                                                          );
-                                                                          if (FFAppState().statusFailed ==
-                                                                              'success') {
-                                                                          } else {
-                                                                            if (_shouldSetState)
-                                                                              setState(() {});
-                                                                            return;
-                                                                          }
-                                                                        } else {
-                                                                          if (_shouldSetState)
-                                                                            setState(() {});
-                                                                          return;
-                                                                        }
-                                                                        _model.removeFromProductid(
-                                                                            productgridlistIndex.toString());
-                                                                        setState(
+                                                                            duration: Duration(milliseconds: 4000),
+                                                                            backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                          ),
+                                                                        );
+                                                                      }
+                                                                      _model
+                                                                          .addToProductid(productgridlistIndex.toString());
+                                                                      setState(
+                                                                              () {});
+                                                                    } else {
+                                                                      context
+                                                                          .pushNamed(
+                                                                        'LoginPage',
+                                                                        extra: <String,
+                                                                            dynamic>{
+                                                                          kTransitionInfoKey: TransitionInfo(
+                                                                            hasTransition: true,
+                                                                            transitionType: PageTransitionType.fade,
+                                                                            duration: Duration(milliseconds: 0),
+                                                                          ),
+                                                                        },
+                                                                      );
+                                                                    }
+
+                                                                    setState(
+                                                                            () {});
+                                                                    HapticFeedback
+                                                                        .lightImpact();
+                                                                  },
+                                                                  child:
+                                                                  Container(
+                                                                    width:
+                                                                    24,
+                                                                    height:
+                                                                    24,
+                                                                    clipBehavior:
+                                                                    Clip.antiAlias,
+                                                                    decoration:
+                                                                    BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
+                                                                    ),
+                                                                    child: Image
+                                                                        .asset(
+                                                                      'assets/images/HeartEmpty.png',
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            } else {
+                                                              return Padding(
+                                                                padding:
+                                                                EdgeInsets
+                                                                    .all(5),
+                                                                child:
+                                                                InkWell(
+                                                                  splashColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  focusColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  hoverColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    var _shouldSetState =
+                                                                    false;
+                                                                    _model.apiResult5ep =
+                                                                    await RemovefromWishlistCall.call(
+                                                                      token:
+                                                                      currentAuthenticationToken,
+                                                                      hosturl:
+                                                                      FFAppConstants.hosturl,
+                                                                      productId:
+                                                                      getJsonField(
+                                                                        productgridlistItem,
+                                                                        r'''$.product_id''',
+                                                                      ),
+                                                                      productType:
+                                                                      getJsonField(
+                                                                        productgridlistItem,
+                                                                        r'''$.mainprodtype''',
+                                                                      ),
+                                                                    );
+
+                                                                    _shouldSetState =
+                                                                    true;
+                                                                    if ((_model.apiResult5ep?.succeeded ??
+                                                                        true)) {
+                                                                      FFAppState().statusFailed =
+                                                                          getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''').toString();
+                                                                      setState(
+                                                                              () {});
+                                                                      ScaffoldMessenger.of(context)
+                                                                          .clearSnackBars();
+                                                                      ScaffoldMessenger.of(context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content: Text(
+                                                                            getJsonField((_model.apiResult5ep?.jsonBody ?? ''), r'''$.msg''').toString(),
+                                                                            style: TextStyle(
+                                                                              color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                            ),
+                                                                          ),
+                                                                          duration: Duration(milliseconds: 4000),
+                                                                          backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                        ),
+                                                                      );
+                                                                      if (FFAppState().statusFailed ==
+                                                                          'success') {
+                                                                      } else {
+                                                                        if (_shouldSetState)
+                                                                          setState(() {});
+                                                                        return;
+                                                                      }
+                                                                    } else {
+                                                                      if (_shouldSetState)
+                                                                        setState(() {});
+                                                                      return;
+                                                                    }
+                                                                    _model.removeFromProductid(
+                                                                        productgridlistIndex.toString());
+                                                                    setState(
                                                                             () {});
 
-                                                                        setState(
+                                                                    setState(
                                                                             () {});
-                                                                        HapticFeedback
-                                                                            .lightImpact();
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        width:
-                                                                            24,
-                                                                        height:
-                                                                            24,
-                                                                        clipBehavior:
-                                                                            Clip.antiAlias,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          shape:
-                                                                              BoxShape.circle,
-                                                                        ),
-                                                                        child: Image
-                                                                            .asset(
-                                                                          'assets/images/HeartFilled.png',
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
+                                                                    HapticFeedback
+                                                                        .lightImpact();
+                                                                  },
+                                                                  child:
+                                                                  Container(
+                                                                    width:
+                                                                    24,
+                                                                    height:
+                                                                    24,
+                                                                    clipBehavior:
+                                                                    Clip.antiAlias,
+                                                                    decoration:
+                                                                    BoxDecoration(
+                                                                      shape:
+                                                                      BoxShape.circle,
                                                                     ),
-                                                                  );
-                                                                }
-                                                              },
-                                                            ),
-                                                          );
-                                                        }),
+                                                                    child: Image
+                                                                        .asset(
+                                                                      'assets/images/HeartFilled.png',
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
+                                                          },
+                                                        ),
+                                                      );
+                                                    }),
                                               ),
                                             ),
                                           ],
@@ -4368,22 +4499,23 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                   );
                 } else if (/*((_model.otherSubProductResult?.statusCode ?? 200) ==
                     200) &&*/
-                    ((widget.productType == 'OthersSubCategory') ||
-                        (widget.productType == 'OthersMainCategory'))) {
+                ((widget.productType == 'OthersSubCategory') ||
+                    (widget.productType == 'OthersMainCategory'))) {
                   return Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                    EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                     child: FutureBuilder<ApiCallResponse>(
                       future: OtherProductMainCategoryCall.call(
-                        hosturl: FFAppConstants.hosturl,
-                        slugValue: widget.productslugvalue,
-                        maxPrice: FFAppState().rangeendString,
-                        minPrice: FFAppState().rangestartString,
-                        subMainProductCategory:
-                            widget.productType == 'OthersMainCategory'
-                                ? 'other-product-basedon-maincategory'
-                                : 'other-product-basedon-subcategory',
-                          sort_by: FFAppState().sortby
+                          hosturl: FFAppConstants.hosturl,
+                          slugValue: widget.productslugvalue,
+                          maxPrice: FFAppState().rangeendString,
+                          minPrice: FFAppState().rangestartString,
+                          subMainProductCategory:
+                          widget.productType == 'OthersMainCategory'
+                              ? 'other-product-basedon-maincategory'
+                              : 'other-product-basedon-subcategory',
+                          sort_by: FFAppState().sortby,
+                        page_no: ""
                       ),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
@@ -4395,7 +4527,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                           );
                         }
                         final othersProductsOtherProductMainCategoryResponse =
-                            snapshot.data!;
+                        snapshot.data!;
                         return Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -4421,18 +4553,18 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
                                               child: Container(
                                                 height: 356.0,
-                                                child: SortByWidget(),
+                                                child:SortByWidget( onSortChanged: _handleSortChange, ),
                                               ),
                                             ),
                                           );
@@ -4446,7 +4578,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .containerFillColor,
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .borderColor,
@@ -4458,7 +4590,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
@@ -4473,13 +4605,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Sort',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -4499,32 +4631,32 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         builder: (context) {
                                           return GestureDetector(
                                             onTap: () => _model
-                                                    .unfocusNode.canRequestFocus
+                                                .unfocusNode.canRequestFocus
                                                 ? FocusScope.of(context)
-                                                    .requestFocus(
-                                                        _model.unfocusNode)
+                                                .requestFocus(
+                                                _model.unfocusNode)
                                                 : FocusScope.of(context)
-                                                    .unfocus(),
+                                                .unfocus(),
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
                                               child: FilterComponentWidget(
                                                 productFilterbytype: 'Others',
                                                 maxprice:
-                                                    OtherProductMainCategoryCall
-                                                        .yantraconstantmaxprice(
+                                                OtherProductMainCategoryCall
+                                                    .yantraconstantmaxprice(
                                                   othersProductsOtherProductMainCategoryResponse
                                                       .jsonBody,
                                                 )?.toDouble(),
                                                 minprice:
-                                                    OtherProductMainCategoryCall
-                                                        .yantraconstantminprice(
+                                                OtherProductMainCategoryCall
+                                                    .yantraconstantminprice(
                                                   othersProductsOtherProductMainCategoryResponse
                                                       .jsonBody,
                                                 )?.toDouble(),
                                                 deityPurpose:
-                                                    OtherProductMainCategoryCall
-                                                        .yantraconstantdietylist(
+                                                OtherProductMainCategoryCall
+                                                    .yantraconstantdietylist(
                                                   othersProductsOtherProductMainCategoryResponse
                                                       .jsonBody,
                                                 ),
@@ -4541,7 +4673,7 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         color: FlutterFlowTheme.of(context)
                                             .containerFillColor,
                                         borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        BorderRadius.circular(10.0),
                                         border: Border.all(
                                           color: FlutterFlowTheme.of(context)
                                               .borderColor,
@@ -4553,11 +4685,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              BorderRadius.circular(8.0),
                                               child: Image.asset(
                                                 'assets/images/sort.png',
                                                 width: 15.0,
@@ -4568,13 +4700,13 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                             Text(
                                               'Filter',
                                               style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
+                                                fontFamily:
+                                                'Montserrat',
+                                                letterSpacing: 0.0,
+                                              ),
                                             ),
                                           ].divide(SizedBox(width: 8.0)),
                                         ),
@@ -4592,503 +4724,518 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                                   builder: (context) {
                                     final yantrasgridlist =
                                         OtherProductMainCategoryCall
-                                                .yantrProductData(
-                                              othersProductsOtherProductMainCategoryResponse
-                                                  .jsonBody,
-                                            )?.toList() ??
+                                            .yantrProductData(
+                                          othersProductsOtherProductMainCategoryResponse
+                                              .jsonBody,
+                                        )?.toList() ??
                                             [];
-                                    return GridView.builder(
-                                      padding: EdgeInsets.zero,
-                                      gridDelegate:
+                                    print("yantrasgridlist : ${yantrasgridlist.length}");
+                                    return Stack(
+                                      children: [
+                                        GridView.builder(
+                                          controller: _scrollController,
+                                          padding: EdgeInsets.zero,
+                                          gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
-                                        /*crossAxisCount: 2,
-                                        crossAxisSpacing: 7.0,
-                                        mainAxisSpacing: 0.0,
-                                        childAspectRatio: 0.8,*/
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 9,
-                                        mainAxisSpacing: 9,
-                                        childAspectRatio: 0.82,
-                                      ),
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: yantrasgridlist.length,
-                                      itemBuilder:
-                                          (context, yantrasgridlistIndex) {
-                                        final yantrasgridlistItem =
-                                            yantrasgridlist[
-                                                yantrasgridlistIndex];
-                                        return Stack(
-                                          children: [
-                                            InkWell(
-                                              splashColor: Colors.transparent,
-                                              focusColor: Colors.transparent,
-                                              hoverColor: Colors.transparent,
-                                              highlightColor:
+                                            /*crossAxisCount: 2,
+                                            crossAxisSpacing: 7.0,
+                                            mainAxisSpacing: 0.0,
+                                            childAspectRatio: 0.8,*/
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 9,
+                                            mainAxisSpacing: 9,
+                                            childAspectRatio: 0.82,
+                                          ),
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: _productsList.length ,
+                                          itemBuilder: (context, index) {
+                                            if (index == _productsList.length) {
+                                              return   Container(height: 1,);
+                                            }
+                                            final yantrasgridlistItem = _productsList[index];
+                                            return Stack(
+                                              children: [
+                                                InkWell(
+                                                  splashColor: Colors.transparent,
+                                                  focusColor: Colors.transparent,
+                                                  hoverColor: Colors.transparent,
+                                                  highlightColor:
                                                   Colors.transparent,
-                                              onTap: () async {
-                                                context.pushNamed(
-                                                  'OtherProductDetails',
-                                                  queryParameters: {
-                                                    'productSlugValue':
+                                                  onTap: () async {
+                                                    context.pushNamed(
+                                                      'OtherProductDetails',
+                                                      queryParameters: {
+                                                        'productSlugValue':
                                                         serializeParam(
-                                                      getJsonField(
-                                                        yantrasgridlistItem,
-                                                        r'''$.slug_value''',
-                                                      ).toString(),
-                                                      ParamType.String,
-                                                    ),
-                                                  }.withoutNulls,
-                                                );
-                                              },
-                                              child: Container(
-                                                // width: 168.0,
-                                                //height: 193.0,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
+                                                          getJsonField(
+                                                            yantrasgridlistItem,
+                                                            r'''$.slug_value''',
+                                                          ).toString(),
+                                                          ParamType.String,
+                                                        ),
+                                                      }.withoutNulls,
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    // width: 168.0,
+                                                    //height: 193.0,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme.of(
                                                           context)
-                                                      .secondaryBackground,
-                                                  borderRadius:
+                                                          .secondaryBackground,
+                                                      borderRadius:
                                                       BorderRadius.circular(
                                                           2.0),
-                                                  border: Border.all(
-                                                    color: FlutterFlowTheme.of(
+                                                      border: Border.all(
+                                                        color: FlutterFlowTheme.of(
                                                             context)
-                                                        .borderColor,
-                                                  ),
-                                                ),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.all(4.0),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          fadeInDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100),
-                                                          fadeOutDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      100),
-                                                          imageUrl: widget
-                                                                      .productType ==
-                                                                  'OthersMainCategory'
-                                                              ? getJsonField(
-                                                                  yantrasgridlistItem,
-                                                                  r'''$.image''',
-                                                                ).toString()
-                                                              : getJsonField(
-                                                                  yantrasgridlistItem,
-                                                                  r'''$.image''',
-                                                                ).toString(),
-                                                          width:
-                                                              double.infinity,
-                                                          height: 104.65,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                            .borderColor,
                                                       ),
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  9.0,
-                                                                  8.0,
-                                                                  9.0,
-                                                                  10.0),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            width:
-                                                                double.infinity,
-                                                            height: 36.0,
-                                                            decoration:
-                                                                BoxDecoration(),
-                                                            child: Text(
-                                                              widget.productType ==
-                                                                      'OthersSubCategory'
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                      MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                          EdgeInsets.all(4.0),
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                            child:
+                                                            CachedNetworkImage(
+                                                              fadeInDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  100),
+                                                              fadeOutDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                  100),
+                                                              imageUrl: widget
+                                                                  .productType ==
+                                                                  'OthersMainCategory'
                                                                   ? getJsonField(
-                                                                      yantrasgridlistItem,
-                                                                      r'''$.product_name''',
-                                                                    ).toString()
+                                                                yantrasgridlistItem,
+                                                                r'''$.image''',
+                                                              ).toString()
                                                                   : getJsonField(
-                                                                      yantrasgridlistItem,
-                                                                      r'''$.name''',
-                                                                    ).toString(),
-                                                              maxLines: 2,
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Montserrat',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .productName,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                yantrasgridlistItem,
+                                                                r'''$.image''',
+                                                              ).toString(),
+                                                              width:
+                                                              double.infinity,
+                                                              height: 104.65,
+                                                              fit: BoxFit.cover,
                                                             ),
                                                           ),
-                                                          RichText(
-                                                            textScaler:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .textScaler,
-                                                            text: TextSpan(
-                                                              children: [
-                                                                TextSpan(
-                                                                  text: 'INR ',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                              9.0,
+                                                              8.0,
+                                                              9.0,
+                                                              10.0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize.max,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Container(
+                                                                width:
+                                                                double.infinity,
+                                                                height: 36.0,
+                                                                decoration:
+                                                                BoxDecoration(),
+                                                                child: Text(
+                                                                  widget.productType ==
+                                                                      'OthersSubCategory'
+                                                                      ? getJsonField(
+                                                                    yantrasgridlistItem,
+                                                                    r'''$.product_name''',
+                                                                  ).toString()
+                                                                      : getJsonField(
+                                                                    yantrasgridlistItem,
+                                                                    r'''$.name''',
+                                                                  ).toString(),
+                                                                  maxLines: 2,
+                                                                  style: FlutterFlowTheme
+                                                                      .of(context)
                                                                       .bodyMedium
                                                                       .override(
+                                                                    fontFamily:
+                                                                    'Montserrat',
+                                                                    color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                        .productName,
+                                                                    letterSpacing:
+                                                                    0.0,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              RichText(
+                                                                textScaler:
+                                                                MediaQuery.of(
+                                                                    context)
+                                                                    .textScaler,
+                                                                text: TextSpan(
+                                                                  children: [
+                                                                    TextSpan(
+                                                                      text: 'INR ',
+                                                                      style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                          .bodyMedium
+                                                                          .override(
                                                                         fontFamily:
-                                                                            'Montserrat',
+                                                                        'Montserrat',
                                                                         color: Color(
                                                                             0xFF272728),
                                                                         letterSpacing:
-                                                                            0.0,
+                                                                        0.0,
                                                                         fontWeight:
-                                                                            FontWeight.w600,
+                                                                        FontWeight.w600,
                                                                       ),
-                                                                ),
-                                                                TextSpan(
-                                                                  text:
+                                                                    ),
+                                                                    TextSpan(
+                                                                      text:
                                                                       getJsonField(
-                                                                    yantrasgridlistItem,
-                                                                    r'''$.selling_price''',
-                                                                  ).toString(),
-                                                                  style:
+                                                                        yantrasgridlistItem,
+                                                                        r'''$.selling_price''',
+                                                                      ).toString(),
+                                                                      style:
                                                                       TextStyle(),
-                                                                )
-                                                              ],
-                                                              style: FlutterFlowTheme
+                                                                    )
+                                                                  ],
+                                                                  style: FlutterFlowTheme
                                                                       .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
+                                                                      .bodyMedium
+                                                                      .override(
                                                                     fontFamily:
-                                                                        'Montserrat',
+                                                                    'Montserrat',
                                                                     color: FlutterFlowTheme.of(
-                                                                            context)
+                                                                        context)
                                                                         .primaryText,
                                                                     letterSpacing:
-                                                                        0.0,
+                                                                    0.0,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
+                                                                    FontWeight
+                                                                        .w600,
                                                                   ),
-                                                            ),
+                                                                ),
+                                                              ),
+                                                            ].divide(SizedBox(
+                                                                height: 8.0)),
                                                           ),
-                                                        ].divide(SizedBox(
-                                                            height: 8.0)),
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment:
+                                                Align(
+                                                  alignment:
                                                   AlignmentDirectional(1, -1),
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 5, 5, 0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xA5FFFFFF),
-                                                    borderRadius:
+                                                  child: Padding(
+                                                    padding: EdgeInsetsDirectional
+                                                        .fromSTEB(0, 5, 5, 0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: Color(0xA5FFFFFF),
+                                                        borderRadius:
                                                         BorderRadius.circular(
                                                             24),
-                                                  ),
-                                                  child: Builder(
-                                                    builder: (context) {
-                                                      if (!_model.productid
-                                                          .contains(
+                                                      ),
+                                                      child: Builder(
+                                                        builder: (context) {
+                                                          if (!_model.productid
+                                                              .contains(
                                                               yantrasgridlistItem
                                                                   .toString())) {
-                                                        return Padding(
-                                                          padding:
+                                                            return Padding(
+                                                              padding:
                                                               EdgeInsets.all(5),
-                                                          child: InkWell(
-                                                            splashColor: Colors
-                                                                .transparent,
-                                                            focusColor: Colors
-                                                                .transparent,
-                                                            hoverColor: Colors
-                                                                .transparent,
-                                                            highlightColor:
+                                                              child: InkWell(
+                                                                splashColor: Colors
+                                                                    .transparent,
+                                                                focusColor: Colors
+                                                                    .transparent,
+                                                                hoverColor: Colors
+                                                                    .transparent,
+                                                                highlightColor:
                                                                 Colors
                                                                     .transparent,
-                                                            onTap: () async {
-                                                              if (currentAuthenticationToken !=
+                                                                onTap: () async {
+                                                                  if (currentAuthenticationToken !=
                                                                       null &&
-                                                                  currentAuthenticationToken !=
-                                                                      '') {
-                                                                _model.addtoWishlist =
+                                                                      currentAuthenticationToken !=
+                                                                          '') {
+                                                                    _model.addtoWishlist =
                                                                     await AddToWishlistCall
                                                                         .call(
-                                                                  hosturl:
+                                                                      hosturl:
                                                                       FFAppConstants
                                                                           .sanityurl,
-                                                                  token:
+                                                                      token:
                                                                       currentAuthenticationToken,
-                                                                  productid:
+                                                                      productid:
                                                                       getJsonField(
-                                                                    yantrasgridlistItem,
-                                                                    r'''$.product_id''',
-                                                                  ),
-                                                                  productType:
+                                                                        yantrasgridlistItem,
+                                                                        r'''$.product_id''',
+                                                                      ),
+                                                                      productType:
                                                                       getJsonField(
-                                                                    yantrasgridlistItem,
-                                                                    r'''$.mainprodtype''',
-                                                                  ),
-                                                                );
-                                                                if ((_model
+                                                                        yantrasgridlistItem,
+                                                                        r'''$.mainprodtype''',
+                                                                      ),
+                                                                    );
+                                                                    if ((_model
                                                                         .addtoWishlist
                                                                         ?.succeeded ??
-                                                                    true)) {
-                                                                  ScaffoldMessenger.of(
+                                                                        true)) {
+                                                                      ScaffoldMessenger.of(
                                                                           context)
-                                                                      .showSnackBar(
-                                                                    SnackBar(
-                                                                      content:
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content:
                                                                           Text(
-                                                                        "Product added in wishlist",
-                                                                        style:
+                                                                            "Product added in wishlist",
+                                                                            style:
                                                                             TextStyle(
-                                                                          color:
+                                                                              color:
                                                                               FlutterFlowTheme.of(context).containerFillColor,
-                                                                        ),
-                                                                      ),
-                                                                      duration: Duration(
-                                                                          milliseconds:
+                                                                            ),
+                                                                          ),
+                                                                          duration: Duration(
+                                                                              milliseconds:
                                                                               4000),
-                                                                      backgroundColor:
+                                                                          backgroundColor:
                                                                           FlutterFlowTheme.of(context)
                                                                               .primary,
-                                                                    ),
-                                                                  );
-                                                                } else {
-                                                                  ScaffoldMessenger.of(
-                                                                          context)
-                                                                      .showSnackBar(
-                                                                    SnackBar(
-                                                                      content:
-                                                                          Text(
-                                                                        getJsonField(
-                                                                          (_model.addtoWishlist?.jsonBody ??
-                                                                              ''),
-                                                                          r'''$.status''',
-                                                                        ).toString(),
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).containerFillColor,
                                                                         ),
-                                                                      ),
-                                                                      duration: Duration(
-                                                                          milliseconds:
+                                                                      );
+                                                                    } else {
+                                                                      ScaffoldMessenger.of(
+                                                                          context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content:
+                                                                          Text(
+                                                                            getJsonField(
+                                                                              (_model.addtoWishlist?.jsonBody ??
+                                                                                  ''),
+                                                                              r'''$.status''',
+                                                                            ).toString(),
+                                                                            style:
+                                                                            TextStyle(
+                                                                              color:
+                                                                              FlutterFlowTheme.of(context).containerFillColor,
+                                                                            ),
+                                                                          ),
+                                                                          duration: Duration(
+                                                                              milliseconds:
                                                                               4000),
-                                                                      backgroundColor:
+                                                                          backgroundColor:
                                                                           FlutterFlowTheme.of(context)
                                                                               .primary,
-                                                                    ),
-                                                                  );
-                                                                }
-                                                                _model.addToProductid(
-                                                                    yantrasgridlistItem
-                                                                        .toString());
-                                                                setState(() {});
-                                                              } else {
-                                                                context
-                                                                    .pushNamed(
-                                                                  'LoginPage',
-                                                                  extra: <String,
-                                                                      dynamic>{
-                                                                    kTransitionInfoKey:
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                    _model.addToProductid(
+                                                                        yantrasgridlistItem
+                                                                            .toString());
+                                                                    setState(() {});
+                                                                  } else {
+                                                                    context
+                                                                        .pushNamed(
+                                                                      'LoginPage',
+                                                                      extra: <String,
+                                                                          dynamic>{
+                                                                        kTransitionInfoKey:
                                                                         TransitionInfo(
-                                                                      hasTransition:
+                                                                          hasTransition:
                                                                           true,
-                                                                      transitionType:
+                                                                          transitionType:
                                                                           PageTransitionType
                                                                               .fade,
-                                                                      duration: Duration(
-                                                                          milliseconds:
+                                                                          duration: Duration(
+                                                                              milliseconds:
                                                                               0),
-                                                                    ),
-                                                                  },
-                                                                );
-                                                              }
+                                                                        ),
+                                                                      },
+                                                                    );
+                                                                  }
 
-                                                              setState(() {});
-                                                              HapticFeedback
-                                                                  .lightImpact();
-                                                            },
-                                                            child: Container(
-                                                              width: 24,
-                                                              height: 24,
-                                                              clipBehavior: Clip
-                                                                  .antiAlias,
-                                                              decoration:
+                                                                  setState(() {});
+                                                                  HapticFeedback
+                                                                      .lightImpact();
+                                                                },
+                                                                child: Container(
+                                                                  width: 24,
+                                                                  height: 24,
+                                                                  clipBehavior: Clip
+                                                                      .antiAlias,
+                                                                  decoration:
                                                                   BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                              ),
-                                                              child:
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                  ),
+                                                                  child:
                                                                   Image.asset(
-                                                                'assets/images/HeartEmpty.png',
-                                                                fit: BoxFit
-                                                                    .cover,
+                                                                    'assets/images/HeartEmpty.png',
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      } else {
-                                                        return Padding(
-                                                          padding:
+                                                            );
+                                                          } else {
+                                                            return Padding(
+                                                              padding:
                                                               EdgeInsets.all(5),
-                                                          child: InkWell(
-                                                            splashColor: Colors
-                                                                .transparent,
-                                                            focusColor: Colors
-                                                                .transparent,
-                                                            hoverColor: Colors
-                                                                .transparent,
-                                                            highlightColor:
+                                                              child: InkWell(
+                                                                splashColor: Colors
+                                                                    .transparent,
+                                                                focusColor: Colors
+                                                                    .transparent,
+                                                                hoverColor: Colors
+                                                                    .transparent,
+                                                                highlightColor:
                                                                 Colors
                                                                     .transparent,
-                                                            onTap: () async {
-                                                              var _shouldSetState =
+                                                                onTap: () async {
+                                                                  var _shouldSetState =
                                                                   false;
-                                                              _model.apiResult5ep =
+                                                                  _model.apiResult5ep =
                                                                   await RemovefromWishlistCall
                                                                       .call(
-                                                                token:
+                                                                    token:
                                                                     currentAuthenticationToken,
-                                                                hosturl:
+                                                                    hosturl:
                                                                     FFAppConstants
                                                                         .hosturl,
-                                                                productId:
+                                                                    productId:
                                                                     getJsonField(
-                                                                  yantrasgridlistItem,
-                                                                  r'''$.product_id''',
-                                                                ),
-                                                                productType:
+                                                                      yantrasgridlistItem,
+                                                                      r'''$.product_id''',
+                                                                    ),
+                                                                    productType:
                                                                     getJsonField(
-                                                                  yantrasgridlistItem,
-                                                                  r'''$.mainprodtype''',
-                                                                ),
-                                                              );
+                                                                      yantrasgridlistItem,
+                                                                      r'''$.mainprodtype''',
+                                                                    ),
+                                                                  );
 
-                                                              _shouldSetState =
+                                                                  _shouldSetState =
                                                                   true;
-                                                              if ((_model
+                                                                  if ((_model
                                                                       .apiResult5ep
                                                                       ?.succeeded ??
-                                                                  true)) {
-                                                                FFAppState()
-                                                                    .statusFailed = getJsonField(
+                                                                      true)) {
+                                                                    FFAppState()
+                                                                        .statusFailed = getJsonField(
                                                                         (_model.apiResult5ep?.jsonBody ??
                                                                             ''),
                                                                         r'''$.status''')
-                                                                    .toString();
-                                                                setState(() {});
-                                                                ScaffoldMessenger.of(
+                                                                        .toString();
+                                                                    setState(() {});
+                                                                    ScaffoldMessenger.of(
                                                                         context)
-                                                                    .clearSnackBars();
-                                                                ScaffoldMessenger.of(
+                                                                        .clearSnackBars();
+                                                                    ScaffoldMessenger.of(
                                                                         context)
-                                                                    .showSnackBar(
-                                                                  SnackBar(
-                                                                    content:
+                                                                        .showSnackBar(
+                                                                      SnackBar(
+                                                                        content:
                                                                         Text(
-                                                                      getJsonField(
+                                                                          getJsonField(
                                                                               (_model.apiResult5ep?.jsonBody ?? ''),
                                                                               r'''$.msg''')
-                                                                          .toString(),
-                                                                      style:
+                                                                              .toString(),
+                                                                          style:
                                                                           TextStyle(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .containerFillColor,
-                                                                      ),
-                                                                    ),
-                                                                    duration: Duration(
-                                                                        milliseconds:
+                                                                            color: FlutterFlowTheme.of(context)
+                                                                                .containerFillColor,
+                                                                          ),
+                                                                        ),
+                                                                        duration: Duration(
+                                                                            milliseconds:
                                                                             4000),
-                                                                    backgroundColor:
+                                                                        backgroundColor:
                                                                         FlutterFlowTheme.of(context)
                                                                             .primary,
-                                                                  ),
-                                                                );
-                                                                if (FFAppState()
+                                                                      ),
+                                                                    );
+                                                                    if (FFAppState()
                                                                         .statusFailed ==
-                                                                    'success') {
-                                                                } else {
-                                                                  if (_shouldSetState)
-                                                                    setState(
-                                                                        () {});
-                                                                  return;
-                                                                }
-                                                              } else {
-                                                                if (_shouldSetState)
-                                                                  setState(
-                                                                      () {});
-                                                                return;
-                                                              }
-                                                              _model.removeFromProductid(
-                                                                  yantrasgridlistItem
-                                                                      .toString());
-                                                              setState(() {});
+                                                                        'success') {
+                                                                    } else {
+                                                                      if (_shouldSetState)
+                                                                        setState(
+                                                                                () {});
+                                                                      return;
+                                                                    }
+                                                                  } else {
+                                                                    if (_shouldSetState)
+                                                                      setState(
+                                                                              () {});
+                                                                    return;
+                                                                  }
+                                                                  _model.removeFromProductid(
+                                                                      yantrasgridlistItem
+                                                                          .toString());
+                                                                  setState(() {});
 
-                                                              setState(() {});
-                                                              HapticFeedback
-                                                                  .lightImpact();
-                                                            },
-                                                            child: Container(
-                                                              width: 24,
-                                                              height: 24,
-                                                              clipBehavior: Clip
-                                                                  .antiAlias,
-                                                              decoration:
+                                                                  setState(() {});
+                                                                  HapticFeedback
+                                                                      .lightImpact();
+                                                                },
+                                                                child: Container(
+                                                                  width: 24,
+                                                                  height: 24,
+                                                                  clipBehavior: Clip
+                                                                      .antiAlias,
+                                                                  decoration:
                                                                   BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                              ),
-                                                              child:
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                  ),
+                                                                  child:
                                                                   Image.asset(
-                                                                'assets/images/HeartFilled.png',
-                                                                fit: BoxFit
-                                                                    .cover,
+                                                                    'assets/images/HeartFilled.png',
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                    },
+                                                            );
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                        if (_isLoading)
+                                          Positioned(
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 16.0,
+                                            child: Center(
+                                              child: CircularProgressIndicator(color: Color(0xFF740074),),
                                             ),
-                                          ],
-                                        );
-                                      },
+                                          ),
+                                      ],
                                     );
                                   },
                                 ),

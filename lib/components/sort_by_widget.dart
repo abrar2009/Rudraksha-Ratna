@@ -10,7 +10,9 @@ import 'sort_by_model.dart';
 export 'sort_by_model.dart';
 
 class SortByWidget extends StatefulWidget {
-  const SortByWidget({super.key});
+  final VoidCallback onSortChanged; // Callback function to notify when sort changes
+
+  const SortByWidget({super.key, required this.onSortChanged});
 
   @override
   State<SortByWidget> createState() => _SortByWidgetState();
@@ -30,6 +32,7 @@ class _SortByWidgetState extends State<SortByWidget> {
     super.initState();
     _model = createModel(context, () => SortByModel());
   }
+
 
   @override
   void dispose() {
@@ -107,7 +110,10 @@ class _SortByWidgetState extends State<SortByWidget> {
                   print("_model.FFAppState().sortby:${FFAppState().sortby}");
                 });
                 print("_model.sortby:${_model.sortby}");
+                Navigator.of(context).pop();
+                widget.onSortChanged();
               },
+
               controller: _model.radioButtonValueController ??=
                   FormFieldController<String>(null),
               optionHeight: 60,
