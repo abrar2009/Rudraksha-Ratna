@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "368764903323",
+    "project_id": "rudraksha-ratna-94d2c",
+    "storage_bucket": "rudraksha-ratna-94d2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368764903323:android:c1cd887865616a93f00b3e",
+        "android_client_info": {
+          "package_name": "com.mycompany.rudrakshacart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3fhgz9kLIkI6xyd72N0EDgE_C4wALBI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
