@@ -1,5 +1,4 @@
-import 'package:flutter/services.dart';
-
+import '../../custom_code/widgets/custom_textformfield.dart';
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -86,7 +85,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.arrow_back_rounded,
-              color: Color(0xFF272728),
+              color: FlutterFlowTheme.of(context).primaryText,
               size: 30.0,
             ),
             onPressed: () async {
@@ -94,55 +93,17 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
             },
           ),
           title: Text(
-            //'Add New Address',
-            '${_model.countryId}',
+            'Add New Address',
+            //'${_model.countryId}',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
               fontFamily: 'Outfit',
-              color: Color(0xFF272728),
+              color: FlutterFlowTheme.of(context).primaryText,
               fontSize: 16,
               letterSpacing: 0,
               fontWeight: FontWeight.w500,
             ),
           ),
-          /*RichText(
-            textScaler: MediaQuery.of(context).textScaler,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: valueOrDefault<String>(
-                    _model.countryId,
-                    'IN',
-                  ),
-                  style: FlutterFlowTheme.of(context).headlineMedium.override(
-                    fontFamily: 'Outfit',
-                    color: Color(0xFF272728),
-                    fontSize: 16.0,
-                    letterSpacing: 0.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                TextSpan(
-                  text: ' ',
-                  style: TextStyle(),
-                ),
-                TextSpan(
-                  text: valueOrDefault<String>(
-                    _model.stateId,
-                    'Mh',
-                  ),
-                  style: TextStyle(),
-                )
-              ],
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
-                fontFamily: 'Outfit',
-                color: Color(0xFF272728),
-                fontSize: 16.0,
-                letterSpacing: 0.0,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),*/
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0.0,
         ),
@@ -154,210 +115,41 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                 width: double.infinity,
                 height: 1.0,
                 decoration: BoxDecoration(
-                  color: Color(0xFFE7E7E8),
+                  color: FlutterFlowTheme.of(context).borderColor,
                   border: Border.all(
-                    color: Color(0xFFE7E7E8),
+                    color: FlutterFlowTheme.of(context).borderColor,
                   ),
                 ),
               ),
               Padding(
-                padding:
-                EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    /*TextFormField(
-                      controller: _model.firstNameTextController,
-                      focusNode: _model.firstNameFocusNode,
-                      autofocus: true,
-                      obscureText: false,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')), // Allow only alphabets
-                        LengthLimitingTextInputFormatter(50)
-                      ],
-                      decoration: InputDecoration(
-                        labelText: 'First Name',
-                        labelStyle:
-                        FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Montserrat',
-                          color: Color(0xFF868687),
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        hintText: 'Enter First Name',
-                        hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                          fontFamily: 'Montserrat',
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          fontSize: 16.0,
-                          letterSpacing: 0.0,
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF868687),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).primary,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        errorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).error,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        focusedErrorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).error,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                      ),
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Montserrat',
-                        letterSpacing: 0.0,
-                      ),
-                      validator: _model.firstNameTextControllerValidator.asValidator(context),
-                    ),*/
                     Form(
                       key: _model.formKey3,
                       autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                        controller: _model.firstNameTextController,
-                        focusNode: _model.firstNameFocusNode,
-                        autofocus: true,
-                        obscureText: false,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')), // Allow only alphabets
-                          LengthLimitingTextInputFormatter(50)
-                        ],
-                        decoration: InputDecoration(
-                          labelText: 'First Name *',
-                          labelStyle:
-                          FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'Montserrat',
-                            color: Color(0xFF868687),
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          hintText: 'Enter First Name',
-                          hintStyle: FlutterFlowTheme.of(context)
-                              .labelMedium
-                              .override(
-                            fontFamily: 'Montserrat',
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            fontSize: 16,
-                            letterSpacing: 0,
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF868687),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedErrorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Montserrat',
-                          letterSpacing: 0,
-                        ),
-                        validator: _model.firstNameTextControllerValidator
-                            .asValidator(context),
+                      child: CustomTextFormField(
+                        controller: _model.firstNameTextController!,
+                        focusNode: _model.firstNameFocusNode!,
+                        labelText: 'First Name *',
+                        hintText: 'Enter First Name',
+                        keyboardType: TextInputType.name,
+                        isObscureText: false,
+                        validator: _model.firstNameTextControllerValidator.asValidator(context)!,
                       ),
                     ),
                     Form(
                       key: _model.formKey2,
                       autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                        controller: _model.lastNameTextController,
-                        focusNode: _model.lastNameFocusNode,
-                        autofocus: true,
-                        obscureText: false,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')), // Allow only alphabets
-                          LengthLimitingTextInputFormatter(50)
-                        ],
-                        decoration: InputDecoration(
-                          labelText: 'Last Name *',
-                          labelStyle:
-                          FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'Montserrat',
-                            color: Color(0xFF868687),
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          hintText: 'Enter Last Name',
-                          hintStyle: FlutterFlowTheme.of(context)
-                              .labelMedium
-                              .override(
-                            fontFamily: 'Montserrat',
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            fontSize: 16,
-                            letterSpacing: 0,
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF868687),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedErrorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Montserrat',
-                          letterSpacing: 0,
-                        ),
-                        validator: _model.lastNameTextControllerValidator
-                            .asValidator(context),
+                      child: CustomTextFormField(
+                        controller: _model.lastNameTextController!,
+                        focusNode: _model.lastNameFocusNode!,
+                        labelText: 'Last Name *',
+                        hintText: 'Enter Last Name',
+                        keyboardType: TextInputType.name,
+                        isObscureText: false,
+                        validator: _model.lastNameTextControllerValidator.asValidator(context)!,
                       ),
                     ),
                     Row(
@@ -365,7 +157,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Align(
-                          alignment: AlignmentDirectional(0.0, 1.0),
+                          alignment: const AlignmentDirectional(0.0, 1.0),
                           child: FlutterFlowDropDown<String>(
                             controller: _model.countryCodeValueController ??= FormFieldController<String>(null),
                             options: functions.countryCodes()!,
@@ -398,7 +190,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                             borderColor: Colors.transparent,
                             borderWidth: 0.0,
                             borderRadius: 0.0,
-                            margin: EdgeInsetsDirectional.fromSTEB(10, 6, 0, 12),
+                            margin: const EdgeInsetsDirectional.fromSTEB(10, 6, 0, 12),
                             isOverButton: true,
                             isSearchable: true,
                             isMultiSelect: false,
@@ -409,199 +201,45 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                             key: _model.formKey5,
                             autovalidateMode: AutovalidateMode.always,
                             child: Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
-                              child: TextFormField(
-                                controller: _model.phoneNumberTextController,
-                                focusNode: _model.phoneNumberFocusNode,
-                                autofocus: true,
-                                obscureText: false,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                                ],
-                                decoration: InputDecoration(
-                                  labelText: 'Phone Number *',
-                                  labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xFF868687),
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  hintText: 'Enter Phone Number',
-                                  hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    color: FlutterFlowTheme.of(context).primaryText,
-                                    fontSize: 16,
-                                    letterSpacing: 0,
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0xFF868687),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(0),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).primary,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(0),
-                                  ),
-                                  errorBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(0),
-                                  ),
-                                  focusedErrorBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(0),
-                                  ),
-                                ),
-                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                  fontFamily: 'Montserrat',
-                                  letterSpacing: 0,
-                                ),
+                              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
+                              child: CustomTextFormField(
+                                controller: _model.phoneNumberTextController!,
+                                focusNode: _model.phoneNumberFocusNode!,
+                                labelText: 'Phone Number *',
+                                hintText: 'Enter Phone Number',
                                 keyboardType: TextInputType.phone,
-                                validator: _model.phoneNumberTextControllerValidator.asValidator(context),
+                                isObscureText: false,
+                                validator: _model.phoneNumberTextControllerValidator.asValidator(context)!,
                               ),
                             ),
                           ),
                         ),
-                      ].divide(SizedBox(width: 15.0)),
+                      ].divide(const SizedBox(width: 15.0)),
                     ),
                     Form(
                       key: _model.formKey4,
                       autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                        controller: _model.emailTextController,
-                        focusNode: _model.emailFocusNode,
-                        autofocus: true,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          labelText: 'Email *',
-                          labelStyle:
-                          FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'Montserrat',
-                            color: Color(0xFF868687),
-                            fontSize: 14,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          hintText: 'Enter Email Address ',
-                          hintStyle: FlutterFlowTheme.of(context)
-                              .labelMedium
-                              .override(
-                            fontFamily: 'Montserrat',
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            fontSize: 16,
-                            letterSpacing: 0,
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF868687),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedErrorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          contentPadding:
-                          EdgeInsetsDirectional.fromSTEB(0, 6, 0, 0),
-                        ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Montserrat',
-                          letterSpacing: 0,
-                        ),
-                        validator: _model.emailTextControllerValidator
-                            .asValidator(context),
+                      child: CustomTextFormField(
+                        controller: _model.emailTextController!,
+                        focusNode: _model.emailFocusNode!,
+                        labelText: 'Email *',
+                        hintText: 'Enter Email Address ',
+                        keyboardType: TextInputType.emailAddress,
+                        isObscureText: false,
+                        validator: _model.emailTextControllerValidator.asValidator(context)!,
                       ),
                     ),
                     Form(
                       key: _model.formKey6,
                       autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                        controller: _model.address1TextController,
-                        focusNode: _model.address1FocusNode,
-                        autofocus: true,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          labelText: 'Address Line 1 *',
-                          labelStyle:
-                          FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'Montserrat',
-                            color: Color(0xFF868687),
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          hintText: 'Enter Address ',
-                          hintStyle: FlutterFlowTheme.of(context)
-                              .labelMedium
-                              .override(
-                            fontFamily: 'Montserrat',
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            fontSize: 16,
-                            letterSpacing: 0,
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF868687),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedErrorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Montserrat',
-                          letterSpacing: 0,
-                        ),
-                        validator: _model.address1TextControllerValidator
-                            .asValidator(context),
+                      child: CustomTextFormField(
+                        controller: _model.address1TextController!,
+                        focusNode: _model.address1FocusNode!,
+                        labelText: 'Address Line 1 *',
+                        hintText: 'Enter Address',
+                        keyboardType: TextInputType.none,
+                        isObscureText: false,
+                        validator: _model.address1TextControllerValidator.asValidator(context)!,
                       ),
                     ),
                     TextFormField(
@@ -613,7 +251,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                         labelText: 'Address Line 2 (optional)',
                         labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
                           fontFamily: 'Montserrat',
-                          color: Color(0xFF868687),
+                          color: FlutterFlowTheme.of(context).labelText,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.normal,
                         ),
@@ -626,7 +264,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFF868687),
+                            color: FlutterFlowTheme.of(context).labelText,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(0.0),
@@ -652,7 +290,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                           ),
                           borderRadius: BorderRadius.circular(0.0),
                         ),
-                        contentPadding: EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
+                        contentPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                         fontFamily: 'Montserrat',
@@ -669,7 +307,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                         labelText: 'Landmark  (optional)',
                         labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
                           fontFamily: 'Montserrat',
-                          color: Color(0xFF868687),
+                          color: FlutterFlowTheme.of(context).labelText,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.normal,
                         ),
@@ -682,7 +320,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                         ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFF868687),
+                            color: FlutterFlowTheme.of(context).labelText,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(0.0),
@@ -708,7 +346,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                           ),
                           borderRadius: BorderRadius.circular(0.0),
                         ),
-                        contentPadding: EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
+                        contentPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                         fontFamily: 'Montserrat',
@@ -780,7 +418,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                           borderColor: Colors.transparent,
                           borderWidth: 2.0,
                           borderRadius: 8.0,
-                          margin: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 0.0),
+                          margin: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 0.0),
                           isOverButton: true,
                           isSearchable: true,
                           isMultiSelect: false,
@@ -858,7 +496,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                           borderColor: Colors.transparent,
                           borderWidth: 2.0,
                           borderRadius: 8.0,
-                          margin: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 0.0),
+                          margin: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 0.0),
                           isOverButton: true,
                           isSearchable: true,
                           isMultiSelect: false,
@@ -868,128 +506,31 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                     Form(
                       key: _model.formKey1,
                       autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                        controller: _model.cityTextController,
-                        focusNode: _model.cityFocusNode,
-                        autofocus: true,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          labelText: 'City *',
-                          labelStyle:
-                          FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'Montserrat',
-                            color: Color(0xFF868687),
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          hintText: 'Enter City',
-                          hintStyle: FlutterFlowTheme.of(context)
-                              .labelMedium
-                              .override(
-                            fontFamily: 'Montserrat',
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            fontSize: 16,
-                            letterSpacing: 0,
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF868687),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedErrorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Montserrat',
-                          letterSpacing: 0,
-                        ),
-                        validator: _model.cityTextControllerValidator
-                            .asValidator(context),
+                      child: CustomTextFormField(
+                        controller: _model.cityTextController!,
+                        focusNode: _model.cityFocusNode!,
+                        labelText: 'City *',
+                        hintText: 'Enter City',
+                        keyboardType: TextInputType.none,
+                        isObscureText: false,
+                        validator: _model.cityTextControllerValidator.asValidator(context)!,
                       ),
                     ),
                     Form(
                       key: _model.formKey7,
                       autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                        controller: _model.pinCodeTextController,
-                        focusNode: _model.pinCodeFocusNode,
-                        autofocus: true,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          labelText: 'Pincode/Zipcode *',
-                          labelStyle:
-                          FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'Montserrat',
-                            color: Color(0xFF868687),
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          hintText: 'Enter Pincode/Zipcode',
-                          hintStyle:
-                          FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'Montserrat',
-                            letterSpacing: 0,
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF868687),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).primary,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          focusedErrorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).error,
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Montserrat',
-                          letterSpacing: 0,
-                        ),
-                        validator: _model.pinCodeTextControllerValidator
-                            .asValidator(context),
+                      child: CustomTextFormField(
+                        controller: _model.pinCodeTextController!,
+                        focusNode: _model.pinCodeFocusNode!,
+                        labelText: 'Pincode/Zipcode *',
+                        hintText: 'Enter Pincode/Zipcode',
+                        keyboardType: TextInputType.none,
+                        isObscureText: false,
+                        validator: _model.pinCodeTextControllerValidator.asValidator(context)!,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 46.0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 46.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -999,12 +540,12 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                             text: 'Cancel',
                             options: FFButtonOptions(
                               height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(51.0, 11.0, 51.0, 11.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(51.0, 11.0, 51.0, 11.0),
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context).secondaryBackground,
                               textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                 fontFamily: 'Montserrat',
-                                color: Color(0xFF3E3E40),
+                                color: FlutterFlowTheme.of(context).primaryText,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -1042,7 +583,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                                         fontSize: 16,
                                       ),
                                     ),
-                                    duration: Duration(milliseconds: 4000),
+                                    duration: const Duration(milliseconds: 4000),
                                     backgroundColor: Colors.red,
                                   ),
                                 );
@@ -1061,7 +602,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                                         fontSize: 16,
                                       ),
                                     ),
-                                    duration: Duration(milliseconds: 4000),
+                                    duration: const Duration(milliseconds: 4000),
                                     backgroundColor: Colors.red,
                                   ),
                                 );
@@ -1104,7 +645,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                                         fontSize: 16.0,
                                       ),
                                     ),
-                                    duration: Duration(milliseconds: 4000),
+                                    duration: const Duration(milliseconds: 4000),
                                     backgroundColor: FlutterFlowTheme.of(context).primary,
                                   ),
                                 );
@@ -1121,7 +662,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                                     context.pushNamed(
                                       'DeliveryAddress',
                                       extra: <String, dynamic>{
-                                        kTransitionInfoKey: TransitionInfo(
+                                        kTransitionInfoKey: const TransitionInfo(
                                           hasTransition: true,
                                           transitionType: PageTransitionType.bottomToTop,
                                           duration: Duration(milliseconds: 400),
@@ -1132,7 +673,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                                     context.pushNamed(
                                       'MyAddresses',
                                       extra: <String, dynamic>{
-                                        kTransitionInfoKey: TransitionInfo(
+                                        kTransitionInfoKey: const TransitionInfo(
                                           hasTransition: true,
                                           transitionType: PageTransitionType.rightToLeft,
                                           duration: Duration(milliseconds: 400),
@@ -1158,8 +699,8 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                                         fontSize: 16.0,
                                       ),
                                     ),
-                                    duration: Duration(milliseconds: 4000),
-                                    backgroundColor: Color(0xFFFC100D),
+                                    duration: const Duration(milliseconds: 4000),
+                                    backgroundColor: FlutterFlowTheme.of(context).primary,
                                   ),
                                 );
                                 if (_shouldSetState) setState(() {});
@@ -1171,16 +712,16 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                             text: 'Add',
                             options: FFButtonOptions(
                               height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(62.5, 11.0, 62.5, 11.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(62.5, 11.0, 62.5, 11.0),
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context).primary,
                               textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                 fontFamily: 'Montserrat',
-                                color: Colors.white,
+                                color: FlutterFlowTheme.of(context).primaryBackground,
                                 letterSpacing: 0.0,
                               ),
                               elevation: 0.0,
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Colors.transparent,
                                 width: 1.0,
                               ),
@@ -1190,7 +731,7 @@ class _AddNewAddressWidgetState extends State<AddNewAddressWidget> {
                         ],
                       ),
                     ),
-                  ].divide(SizedBox(height: 14.0)),
+                  ].divide(const SizedBox(height: 14.0)),
                 ),
               ),
             ],

@@ -42,6 +42,7 @@ abstract class FlutterFlowTheme {
   late Color containerFillColor;
   late Color productName;
   late Color greyText;
+  late Color labelText;
 
   late Color borderColor;
 
@@ -118,9 +119,10 @@ class LightModeTheme extends FlutterFlowTheme {
 
 
   late Color greyText = const Color(0xFF575758);
-  late Color borderColor = Color(0xFFE7E7E8);
-  late Color productName = Color(0xFF696969);
-  late Color containerFillColor = Color(0xFFF5F6FA);
+  late Color labelText = const Color(0xFF868687);
+  late Color borderColor = const Color(0xFFE7E7E8);
+  late Color productName = const Color(0xFF696969);
+  late Color containerFillColor = const Color(0xFFF5F6FA);
   late Color Productnamecolor = const Color(0xFF696969);
   late Color unRatingcolor = const Color(0x69F59E0B);
   late Color Ratingcolor = const Color(0xFFF59E0B);

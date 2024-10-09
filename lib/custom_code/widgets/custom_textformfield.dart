@@ -42,8 +42,8 @@ class CustomTextFormField extends StatelessWidget {
           letterSpacing: 0,
         ),
         enabledBorder: UnderlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color(0xFF868687),
+          borderSide: BorderSide(
+            color: FlutterFlowTheme.of(context).labelText,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(0),
@@ -77,6 +77,7 @@ class CustomTextFormField extends StatelessWidget {
         letterSpacing: 0,
       ),
       keyboardType: keyboardType,
+      cursorColor: FlutterFlowTheme.of(context).primary,
       validator: validator,
     );
   }

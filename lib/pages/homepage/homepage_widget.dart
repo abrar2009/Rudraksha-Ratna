@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_controller.dart' as slider;
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,7 +22,6 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:expandable/expandable.dart';
 import 'homepage_model.dart';
 export 'homepage_model.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;

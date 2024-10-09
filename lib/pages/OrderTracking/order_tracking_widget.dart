@@ -1,5 +1,4 @@
 import 'package:rudraksha_cart/flutter_flow/flutter_flow_widgets.dart';
-
 import '../../custom_code/widgets/order_tracking_bar.dart';
 import '../../flutter_flow/custom_functions.dart';
 import '/backend/api_requests/api_calls.dart';
@@ -58,14 +57,14 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
         key: OrderTrackingWidgetscaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Container(
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).secondaryBackground,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.15),
-                  offset: Offset(0, 4), // Move shadow downwards by 4 pixels
+                  offset: const Offset(0, 4), // Move shadow downwards by 4 pixels
                   blurRadius: 6, // Blur radius for a softer shadow
                   spreadRadius: 1, // Spread radius for shadow expansion
                 ),
@@ -81,7 +80,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                 buttonSize: 60,
                 icon: Icon(
                   Icons.arrow_back_rounded,
-                  color: Color(0xFF272728),
+                  color: FlutterFlowTheme.of(context).primaryText,
                   size: 30,
                 ),
                 onPressed: () async {
@@ -89,11 +88,11 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                 },
               ),
               title: Text(
-                //'Order Tracking',
-                '${widget.orderId}',
+                'Order Tracking',
+                //'${widget.orderId}',
                 style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Outfit',
-                  color: Color(0xFF272728),
+                  color: FlutterFlowTheme.of(context).primaryText,
                   fontSize: 16.0,
                   letterSpacing: 0.0,
                   fontWeight: FontWeight.w600,
@@ -210,12 +209,12 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                       border: Border.all(
-                        color: Color(0xFFE7E7E8),
+                        color: FlutterFlowTheme.of(context).borderColor,
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(19, 16, 19, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(19, 16, 19, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -234,17 +233,17 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                     child: Column(
                       children: products.map((product) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Container(
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: Row(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.network(
@@ -257,7 +256,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -287,12 +286,12 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                 ),
                                                 TextSpan(
                                                   text: product['productcode'].toString(),
-                                                  style: TextStyle(),
+                                                  style: const TextStyle(),
                                                 ),
                                               ],
                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                 fontFamily: 'Montserrat',
-                                                color: Color(0xFF6E6E70),
+                                                color: FlutterFlowTheme.of(context).Productnamecolor,
                                                 fontSize: 12,
                                                 letterSpacing: 0,
                                               ),
@@ -316,12 +315,12 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                 ),
                                                 TextSpan(
                                                   text: product['quantity'].toString(),
-                                                  style: TextStyle(),
+                                                  style: const TextStyle(),
                                                 ),
                                               ],
                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                 fontFamily: 'Montserrat',
-                                                color: Color(0xFF6E6E70),
+                                                color: FlutterFlowTheme.of(context).Productnamecolor,
                                                 fontSize: 12,
                                                 letterSpacing: 0,
                                               ),
@@ -346,12 +345,12 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                   ),
                                                   TextSpan(
                                                     text: product['design_type'].toString(),
-                                                    style: TextStyle(),
+                                                    style: const TextStyle(),
                                                   ),
                                                 ],
                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                   fontFamily: 'Montserrat',
-                                                  color: Color(0xFF6E6E70),
+                                                  color: FlutterFlowTheme.of(context).Productnamecolor,
                                                   fontSize: 12,
                                                   letterSpacing: 0,
                                                 ),
@@ -377,16 +376,16 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                   ),
                                                   TextSpan(
                                                     text: product['designText'].toString(),
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
                                                   ),
                                                   TextSpan(
                                                     text: "-",
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
@@ -400,8 +399,8 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                       decimalType: DecimalType.automatic,
                                                     )}",
 
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
@@ -409,7 +408,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                 ],
                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                   fontFamily: 'Montserrat',
-                                                  color: Color(0xFF6E6E70),
+                                                  color: const Color(0xFF6E6E70),
                                                   fontSize: 12,
                                                   letterSpacing: 0,
                                                 ),
@@ -435,8 +434,8 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                   ),
                                                   TextSpan(
                                                     text: '${product['wrist_size'].toString().replaceAll('inches', '').trim()}"',
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
@@ -444,7 +443,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                 ],
                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                   fontFamily: 'Montserrat',
-                                                  color: Color(0xFF6E6E70),
+                                                  color: const Color(0xFF6E6E70),
                                                   fontSize: 12,
                                                   letterSpacing: 0,
                                                 ),
@@ -470,8 +469,8 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                   ),
                                                   TextSpan(
                                                     text: product['ring_size_system'].toString().replaceAll(' Ring Size System', '-system'),
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
@@ -479,7 +478,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                 ],
                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                   fontFamily: 'Montserrat',
-                                                  color: Color(0xFF6E6E70),
+                                                  color: const Color(0xFF6E6E70),
                                                   fontSize: 12,
                                                   letterSpacing: 0,
                                                 ),
@@ -505,8 +504,8 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                   ),
                                                   TextSpan(
                                                     text: product['ring_size'].toString(),
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
@@ -514,7 +513,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                 ],
                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                   fontFamily: 'Montserrat',
-                                                  color: Color(0xFF6E6E70),
+                                                  color: const Color(0xFF6E6E70),
                                                   fontSize: 12,
                                                   letterSpacing: 0,
                                                 ),
@@ -540,16 +539,16 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                   ),
                                                   TextSpan(
                                                     text: product['certificationText'].toString(),
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
                                                   ),
                                                   TextSpan(
                                                     text: "-",
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
@@ -563,8 +562,8 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                       decimalType: DecimalType.automatic,
                                                     )}",
 
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
@@ -596,16 +595,16 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                   ),
                                                   TextSpan(
                                                     text: product['energizationText'].toString(),
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
                                                   ),
                                                   TextSpan(
                                                     text: "-",
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
@@ -619,8 +618,8 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                       decimalType: DecimalType.automatic,
                                                     )}",
 
-                                                    style: const TextStyle(
-                                                      color: Color(0xFF696969),
+                                                    style: TextStyle(
+                                                      color: FlutterFlowTheme.of(context).Productnamecolor,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                     ),
@@ -656,12 +655,12 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                     formatType: FormatType.decimal,
                                                     decimalType: DecimalType.automatic,
                                                   )}",
-                                                  style: TextStyle(),
+                                                  style: const TextStyle(),
                                                 ),
                                               ],
                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                 fontFamily: 'Montserrat',
-                                                color: Color(0xFF6E6E70),
+                                                color: FlutterFlowTheme.of(context).Productnamecolor,
                                                 fontSize: 12,
                                                 letterSpacing: 0,
                                               ),
@@ -691,23 +690,23 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                     formatType: FormatType.decimal,
                                                     decimalType: DecimalType.automatic,
                                                   )}",
-                                                  style: TextStyle(),
+                                                  style: const TextStyle(),
                                                 ),
                                               ],
                                               style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                 fontFamily: 'Montserrat',
-                                                color: Color(0xFF6E6E70),
+                                                color: const Color(0xFF6E6E70),
                                                 fontSize: 12,
                                                 letterSpacing: 0,
                                               ),
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: 8,),
+                                        const SizedBox(height: 8,),
                                         Divider(
                                           height: 2,
                                           thickness: 1,
-                                          color: Color(0xFFE7E7E8),
+                                          color: FlutterFlowTheme.of(context).borderColor,
                                         ),
                                       ],
                                     ),
@@ -732,8 +731,8 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                         }
                       },
                       options: FFButtonOptions(
-                      padding: EdgeInsetsDirectional.fromSTEB(45, 0, 45, 0),
-                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(45, 0, 45, 0),
+                      iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                       color: FlutterFlowTheme.of(context).primaryBackground,
                       textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                         fontFamily: 'Montserrat',
@@ -752,7 +751,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(19, 10, 19, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(19, 10, 19, 0),
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -764,16 +763,14 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                         children: [
                           Text(
                             'Track Order',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
+                            style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily: 'Montserrat',
                               letterSpacing: 0,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 22),
-                          Container(
+                          const SizedBox(height: 22),
+                          SizedBox(
                             width: double.infinity,
                             //height: MediaQuery.sizeOf(context).height * 0.23,
                             child: OrderTrackingBar(
@@ -788,14 +785,14 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                   ),
 
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 15),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 15),
                     child: Container(
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xFFFFF4FA),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(24, 13, 24, 8),
+                        padding: const EdgeInsetsDirectional.fromSTEB(24, 13, 24, 8),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -805,9 +802,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                               children: [
                                 Text(
                                   'Subtotal (Inc of all taxes)',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
+                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Montserrat',
                                     letterSpacing: 0,
                                     fontWeight: FontWeight.w500,
@@ -831,9 +826,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                               children: [
                                 Text(
                                   'Shipping Charges',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
+                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Montserrat',
                                     letterSpacing: 0,
                                     fontWeight: FontWeight.w500,
@@ -857,9 +850,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                               children: [
                                 Text(
                                   'Discount',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
+                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Montserrat',
                                     letterSpacing: 0,
                                     fontWeight: FontWeight.w500,
@@ -896,9 +887,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                 children: [
                                   Text(
                                     'Rewards Used',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
+                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
                                       fontFamily: 'Montserrat',
                                       letterSpacing: 0,
                                       fontWeight: FontWeight.w500,
@@ -931,20 +920,17 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                       color: Colors.green
                                     ),
                                   ),
-
                                 ],
                               ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Total',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
+                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
                                       fontFamily: 'Montserrat',
                                       fontSize: 20,
                                       letterSpacing: 0,
@@ -965,158 +951,11 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                 ],
                               ),
                             ),
-                          ].divide(SizedBox(height: 16)),
+                          ].divide(const SizedBox(height: 16)),
                         ),
                       ),
                     ),
                   ),
-                  /*Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 15),
-                    child: Container(
-                      width: double.infinity,
-                      //height: 140,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFF4FA),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(24, 13, 24, 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Subtotal (Inc of all taxes)',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text('${valueOrDefault<String>(FFAppState().currencyName, 'INR',)} '
-                                    '${formatNumber(currencyConversion(FFAppState().currencyRate, getJsonField(
-                                  columnOrderDetailResponse.jsonBody,
-                                  r'''$.data[:].amount''',
-                                ).toString()),
-                                  formatType: FormatType.decimal,
-                                  decimalType: DecimalType.automatic,
-                                )}',
-                                  textAlign: TextAlign.start,
-                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Shipping Charges',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text('${valueOrDefault<String>(FFAppState().currencyName, 'INR',)} '
-                                    '${formatNumber(currencyConversion(FFAppState().currencyRate, getJsonField(
-                                  columnOrderDetailResponse.jsonBody,
-                                  r'''$.data[0].deliveryCharges''',
-                                ).toString()),
-                                  formatType: FormatType.decimal,
-                                  decimalType: DecimalType.automatic,
-                                )}',
-                                  textAlign: TextAlign.start,
-                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Discount',
-                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text('${valueOrDefault<String>(FFAppState().currencyName, 'INR',)} '
-                                    '${formatNumber(currencyConversion(FFAppState().currencyRate, getJsonField(
-                                  columnOrderDetailResponse.jsonBody,
-                                  r'''$.data[0].coupenAmount''',
-                                ).toString()),
-                                  formatType: FormatType.decimal,
-                                  decimalType: DecimalType.automatic,
-                                )}',
-                                  textAlign: TextAlign.start,
-                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Total',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 20,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  Text('${valueOrDefault<String>(FFAppState().currencyName, 'INR',)} '
-                                      '${formatNumber(currencyConversion(FFAppState().currencyRate, getJsonField(
-                                    columnOrderDetailResponse.jsonBody,
-                                    r'''$.data[:].totalAmount''',
-                                  ).toString()),
-                                    formatType: FormatType.decimal,
-                                    decimalType: DecimalType.automatic,
-                                  )}',
-                                    textAlign: TextAlign.start,
-                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 20,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ].divide(SizedBox(height: 16)),
-                        ),
-                      ),
-                    ),
-                  ),*/
                 ],
               ),
             );

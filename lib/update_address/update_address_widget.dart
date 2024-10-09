@@ -1,3 +1,5 @@
+import 'package:rudraksha_cart/custom_code/widgets/custom_textformfield.dart';
+
 import '../flutter_flow/custom_functions.dart';
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
@@ -9,7 +11,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'update_address_model.dart';
 export 'update_address_model.dart';
@@ -87,7 +88,7 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
             buttonSize: 60.0,
             icon: Icon(
               Icons.arrow_back_rounded,
-              color: Color(0xFF272728),
+              color: FlutterFlowTheme.of(context).primaryText,
               size: 30.0,
             ),
             onPressed: () async {
@@ -97,13 +98,12 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
           title: Text(
             'Update Address',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Outfit',
-                  color: Color(0xFF272728),
-                  fontSize: 16.0,
-                  letterSpacing: 0.0,
-                ),
+              fontFamily: 'Outfit',
+              color: FlutterFlowTheme.of(context).primaryText,
+              fontSize: 16.0,
+            ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0.0,
         ),
@@ -137,9 +137,7 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                   widget.addressId!,
                   getJsonField(
                     columnAddressListResponse.jsonBody,
-                    r'''$.data''',
-                    true,
-                  )!,
+                    r'''$.data''', true,)!,
                   'name',
                 );
 
@@ -153,58 +151,40 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                         width: double.infinity,
                         height: 1.0,
                         decoration: BoxDecoration(
-                          color: Color(0xFFE7E7E8),
+                          color: FlutterFlowTheme.of(context).borderColor,
                           border: Border.all(
-                            color: Color(0xFFE7E7E8),
+                            color: FlutterFlowTheme.of(context).borderColor,
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 16.0, 16.0, 0.0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             TextFormField(
-                              /*controller: _model.firstNameTextController ??=
-                                  TextEditingController(
-                                text: functions.editAddressById(
-                                    widget.addressId!,
-                                    getJsonField(
-                                      columnAddressListResponse.jsonBody,
-                                      r'''$.data''',
-                                      true,
-                                    )!,
-                                    functions.splitName('name')?.first),
-                              ),*/
-                              controller: _model.firstNameTextController ??=
-                                  TextEditingController(text: nameParts?[0]),
+                              controller: _model.firstNameTextController ??= TextEditingController(text: nameParts?[0]),
                               focusNode: _model.firstNameFocusNode,
                               autofocus: false,
                               obscureText: false,
                               decoration: InputDecoration(
                                 labelText: 'First Name',
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF868687),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).labelText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
                                 hintText: 'Enter First Name',
-                                hintStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                    ),
+                                hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 16.0,
+                                  letterSpacing: 0.0,
+                                ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFF868687),
+                                    color: FlutterFlowTheme.of(context).labelText,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
@@ -231,55 +211,35 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
                               ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0.0,
-                                  ),
-                              validator: _model.firstNameTextControllerValidator
-                                  .asValidator(context),
+                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 0.0,
+                              ),
+                              validator: _model.firstNameTextControllerValidator.asValidator(context),
                             ),
                             TextFormField(
-                              /*controller: _model.lastNameTextController ??=
-                                  TextEditingController(
-                                text: functions.editAddressById(
-                                    widget.addressId!,
-                                    getJsonField(
-                                      columnAddressListResponse.jsonBody,
-                                      r'''$.data''',
-                                      true,
-                                    )!,
-                                    functions.splitName('name')?.first),
-                              ),*/
-                              controller: _model.lastNameTextController ??=
-                                  TextEditingController(text: nameParts?[1]),
+                              controller: _model.lastNameTextController ??= TextEditingController(text: nameParts?[1]),
                               focusNode: _model.lastNameFocusNode,
                               autofocus: false,
                               obscureText: false,
                               decoration: InputDecoration(
                                 labelText: 'Last Name',
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF868687),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).labelText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
                                 hintText: 'Enter Last Name',
-                                hintStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                    ),
+                                hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 16.0,
+                                  letterSpacing: 0.0,
+                                ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFF868687),
+                                    color: FlutterFlowTheme.of(context).labelText,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
@@ -306,86 +266,60 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
                               ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0.0,
-                                  ),
-                              validator: _model.lastNameTextControllerValidator
-                                  .asValidator(context),
+                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 0.0,
+                              ),
+                              validator: _model.lastNameTextControllerValidator.asValidator(context),
                             ),
                             Row(
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Align(
-                                  alignment: AlignmentDirectional(0.0, 1.0),
+                                  alignment: const AlignmentDirectional(0.0, 1.0),
                                   child: FlutterFlowDropDown<String>(
-                                    controller:
-                                        _model.countryCodeValueController ??=
-                                            FormFieldController<String>(
-                                      _model.countryCodeValue ??=
-                                          functions.editAddressById(
-                                              widget.addressId!,
-                                              getJsonField(
-                                                columnAddressListResponse
-                                                    .jsonBody,
-                                                r'''$.data''',
-                                                true,
-                                              )!,
-                                              'countrycode'),
+                                    controller: _model.countryCodeValueController ??= FormFieldController<String>(
+                                      _model.countryCodeValue ??= functions.editAddressById(
+                                          widget.addressId!, getJsonField(
+                                        columnAddressListResponse.jsonBody, r'''$.data''',
+                                        true,)!, 'countrycode'),
                                     ),
                                     options: functions.countryCodes()!,
-                                    onChanged: (val) => setState(
-                                        () => _model.countryCodeValue = val),
+                                    onChanged: (val) => setState(() => _model.countryCodeValue = val),
                                     width: 57.0,
-                                    searchHintTextStyle:
-                                        FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              fontFamily: 'Montserrat',
-                                              letterSpacing: 0.0,
-                                            ),
-                                    searchTextStyle:
-                                        FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Montserrat',
-                                              letterSpacing: 0.0,
-                                            ),
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Montserrat',
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
+                                    searchHintTextStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                      fontFamily: 'Montserrat',
+                                      letterSpacing: 0.0,
+                                    ),
+                                    searchTextStyle: FlutterFlowTheme.of(context).bodyMedium.override(
+                                      fontFamily: 'Montserrat',
+                                      letterSpacing: 0.0,
+                                    ),
+                                    textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
+                                      fontFamily: 'Montserrat',
+                                      color: FlutterFlowTheme.of(context).primaryText,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                     hintText: functions.editAddressById(
                                         widget.addressId!,
                                         getJsonField(
                                           columnAddressListResponse.jsonBody,
-                                          r'''$.data''',
-                                          true,
-                                        )!,
+                                          r'''$.data''', true,)!,
                                         'countrycode'),
                                     searchHintText: '',
                                     icon: Icon(
                                       Icons.keyboard_arrow_down_rounded,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
+                                      color: FlutterFlowTheme.of(context).secondaryText,
                                       size: 24.0,
                                     ),
-                                    fillColor: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
+                                    fillColor: FlutterFlowTheme.of(context).secondaryBackground,
                                     elevation: 2.0,
                                     borderColor: Colors.transparent,
                                     borderWidth: 0.0,
                                     borderRadius: 0.0,
-                                    margin: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 4.0),
+                                    margin: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
                                     isOverButton: true,
                                     isSearchable: true,
                                     isMultiSelect: false,
@@ -393,20 +327,14 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 8.0),
+                                    padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                                     child: TextFormField(
-                                      controller:
-                                          _model.phoneNumberTextController ??=
-                                              TextEditingController(
+                                      controller: _model.phoneNumberTextController ??= TextEditingController(
                                         text: functions.editAddressById(
                                             widget.addressId!,
                                             getJsonField(
-                                              columnAddressListResponse
-                                                  .jsonBody,
-                                              r'''$.data''',
-                                              true,
-                                            )!,
+                                              columnAddressListResponse.jsonBody,
+                                              r'''$.data''', true,)!,
                                             'contact_no'),
                                       ),
                                       focusNode: _model.phoneNumberFocusNode,
@@ -414,86 +342,65 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         labelText: 'Phone Number',
-                                        labelStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xFF868687),
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.normal,
-                                            ),
+                                        labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                          fontFamily: 'Montserrat',
+                                          color: FlutterFlowTheme.of(context).labelText,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
                                         hintText: 'Enter Phone Number',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              fontFamily: 'Montserrat',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              fontSize: 16.0,
-                                              letterSpacing: 0.0,
-                                            ),
+                                        hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                          fontFamily: 'Montserrat',
+                                          color: FlutterFlowTheme.of(context).primaryText,
+                                          fontSize: 16.0,
+                                          letterSpacing: 0.0,
+                                        ),
                                         enabledBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0xFF868687),
+                                            color: FlutterFlowTheme.of(context).labelText,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(0.0),
+                                          borderRadius: BorderRadius.circular(0.0),
                                         ),
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
+                                            color: FlutterFlowTheme.of(context).primary,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(0.0),
+                                          borderRadius: BorderRadius.circular(0.0),
                                         ),
                                         errorBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
+                                            color: FlutterFlowTheme.of(context).error,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(0.0),
+                                          borderRadius: BorderRadius.circular(0.0),
                                         ),
-                                        focusedErrorBorder:
-                                            UnderlineInputBorder(
+                                        focusedErrorBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
+                                            color: FlutterFlowTheme.of(context).error,
                                             width: 1.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(0.0),
+                                          borderRadius: BorderRadius.circular(0.0),
                                         ),
                                       ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Montserrat',
-                                            letterSpacing: 0.0,
-                                          ),
-                                      validator: _model
-                                          .phoneNumberTextControllerValidator
-                                          .asValidator(context),
+                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                        fontFamily: 'Montserrat',
+                                        letterSpacing: 0.0,
+                                      ),
+                                      validator: _model.phoneNumberTextControllerValidator.asValidator(context),
                                     ),
                                   ),
                                 ),
-                              ].divide(SizedBox(width: 15.0)),
+                              ].divide(const SizedBox(width: 15.0)),
                             ),
                             TextFormField(
-                              controller: _model.emailTextController ??=
-                                  TextEditingController(
+                              controller: _model.emailTextController ??= TextEditingController(
                                 text: functions.editAddressById(
                                     widget.addressId!,
                                     getJsonField(
                                       columnAddressListResponse.jsonBody,
-                                      r'''$.data''',
-                                      true,
-                                    )!,
+                                      r'''$.data''', true,)!,
                                     'email'),
                               ),
                               focusNode: _model.emailFocusNode,
@@ -501,28 +408,23 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                               obscureText: false,
                               decoration: InputDecoration(
                                 labelText: 'Email',
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF868687),
-                                      fontSize: 14.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).labelText,
+                                  fontSize: 14.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
                                 hintText: 'Enter Email Address ',
-                                hintStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                    ),
+                                hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 16.0,
+                                  letterSpacing: 0.0,
+                                ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFF868687),
+                                    color: FlutterFlowTheme.of(context).labelText,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
@@ -548,28 +450,21 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
-                                contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 6.0, 0.0, 0.0),
+                                contentPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
                               ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0.0,
-                                  ),
-                              validator: _model.emailTextControllerValidator
-                                  .asValidator(context),
+                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 0.0,
+                              ),
+                              validator: _model.emailTextControllerValidator.asValidator(context),
                             ),
                             TextFormField(
-                              controller: _model.address1TextController ??=
-                                  TextEditingController(
+                              controller: _model.address1TextController ??= TextEditingController(
                                 text: functions.editAddressById(
                                     widget.addressId!,
                                     getJsonField(
                                       columnAddressListResponse.jsonBody,
-                                      r'''$.data''',
-                                      true,
-                                    )!,
+                                      r'''$.data''', true,)!,
                                     'address'),
                               ),
                               focusNode: _model.address1FocusNode,
@@ -577,27 +472,22 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                               obscureText: false,
                               decoration: InputDecoration(
                                 labelText: 'Address Line 1',
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF868687),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).labelText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
                                 hintText: 'Enter Address ',
-                                hintStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                    ),
+                                hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 16.0,
+                                  letterSpacing: 0.0,
+                                ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFF868687),
+                                    color: FlutterFlowTheme.of(context).labelText,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
@@ -624,25 +514,19 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
                               ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0.0,
-                                  ),
-                              validator: _model.address1TextControllerValidator
-                                  .asValidator(context),
+                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 0.0,
+                              ),
+                              validator: _model.address1TextControllerValidator.asValidator(context),
                             ),
                             TextFormField(
-                              controller: _model.address2TextController ??=
-                                  TextEditingController(
+                              controller: _model.address2TextController ??= TextEditingController(
                                 text: functions.editAddressById(
                                     widget.addressId!,
                                     getJsonField(
                                       columnAddressListResponse.jsonBody,
-                                      r'''$.data''',
-                                      true,
-                                    )!,
+                                      r'''$.data''', true,)!,
                                     'addresstwo'),
                               ),
                               focusNode: _model.address2FocusNode,
@@ -650,27 +534,22 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                               obscureText: false,
                               decoration: InputDecoration(
                                 labelText: 'Address Line 2 (optional)',
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF868687),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).labelText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
                                 hintText: 'Enter Address (optional)',
-                                hintStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                    ),
+                                hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 16.0,
+                                  letterSpacing: 0.0,
+                                ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFF868687),
+                                    color: FlutterFlowTheme.of(context).labelText,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
@@ -696,28 +575,21 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
-                                contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 6.0, 0.0, 0.0),
+                                contentPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
                               ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0.0,
-                                  ),
-                              validator: _model.address2TextControllerValidator
-                                  .asValidator(context),
+                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 0.0,
+                              ),
+                              validator: _model.address2TextControllerValidator.asValidator(context),
                             ),
                             TextFormField(
-                              controller: _model.landmarkTextController ??=
-                                  TextEditingController(
+                              controller: _model.landmarkTextController ??= TextEditingController(
                                 text: functions.editAddressById(
                                     widget.addressId!,
                                     getJsonField(
                                       columnAddressListResponse.jsonBody,
-                                      r'''$.data''',
-                                      true,
-                                    )!,
+                                      r'''$.data''', true,)!,
                                     'landmark'),
                               ),
                               focusNode: _model.landmarkFocusNode,
@@ -725,27 +597,22 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                               obscureText: false,
                               decoration: InputDecoration(
                                 labelText: 'Landmark  (optional)',
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF868687),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).labelText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
                                 hintText: 'Enter Landmark (optional)',
-                                hintStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                    ),
+                                hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 16.0,
+                                  letterSpacing: 0.0,
+                                ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFF868687),
+                                    color: FlutterFlowTheme.of(context).labelText,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
@@ -771,17 +638,13 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
-                                contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 6.0, 0.0, 0.0),
+                                contentPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
                               ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0.0,
-                                  ),
-                              validator: _model.landmarkTextControllerValidator
-                                  .asValidator(context),
+                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 0.0,
+                              ),
+                              validator: _model.landmarkTextControllerValidator.asValidator(context),
                             ),
                             FutureBuilder<ApiCallResponse>(
                               future: CountryListCall.call(
@@ -807,13 +670,11 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   controller: _model.countryValueController ??=
                                       FormFieldController<String>(
                                         _model.countryValue ??= functions.editAddressById(
-                                            widget.addressId!,
-                                            getJsonField(
-                                              columnAddressListResponse.jsonBody,
-                                              r'''$.data''',
-                                              true,
-                                            )!,
-                                            'countryname'),
+                                          widget.addressId!,
+                                          getJsonField(
+                                            columnAddressListResponse.jsonBody,
+                                            r'''$.data''', true,)!,
+                                          'countryname'),
                                       ),
                                   options: (getJsonField(
                                     countryCountryListResponse.jsonBody,
@@ -821,18 +682,15 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                     true,
                                   ) as List)
                                       .map<String>((s) => s.toString())
-                                      .toList()!,
+                                      .toList(),
                                   onChanged: (val) async {
                                     setState(() => _model.countryValue = val);
-                                    _model.countryId = functions
-                                        .countryIdByName(
+                                    _model.countryId = functions.countryIdByName(
                                         getJsonField(
                                           countryCountryListResponse.jsonBody,
-                                          r'''$.data[:]''',
-                                          true,
+                                          r'''$.data[:]''', true,
                                         ),
-                                        _model.countryValue)
-                                        .toString();
+                                        _model.countryValue).toString();
                                     setState(() {});
                                   },
                                   width: double.infinity,
@@ -859,9 +717,7 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                       widget.addressId!,
                                       getJsonField(
                                         columnAddressListResponse.jsonBody,
-                                        r'''$.data''',
-                                        true,
-                                      )!,
+                                        r'''$.data''', true,)!,
                                       'countryname'),
                                   searchHintText: '',
                                   searchCursorColor: FlutterFlowTheme.of(context).primary,
@@ -875,7 +731,7 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   borderColor: Colors.transparent,
                                   borderWidth: 2,
                                   borderRadius: 8,
-                                  margin: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                                  margin: const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                                   isOverButton: true,
                                   isSearchable: true,
                                   isMultiSelect: false,
@@ -906,8 +762,7 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                 final stateStateListResponse = snapshot.data!;
                                 final stateOptions = (getJsonField(
                                   stateStateListResponse.jsonBody,
-                                  r'''$.data[:].name''',
-                                  true,
+                                  r'''$.data[:].name''', true,
                                 ) as List?)
                                     ?.map<String>((s) => s.toString())
                                     .toList() ?? [];
@@ -929,26 +784,19 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                 return FlutterFlowDropDown<String>(
                                   controller: _model.stateValueController ??= FormFieldController<String>(
                                     _model.stateValue ??= functions.editAddressById(
-                                        widget.addressId!,
-                                        getJsonField(
-                                          columnAddressListResponse.jsonBody,
-                                          r'''$.data''',
-                                          true,
-                                        )!,
-                                        'statename'),
+                                      widget.addressId!,
+                                      getJsonField(
+                                        columnAddressListResponse.jsonBody,
+                                        r'''$.data''', true,)!,
+                                      'statename'),
                                   ),
                                   options: stateOptions, // Use stateOptions instead of calculating it again
                                   onChanged: (val) async {
                                     setState(() => _model.stateValue = val);
-                                    _model.stateId = functions
-                                        .stateIdByName(
-                                        getJsonField(
-                                          stateStateListResponse.jsonBody,
-                                          r'''$.data''',
-                                          true,
-                                        ),
-                                        _model.stateValue)
-                                        .toString();
+                                    _model.stateId = functions.stateIdByName(
+                                        getJsonField(stateStateListResponse.jsonBody,
+                                          r'''$.data''', true,),
+                                        _model.stateValue).toString();
                                     setState(() {});
                                   },
                                   width: double.infinity,
@@ -971,12 +819,9 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                     fontWeight: FontWeight.normal,
                                   ),
                                   hintText: functions.editAddressById(
-                                      widget.addressId!,
-                                      getJsonField(
+                                      widget.addressId!, getJsonField(
                                         columnAddressListResponse.jsonBody,
-                                        r'''$.data''',
-                                        true,
-                                      )!,
+                                        r'''$.data''', true,)!,
                                       'statename'),
                                   searchHintText: '',
                                   searchCursorColor: FlutterFlowTheme.of(context).primary,
@@ -990,121 +835,19 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   borderColor: Colors.transparent,
                                   borderWidth: 2,
                                   borderRadius: 8,
-                                  margin: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                                  margin: const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                                   isOverButton: true,
                                   isSearchable: true,
                                   isMultiSelect: false,
                                 );
                               },
                             ),
-                            /*FutureBuilder<ApiCallResponse>(
-                              future: StateListCall.call(
-                                hosturl: FFAppConstants.hosturl,
-                                countryId: _model.countryId,
-                              ),
-                              builder: (context, snapshot) {
-                                // Customize what your widget looks like when it's loading.
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: SizedBox(
-                                      width: 50,
-                                      height: 50,
-                                      child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                          FlutterFlowTheme.of(context).primary,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                                final stateStateListResponse = snapshot.data!;
-                                return FlutterFlowDropDown<String>(
-                                  controller: _model.stateValueController ??= FormFieldController<String>(
-                                    _model.stateValue ??= functions.editAddressById(
-                                        widget.addressId!,
-                                        getJsonField(
-                                          columnAddressListResponse.jsonBody,
-                                          r'''$.data''',
-                                          true,
-                                        )!,
-                                        'statename'),
-                                  ),
-                                  options: (getJsonField(
-                                    stateStateListResponse.jsonBody,
-                                    r'''$.data[:].name''',
-                                    true,
-                                  ) as List)
-                                      .map<String>((s) => s.toString())
-                                      .toList()!,
-                                  onChanged: (val) async {
-                                    setState(() => _model.stateValue = val);
-                                    _model.stateId = functions
-                                        .stateIdByName(
-                                        getJsonField(
-                                          stateStateListResponse.jsonBody,
-                                          r'''$.data''',
-                                          true,
-                                        ),
-                                        _model.stateValue)
-                                        .toString();
-                                    setState(() {});
-                                  },
-                                  width: double.infinity,
-                                  height: 50,
-                                  searchHintTextStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    color: FlutterFlowTheme.of(context).primaryText,
-                                    fontSize: 16,
-                                    letterSpacing: 0,
-                                  ),
-                                  searchTextStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0,
-                                  ),
-                                  textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    color: FlutterFlowTheme.of(context).primaryText,
-                                    fontSize: 16,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  hintText: functions.editAddressById(
-                                      widget.addressId!,
-                                      getJsonField(
-                                        columnAddressListResponse.jsonBody,
-                                        r'''$.data''',
-                                        true,
-                                      )!,
-                                      'statename'),
-                                  searchHintText: '',
-                                  searchCursorColor: FlutterFlowTheme.of(context).primary,
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    color: FlutterFlowTheme.of(context).secondaryText,
-                                    size: 24,
-                                  ),
-                                  fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                  elevation: 2,
-                                  borderColor: Colors.transparent,
-                                  borderWidth: 2,
-                                  borderRadius: 8,
-                                  margin: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                                  isOverButton: true,
-                                  isSearchable: true,
-                                  isMultiSelect: false,
-                                );
-                              },
-                            ),*/
                             TextFormField(
-                              controller: _model.cityTextController ??=
-                                  TextEditingController(
+                              controller: _model.cityTextController ??= TextEditingController(
                                 text: functions.editAddressById(
-                                    widget.addressId!,
-                                    getJsonField(
+                                    widget.addressId!, getJsonField(
                                       columnAddressListResponse.jsonBody,
-                                      r'''$.data''',
-                                      true,
-                                    )!,
+                                      r'''$.data''', true,)!,
                                     'cityname'),
                               ),
                               focusNode: _model.cityFocusNode,
@@ -1112,27 +855,22 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                               obscureText: false,
                               decoration: InputDecoration(
                                 labelText: 'City',
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF868687),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).labelText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
                                 hintText: 'Enter City',
-                                hintStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                    ),
+                                hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 16.0,
+                                  letterSpacing: 0.0,
+                                ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFF868687),
+                                    color: FlutterFlowTheme.of(context).labelText,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
@@ -1159,25 +897,18 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
                               ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0.0,
-                                  ),
-                              validator: _model.cityTextControllerValidator
-                                  .asValidator(context),
+                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 0.0,
+                              ),
+                              validator: _model.cityTextControllerValidator.asValidator(context),
                             ),
                             TextFormField(
-                              controller: _model.pinCodeTextController ??=
-                                  TextEditingController(
+                              controller: _model.pinCodeTextController ??= TextEditingController(
                                 text: functions.editAddressById(
-                                    widget.addressId!,
-                                    getJsonField(
+                                    widget.addressId!, getJsonField(
                                       columnAddressListResponse.jsonBody,
-                                      r'''$.data''',
-                                      true,
-                                    )!,
+                                      r'''$.data''', true,)!,
                                     'pincode'),
                               ),
                               focusNode: _model.pinCodeFocusNode,
@@ -1185,24 +916,20 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                               obscureText: false,
                               decoration: InputDecoration(
                                 labelText: 'Pincode/Zipcode',
-                                labelStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFF868687),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context).labelText,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
                                 hintText: 'Enter Pincode/Zipcode',
-                                hintStyle: FlutterFlowTheme.of(context)
-                                    .labelMedium
-                                    .override(
-                                      fontFamily: 'Montserrat',
-                                      letterSpacing: 0.0,
-                                    ),
+                                hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'Montserrat',
+                                  letterSpacing: 0.0,
+                                ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFF868687),
+                                    color: FlutterFlowTheme.of(context).labelText,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(0.0),
@@ -1229,22 +956,17 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
                               ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Montserrat',
-                                    letterSpacing: 0.0,
-                                  ),
-                              validator: _model.pinCodeTextControllerValidator
-                                  .asValidator(context),
+                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                fontFamily: 'Montserrat',
+                                letterSpacing: 0.0,
+                              ),
+                              validator: _model.pinCodeTextControllerValidator.asValidator(context),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 50.0, 0.0, 46.0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 46.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   FFButtonWidget(
                                     onPressed: () async {
@@ -1253,142 +975,23 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                     text: 'Cancel',
                                     options: FFButtonOptions(
                                       height: 40.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          51.0, 11.0, 51.0, 11.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily: 'Montserrat',
-                                            color: Color(0xFF3E3E40),
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                      padding: const EdgeInsetsDirectional.fromSTEB(51.0, 11.0, 51.0, 11.0),
+                                      iconPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                                      textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                                        fontFamily: 'Montserrat',
+                                        color: FlutterFlowTheme.of(context).primaryText,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                       elevation: 0.0,
                                       borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
+                                        color: FlutterFlowTheme.of(context).primary,
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                   ),
-                                  /*FFButtonWidget(
-                                    onPressed: () async {
-                                      var _shouldSetState = false;
-                                      _model.apiResult35l =
-                                          await UpdateAddressCall.call(
-                                        token: currentAuthenticationToken,
-                                        hosturl: FFAppConstants.hosturl,
-                                        name: functions.joinName(
-                                            _model.firstNameTextController.text,
-                                            _model.lastNameTextController.text),
-                                        contactNo: _model
-                                            .phoneNumberTextController.text,
-                                        address:
-                                            _model.address1TextController.text,
-                                        addresstwo:
-                                            _model.address2TextController.text,
-                                        email: _model.emailTextController.text,
-                                        landmark:
-                                            _model.landmarkTextController.text,
-                                        countryCode: _model.countryCodeValue,
-                                        city: _model.cityTextController.text,
-                                        pincode:
-                                            _model.pinCodeTextController.text,
-                                        country: '101',
-                                        state: '4008',
-                                      );
-
-                                      _shouldSetState = true;
-                                      if ((_model.apiResult35l?.succeeded ??
-                                          true)) {
-                                        ScaffoldMessenger.of(context)
-                                            .clearSnackBars();
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResult35l
-                                                        ?.jsonBody ??
-                                                    ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                fontSize: 16.0,
-                                              ),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 4000),
-                                            backgroundColor: Color(0xFF4BB543),
-                                          ),
-                                        );
-                                        FFAppState().statusFailed =
-                                            getJsonField(
-                                          (_model.apiResult35l?.jsonBody ?? ''),
-                                          r'''$.status''',
-                                        ).toString();
-                                        setState(() {});
-                                        if (FFAppState().statusFailed ==
-                                            'success') {
-                                          context.pushNamed(
-                                            'MyAddresses',
-                                            extra: <String, dynamic>{
-                                              kTransitionInfoKey:
-                                                  TransitionInfo(
-                                                hasTransition: true,
-                                                transitionType:
-                                                    PageTransitionType
-                                                        .rightToLeft,
-                                                duration:
-                                                    Duration(milliseconds: 400),
-                                              ),
-                                            },
-                                          );
-                                        } else {
-                                          if (_shouldSetState) setState(() {});
-                                          return;
-                                        }
-                                      } else {
-                                        if (_shouldSetState) setState(() {});
-                                        return;
-                                      }
-
-                                      if (_shouldSetState) setState(() {});
-                                    },
-                                    text: 'Add',
-                                    options: FFButtonOptions(
-                                      height: 40.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          62.5, 11.0, 62.5, 11.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily: 'Montserrat',
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
-                                          ),
-                                      elevation: 0.0,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),*/
                                   // Generated code for this Button Widget...
                                   FFButtonWidget(
                                     onPressed: () async {
@@ -1432,8 +1035,8 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                                 fontSize: 16,
                                               ),
                                             ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: Color(0xFF4BB543),
+                                            duration: const Duration(milliseconds: 4000),
+                                            backgroundColor: FlutterFlowTheme.of(context).primary,
                                           ),
                                         );
                                         FFAppState().statusFailed = getJsonField(
@@ -1445,7 +1048,7 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                           context.pushNamed(
                                             'MyAddresses',
                                             extra: <String, dynamic>{
-                                              kTransitionInfoKey: TransitionInfo(
+                                              kTransitionInfoKey: const TransitionInfo(
                                                 hasTransition: true,
                                                 transitionType: PageTransitionType.rightToLeft,
                                                 duration: Duration(milliseconds: 400),
@@ -1465,8 +1068,8 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                     text: 'Add',
                                     options: FFButtonOptions(
                                       height: 40,
-                                      padding: EdgeInsetsDirectional.fromSTEB(62.5, 11, 62.5, 11),
-                                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                      padding: const EdgeInsetsDirectional.fromSTEB(62.5, 11, 62.5, 11),
+                                      iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                                       color: FlutterFlowTheme.of(context).primary,
                                       textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                         fontFamily: 'Montserrat',
@@ -1474,7 +1077,7 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                         letterSpacing: 0,
                                       ),
                                       elevation: 0,
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.transparent,
                                         width: 1,
                                       ),
@@ -1484,7 +1087,7 @@ class _UpdateAddressWidgetState extends State<UpdateAddressWidget> {
                                 ],
                               ),
                             ),
-                          ].divide(SizedBox(height: 14.0)),
+                          ].divide(const SizedBox(height: 14.0)),
                         ),
                       ),
                     ],
