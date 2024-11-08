@@ -895,7 +895,7 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                     ),
                                   ),
                                   Text(
-                                    '- ${valueOrDefault<String>(FFAppState().currencyName, 'INR')} '
+                                    /*'- ${valueOrDefault<String>(FFAppState().currencyName, 'INR')} '
                                         '${formatNumber(currencyConversion(
                                         FFAppState().currencyRate,
                                         (currencyConversion(
@@ -908,7 +908,19 @@ class _OrderTrackingWidgetState extends State<OrderTrackingWidget> {
                                                 FFAppState().currencyRate,
                                                 getJsonField(columnOrderDetailResponse.jsonBody, r'''$.data[0].totalAmount''').toString())!
                                         ).toStringAsFixed(2) // Ensures the result is a String
-                                    ),
+                                    ),*/
+                                    '- ${valueOrDefault<String>(FFAppState().currencyName, 'INR')} '
+                                        '${formatNumber(
+                                        (currencyConversion(
+                                            FFAppState().currencyRate,
+                                            getJsonField(columnOrderDetailResponse.jsonBody, r'''$.data[:].deliveryCharges''').toString())! +
+                                            currencyConversion(
+                                                FFAppState().currencyRate,
+                                                getJsonField(columnOrderDetailResponse.jsonBody, r'''$.data[:].amount''').toString())! -
+                                            currencyConversion(
+                                                FFAppState().currencyRate,
+                                                getJsonField(columnOrderDetailResponse.jsonBody, r'''$.data[0].totalAmount''').toString())!
+                                        ),
                                         formatType: FormatType.decimal,
                                         decimalType: DecimalType.automatic
                                     )}',

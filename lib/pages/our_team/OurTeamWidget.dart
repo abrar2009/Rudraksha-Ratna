@@ -1085,7 +1085,7 @@ class _OurTeamWidgetState extends State<OurTeamWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Accounts Team',
+                        'System Administrator',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Montserrat',
                           fontSize: 18,
@@ -1113,6 +1113,15 @@ class _OurTeamWidgetState extends State<OurTeamWidget> {
                         ].divide(SizedBox(width: 10)),
                       ),
                       Text(
+                        'System Administrator',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Montserrat',
+                          fontSize: 18,
+                          letterSpacing: 0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
                         'The HR Admin plays a vital role in ensuring the efficient administration of the organization by overseeing various aspects of human resource management. ',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Montserrat',
@@ -1120,6 +1129,23 @@ class _OurTeamWidgetState extends State<OurTeamWidget> {
                           lineHeight: 1.5,
                         ),
                         textAlign: TextAlign.justify,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE3CCE3),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: EdgeInsets.all(12),
+                        child: Text(
+                          'The success of Rudra Centre can be attributed to the collective efforts of these dedicated teams, who work together cohesively. The mention of the company\'s workforce comprising 90 members emphasizes the depth of expertise and resources available to serve the clientele.',
+                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: FlutterFlowTheme.of(context).primary,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
                       ),
                     ].divide(SizedBox(height: 10)),
                   ),
