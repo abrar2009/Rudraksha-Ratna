@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rudraksha_cart/components/shimmer_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_html/src/utils.dart';
 import '../../flutter_flow/custom_functions.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
 import '/backend/api_requests/api_calls.dart';
@@ -196,24 +195,14 @@ class _ArticleDetailWidgetState extends State<ArticleDetailWidget> {
                               EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(0),
-                                child: /*Image.network(
-                                  getJsonField(
-                                    columnBlogDetailsResponse.jsonBody,
-                                    r'''$.data.image''',
-                                  ).toString(),
-                                  width: double.infinity,
-                                  height: 228,
-                                  fit: BoxFit.cover,
-                                ),*/
-                                CachedNetworkImage(
+                                child: CachedNetworkImage(
                                   fadeInDuration: Duration(milliseconds: 100),
                                   fadeOutDuration: Duration(milliseconds: 100),
                                   imageUrl: utf8.decode(
                                     (getJsonField(
                                       columnBlogDetailsResponse.jsonBody,
                                       r'''$.data.image''',
-                                    ).toString())
-                                        .codeUnits.toList(),
+                                    ).toString()).codeUnits.toList(),
                                     allowMalformed: true,
                                   ),
                                   width: double.infinity,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'dart:core';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -10,7 +11,7 @@ import 'package:http/http.dart' as http;
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
-class ExploreCategoryListCall {
+/*class ExploreCategoryListCall {
   static Future<ApiCallResponse> call({
     String? sanityurl = '',
   }) async {
@@ -64,7 +65,79 @@ class ExploreCategoryListCall {
       .map((x) => castToType<int>(x))
       .withoutNulls
       .toList();
+}*/
+
+
+class ExploreCategoryListCall {
+  static Future<ApiCallResponse> call({
+    String? sanityurl = '',
+  }) async {
+    final apiUrl = '${sanityurl}/otherproductmaster/web-explore-category-list';
+    log('Making API call to: $apiUrl'); // Log the API URL
+
+    try {
+      final response = await ApiManager.instance.makeApiCall(
+        callName: 'ExploreCategoryList',
+        apiUrl: apiUrl,
+        callType: ApiCallType.GET,
+        headers: {},
+        params: {},
+        returnBody: true,
+        bodyType: BodyType.JSON,
+        encodeBodyUtf8: false,
+        decodeUtf8: false,
+        cache: false,
+        alwaysAllowBody: false,
+      );
+      log('API response: ${response.jsonBody}'); // Log the response
+      return response;
+    } catch (e) {
+      log('Error during API call: $e'); // Log any errors
+      rethrow;
+    }
+  }
+
+  static List<String>? categoryNames(dynamic response) => (getJsonField(
+    response,
+    r'''$.categorydata[:].category''',
+    true,
+  ) as List?)
+      ?.withoutNulls
+      .map((x) => castToType<String>(x))
+      .withoutNulls
+      .toList();
+
+  static List<String>? productName(dynamic response) => (getJsonField(
+    response,
+    r'''$.data[:].productname''',
+    true,
+  ) as List?)
+      ?.withoutNulls
+      .map((x) => castToType<String>(x))
+      .withoutNulls
+      .toList();
+
+  static List<int>? sellingPrice(dynamic response) => (getJsonField(
+    response,
+    r'''$.data[:].selling_price''',
+    true,
+  ) as List?)
+      ?.withoutNulls
+      .map((x) => castToType<int>(x))
+      .withoutNulls
+      .toList();
+
+  static List<int>? categoryId(dynamic response) => (getJsonField(
+    response,
+    r'''$.categorydata[:].id''',
+    true,
+  ) as List?)
+      ?.withoutNulls
+      .map((x) => castToType<int>(x))
+      .withoutNulls
+      .toList();
 }
+
 
 class ExploreProductsCall {
   static Future<ApiCallResponse> call({
@@ -79,7 +152,7 @@ class ExploreProductsCall {
       params: {
         'id': id,
       },
-      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -116,7 +189,7 @@ class LoginWithOTPCall {
         'mobile_number': mobileNumber != null ? mobileNumber : '',
         'country_code': countryCode != null ? countryCode : '',
       },
-      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -309,7 +382,8 @@ class SignUpSendOTPCall {
         'country_code': countryCode,
         'customer_name': customerName,
       },
-      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      //bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -1236,7 +1310,8 @@ class ProductHeirarchyCall {
       params: {
         'refer_name': referName,
       },
-      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      //bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -1266,7 +1341,8 @@ class SubProductHeirarchyCall {
       params: {
         'slug_value': slugValue,
       },
-      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      //bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -1295,7 +1371,8 @@ class SlugSearchCall {
       params: {
         'slug_value': slugValue,
       },
-      bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      //bodyType: BodyType.X_WWW_FORM_URL_ENCODED,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
