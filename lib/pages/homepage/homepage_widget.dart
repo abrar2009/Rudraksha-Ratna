@@ -1363,7 +1363,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(10),
-                        child: Text('App Version: 1.0.18',
+                        child: Text('App Version: 1.0.19',
                             style: TextStyle(color: FlutterFlowTheme.of(context).productName)),
                       ),
                       Builder(
