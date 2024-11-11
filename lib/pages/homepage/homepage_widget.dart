@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_controller.dart' as slider;
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/svg.dart';
@@ -1361,7 +1363,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(10),
-                        child: Text('App Version: 1.0.18',
+                        child: Text('App Version: 1.0.19',
                             style: TextStyle(color: FlutterFlowTheme.of(context).productName)),
                       ),
                       Builder(
@@ -1646,12 +1648,12 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                         height: 300,
                         decoration: const BoxDecoration(),
                         child: FutureBuilder<ApiCallResponse>(
-                          /*future: EncryptedBannercall.call(
-                            sanityurl: FFAppConstants.sanityurl,
-                          ),*/
-                          future: Bannercall.call(
+                          future: EncryptedBannercall.call(
                             sanityurl: FFAppConstants.sanityurl,
                           ),
+                          /*future: Bannercall.call(
+                            sanityurl: FFAppConstants.sanityurl,
+                          ),*/
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
                             if (!snapshot.hasData) {
@@ -1674,12 +1676,12 @@ class _HomepageWidgetState extends State<HomepageWidget> {
 
                             return Builder(
                               builder: (context) {
-                                final Bannercall = getJsonField(
+                                /*final Bannercall = getJsonField(
                                   carouselExploreCategoryListResponse.jsonBody,
                                   r'''$.data''',
-                                ).toList();
+                                ).toList();*/
 
-                                /*final encryptedApiResponse = carouselExploreCategoryListResponse.jsonBody;
+                                final encryptedApiResponse = carouselExploreCategoryListResponse.jsonBody;
 
                                 const farnetkey = 'D3KyP1sPstZZa4Yf2u0E0unfXgR9L5s2iIpoU-W5_Yc=';
 
@@ -1706,7 +1708,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
 
                                 // Parse the corrected JSON string into a Map
                                 final Map<String, dynamic> bannerData = json.decode(correctedBannercall);
-                                final List<dynamic> Bannercall = bannerData['data'];*/
+                                final List<dynamic> Bannercall = bannerData['data'];
 
                                 return CarouselSlider.builder(
                                   itemCount: Bannercall.length,

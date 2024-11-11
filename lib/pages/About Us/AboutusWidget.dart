@@ -1,3 +1,5 @@
+import 'package:url_launcher/url_launcher.dart';
+
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -1472,7 +1474,7 @@ class _AboutusWidgetState extends State<AboutusWidget> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -1494,8 +1496,7 @@ class _AboutusWidgetState extends State<AboutusWidget> {
                           child: CachedNetworkImage(
                             fadeInDuration: Duration(milliseconds: 500),
                             fadeOutDuration: Duration(milliseconds: 500),
-                            imageUrl:
-                            '${FFAppConstants.aboutUs}/sakhashree-neeta-founder-of-rrst.jpg',
+                            imageUrl: '${FFAppConstants.aboutUs}/Sakhashree.jpg',
                             width: double.infinity,
                             height: 392,
                             fit: BoxFit.cover,
@@ -1541,9 +1542,7 @@ class _AboutusWidgetState extends State<AboutusWidget> {
                                       ),
                                     )
                                   ],
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
+                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Montserrat',
                                     color: Color(0xFF575758),
                                     fontSize: 13,
@@ -1553,6 +1552,37 @@ class _AboutusWidgetState extends State<AboutusWidget> {
                                   ),
                                 ),
                                 textAlign: TextAlign.justify,
+                              ),
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  final Uri uri = Uri.parse('https://sakhashree.com/about-sakhashree/');
+                                  try {
+                                    await launchUrl(uri);
+                                  } catch (e) {
+                                    print("Error launching URL: $e");
+                                  }
+                                },
+                                text: 'READ MORE',
+                                options: FFButtonOptions(
+                                  width: MediaQuery.sizeOf(context).width * 0.35,
+                                  height: 40,
+                                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                  color: Color(0xFF740074),
+                                  textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontSize: 12,
+                                    fontFamily: 'Montserrat',
+                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  elevation: 0,
+                                  borderSide: BorderSide(
+                                    color: Color(0xFF740074),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
                             ].divide(SizedBox(height: 10)),
                           ),
@@ -1574,74 +1604,6 @@ class _AboutusWidgetState extends State<AboutusWidget> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            /*Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                FFButtonWidget(
-                                  onPressed: () async {
-                                    setState(() {
-                                      _model.selectedtype=0;
-                                    });
-                                  },
-                                  text: 'Events',
-                                  options: FFButtonOptions(
-                                    height: 40,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24, 0, 24, 0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 0, 0),
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .override(
-                                      fontFamily: 'Montserrat',
-                                      color: Colors.white,
-                                      letterSpacing: 0,
-                                    ),
-                                    elevation: 0,
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                FFButtonWidget(
-                                  onPressed: () async {
-                                    setState(() {
-                                      _model.selectedtype=1;
-                                    });
-
-                                  },
-                                  text: 'Awards',
-                                  options: FFButtonOptions(
-                                    height: 40,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24, 0, 24, 0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 0, 0),
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      letterSpacing: 0,
-                                    ),
-                                    elevation: 0,
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                              ].divide(SizedBox(width: 6)),
-                            ),*/
                             Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -2213,6 +2175,42 @@ class _AboutusWidgetState extends State<AboutusWidget> {
                                   lineHeight: 1.5,
                                 ),
                                 textAlign: TextAlign.justify,
+                              ),
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  context.pushNamed(
+                                    'OurTeam',
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey:
+                                      const TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType: PageTransitionType.bottomToTop,
+                                        duration: Duration(milliseconds: 400),
+                                      ),
+                                    },
+                                  );
+                                },
+                                text: 'VIEW TEAM',
+                                options: FFButtonOptions(
+                                  width: MediaQuery.sizeOf(context).width * 0.35,
+                                  height: 40,
+                                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                  color: Color(0xFF740074),
+                                  textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontSize: 12,
+                                    fontFamily: 'Montserrat',
+                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  elevation: 0,
+                                  borderSide: BorderSide(
+                                    color: Color(0xFF740074),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
                             ].divide(SizedBox(height: 10)),
                           ),

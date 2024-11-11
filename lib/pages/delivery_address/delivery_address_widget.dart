@@ -211,8 +211,7 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                                         focusColor: Colors.transparent,
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
-                                        onTap: () async {
-
+                                        /*onTap: () async {
                                           _model.selectedContainer = !_model.selectedContainer;
                                           _model.address1 = getJsonField(addressDetailsItem, r'''$.address''',).toString();
                                           _model.address2 = getJsonField(addressDetailsItem, r'''$.addresstwo''',).toString();
@@ -264,6 +263,49 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                                             _model.removeAtIndexFromSelectedAddress(0);
                                             setState(() {});
                                           }
+                                        },*/
+                                        onTap: () async {
+                                          setState(() {
+                                            // Toggle selected container state
+                                            _model.selectedContainer = !_model.selectedContainer;
+
+                                            // Update the FFAppState values based on the new selection
+                                            if (_model.selectedContainer) {
+                                              _model.address1 = getJsonField(addressDetailsItem, r'''$.address''').toString();
+                                              _model.address2 = getJsonField(addressDetailsItem, r'''$.addresstwo''').toString();
+                                              _model.city = getJsonField(addressDetailsItem, r'''$.cityname''').toString();
+                                              _model.state = getJsonField(addressDetailsItem, r'''$.statename''').toString();
+                                              _model.zipCode = getJsonField(addressDetailsItem, r'''$.pincode''').toString();
+                                              _model.id = getJsonField(addressDetailsItem, r'''$.id''');
+                                              _model.nameFL = getJsonField(addressDetailsItem, r'''$.name''').toString();
+                                              _model.emailAddress = getJsonField(addressDetailsItem, r'''$.email''').toString();
+                                              _model.contactNo = getJsonField(addressDetailsItem, r'''$.contact_no''').toString();
+                                              _model.countryName = getJsonField(addressDetailsItem, r'''$.countryname''').toString();
+
+                                              // Update FFAppState only when selected
+                                              FFAppState().shippingAddressID = _model.id;
+                                              FFAppState().shippingAddress1 = _model.address1;
+                                              FFAppState().shippingAddress2 = _model.address2;
+                                              FFAppState().shippingCity = _model.city;
+                                              FFAppState().shippingState = _model.state;
+                                              FFAppState().shippingPincode = _model.zipCode;
+
+                                              // Mark as selected
+                                              _model.selectedAddress.clear();
+                                              _model.selectedAddress.add(addressDetailsIndex);
+                                            } else {
+                                              // Clear FFAppState if unselected
+                                              FFAppState().shippingAddressID = null;
+                                              FFAppState().shippingAddress1 = '';
+                                              FFAppState().shippingAddress2 = '';
+                                              FFAppState().shippingCity = '';
+                                              FFAppState().shippingState = '';
+                                              FFAppState().shippingPincode = '';
+
+                                              // Remove from selected address
+                                              _model.selectedAddress.remove(addressDetailsIndex);
+                                            }
+                                          });
                                         },
                                         child: Container(
                                           width: double.infinity,
@@ -343,9 +385,7 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                                                         Radio(
                                                           activeColor: FlutterFlowTheme.of(context).primary,
                                                           value: addressDetailsIndex,
-                                                          groupValue: _model.selectedAddress.isNotEmpty
-                                                              ? _model.selectedAddress.first
-                                                              : -1,
+                                                          groupValue: _model.selectedAddress.isNotEmpty ? _model.selectedAddress.first : -1,
                                                           onChanged: (value) {
                                                             setState(() {
                                                               if (_model.selectedContainer) {
