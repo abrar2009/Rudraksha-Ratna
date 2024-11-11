@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_controller.dart' as slider;
@@ -1925,7 +1924,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                 ),
                               ],
                             ),
-                            /*FutureBuilder<ApiCallResponse>(
+                            FutureBuilder<ApiCallResponse>(
                               future: ExploreCategoryListCall.call(
                                 sanityurl: FFAppConstants.sanityurl,
                               ),
@@ -1999,100 +1998,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                   wrapped: false,
                                 );
                               },
-                            ),*/
-                            FutureBuilder<ApiCallResponse>(
-                              future: ExploreCategoryListCall.call(
-                                sanityurl: FFAppConstants.sanityurl,
-                              ),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return const SizedBox(
-                                    height: 25.0,
-                                    child: ShimmerWidget(),
-                                  );
-                                }
-
-                                if (!snapshot.hasData) {
-                                  log('No data received from API call');
-                                  return const Text('No data available');
-                                }
-
-                                final choiceChipsExploreCategoryListResponse = snapshot.data!;
-                                final jsonBody = choiceChipsExploreCategoryListResponse.jsonBody;
-
-                                // Check if the API response indicates a failure
-                                if (getJsonField(jsonBody, r'''$.status''') == 'failed') {
-                                  final errorMsg = getJsonField(jsonBody, r'''$.msg''')?.toString() ?? 'Unknown error';
-                                  log('API error: $errorMsg');
-                                  return Text('Error: $errorMsg'); // Display error message
-                                }
-
-                                // Process the data if valid
-                                return FlutterFlowChoiceChips(
-                                  options: (getJsonField(
-                                    jsonBody,
-                                    r'''$.categorydata[:].category''',
-                                    true,
-                                  ) as List)
-                                      .map<String>((s) => s.toString())
-                                      .toList()
-                                      .map((label) => ChipData(label))
-                                      .toList(),
-                                  onChanged: (val) async {
-                                    setState(() => _model.choiceChipsValue = val?.firstOrNull);
-                                    _model.iD = functions.chipsId(
-                                      _model.choiceChipsValue!,
-                                      getJsonField(
-                                        jsonBody,
-                                        r'''$.categorydata''',
-                                        true,
-                                      )!,
-                                    )!;
-                                    setState(() {});
-                                  },
-                                  selectedChipStyle: ChipStyle(
-                                    backgroundColor: Colors.white,
-                                    textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context).primary,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    iconColor: const Color(0x00000000),
-                                    iconSize: 18.0,
-                                    labelPadding: const EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 4.0),
-                                    elevation: 0.0,
-                                    borderColor: FlutterFlowTheme.of(context).primary,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  unselectedChipStyle: ChipStyle(
-                                    backgroundColor: Colors.white,
-                                    textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                                      fontFamily: 'Montserrat',
-                                      color: const Color(0xFF222222),
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    iconColor: const Color(0x00000000),
-                                    iconSize: 18.0,
-                                    labelPadding: const EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 4.0),
-                                    elevation: 0.0,
-                                    borderColor: const Color(0xFF868687),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  chipSpacing: 12.0,
-                                  rowSpacing: 12.0,
-                                  multiselect: false,
-                                  initialized: _model.choiceChipsValue != null,
-                                  alignment: WrapAlignment.start,
-                                  controller: _model.choiceChipsValueController ??= FormFieldController<List<String>>(['Rudraksha']),
-                                  wrapped: false,
-                                );
-                              },
                             ),
-
                             Expanded(
                               child: Container(
                                 width: double.infinity,
