@@ -11,110 +11,124 @@ import 'auth/custom_auth/custom_auth_user_provider.dart';
 import 'firebase_options.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-//NotificationServices notificationServices = NotificationServices();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  _showNotification(message);
+  _showNotification(
+      message); // Firebase initialization is only needed once in main()
 }
 
 void _showNotification(RemoteMessage message) async {
+  // Android notification settings
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
-  AndroidNotificationDetails('your channel id', 'your channel name',
-      importance: Importance.max, priority: Priority.high, showWhen: false);
-  const NotificationDetails platformChannelSpecifics =
-  NotificationDetails(android: androidPlatformChannelSpecifics);
+      AndroidNotificationDetails(
+    'your_channel_id',
+    'your_channel_name',
+    importance: Importance.max,
+    priority: Priority.high,
+    showWhen: true,
+  );
 
-  // Store notification in FFAppState
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+
+  // Store notification in FFAppState (ensure addNotification is implemented)
   FFAppState().addNotification(NotificationItem(
     message.notification?.title ?? 'No Title',
     message.notification?.body ?? 'No Body',
     DateTime.now(),
   ));
 
+  // Show notification
   await flutterLocalNotificationsPlugin.show(
-      0,
-      message.notification?.title,
-      message.notification?.body,
-      platformChannelSpecifics,
-      payload: message.data['route']
+    0, // Notification ID
+    message.notification?.title, // Title
+    message.notification?.body, // Body
+    platformChannelSpecifics,
+    payload: message.data['route'], // Use route for navigation if needed
   );
 
   // Handle navigation to NotificationScreen
-  navigatorKey.currentState?.push(
-    MaterialPageRoute(builder: (context) => NotificationScreen()),
-  );
+  if (message.data['route'] != null) {
+    navigatorKey.currentState?.push(
+      MaterialPageRoute(builder: (context) => NotificationScreen()),
+    );
+  }
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
 
-  await authManager.initialize();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final appState = FFAppState(); // Initialize FFAppState
+  // Initialize the auth manager and app state
+  await authManager.initialize();
+  final appState = FFAppState();
   await appState.initializePersistedState();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  // Retrieve FCM Token
-  String? token = await FirebaseMessaging.instance.getToken();
+  // Get the Firebase messaging token
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  String? token = await messaging.getAPNSToken();
   if (token != null) {
     FFAppState().firebaseToken = token;
   }
 
+  // Listen for token refresh
   FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
     FFAppState().firebaseToken = newToken;
   });
 
-  print("FCM Token: ${FFAppState().firebaseToken}");
-
+  // Handle background messages
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  //notificationServices.firebaseInit();
+  // Handle foreground messages
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     _showNotification(message);
   });
 
+  // Initialize local notifications (Android & iOS)
   const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('@mipmap/ic_launcher');
-
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  final DarwinInitializationSettings initializationSettingsDarwin =
+      DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+    onDidReceiveLocalNotification: (id, title, body, payload) async {
+      // Handle iOS local notifications here
+    },
+  );
   final InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid);
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsDarwin,
+  );
 
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
-    onDidReceiveNotificationResponse: (response){
-
-    }
+    onDidReceiveNotificationResponse: (response) {
+      if (response.payload != null) {
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(
+            builder: (context) =>
+                NotificationScreen(), // Handle navigation here
+          ),
+        );
+      }
+    },
   );
 
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  // Request permission for iOS
-  //notificationServices.requestNotificationPermission();
+  // Request permission for notifications (iOS)
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
-    announcement: true,
     badge: true,
-    carPlay: true,
-    criticalAlert: true,
+    sound: true,
     provisional: true,
-    sound: true
   );
-
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
     print('User granted permission');
   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
@@ -123,10 +137,7 @@ void main() async {
     print('User declined or has not accepted permission');
   }
 
-  // Get the token
-
-  print("Firebase Messaging Token: $token");
-
+  // Run the app
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
     child: MyApp(),
@@ -134,7 +145,6 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
   @override
   State<MyApp> createState() => _MyAppState();
 
@@ -146,7 +156,6 @@ class _MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.system;
 
   late Stream<RudrakshaCartAuthUser> userStream;
-
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
   bool displaySplashImage = true;
@@ -154,7 +163,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
     userStream = rudrakshaCartAuthUserStream()
@@ -174,7 +182,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Rudraksha-Ratna',
-      localizationsDelegates: [
+      // navigatorKey: navigatorKey, // Use navigatorKey here
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -185,6 +194,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: false,
       ),
       themeMode: _themeMode,
+
       routerConfig: _router,
     );
   }
