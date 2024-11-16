@@ -1,12 +1,8 @@
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import 'OurTeamModel.dart';
 
@@ -52,10 +48,10 @@ class _OurTeamWidgetState extends State<OurTeamWidget> {
               color: FlutterFlowTheme.of(context).secondaryBackground,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15), // Shadow color with opacity
-                  offset: Offset(0, 4), // Move shadow downwards by 4 pixels
-                  blurRadius: 6, // Blur radius for a softer shadow
-                  spreadRadius: 1, // Spread radius for shadow expansion
+                  color: Colors.black.withOpacity(0.15),
+                  offset: const Offset(0, 4),
+                  blurRadius: 6,
+                  spreadRadius: 1,
                 ),
               ],
             ),
@@ -105,7 +101,7 @@ class _OurTeamWidgetState extends State<OurTeamWidget> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Tearns at Rudra Centre work in unison 10 provide the customer service experiences possible. Teams such as Client Coordination, Artisan. Packaging and Handling, Artisans. Dispatch. Web Designing and Development, SEO and Content Creation. Accounts and Support Starr ate cornrviLted 10 giving a class apart service to Line existing clientele and the prospect custorners.',
+                          text: 'Terms at Rudra Centre work in unison 10 provide the customer service experiences possible. Teams such as Client Coordination, Artisan. Packaging and Handling, Artisans. Dispatch. Web Designing and Development, SEO and Content Creation. Accounts and Support Starr ate cornrviLted 10 giving a class apart service to Line existing clientele and the prospect customers.',
                           style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Montserrat',
                             letterSpacing: 0,
@@ -1111,15 +1107,6 @@ class _OurTeamWidgetState extends State<OurTeamWidget> {
                             ),
                           ),
                         ].divide(SizedBox(width: 10)),
-                      ),
-                      Text(
-                        'System Administrator',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Montserrat',
-                          fontSize: 18,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600,
-                        ),
                       ),
                       Text(
                         'The HR Admin plays a vital role in ensuring the efficient administration of the organization by overseeing various aspects of human resource management. ',
