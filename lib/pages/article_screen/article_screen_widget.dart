@@ -1,18 +1,14 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import '../../components/shimmer_widget.dart';
-import '../../custom_code/widgets/custom_pagination.dart';
-import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'article_screen_model.dart';
 
 class ArticlesScreenWidget extends StatefulWidget {
@@ -103,10 +99,10 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
               color: FlutterFlowTheme.of(context).secondaryBackground,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15), // Shadow color with opacity
-                  offset: Offset(0, 4), // Move shadow downwards by 4 pixels
-                  blurRadius: 6, // Blur radius for a softer shadow
-                  spreadRadius: 1, // Spread radius for shadow expansion
+                  color: Colors.black.withOpacity(0.15),
+                  offset: Offset(0, 4),
+                  blurRadius: 6,
+                  spreadRadius: 1,
                 ),
               ],
             ),
@@ -118,7 +114,7 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                 borderRadius: 30,
                 borderWidth: 1,
                 buttonSize: 60,
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_rounded,
                   color: Color(0xFF272728),
                   size: 30,
@@ -150,7 +146,7 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
             child: Stack(
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 80),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 80),
                   child: FutureBuilder<ApiCallResponse>(
                     future: _future,
                     builder: (context, snapshot) {

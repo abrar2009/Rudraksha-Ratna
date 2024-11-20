@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../auth/custom_auth/auth_util.dart';
+import '../../components/error404_screen_widget.dart';
 import '../../components/logout_confirmation_widget.dart';
 import '../../custom_code/widgets/custom_dropdown_currency_flag.dart';
 import '../../flutter_flow/custom_functions.dart';
@@ -1733,11 +1734,75 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                               BannerItem, r'''$.slug_value''',
                                             ).toString();
                                             setState(() {});
+
+                                            final bannerMainProd = getJsonField(BannerItem, r'''$.mainprodtype''');
+                                            final bannerLevel = getJsonField(BannerItem, r'''$.level''');
+
+                                            print('Banner Main Product Type: ${bannerMainProd}');
+                                            print('Banner Main Product Type: ${bannerLevel}');
+
+                                            // Explicitly handle cases where mainprodtype and level might not be provided.
+                                            // Handle when mainprodtype == 0 and level == 0
+                                            //if (_model.slugvalue == null || _model.slugvalue!.isEmpty) {
+                                            /*if (bannerMainProd == 0 && bannerLevel == 0 ) {
+                                              print("inside if URL launched successfully.");
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => const Error404ScreenWidget()),
+                                              );
+                                              return;
+                                            }
+
+                                            print("outside URL launched successfully.");
+
+                                            final Uri? parsedUrl = Uri.tryParse(_model.slugvalue ?? '');
+
+                                            if (parsedUrl != null && (parsedUrl.scheme == 'http' || parsedUrl.scheme == 'https')) {
+                                              // Launch the URL if valid
+                                              if (await launchUrl(parsedUrl)) {
+                                                print("URL launched successfully.");
+                                                return; // Exit after successful URL launch
+                                              } else {
+                                                print("Failed to launch URL.");
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => const Error404ScreenWidget()),
+                                                );
+                                                return;
+                                              }
+                                            }*/
+                                            if (bannerMainProd == 0 && bannerLevel == 0) {
+                                              print("Inside if: mainprodtype and level are both 0.");
+
+                                              // Check if _model.slugvalue contains a valid URL
+                                              final String slugValue = _model.slugvalue ?? '';
+
+                                              final Uri? url = Uri.tryParse(slugValue);
+
+                                              // If the slug value is a valid URL
+                                              if (url != null && (url.scheme == 'http' || url.scheme == 'https')) {
+                                                print("Launching URL: $url");
+
+                                                // Attempt to launch the URL
+                                                if (await launchUrl(url)) {
+                                                  print("URL launched successfully.");
+                                                } else {
+                                                  print("Failed to launch URL: $url");
+                                                }
+                                              } else {
+                                                // If it's not a valid URL, navigate to Error404ScreenWidget
+                                                print("Invalid URL: $slugValue. Navigating to Error404ScreenWidget.");
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => const Error404ScreenWidget()),
+                                                );
+                                              }
+                                              return; // Stop further processing
+                                            }
+
                                             _model.apiResulth6o = await SlugSearchCall.call(
                                               hosturl: FFAppConstants.hosturl,
-                                              slugValue: getJsonField(
-                                                BannerItem, r'''$.slug_value''',
-                                              ).toString(),
+                                              slugValue: _model.slugvalue,
                                             );
                                             _model.mainprodtype = SlugSearchCall.datamainprodtype(
                                               (_model.apiResulth6o?.jsonBody ?? ''),
@@ -1755,16 +1820,10 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                             });
                                             print("Slug Value: ${_model.slugvalue}");
 
-                                            if (_model.mainprodtype == 0 &&
-                                                _model.level == 0 && _model.slugvalue == "https://forms.gle/vEggBJdRj7Gitgt3A") {
-                                              print("Failed to launch Google.");
-                                              final Uri url = Uri.parse("https://forms.gle/vEggBJdRj7Gitgt3A");
-                                              if (await launchUrl(url)) {
-                                                print("Google launched successfully!");
-                                              } else {
-                                                print("Failed to launch Google.");
-                                              }
-                                            }
+                                            final url = _model.slugvalue;
+
+                                            print("Slug Value Before Launch: $url");
+
                                             if (_model.mainprodtype == 5 &&
                                                 _model.level == 1 && _model.slugvalue == "c/rudraksha") {
                                               context.pushNamed(
@@ -1852,7 +1911,6 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.circular(5.0),
                                               child: Image.network(
-                                                //getJsonField(BannerItem, r'''$.mobileimage''').toString(),
                                                 getJsonField(BannerItem, r'''$.mobileimage''').toString(),
                                                 width: 720,
                                                 height: 950,

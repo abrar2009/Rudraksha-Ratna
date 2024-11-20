@@ -1118,7 +1118,20 @@ class Bannercall {
       .map((x) => castToType<String>(x))
       .withoutNulls
       .toList();
-
+  static int? datamainprodtype(dynamic response) =>
+      castToType<int>(getJsonField(
+        response,
+        r'''$.data[:].mainprodtype''',
+      ));
+  static int? datalevel(dynamic response) => castToType<int>(getJsonField(
+    response,
+    r'''$.data[:].level''',
+  ));
+  static bool? dataproductlist(dynamic response) =>
+      castToType<bool>(getJsonField(
+        response,
+        r'''$.data[:].product_list''',
+      ));
 }
 
 class EncryptedBannercall {

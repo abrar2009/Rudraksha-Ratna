@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter_svg/svg.dart';
-
 import '../auth/custom_auth/auth_util.dart';
-import '../custom_code/widgets/quantity_counter_widget.dart';
+import '../components/delete_dialog.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/components/custom_nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -14,7 +12,6 @@ import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'cart_model.dart';
 export 'cart_model.dart';
 
@@ -300,6 +297,50 @@ class _CartWidgetState extends State<CartWidget> {
                                                           ),
                                                         ),
                                                         Align(
+                                                          alignment: AlignmentDirectional(0.898, -1.1),
+                                                          child: GestureDetector(
+                                                            onTap: () async {
+                                                              setState(() {});
+                                                              await showModalBottomSheet(
+                                                                isScrollControlled: true,
+                                                                backgroundColor: Colors.transparent,
+                                                                enableDrag: false,
+                                                                context: context,
+                                                                builder: (context) {
+                                                                  return GestureDetector(
+                                                                    onTap: () => _model.unfocusNode.canRequestFocus
+                                                                        ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                                                                        : FocusScope.of(context).unfocus(),
+                                                                    child: Padding(
+                                                                      padding: MediaQuery.viewInsetsOf(context),
+                                                                      //child: const DeleteWishlistWidget(),
+                                                                      child: DeleteItemDialog(
+                                                                        deletionId: FFAppState().wishlistItemId.toString(),
+                                                                        title: 'Are you sure you want to remove the product from the cart?',
+                                                                        deleteButtonText: 'Delete',
+                                                                        deleteApiCall: (id) async {
+                                                                          return await RemovefromCartlistCall.call(
+                                                                            token: currentAuthenticationToken,
+                                                                            hosturl: FFAppConstants.hosturl,
+                                                                            cartId: getJsonField(cartListItem, r'''$.cart_id'''),
+                                                                          );
+                                                                        },
+                                                                        successMessageField: r'''$.msg''',
+                                                                        errorMessageField: r'''$.status''',
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ).then((value) => safeSetState(() {}));
+                                                            },
+                                                            child: SvgPicture.asset(
+                                                              'assets/images/bin_1.svg',
+                                                              width: 20,
+                                                              height: 20,
+                                                            ),
+                                                          ),
+                                                        )
+                                                        /*Align(
                                                           alignment: AlignmentDirectional(0.9, -1.07),
                                                           child: InkWell(
                                                             splashColor: Colors.transparent,
@@ -362,7 +403,7 @@ class _CartWidgetState extends State<CartWidget> {
                                                               height: 20,
                                                             ),
                                                           ),
-                                                        ),
+                                                        ),*/
                                                       ],
                                                     ),
                                                   ),
@@ -1019,575 +1060,10 @@ class _CartWidgetState extends State<CartWidget> {
                       ),
                     ],
                   ),
-                    /*Align(
-                      alignment: AlignmentDirectional(0, 1),
-                      child: wrapWithModel(
-                        model: _model.customNavBarModel,
-                        updateCallback: () => setState(() {}),
-                        child: CustomNavBarWidget(),
-                      ),
-                    ),*/
                   ],
                 ),
               ],
             );
-              /*Stack(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 1,
-                    decoration: BoxDecoration(),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 200),
-                      child: Builder(
-                        builder: (context) {
-                          return SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: List.generate(cartList.length, (cartListIndex) {
-                                final cartListItem = cartList[cartListIndex];
-                                return Container(
-                                  width: MediaQuery.of(context).size.width * 0.9999,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                                    border: Border.all(
-                                      color: Color(0xFFE7E7E8),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(7, 0, 0, 0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.circular(8),
-                                                child: Image.network(
-                                                  getJsonField(
-                                                    cartListItem,
-                                                    r'''$.thumbnail_image''',
-                                                  ).toString(),
-                                                  width: MediaQuery.of(context).size.width * 0.18,
-                                                  height: 80,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 142,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(7, 0, 0, 44),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Column(
-                                                    mainAxisSize: MainAxisSize.max,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Padding(
-                                                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 10),
-                                                        child: Row(
-                                                          mainAxisSize: MainAxisSize.max,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Container(
-                                                              width: 230,
-                                                              decoration: BoxDecoration(),
-                                                              child: Align(
-                                                                alignment: AlignmentDirectional(-1, -1),
-                                                                child: Text(
-                                                                  getJsonField(
-                                                                    cartListItem,
-                                                                    r'''$.product_name''',
-                                                                  ).toString(),
-                                                                  maxLines: 2,
-                                                                  style: FlutterFlowTheme.of(context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                    fontFamily: 'Montserrat',
-                                                                    color: FlutterFlowTheme.of(context).primaryText,
-                                                                    fontSize: 16,
-                                                                    letterSpacing: 0,
-                                                                    fontWeight: FontWeight.w500,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            InkWell(
-                                                              splashColor: Colors.transparent,
-                                                              focusColor: Colors.transparent,
-                                                              hoverColor: Colors.transparent,
-                                                              highlightColor: Colors.transparent,
-                                                              onTap: () async {
-                                                                var _shouldSetState = false;
-                                                                _model.apiResult5ep = await RemovefromCartlistCall.call(
-                                                                  token: currentAuthenticationToken,
-                                                                  hosturl: FFAppConstants.hosturl,
-                                                                  cartId: getJsonField(
-                                                                    cartListItem,
-                                                                    r'''$.cart_id''',
-                                                                  ),
-                                                                );
-                                                                _shouldSetState = true;
-                                                                if ((_model.apiResult5ep?.succeeded ?? true)) {
-                                                                  FFAppState().statusFailed = getJsonField(
-                                                                    cartListItem,
-                                                                    r'''$.status''',
-                                                                  ).toString();
-                                                                  setState(() {});
-                                                                  ScaffoldMessenger.of(context).clearSnackBars();
-                                                                  ScaffoldMessenger.of(context).showSnackBar(
-                                                                    SnackBar(
-                                                                      content: Text(
-                                                                        getJsonField(
-                                                                          (_model.apiResult5ep?.jsonBody ?? ''),
-                                                                          r'''$.msg''',
-                                                                        ).toString(),
-                                                                        style: TextStyle(
-                                                                          color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          fontSize: 16,
-                                                                        ),
-                                                                      ),
-                                                                      duration: Duration(milliseconds: 4000),
-                                                                      backgroundColor: FFAppState().statusFailed == 'success'
-                                                                          ? Color(0xFF4BB543)
-                                                                          : Color(0xFFFC100D),
-                                                                    ),
-                                                                  );
-                                                                  if (FFAppState().statusFailed == 'success') {
-                                                                    context.pushNamed(
-                                                                      'Cart',
-                                                                      extra: <String, dynamic>{
-                                                                        kTransitionInfoKey: TransitionInfo(
-                                                                          hasTransition: true,
-                                                                          transitionType: PageTransitionType.fade,
-                                                                          duration: Duration(milliseconds: 0),
-                                                                        ),
-                                                                      },
-                                                                    );
-                                                                  } else {
-                                                                    if (_shouldSetState) setState(() {});
-                                                                    return;
-                                                                  }
-                                                                } else {
-                                                                  if (_shouldSetState) setState(() {});
-                                                                  return;
-                                                                }
-
-                                                                if (_shouldSetState) setState(() {});
-                                                              },
-                                                              child: const Icon(
-                                                                Icons.delete_outline_rounded,
-                                                                color: Color(0xFFFB0000),
-                                                                size: 26,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      if (getJsonField(cartListItem, r'''$.design_type''',).toString() != "")
-                                                        RichText(
-                                                          textScaler: MediaQuery.of(context).textScaler,
-                                                          text: TextSpan(
-                                                            children: [
-                                                              TextSpan(
-                                                                text: 'Design Type: ',
-                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                  fontFamily: 'Montserrat',
-                                                                  color: FlutterFlowTheme.of(context).primaryText,
-                                                                  letterSpacing: 0,
-                                                                  fontWeight: FontWeight.w500,
-                                                                ),
-                                                              ),
-                                                              TextSpan(
-                                                                text: getJsonField(cartListItem, r'''$.design_type''',).toString(),
-                                                                style: const TextStyle(
-                                                                  color: Color(0xFF696969),
-                                                                  fontWeight: FontWeight.w500,
-                                                                  fontSize: 14,
-                                                                ),
-                                                              )
-                                                            ],
-                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                              fontFamily: 'Montserrat',
-                                                              letterSpacing: 0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      if (getJsonField(cartListItem, r'''$.variant_name''',).toString() != "null" ||
-                                                          getJsonField(cartListItem, r'''$.variant_status''',).toString() == false)
-                                                        Container(
-                                                          width: 250,
-                                                          child: RichText(
-                                                            textScaler: MediaQuery.of(context).textScaler,
-                                                            text: TextSpan(
-                                                              children: [
-                                                                TextSpan(
-                                                                  text: 'Variant: ',
-                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                    fontFamily: 'Montserrat',
-                                                                    color: FlutterFlowTheme.of(context).primaryText,
-                                                                    letterSpacing: 0,
-                                                                    fontWeight: FontWeight.w500,
-                                                                  ),
-                                                                ),
-                                                                TextSpan(
-                                                                  text: getJsonField(cartListItem, r'''$.variant_name''',).toString(),
-                                                                  style: const TextStyle(
-                                                                    color: Color(0xFF696969),
-                                                                    fontWeight: FontWeight.w500,
-                                                                    fontSize: 14,
-                                                                  ),
-                                                                )
-                                                              ],
-                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                fontFamily: 'Montserrat',
-                                                                letterSpacing: 0,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      if (getJsonField(cartListItem, r'''$.design_name''') != null &&
-                                                          getJsonField(cartListItem, r'''$.design_name''',) != '')
-                                                        RichText(
-                                                          textScaler: MediaQuery.of(context).textScaler,
-                                                          text: TextSpan(
-                                                            children: [
-                                                              TextSpan(
-                                                                text: 'Design Name: ',
-                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                  fontFamily: 'Montserrat',
-                                                                  color: FlutterFlowTheme.of(context).primaryText,
-                                                                  letterSpacing: 0,
-                                                                  fontWeight: FontWeight.w500,
-                                                                ),
-                                                              ),
-                                                              TextSpan(
-                                                                text: getJsonField(cartListItem, r'''$.design_name''',).toString(),
-                                                                style: const TextStyle(
-                                                                  color: Color(0xFF696969),
-                                                                  fontWeight: FontWeight.w500,
-                                                                  fontSize: 14,
-                                                                ),
-                                                              )
-                                                            ],
-                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                              fontFamily: 'Montserrat',
-                                                              letterSpacing: 0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      Padding(
-                                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                                                        child: Column(
-                                                          mainAxisSize: MainAxisSize.max,
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          children: [
-                                                            Row(
-                                                              mainAxisSize: MainAxisSize.max,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                                                                  child: Text(
-                                                                    'Quantity',
-                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                      fontFamily: 'Montserrat',
-                                                                      color: FlutterFlowTheme.of(context).primaryText,
-                                                                      fontWeight: FontWeight.w500,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                FFButtonWidget(
-                                                                  onPressed: () async {
-                                                                    setState(() {
-                                                                      final currentQuantity = getJsonField(
-                                                                        cartListItem,
-                                                                        r'''$.quantity''',
-                                                                      );
-                                                                      if (currentQuantity > 1) {
-                                                                        updateCartQuantity(cartListItem, currentQuantity - 1);
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  text: '-',
-                                                                  options: FFButtonOptions(
-                                                                    width: 40,
-                                                                    height: 40,
-                                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                                                      fontFamily: 'Montserrat',
-                                                                      color: FlutterFlowTheme.of(context).primaryText,
-                                                                      fontSize: 25,
-                                                                      letterSpacing: 0,
-                                                                      fontWeight: FontWeight.w500,
-                                                                    ),
-                                                                    borderSide: BorderSide(
-                                                                      color: Color(0xFF8A8A8A),
-                                                                      width: 1,
-                                                                    ),
-                                                                    borderRadius: BorderRadius.circular(5),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
-                                                                  child: Container(
-                                                                    width: 40,
-                                                                    height: 40,
-                                                                    decoration: BoxDecoration(
-                                                                      border: Border.all(
-                                                                        color: Color(0xFF8A8A8A),
-                                                                      ),
-                                                                      borderRadius: BorderRadius.circular(5),
-                                                                    ),
-                                                                    alignment: AlignmentDirectional(0, 0),
-                                                                    child: Text(
-                                                                      getJsonField(cartListItem, r'''$.quantity''').toString(),
-                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                        fontFamily: 'Montserrat',
-                                                                        color: FlutterFlowTheme.of(context).primaryText,
-                                                                        fontSize: 20,
-                                                                        fontWeight: FontWeight.w500,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                FFButtonWidget(
-                                                                  onPressed: () async {
-                                                                    setState(() {
-                                                                      final currentQuantity = getJsonField(
-                                                                        cartListItem,
-                                                                        r'''$.quantity''',
-                                                                      );
-                                                                      updateCartQuantity(cartListItem, currentQuantity + 1);
-                                                                    });
-                                                                  },
-                                                                  text: '+',
-                                                                  options: FFButtonOptions(
-                                                                    width: 40,
-                                                                    height: 40,
-                                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                                                      fontFamily: 'Montserrat',
-                                                                      color: FlutterFlowTheme.of(context).primaryText,
-                                                                      fontSize: 25,
-                                                                      letterSpacing: 0,
-                                                                      fontWeight: FontWeight.w500,
-                                                                    ),
-                                                                    borderSide: BorderSide(
-                                                                      color: Color(0xFF8A8A8A),
-                                                                      width: 1,
-                                                                    ),
-                                                                    borderRadius: BorderRadius.circular(5),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 15, 0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
-                                                child: Text(
-                                                  formatNumber(
-                                                    getJsonField(
-                                                      cartListItem,
-                                                      r'''$.price''',
-                                                    ),
-                                                    formatType: FormatType.decimal,
-                                                    decimalType: DecimalType.automatic,
-                                                    currency: '',
-                                                  ),
-                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                    fontFamily: 'Montserrat',
-                                                    color: FlutterFlowTheme.of(context).primaryText,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  StatefulBuilder(
-                    builder: (context, setState) {
-                      return Align(
-                        alignment: const AlignmentDirectional(0, 1),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 1,
-                          height: 145,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).secondaryBackground,
-                            border: Border.all(
-                              color: const Color(0xFFE7E7E8),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(15, 10, 0, 0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                        child: Text(
-                                          'Total',
-                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                            fontFamily: 'Montserrat',
-                                            color: FlutterFlowTheme.of(context).primaryText,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                                        child: Text(
-                                          formatNumber(
-                                            FFAppState().updatedCartTotal,
-                                            formatType: FormatType.decimal,
-                                            decimalType: DecimalType.automatic,
-                                            currency: '',
-                                          ),
-                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                            fontFamily: 'Montserrat',
-                                            color: FlutterFlowTheme.of(context).primaryText,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Container(
-                                        width: MediaQuery.of(context).size.width * 0.4999,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                              color: Color(0xFFE7E7E8),
-                                            ),
-                                          ),
-                                        ),
-                                        child: FFButtonWidget(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          text: 'Continue Shopping',
-                                          options: FFButtonOptions(
-                                            width: double.infinity,
-                                            height: 60,
-                                            color: FlutterFlowTheme.of(context).secondaryBackground,
-                                            textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                              fontFamily: 'Montserrat',
-                                              color: FlutterFlowTheme.of(context).primary,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            borderSide: const BorderSide(
-                                              color: Color(0xFFE7E7E8),
-                                              width: 1,
-                                            ),
-                                            borderRadius: BorderRadius.circular(0),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: MediaQuery.of(context).size.width * 0.4999,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                              color: Color(0xFFE7E7E8),
-                                            ),
-                                          ),
-                                        ),
-                                        child: FFButtonWidget(
-                                          onPressed: () async {
-                                            await CartCall.call(
-                                              hosturl: FFAppConstants.hosturl,
-                                              token: currentAuthenticationToken,
-                                            );
-                                          },
-                                          text: 'Proceed to Checkout',
-                                          options: FFButtonOptions(
-                                            width: double.infinity,
-                                            height: 60,
-                                            color: FlutterFlowTheme.of(context).primary,
-                                            textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                              fontFamily: 'Montserrat',
-                                              color: FlutterFlowTheme.of(context).primaryBackground,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            borderSide: const BorderSide(
-                                              color: Colors.transparent,
-                                              width: 1,
-                                            ),
-                                            borderRadius: BorderRadius.circular(0),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              );*/
           },
         ),
         bottomNavigationBar: const CustomNavBarWidget(),
@@ -1622,17 +1098,4 @@ class _CartWidgetState extends State<CartWidget> {
       _fetchCartData();
     }
   }
-  /*Future<void> updateCartQuantity(dynamic cartListItem, int newQuantity) async {
-    final cartId = getJsonField(cartListItem, r'''$.cart_id''').toString();
-
-    await UpdateCartCall.call(
-      token: currentAuthenticationToken,
-      hosturl: FFAppConstants.hosturl,
-      cartId: cartId,
-      quantity: newQuantity,
-    );
-
-    // Refresh cart data and update total
-    _fetchCartData();
-  }*/
 }

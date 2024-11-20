@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/svg.dart';
 import '../auth/custom_auth/auth_util.dart';
-import '../components/delete_wishlist_widget.dart';
+import '../components/delete_dialog.dart';
 import '../components/shimmer_widget.dart';
 import '../flutter_flow/custom_functions.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/components/custom_nav_bar_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -405,7 +404,22 @@ class _WishlistWidgetState extends State<WishlistWidget> {
                                                       : FocusScope.of(context).unfocus(),
                                                   child: Padding(
                                                     padding: MediaQuery.viewInsetsOf(context),
-                                                    child: DeleteWishlistWidget(),
+                                                    //child: const DeleteWishlistWidget(),
+                                                    child: DeleteItemDialog(
+                                                      deletionId: FFAppState().wishlistItemId.toString(),
+                                                      title: 'Are you sure you want to remove the product from the wishlist?',
+                                                      deleteButtonText: 'Delete',
+                                                      deleteApiCall: (id) async {
+                                                        return await RemovefromWishlistCall.call(
+                                                          hosturl: FFAppConstants.hosturl,
+                                                          token: currentAuthenticationToken,
+                                                          productId: FFAppState().wishlistItemId,
+                                                          productType: FFAppState().wishlistProductType,
+                                                        );
+                                                      },
+                                                      successMessageField: r'''$.msg''',
+                                                      errorMessageField: r'''$.status''',
+                                                    ),
                                                   ),
                                                 );
                                               },
