@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_controller.dart' as slider;
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,6 +12,7 @@ import '../../components/error404_screen_widget.dart';
 import '../../components/logout_confirmation_widget.dart';
 import '../../custom_code/widgets/custom_dropdown_currency_flag.dart';
 import '../../flutter_flow/custom_functions.dart';
+import '../../flutter_flow/flutter_flow_widgets.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/components/custom_nav_bar_widget.dart';
 import '/components/shimmer_widget.dart';
@@ -29,6 +28,7 @@ export 'homepage_model.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class HomepageWidget extends StatefulWidget {
   // const HomepageWidget({super.key});
@@ -48,6 +48,12 @@ class _HomepageWidgetState extends State<HomepageWidget> {
   ApiCallResponse? cachedCurrencyResponse;
   List<Map<String, dynamic>>? currencyData;
   double? currency_rate;
+  bool _isLoading = true; // Flag to show loading state
+  bool _hasError = false; // Flag to indicate if there was an error
+  String _errorMessage = '';
+  bool isLoading = true; // State to show loading indicator
+  bool hasError = false;
+  String? errorMessage;
 
   @override
   void initState() {
@@ -63,6 +69,8 @@ class _HomepageWidgetState extends State<HomepageWidget> {
     _fetchCurrencyData();
     _getCurrentLocation();
     _determinePosition();
+    //_checkInternetConnectionAndFetchData();
+    makeApiCall();
   }
 
   Future<Position> _determinePosition() async {
@@ -185,21 +193,6 @@ class _HomepageWidgetState extends State<HomepageWidget> {
     }
   }
 
-  /*Future<void> _setCurrencyForCountry(String countryCode) async {
-    // Map country codes to currency types
-    Map<String, String> countryToCurrency = {
-      'IN': 'INR',
-      'US': 'USD',
-    };
-
-    // Find the currency for the current country
-    String currency = countryToCurrency[countryCode] ?? 'INR';  // Default to INR
-
-    setState(() {
-      FFAppState().currencyName = currency;
-    });
-  }*/
-
   Future<void> _fetchCurrencyData() async {
     if (cachedCurrencyResponse == null) {
       cachedCurrencyResponse = await CurrencyCall.call(
@@ -220,6 +213,148 @@ class _HomepageWidgetState extends State<HomepageWidget> {
     }
   }
 
+  // Check for internet connection and fetch data
+  Future<void> _checkInternetConnectionAndFetchData() async {
+    // Check for internet connection
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+        _errorMessage = 'No internet connection. Please check your connection.';
+      });
+      return;
+    }
+
+    try {
+      // Perform API calls
+      final responses = await Future.wait([
+        CurrencyCall.call(sanityurl: FFAppConstants.sanityurl),
+        CustomerDetailsCall.call(
+            token: currentAuthenticationToken, hosturl: FFAppConstants.hosturl),
+        Bannercall.call(sanityurl: FFAppConstants.sanityurl),
+        SlugSearchCall.call(
+            hosturl: FFAppConstants.hosturl, slugValue: _model.slugvalue),
+        ExploreCategoryListCall.call(sanityurl: FFAppConstants.sanityurl),
+        ExploreProductsCall.call(
+            sanityurl: FFAppConstants.sanityurl,
+            id: valueOrDefault<String>(_model.iD, '8')),
+        HomeBlogCall.call(sanityurl: FFAppConstants.sanityurl),
+        NotificationsListCall.call(
+            token: currentAuthenticationToken, sanityurl: FFAppConstants.sanityurl),
+        CartCall.call(
+            hosturl: FFAppConstants.hosturl, token: currentAuthenticationToken),
+      ]);
+
+      // Validate responses
+      for (var response in responses) {
+        if (response == null) {
+          throw Exception('One or more API responses are null.');
+        }
+      }
+
+      // If all responses are valid, proceed
+      setState(() {
+        _isLoading = false;
+        _hasError = false;
+      });
+    } catch (e) {
+      // Handle any error that occurs during API calls
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+        _errorMessage = 'Error fetching data: $e';
+      });
+    }
+  }
+
+  // Function to check internet connectivity
+  Future<bool> isInternetAvailable() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    return connectivityResult != ConnectivityResult.none;
+  }
+
+  // Wrapper function for API calls
+  Future<void> makeApiCall() async {
+    setState(() {
+      errorMessage = null; // Reset error message before making the API call
+    });
+
+    try {
+      // Check internet connectivity first
+      if (!await isInternetAvailable()) {
+        setState(() {
+          errorMessage = "No internet connection. Please check your connection.";
+        });
+        return;
+      }
+
+      // API calls - you can call them one by one
+      var currencyResult = await CurrencyCall.call(sanityurl: FFAppConstants.sanityurl);
+      if (currencyResult.succeeded == false) {
+        throw Exception("currencyResult ${currencyResult.exceptionMessage}");
+      }
+
+      var customerDetailsResult = await CustomerDetailsCall.call(
+        token: currentAuthenticationToken,
+        hosturl: FFAppConstants.hosturl,
+      );
+      if (customerDetailsResult.succeeded == false) {
+        throw Exception("customerDetailsResult ${customerDetailsResult.exceptionMessage}");
+      }
+
+      var bannerResult = await Bannercall.call(sanityurl: FFAppConstants.sanityurl);
+      if (bannerResult.succeeded == false) {
+        throw Exception("bannerResult ${bannerResult.exceptionMessage}");
+      }
+      print("Banner API succeeded");
+
+      var exploreCategoryResult = await ExploreCategoryListCall.call(sanityurl: FFAppConstants.sanityurl);
+      if (exploreCategoryResult.succeeded == false) {
+        throw Exception("exploreCategoryResult ${exploreCategoryResult.exceptionMessage}");
+      }
+
+      var exploreProductsResult = await ExploreProductsCall.call(
+        sanityurl: FFAppConstants.sanityurl,
+        id: valueOrDefault<String>(_model.iD, '8'),
+      );
+      if (exploreProductsResult.succeeded == false) {
+        throw Exception("exploreProductsResult ${exploreProductsResult.exceptionMessage}");
+      }
+
+      var homeBlogResult = await HomeBlogCall.call(sanityurl: FFAppConstants.sanityurl);
+      if (homeBlogResult.succeeded == false) {
+        throw Exception("homeBlogResult ${homeBlogResult.exceptionMessage}");
+      }
+
+      var notificationsListResult = await NotificationsListCall.call(
+        token: currentAuthenticationToken,
+        sanityurl: FFAppConstants.sanityurl,
+      );
+      if (notificationsListResult.succeeded == false) {
+        throw Exception("notificationsListResult ${notificationsListResult.exceptionMessage}");
+      }
+
+      var cartResult = await CartCall.call(
+        hosturl: FFAppConstants.hosturl,
+        token: currentAuthenticationToken,
+      );
+      if (cartResult.succeeded == false) {
+        throw Exception("cartResult ${cartResult.exceptionMessage}");
+      }
+
+      // If all API calls succeed, you can proceed with your normal app flow
+      print("All API calls succeeded!");
+
+    } catch (e) {
+      // Handle exception - Show the common error message
+      setState(() {
+        //errorMessage = "Error: ${e.toString()}";
+        errorMessage = "An unexpected error occurred.";
+      });
+    }
+  }
+
   @override
   void dispose() {
     _model.dispose();
@@ -229,6 +364,65 @@ class _HomepageWidgetState extends State<HomepageWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    /*if (_isLoading) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (_hasError) {
+      return Scaffold(
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/empty_cart_image.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: 50,
+                ),
+                Text(
+                  'Error',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 50,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  _errorMessage.isNotEmpty
+                      ? _errorMessage
+                      : 'An unexpected error occurred.',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 22,
+                  ),
+                ),
+                Text(
+                  'Please try again later or contact support.',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }*/
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -1619,7 +1813,48 @@ class _HomepageWidgetState extends State<HomepageWidget> {
             ),
           ),
         ),
-        body: Stack(
+        body: errorMessage != null
+            ? Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/empty_cart_image.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '404',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 50,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      errorMessage!,
+                      style: const TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 22,
+                      ),
+                    ),
+                    const Text(
+                      'Please try again later or contact support.',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ) : Stack(
           children: [
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 90.0, 0.0, 0.0),
