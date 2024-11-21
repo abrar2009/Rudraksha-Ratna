@@ -22,7 +22,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'puja_product_details_model.dart';
 export 'puja_product_details_model.dart';
@@ -34,7 +34,7 @@ class PujaProductDetailsWidget extends StatefulWidget {
     String? productSlugValue,
     String? producttype,
   })  : this.productSlugValue =
-      productSlugValue ?? 'buy/maha-shivratri-mahapuja',
+            productSlugValue ?? 'buy/maha-shivratri-mahapuja',
         this.producttype =
             producttype ?? 'mobileapp/puja-product-detail?slug_value';
 
@@ -47,18 +47,18 @@ class PujaProductDetailsWidget extends StatefulWidget {
 }
 
 Widget wrapInMaterialTimePickerTheme(
-    BuildContext context,
-    Widget child, {
-      Color? headerBackgroundColor,
-      Color? headerForegroundColor,
-      TextStyle? headerTextStyle,
-      Color? pickerBackgroundColor,
-      Color? pickerForegroundColor,
-      Color? selectedDateTimeBackgroundColor,
-      Color? selectedDateTimeForegroundColor,
-      Color? actionButtonForegroundColor,
-      double iconSize = 24.0,
-    }) {
+  BuildContext context,
+  Widget child, {
+  Color? headerBackgroundColor,
+  Color? headerForegroundColor,
+  TextStyle? headerTextStyle,
+  Color? pickerBackgroundColor,
+  Color? pickerForegroundColor,
+  Color? selectedDateTimeBackgroundColor,
+  Color? selectedDateTimeForegroundColor,
+  Color? actionButtonForegroundColor,
+  double iconSize = 24.0,
+}) {
   return Theme(
     data: Theme.of(context).copyWith(
       timePickerTheme: TimePickerThemeData(
@@ -66,7 +66,7 @@ Widget wrapInMaterialTimePickerTheme(
         hourMinuteTextColor: pickerForegroundColor,
         dayPeriodTextColor: pickerForegroundColor,
         dayPeriodColor: MaterialStateColor.resolveWith(
-              (states) => states.contains(MaterialState.selected)
+          (states) => states.contains(MaterialState.selected)
               ? selectedDateTimeBackgroundColor ?? Colors.blue
               : pickerBackgroundColor ?? Colors.white,
         ),
@@ -182,11 +182,13 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
   void _validateForm() {
     _isFormValid.value = _formKey.currentState?.validate() ?? false;
   }
+
   String formatDate(String dateTimeString) {
     final DateTime dateTime = DateTime.parse(dateTimeString);
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     return formatter.format(dateTime);
   }
+
   @override
   void dispose() {
     _model.dispose();
@@ -212,9 +214,8 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         body: SafeArea(
           top: true,
-          child: Stack(
-            children: [
-              Column(
+          child: Stack(children: [
+            Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
@@ -258,7 +259,8 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                             }
                             final badgeCartResponse = snapshot.data!;
                             // Get the cart count
-                            final cartCount = functions.cartBadgeCount(badgeCartResponse.jsonBody);
+                            final cartCount = functions
+                                .cartBadgeCount(badgeCartResponse.jsonBody);
 
                             // Check if the cart count is null or 0
                             if (cartCount == null || cartCount == '0') {
@@ -273,7 +275,8 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: TransitionInfo(
                                         hasTransition: true,
-                                        transitionType: PageTransitionType.rightToLeft,
+                                        transitionType:
+                                            PageTransitionType.rightToLeft,
                                         duration: Duration(milliseconds: 400),
                                       ),
                                     },
@@ -299,19 +302,23 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                             return badges.Badge(
                               badgeContent: Text(
                                 cartCount,
-                                style: FlutterFlowTheme.of(context).titleSmall.override(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white,
-                                  letterSpacing: 0,
-                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.white,
+                                      letterSpacing: 0,
+                                    ),
                               ),
                               showBadge: true,
                               position: badges.BadgePosition.topEnd(),
                               badgeAnimation: badges.BadgeAnimation.scale(),
                               badgeStyle: badges.BadgeStyle(
-                                badgeColor: FlutterFlowTheme.of(context).primary,
+                                badgeColor:
+                                    FlutterFlowTheme.of(context).primary,
                                 elevation: 4,
-                                padding: EdgeInsetsDirectional.fromSTEB(10, 2, 10, 2),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10, 2, 10, 2),
                               ),
                               child: InkWell(
                                 splashColor: Colors.transparent,
@@ -324,7 +331,8 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: TransitionInfo(
                                         hasTransition: true,
-                                        transitionType: PageTransitionType.rightToLeft,
+                                        transitionType:
+                                            PageTransitionType.rightToLeft,
                                         duration: Duration(milliseconds: 400),
                                       ),
                                     },
@@ -373,19 +381,19 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                         ),
                       );
                     }
-                    final containerOtherProductsDetailsResponse = snapshot.data!;
+                    final containerOtherProductsDetailsResponse =
+                        snapshot.data!;
 
                     final description = valueOrDefault<String>(
-                    OtherProductsDetailsCall
-                        .longdescription(
-                    containerOtherProductsDetailsResponse
-                        .jsonBody,
-                    ),
-                    'Description',
+                      OtherProductsDetailsCall.longdescription(
+                        containerOtherProductsDetailsResponse.jsonBody,
+                      ),
+                      'Description',
                     );
 
                     //final decodedDescription = utf8.decode(description.codeUnits);
-                    final decodedDescription = utf8.decode(description.codeUnits, allowMalformed: true);
+                    final decodedDescription = utf8
+                        .decode(description.codeUnits, allowMalformed: true);
 
                     return Container(
                       height: MediaQuery.sizeOf(context).height * 0.85,
@@ -405,7 +413,8 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 0, 0),
                                   child: Container(
                                     decoration: BoxDecoration(),
                                     child: Stack(
@@ -419,16 +428,24 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                           onTap: () async {
                                             await showModalBottomSheet(
                                               isScrollControlled: true,
-                                              backgroundColor: Colors.transparent,
+                                              backgroundColor:
+                                                  Colors.transparent,
                                               enableDrag: false,
                                               context: context,
                                               builder: (context) {
                                                 return GestureDetector(
-                                                  onTap: () => _model.unfocusNode.canRequestFocus
-                                                      ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                      : FocusScope.of(context).unfocus(),
+                                                  onTap: () => _model
+                                                          .unfocusNode
+                                                          .canRequestFocus
+                                                      ? FocusScope.of(context)
+                                                          .requestFocus(_model
+                                                              .unfocusNode)
+                                                      : FocusScope.of(context)
+                                                          .unfocus(),
                                                   child: Padding(
-                                                    padding: MediaQuery.viewInsetsOf(context),
+                                                    padding:
+                                                        MediaQuery.viewInsetsOf(
+                                                            context),
                                                     child: /*ImageZoomScreen(
                                                       imageUrl: OtherProductsDetailsCall.pujavariantstatus(
                                                         containerOtherProductsDetailsResponse.jsonBody,
@@ -440,26 +457,38 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                         containerOtherProductsDetailsResponse.jsonBody,
                                                       )!.first,
                                                     ),*/
-                                                    imageZoomScreen(
-                                                      imageUrls: OtherProductsDetailsCall.pujavariantstatus(
-                                                        containerOtherProductsDetailsResponse.jsonBody,
-                                                      ) == true
-                                                          ? [OtherProductsDetailsCall.pujavariantpath(
-                                                        containerOtherProductsDetailsResponse.jsonBody,
-                                                      )![_model.selectedCertificationindex!]]
-                                                          : OtherProductsDetailsCall.pujaimageurlpath(
-                                                        containerOtherProductsDetailsResponse.jsonBody,
-                                                      ) ?? [],
+                                                        imageZoomScreen(
+                                                      imageUrls: OtherProductsDetailsCall
+                                                                  .pujavariantstatus(
+                                                                containerOtherProductsDetailsResponse
+                                                                    .jsonBody,
+                                                              ) ==
+                                                              true
+                                                          ? [
+                                                              OtherProductsDetailsCall
+                                                                  .pujavariantpath(
+                                                                containerOtherProductsDetailsResponse
+                                                                    .jsonBody,
+                                                              )![_model
+                                                                  .selectedCertificationindex!]
+                                                            ]
+                                                          : OtherProductsDetailsCall
+                                                                  .pujaimageurlpath(
+                                                                containerOtherProductsDetailsResponse
+                                                                    .jsonBody,
+                                                              ) ??
+                                                              [],
                                                       initialIndex: 0,
                                                     ),
                                                   ),
                                                 );
                                               },
-                                            ).then((value) => safeSetState(() {}));
+                                            ).then(
+                                                (value) => safeSetState(() {}));
                                           },
                                           child: ClipRRect(
                                             borderRadius:
-                                            BorderRadius.circular(0),
+                                                BorderRadius.circular(0),
                                             child: Stack(
                                               children: [
                                                 /*CachedNetworkImage(
@@ -479,24 +508,41 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                   fit: BoxFit.contain,
                                                 ),*/
                                                 ProductImagesWidget(
-                                                  imageUrls: OtherProductsDetailsCall.pujavariantstatus(
-                                                    containerOtherProductsDetailsResponse.jsonBody,
-                                                  ) == true
-                                                      ? [OtherProductsDetailsCall.pujavariantpath(
-                                                    containerOtherProductsDetailsResponse.jsonBody,
-                                                  )![_model.selectedCertificationindex!]]
-                                                      : OtherProductsDetailsCall.pujaimageurlpath(
-                                                    containerOtherProductsDetailsResponse.jsonBody,
-                                                  ) ?? [],
+                                                  imageUrls: OtherProductsDetailsCall
+                                                              .pujavariantstatus(
+                                                            containerOtherProductsDetailsResponse
+                                                                .jsonBody,
+                                                          ) ==
+                                                          true
+                                                      ? [
+                                                          OtherProductsDetailsCall
+                                                              .pujavariantpath(
+                                                            containerOtherProductsDetailsResponse
+                                                                .jsonBody,
+                                                          )![_model
+                                                              .selectedCertificationindex!]
+                                                        ]
+                                                      : OtherProductsDetailsCall
+                                                              .pujaimageurlpath(
+                                                            containerOtherProductsDetailsResponse
+                                                                .jsonBody,
+                                                          ) ??
+                                                          [],
                                                 ),
                                                 Align(
                                                   alignment:
-                                                  AlignmentDirectional(1,1),
+                                                      AlignmentDirectional(
+                                                          1, 1),
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(top: 15,right: 5),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 15, right: 5),
                                                     child: SvgPicture.asset(
                                                       'assets/images/zoom_image.svg',
-                                                      color: FlutterFlowTheme.of(context).primary,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
                                                       width: 25,
                                                       height: 25,
                                                     ),
@@ -508,276 +554,395 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                         ),
                                         Align(
                                           alignment:
-                                          AlignmentDirectional(0.99, 1),
+                                              AlignmentDirectional(0.99, 1),
                                           child: Padding(
-                                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 5, 22),
-                                            child: currentAuthenticationToken == null
-                                                ? InkWell(
-                                                  splashColor: Colors.transparent,
-                                                  focusColor: Colors.transparent,
-                                                  hoverColor: Colors.transparent,
-                                                  highlightColor: Colors.transparent,
-                                                  onTap: () async {
-                                                    context.pushNamed(
-                                                      'LoginPage',
-                                                      extra: <String, dynamic>{
-                                                        kTransitionInfoKey: TransitionInfo(
-                                                          hasTransition: true,
-                                                          transitionType: PageTransitionType.fade,
-                                                          duration: Duration(milliseconds:
-                                                          0),
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0, 0, 5, 22),
+                                            child:
+                                                currentAuthenticationToken ==
+                                                        null
+                                                    ? InkWell(
+                                                        splashColor:
+                                                            Colors.transparent,
+                                                        focusColor:
+                                                            Colors.transparent,
+                                                        hoverColor:
+                                                            Colors.transparent,
+                                                        highlightColor:
+                                                            Colors.transparent,
+                                                        onTap: () async {
+                                                          context.pushNamed(
+                                                            'LoginPage',
+                                                            extra: <String,
+                                                                dynamic>{
+                                                              kTransitionInfoKey:
+                                                                  TransitionInfo(
+                                                                hasTransition:
+                                                                    true,
+                                                                transitionType:
+                                                                    PageTransitionType
+                                                                        .fade,
+                                                                duration: Duration(
+                                                                    milliseconds:
+                                                                        0),
+                                                              ),
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          width: 28,
+                                                          height: 28,
+                                                          clipBehavior:
+                                                              Clip.antiAlias,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                          ),
+                                                          child: Image.asset(
+                                                            'assets/images/HeartEmpty.png',
+                                                            fit: BoxFit.cover,
+                                                          ),
                                                         ),
-                                                      },
-                                                    );
-                                              },
-                                              child: Container(
-                                                width: 28,
-                                                height: 28,
-                                                clipBehavior:
-                                                Clip.antiAlias,
-                                                decoration:
-                                                BoxDecoration(
-                                                  shape:
-                                                  BoxShape.circle,
-                                                ),
-                                                child: Image.asset(
-                                                  'assets/images/HeartEmpty.png',
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ) : FutureBuilder<ApiCallResponse>(
-                                              future: WishListCall.call(
-                                                hosturl: FFAppConstants.sanityurl,
-                                                token: currentAuthenticationToken,
-                                              ),
-                                              builder: (context, snapshot) {
-                                                // Customize what your widget looks like when it's loading.
-                                                if (!snapshot.hasData) {
-                                                  return Container(
-                                                    width: 5,
-                                                    height: 5,
-                                                    child: ShimmerWidget(),
-                                                  );
-                                                }
-                                                final containerWishlistResponse = snapshot.data!;
+                                                      )
+                                                    : FutureBuilder<
+                                                        ApiCallResponse>(
+                                                        future:
+                                                            WishListCall.call(
+                                                          hosturl:
+                                                              FFAppConstants
+                                                                  .sanityurl,
+                                                          token:
+                                                              currentAuthenticationToken,
+                                                        ),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Customize what your widget looks like when it's loading.
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Container(
+                                                              width: 5,
+                                                              height: 5,
+                                                              child:
+                                                                  ShimmerWidget(),
+                                                            );
+                                                          }
+                                                          final containerWishlistResponse =
+                                                              snapshot.data!;
 
-                                                return Container(
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                    borderRadius: BorderRadius.circular(24),
-                                                  ),
-                                                  child: Builder(
-                                                    builder: (context) {
+                                                          return Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .secondaryBackground,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          24),
+                                                            ),
+                                                            child: Builder(
+                                                              builder:
+                                                                  (context) {
+                                                                final wishlistIds =
+                                                                    WishListCall.id(
+                                                                            containerWishlistResponse.jsonBody) ??
+                                                                        [];
+                                                                final productId =
+                                                                    OtherProductsDetailsCall.rudrakshaProductid(
+                                                                        containerOtherProductsDetailsResponse
+                                                                            .jsonBody);
 
-                                                          final wishlistIds = WishListCall.id(containerWishlistResponse.jsonBody) ?? [];
-                                                          final productId = OtherProductsDetailsCall.rudrakshaProductid(containerOtherProductsDetailsResponse.jsonBody);
-
-                                                          print(WishListCall.id(containerWishlistResponse.jsonBody));
-                                                      print(OtherProductsDetailsCall.rudrakshaProductid(containerOtherProductsDetailsResponse.jsonBody));
-                                                      if (!wishlistIds.contains(
-                                                        OtherProductsDetailsCall.rudrakshaProductid(
-                                                          containerOtherProductsDetailsResponse.jsonBody,),
-                                                      )) {
-                                                        return Padding(
-                                                          padding: EdgeInsets.all(5),
-                                                          child: InkWell(
-                                                            splashColor: Colors.transparent,
-                                                            focusColor: Colors.transparent,
-                                                            hoverColor: Colors.transparent,
-                                                            highlightColor: Colors.transparent,
-                                                            onTap: () async {
-                                                              if (currentAuthenticationToken != null && currentAuthenticationToken != '') {
-                                                                _model.addtoWishlist = await AddToWishlistCall.call(
-                                                                  hosturl: FFAppConstants.sanityurl,
-                                                                  token: currentAuthenticationToken,
-                                                                  productid: OtherProductsDetailsCall.rudrakshaProductid(
-                                                                    containerOtherProductsDetailsResponse.jsonBody,
+                                                                print(WishListCall.id(
+                                                                    containerWishlistResponse
+                                                                        .jsonBody));
+                                                                print(OtherProductsDetailsCall
+                                                                    .rudrakshaProductid(
+                                                                        containerOtherProductsDetailsResponse
+                                                                            .jsonBody));
+                                                                if (!wishlistIds
+                                                                    .contains(
+                                                                  OtherProductsDetailsCall
+                                                                      .rudrakshaProductid(
+                                                                    containerOtherProductsDetailsResponse
+                                                                        .jsonBody,
                                                                   ),
-                                                                  productType: OtherProductsDetailsCall.rudrakshaMainProductType(
-                                                                    containerOtherProductsDetailsResponse.jsonBody,
-                                                                  ),
-                                                                );
-                                                                if ((_model.addtoWishlist?.succeeded ?? true)) {
-                                                                  ScaffoldMessenger.of(context).showSnackBar(
-                                                                    SnackBar(
-                                                                      content: Text(
-                                                                        "Product added in wishlist",
-                                                                        style: TextStyle(
-                                                                          color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                )) {
+                                                                  return Padding(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(5),
+                                                                    child:
+                                                                        InkWell(
+                                                                      splashColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      focusColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      hoverColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      highlightColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      onTap:
+                                                                          () async {
+                                                                        if (currentAuthenticationToken !=
+                                                                                null &&
+                                                                            currentAuthenticationToken !=
+                                                                                '') {
+                                                                          _model.addtoWishlist =
+                                                                              await AddToWishlistCall.call(
+                                                                            hosturl:
+                                                                                FFAppConstants.sanityurl,
+                                                                            token:
+                                                                                currentAuthenticationToken,
+                                                                            productid:
+                                                                                OtherProductsDetailsCall.rudrakshaProductid(
+                                                                              containerOtherProductsDetailsResponse.jsonBody,
+                                                                            ),
+                                                                            productType:
+                                                                                OtherProductsDetailsCall.rudrakshaMainProductType(
+                                                                              containerOtherProductsDetailsResponse.jsonBody,
+                                                                            ),
+                                                                          );
+                                                                          if ((_model.addtoWishlist?.succeeded ??
+                                                                              true)) {
+                                                                            ScaffoldMessenger.of(context).showSnackBar(
+                                                                              SnackBar(
+                                                                                content: Text(
+                                                                                  "Product added in wishlist",
+                                                                                  style: TextStyle(
+                                                                                    color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                                  ),
+                                                                                ),
+                                                                                duration: Duration(milliseconds: 4000),
+                                                                                backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                              ),
+                                                                            );
+                                                                          } else {
+                                                                            ScaffoldMessenger.of(context).showSnackBar(
+                                                                              SnackBar(
+                                                                                content: Text(
+                                                                                  getJsonField(
+                                                                                    (_model.addtoWishlist?.jsonBody ?? ''),
+                                                                                    r'''$.status''',
+                                                                                  ).toString(),
+                                                                                  style: TextStyle(
+                                                                                    color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                                  ),
+                                                                                ),
+                                                                                duration: Duration(milliseconds: 4000),
+                                                                                backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                              ),
+                                                                            );
+                                                                          }
+                                                                          setState(
+                                                                              () {});
+                                                                          _model.wishlistlikedislike =
+                                                                              !_model.wishlistlikedislike;
+                                                                          setState(
+                                                                              () {});
+                                                                          HapticFeedback
+                                                                              .lightImpact();
+                                                                        } else {
+                                                                          context
+                                                                              .pushNamed(
+                                                                            'LoginPage',
+                                                                            extra: <String,
+                                                                                dynamic>{
+                                                                              kTransitionInfoKey: TransitionInfo(
+                                                                                hasTransition: true,
+                                                                                transitionType: PageTransitionType.fade,
+                                                                                duration: Duration(milliseconds: 0),
+                                                                              ),
+                                                                            },
+                                                                          );
+                                                                        }
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        width:
+                                                                            28,
+                                                                        height:
+                                                                            28,
+                                                                        clipBehavior:
+                                                                            Clip.antiAlias,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          shape:
+                                                                              BoxShape.circle,
+                                                                        ),
+                                                                        child: Image
+                                                                            .asset(
+                                                                          'assets/images/HeartEmpty.png',
+                                                                          fit: BoxFit
+                                                                              .cover,
                                                                         ),
                                                                       ),
-                                                                      duration: Duration(milliseconds: 4000),
-                                                                      backgroundColor: FlutterFlowTheme.of(context).primary,
                                                                     ),
                                                                   );
                                                                 } else {
-                                                                  ScaffoldMessenger.of(context).showSnackBar(
-                                                                    SnackBar(
-                                                                      content: Text(
-                                                                        getJsonField(
-                                                                          (_model.addtoWishlist?.jsonBody ?? ''),
-                                                                          r'''$.status''',
-                                                                        ).toString(),
-                                                                        style: TextStyle(
-                                                                          color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                  return Padding(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(5),
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        var _shouldSetState =
+                                                                            false;
+                                                                        _model.apiResult5ep =
+                                                                            await RemovefromWishlistCall.call(
+                                                                          token:
+                                                                              currentAuthenticationToken,
+                                                                          hosturl:
+                                                                              FFAppConstants.hosturl,
+                                                                          productId:
+                                                                              OtherProductsDetailsCall.rudrakshaProductid(
+                                                                            containerOtherProductsDetailsResponse.jsonBody,
+                                                                          ),
+                                                                          productType:
+                                                                              OtherProductsDetailsCall.rudrakshaMainProductType(
+                                                                            containerOtherProductsDetailsResponse.jsonBody,
+                                                                          ),
+                                                                        );
+
+                                                                        _shouldSetState =
+                                                                            true;
+                                                                        if ((_model.apiResult5ep?.succeeded ??
+                                                                            true)) {
+                                                                          FFAppState().statusFailed =
+                                                                              getJsonField(
+                                                                            (_model.apiResult5ep?.jsonBody ??
+                                                                                ''),
+                                                                            r'''$.status''',
+                                                                          ).toString();
+                                                                          setState(
+                                                                              () {});
+                                                                          ScaffoldMessenger.of(context)
+                                                                              .clearSnackBars();
+                                                                          ScaffoldMessenger.of(context)
+                                                                              .showSnackBar(
+                                                                            SnackBar(
+                                                                              content: Text(
+                                                                                getJsonField(
+                                                                                  (_model.apiResult5ep?.jsonBody ?? ''),
+                                                                                  r'''$.msg''',
+                                                                                ).toString(),
+                                                                                style: TextStyle(
+                                                                                  color: FlutterFlowTheme.of(context).containerFillColor,
+                                                                                ),
+                                                                              ),
+                                                                              duration: Duration(milliseconds: 4000),
+                                                                              backgroundColor: FlutterFlowTheme.of(context).primary,
+                                                                            ),
+                                                                          );
+                                                                          if (FFAppState().statusFailed ==
+                                                                              'success') {
+                                                                          } else {
+                                                                            if (_shouldSetState)
+                                                                              setState(() {});
+                                                                            return;
+                                                                          }
+                                                                        } else {
+                                                                          if (_shouldSetState)
+                                                                            setState(() {});
+                                                                          return;
+                                                                        }
+                                                                        setState(
+                                                                            () {});
+                                                                        _model.wishlistlikedislike =
+                                                                            !_model.wishlistlikedislike;
+                                                                        setState(
+                                                                            () {});
+                                                                        HapticFeedback
+                                                                            .lightImpact();
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        width:
+                                                                            28,
+                                                                        height:
+                                                                            28,
+                                                                        clipBehavior:
+                                                                            Clip.antiAlias,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          shape:
+                                                                              BoxShape.circle,
+                                                                        ),
+                                                                        child: Image
+                                                                            .asset(
+                                                                          'assets/images/HeartFilled.png',
+                                                                          fit: BoxFit
+                                                                              .cover,
                                                                         ),
                                                                       ),
-                                                                      duration: Duration(milliseconds: 4000),
-                                                                      backgroundColor: FlutterFlowTheme.of(context).primary,
                                                                     ),
                                                                   );
                                                                 }
-                                                                setState(() {});
-                                                                _model.wishlistlikedislike =
-                                                                !_model.wishlistlikedislike;
-                                                                setState(() {});
-                                                                HapticFeedback
-                                                                    .lightImpact();
-                                                              } else {
-                                                                context.pushNamed(
-                                                                  'LoginPage',
-                                                                  extra: <String, dynamic>{
-                                                                    kTransitionInfoKey: TransitionInfo(
-                                                                      hasTransition: true,
-                                                                      transitionType: PageTransitionType.fade,
-                                                                      duration: Duration(milliseconds: 0),
-                                                                    ),
-                                                                  },
-                                                                );
-                                                              }
-                                                            },
-                                                            child: Container(
-                                                              width: 28,
-                                                              height: 28,
-                                                              clipBehavior: Clip.antiAlias,
-                                                              decoration: BoxDecoration(
-                                                                shape: BoxShape.circle,
-                                                              ),
-                                                              child: Image.asset(
-                                                                'assets/images/HeartEmpty.png',
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
+                                                              },
                                                             ),
-                                                          ),
-                                                        );
-                                                      } else {
-                                                        return Padding(
-                                                          padding: EdgeInsets.all(5),
-                                                          child: InkWell(
-                                                            onTap: () async {
-                                                              var _shouldSetState = false;
-                                                              _model.apiResult5ep = await RemovefromWishlistCall.call(
-                                                                token: currentAuthenticationToken,
-                                                                hosturl: FFAppConstants.hosturl,
-                                                                productId: OtherProductsDetailsCall.rudrakshaProductid(
-                                                                  containerOtherProductsDetailsResponse.jsonBody,
-                                                                ),
-                                                                productType: OtherProductsDetailsCall.rudrakshaMainProductType(
-                                                                  containerOtherProductsDetailsResponse.jsonBody,
-                                                                ),
-                                                              );
-
-                                                              _shouldSetState = true;
-                                                              if ((_model.apiResult5ep?.succeeded ?? true)) {
-                                                                FFAppState().statusFailed = getJsonField(
-                                                                  (_model.apiResult5ep?.jsonBody ?? ''), r'''$.status''',).toString();
-                                                                setState(() {});
-                                                                ScaffoldMessenger.of(context).clearSnackBars();
-                                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                                  SnackBar(
-                                                                    content: Text(
-                                                                      getJsonField((_model.apiResult5ep?.jsonBody ?? ''),
-                                                                        r'''$.msg''',).toString(),
-                                                                      style: TextStyle(
-                                                                        color: FlutterFlowTheme.of(context).containerFillColor,
-                                                                      ),
-                                                                    ),
-                                                                    duration: Duration(milliseconds: 4000),
-                                                                    backgroundColor: FlutterFlowTheme.of(context).primary,
-                                                                  ),
-                                                                );
-                                                                if (FFAppState().statusFailed == 'success') {
-                                                                } else {
-                                                                  if (_shouldSetState)
-                                                                    setState(() {});
-                                                                  return;
-                                                                }
-                                                              } else {
-                                                                if (_shouldSetState)
-                                                                  setState(() {});
-                                                                return;
-                                                              }
-                                                              setState(() {});
-                                                              _model.wishlistlikedislike =
-                                                              !_model.wishlistlikedislike;
-                                                              setState(() {});
-                                                              HapticFeedback.lightImpact();
-                                                            },
-                                                            child: Container(
-                                                              width: 28,
-                                                              height: 28,
-                                                              clipBehavior: Clip.antiAlias,
-                                                              decoration: BoxDecoration(
-                                                                shape: BoxShape.circle,
-                                                              ),
-                                                              child: Image.asset('assets/images/HeartFilled.png',
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                    },
-                                                  ),
-                                                );
-                                              },
-                                            ),
+                                                          );
+                                                        },
+                                                      ),
                                           ),
                                         )
-
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16, 16, 16, 16),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(valueOrDefault<String>(
+                                    Text(
+                                      valueOrDefault<String>(
                                         getJsonField(
-                                          containerOtherProductsDetailsResponse.jsonBody,
+                                          containerOtherProductsDetailsResponse
+                                              .jsonBody,
                                           r'''$.data.product_name''',
                                         )?.toString(),
                                         'Name',
                                       ),
-                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 15,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Montserrat',
+                                            fontSize: 15,
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                     ),
                                     RichText(
-                                      textScaler: MediaQuery.of(context).textScaler,
+                                      textScaler:
+                                          MediaQuery.of(context).textScaler,
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
                                             text: 'Product Code : ',
-                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 15,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 15,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                           ),
                                           TextSpan(
                                             text: valueOrDefault<String>(
                                               getJsonField(
-                                                containerOtherProductsDetailsResponse.jsonBody,
+                                                containerOtherProductsDetailsResponse
+                                                    .jsonBody,
                                                 r'''$.data.product_code''',
                                               )?.toString(),
                                               'Code',
@@ -789,10 +954,12 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                             ),
                                           )
                                         ],
-                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Montserrat',
-                                          letterSpacing: 0,
-                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Montserrat',
+                                              letterSpacing: 0,
+                                            ),
                                       ),
                                     ),
                                   ].divide(SizedBox(height: 8)),
@@ -804,32 +971,43 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                 color: Color(0xFFE7E7E8),
                               ),
                               if (OtherProductsDetailsCall.pujavariantstatus(
-                                containerOtherProductsDetailsResponse.jsonBody,
-                              ) == true)
+                                    containerOtherProductsDetailsResponse
+                                        .jsonBody,
+                                  ) ==
+                                  true)
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16, 16, 16, 16),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       RichText(
-                                        textScaler: MediaQuery.of(context).textScaler,
+                                        textScaler:
+                                            MediaQuery.of(context).textScaler,
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
                                               text: 'Select Variation : ',
-                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                fontFamily: 'Montserrat',
-                                                fontSize: 14,
-                                                letterSpacing: 0,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Montserrat',
+                                                    fontSize: 14,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                             ),
                                             TextSpan(
                                               text: valueOrDefault<String>(
-                                                OtherProductsDetailsCall.pujavariantname(
-                                                  containerOtherProductsDetailsResponse.jsonBody,
-                                                )?[_model.selectedCertificationindex!],
+                                                OtherProductsDetailsCall
+                                                    .pujavariantname(
+                                                  containerOtherProductsDetailsResponse
+                                                      .jsonBody,
+                                                )?[_model
+                                                    .selectedCertificationindex!],
                                                 '0',
                                               ),
                                               style: TextStyle(
@@ -838,87 +1016,132 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                               ),
                                             )
                                           ],
-                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 15,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Montserrat',
+                                                fontSize: 15,
+                                                letterSpacing: 0,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                         ),
                                       ),
                                       Builder(
                                         builder: (context) {
-                                          final selectVariation = OtherProductsDetailsCall.pujavariantdata(
-                                                containerOtherProductsDetailsResponse.jsonBody,
-                                              )?.toList() ?? [];
+                                          final selectVariation =
+                                              OtherProductsDetailsCall
+                                                      .pujavariantdata(
+                                                    containerOtherProductsDetailsResponse
+                                                        .jsonBody,
+                                                  )?.toList() ??
+                                                  [];
 
                                           return SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: List.generate(
-                                                  selectVariation.length, (selectVariationIndex) {
-                                                    final selectVariationItem = selectVariation[selectVariationIndex];
-                                                    return Align(
-                                                      alignment: AlignmentDirectional(0, 1),
-                                                      child: InkWell(
-                                                        splashColor: Colors.transparent,
-                                                        focusColor: Colors.transparent,
-                                                        hoverColor: Colors.transparent,
-                                                        highlightColor: Colors.transparent,
-                                                        onTap: () async {
-                                                          _model.selectedvariationprice = getJsonField(
-                                                                selectVariationItem,
-                                                                r'''$.price''',);
-                                                          _model.selectvariationindex = selectVariationIndex;
-                                                          setState(() {});
-                                                          if (_model.selecteddesign == true) {
-                                                            _model.selectedCertificationindex = selectVariationIndex;
-                                                            setState(() {});
-                                                          } else {
-                                                            _model.selectedCertificationindex = selectVariationIndex;
-                                                            setState(() {});
-                                                          }
+                                                  selectVariation.length,
+                                                  (selectVariationIndex) {
+                                                final selectVariationItem =
+                                                    selectVariation[
+                                                        selectVariationIndex];
+                                                return Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          0, 1),
+                                                  child: InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      _model.selectedvariationprice =
+                                                          getJsonField(
+                                                        selectVariationItem,
+                                                        r'''$.price''',
+                                                      );
+                                                      _model.selectvariationindex =
+                                                          selectVariationIndex;
+                                                      setState(() {});
+                                                      if (_model
+                                                              .selecteddesign ==
+                                                          true) {
+                                                        _model.selectedCertificationindex =
+                                                            selectVariationIndex;
+                                                        setState(() {});
+                                                      } else {
+                                                        _model.selectedCertificationindex =
+                                                            selectVariationIndex;
+                                                        setState(() {});
+                                                      }
 
-                                                          _model.selectedCertification = getJsonField(
-                                                                selectVariationItem,
-                                                                r'''$.variant_name''',).toString();
-                                                          _model.selectedCertificationindex = selectVariationIndex;
-                                                          setState(() {});
-                                                        },
-                                                        child: Container(
-                                                          width: 224,
-                                                          height: 50,
-                                                          decoration: BoxDecoration(
-                                                            color: _model.selectedCertificationindex == selectVariationIndex
-                                                                ? Color(0x26740074)
-                                                                : FlutterFlowTheme.of(context).secondaryBackground,
-                                                            borderRadius: BorderRadius.circular(5),
-                                                            border: Border.all(
-                                                              color: _model.selectedCertificationindex == selectVariationIndex
-                                                                  ? Color(0xFF740074)
-                                                                  : Color(0xFFE7E7E8),
-                                                            ),
-                                                          ),
-                                                          child: Padding(
-                                                            padding: EdgeInsets.all(5),
-                                                            child: AutoSizeText(
-                                                              getJsonField(selectVariationItem,
-                                                                r'''$.variant_name''',).toString(),
-                                                              maxLines: 2,
-                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                fontFamily: 'Montserrat',
-                                                                fontSize: 13,
-                                                                letterSpacing: 0,
-                                                                fontWeight: FontWeight.w600,
-                                                                lineHeight: 1.5,
-                                                              ),
-                                                            ),
-                                                          ),
+                                                      _model.selectedCertification =
+                                                          getJsonField(
+                                                        selectVariationItem,
+                                                        r'''$.variant_name''',
+                                                      ).toString();
+                                                      _model.selectedCertificationindex =
+                                                          selectVariationIndex;
+                                                      setState(() {});
+                                                    },
+                                                    child: Container(
+                                                      width: 224,
+                                                      height: 50,
+                                                      decoration: BoxDecoration(
+                                                        color: _model
+                                                                    .selectedCertificationindex ==
+                                                                selectVariationIndex
+                                                            ? Color(0x26740074)
+                                                            : FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        border: Border.all(
+                                                          color: _model
+                                                                      .selectedCertificationindex ==
+                                                                  selectVariationIndex
+                                                              ? Color(
+                                                                  0xFF740074)
+                                                              : Color(
+                                                                  0xFFE7E7E8),
                                                         ),
                                                       ),
-                                                    );
-                                                  }).divide(SizedBox(width: 10)),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(5),
+                                                        child: AutoSizeText(
+                                                          getJsonField(
+                                                            selectVariationItem,
+                                                            r'''$.variant_name''',
+                                                          ).toString(),
+                                                          maxLines: 2,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize: 13,
+                                                                letterSpacing:
+                                                                    0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                lineHeight: 1.5,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }).divide(SizedBox(width: 10)),
                                             ),
                                           );
                                         },
@@ -927,102 +1150,141 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                   ),
                                 ),
                               if (OtherProductsDetailsCall.pujavariantstatus(
-                                containerOtherProductsDetailsResponse.jsonBody,
-                              ) == true)
+                                    containerOtherProductsDetailsResponse
+                                        .jsonBody,
+                                  ) ==
+                                  true)
                                 Divider(
                                   height: 5,
                                   thickness: 2,
                                   color: Color(0xFFE7E7E8),
                                 ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(16, 10, 0, 10),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16, 10, 0, 10),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     // Generated code for this Row Widget...
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 10, 0, 10),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           // Generated code for this ConditionalBuilder Widget...
                                           Builder(
                                             builder: (context) {
-                                              if (OtherProductsDetailsCall.pujavariantstatus(
-                                                containerOtherProductsDetailsResponse.jsonBody,
-                                              ) == true) {
+                                              if (OtherProductsDetailsCall
+                                                      .pujavariantstatus(
+                                                    containerOtherProductsDetailsResponse
+                                                        .jsonBody,
+                                                  ) ==
+                                                  true) {
                                                 return Padding(
-                                                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 10, 0),
                                                   child: RichText(
-                                                    textScaler: MediaQuery.of(context).textScaler,
+                                                    textScaler:
+                                                        MediaQuery.of(context)
+                                                            .textScaler,
                                                     text: TextSpan(
                                                       children: [
                                                         TextSpan(
-                                                          text: '${valueOrDefault<String>(
-                                                              FFAppState().currencyName, 'INR'
-                                                          )} ${formatNumber(
-                                                            functions.currencyConversion(
-                                                              FFAppState().currencyRate,
+                                                          text:
+                                                              '${valueOrDefault<String>(FFAppState().currencyName, 'INR')} ${formatNumber(
+                                                            functions
+                                                                .currencyConversion(
+                                                              FFAppState()
+                                                                  .currencyRate,
                                                               (OtherProductsDetailsCall.pujadataproductvariantdatasellingprice(
-                                                                  containerOtherProductsDetailsResponse.jsonBody
-                                                              )?[_model.selectedCertificationindex!])?.toString() ?? '0000',
+                                                                          containerOtherProductsDetailsResponse
+                                                                              .jsonBody)?[_model
+                                                                          .selectedCertificationindex!])
+                                                                      ?.toString() ??
+                                                                  '0000',
                                                             ),
-                                                            formatType: FormatType.decimal,
-                                                            decimalType: DecimalType.periodDecimal,
+                                                            formatType:
+                                                                FormatType
+                                                                    .decimal,
+                                                            decimalType:
+                                                                DecimalType
+                                                                    .periodDecimal,
                                                           )}',
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight:
+                                                                FontWeight.w600,
                                                             fontSize: 18,
                                                           ),
                                                         )
                                                       ],
-                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                        fontFamily: 'Montserrat',
-                                                        fontSize: 18,
-                                                        letterSpacing: 0,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontSize: 18,
+                                                            letterSpacing: 0,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
                                                     ),
                                                     maxLines: 2,
                                                   ),
                                                 );
                                               } else {
                                                 return Padding(
-                                                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 0, 10, 0),
                                                   child: RichText(
-                                                    textScaler: MediaQuery.of(context).textScaler,
+                                                    textScaler:
+                                                        MediaQuery.of(context)
+                                                            .textScaler,
                                                     text: TextSpan(
                                                       children: [
                                                         TextSpan(
-                                                          text: '${valueOrDefault<String>(FFAppState().currencyName, 'INR'
-                                                          )} ${formatNumber(
-                                                            functions.currencyConversion(
-                                                                FFAppState().currencyRate,
-                                                                functions.stringtoIntFunction(
-                                                                    valueOrDefault<String>(
-                                                                      OtherProductsDetailsCall.Stringproductsellingprice(
-                                                                        containerOtherProductsDetailsResponse.jsonBody,
-                                                                      ).toString(),
-                                                                      '0000',
-                                                                    )
-                                                                ).toString()
-                                                            ),
-                                                            formatType: FormatType.decimal,
-                                                            decimalType: DecimalType.periodDecimal,
+                                                          text:
+                                                              '${valueOrDefault<String>(FFAppState().currencyName, 'INR')} ${formatNumber(
+                                                            functions
+                                                                .currencyConversion(
+                                                                    FFAppState()
+                                                                        .currencyRate,
+                                                                    functions
+                                                                        .stringtoIntFunction(
+                                                                            valueOrDefault<String>(
+                                                                          OtherProductsDetailsCall
+                                                                              .Stringproductsellingprice(
+                                                                            containerOtherProductsDetailsResponse.jsonBody,
+                                                                          ).toString(),
+                                                                          '0000',
+                                                                        ))
+                                                                        .toString()),
+                                                            formatType:
+                                                                FormatType
+                                                                    .decimal,
+                                                            decimalType:
+                                                                DecimalType
+                                                                    .periodDecimal,
                                                           )}',
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.w600,
+                                                            fontWeight:
+                                                                FontWeight.w600,
                                                             fontSize: 18,
                                                           ),
                                                         )
-
                                                       ],
-                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                        fontFamily: 'Montserrat',
-                                                        fontSize: 18,
-                                                        letterSpacing: 0,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontSize: 18,
+                                                            letterSpacing: 0,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
                                                     ),
                                                     maxLines: 2,
                                                   ),
@@ -1033,20 +1295,22 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
 
                                           Text(
                                             '(Inc all taxes)',
-                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                              fontFamily: 'Montserrat',
-                                              letterSpacing: 0,
-                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Montserrat',
+                                                  letterSpacing: 0,
+                                                ),
                                           ),
                                         ],
                                       ),
                                     ),
-
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16, 0, 16, 0),
                                 child: Container(
                                   decoration: BoxDecoration(),
                                 ),
@@ -1057,109 +1321,190 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                 color: Color(0xFFE7E7E8),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10, 0, 10, 0),
                                 child: Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
                                   ),
                                   child: Container(
                                     width: double.infinity,
                                     color: Colors.white,
                                     child: ExpandableNotifier(
-                                      controller: _model.expandableExpandableController1,
+                                      controller: _model
+                                          .expandableExpandableController1,
                                       child: ExpandablePanel(
                                         header: Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(6, 0, 0, 0),
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  6, 0, 0, 0),
                                           child: Text(
                                             'Enter Details',
-                                            style: FlutterFlowTheme.of(context).displaySmall.override(
-                                              fontFamily: 'Outfit',
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.normal,
-                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .displaySmall
+                                                .override(
+                                                  fontFamily: 'Outfit',
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
                                           ),
                                         ),
                                         collapsed: Container(),
                                         expanded: Form(
-                                          key:  _formKey,
+                                          key: _formKey,
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Container(
                                                 decoration: BoxDecoration(),
                                                 child: Padding(
-                                                  padding: EdgeInsetsDirectional.fromSTEB(6, 0, 6, 0),
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(6, 0, 6, 0),
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.max,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      Text('First Name',
-                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                          fontFamily: 'Montserrat',
-                                                          color: FlutterFlowTheme.of(context).secondaryText,
-                                                          letterSpacing: 0,
-                                                        ),
+                                                      Text(
+                                                        'First Name',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                ),
                                                       ),
                                                       Form(
                                                         key: _model.formKey3,
-                                                        autovalidateMode: AutovalidateMode.always,
+                                                        autovalidateMode:
+                                                            AutovalidateMode
+                                                                .always,
                                                         child: TextFormField(
-                                                          controller: _model.enterNameTextController,
-                                                          focusNode: _model.enterNameFocusNode,
+                                                          controller: _model
+                                                              .enterNameTextController,
+                                                          focusNode: _model
+                                                              .enterNameFocusNode,
                                                           autofocus: false,
                                                           obscureText: false,
-                                                          decoration: InputDecoration(
-                                                            labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                                              fontFamily: 'Montserrat',
-                                                              color: FlutterFlowTheme.of(context).primaryText,
-                                                              fontSize: 16,
-                                                              letterSpacing: 0,
-                                                              fontWeight: FontWeight.w500,
-                                                            ),
-                                                            hintText: 'Enter Name',
-                                                            hintStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                              fontFamily: 'Montserrat',
-                                                              letterSpacing: 1,
-                                                            ),
-                                                            enabledBorder: UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: Color(0xFF868687),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                      fontSize:
+                                                                          16,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                            hintText:
+                                                                'Enter Name',
+                                                            hintStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      letterSpacing:
+                                                                          1,
+                                                                    ),
+                                                            enabledBorder:
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: Color(
+                                                                    0xFF868687),
                                                                 width: 1,
                                                               ),
-                                                              borderRadius: BorderRadius.circular(0),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
-                                                            focusedBorder: UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                            focusedBorder:
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
                                                                 width: 1,
                                                               ),
-                                                              borderRadius: BorderRadius.circular(0),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
-                                                            errorBorder: UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme.of(context).error,
+                                                            errorBorder:
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .error,
                                                                 width: 1,
                                                               ),
-                                                              borderRadius: BorderRadius.circular(0),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
-                                                            focusedErrorBorder: UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme.of(context).error,
+                                                            focusedErrorBorder:
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .error,
                                                                 width: 1,
                                                               ),
-                                                              borderRadius: BorderRadius.circular(0),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                           ),
-                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                            fontFamily: 'Montserrat',
-                                                            letterSpacing: 0,
-                                                          ),
-                                                          keyboardType: TextInputType.name,
-                                                          validator: _model.enterNameTextControllerValidator.asValidator(context),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                letterSpacing:
+                                                                    0,
+                                                              ),
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .name,
+                                                          validator: _model
+                                                              .enterNameTextControllerValidator
+                                                              .asValidator(
+                                                                  context),
                                                         ),
                                                       ),
                                                     ],
@@ -1168,28 +1513,36 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                               ),
                                               Form(
                                                 key: _model.formKey2,
-                                                autovalidateMode: AutovalidateMode.always,
+                                                autovalidateMode:
+                                                    AutovalidateMode.always,
                                                 child: Container(
                                                   decoration: BoxDecoration(),
                                                   child: Padding(
-                                                    padding: EdgeInsetsDirectional.fromSTEB(6, 0, 6, 0),
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                6, 0, 6, 0),
                                                     child: Column(
-                                                      mainAxisSize: MainAxisSize.max,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
                                                           'Sankalp/Wish',
-                                                          style: FlutterFlowTheme.of(
-                                                              context)
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color: FlutterFlowTheme
-                                                                .of(context)
-                                                                .secondaryText,
-                                                            letterSpacing: 0,
-                                                          ),
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryText,
+                                                                letterSpacing:
+                                                                    0,
+                                                              ),
                                                         ),
                                                         TextFormField(
                                                           controller: _model
@@ -1198,95 +1551,107 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                               .enterSankalpWishFocusNode,
                                                           autofocus: true,
                                                           obscureText: false,
-                                                          decoration: InputDecoration(
+                                                          decoration:
+                                                              InputDecoration(
                                                             labelStyle:
-                                                            FlutterFlowTheme.of(
-                                                                context)
-                                                                .labelMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              color: FlutterFlowTheme.of(
-                                                                  context)
-                                                                  .primaryText,
-                                                              fontSize: 16,
-                                                              letterSpacing:
-                                                              0,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500,
-                                                            ),
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                      fontSize:
+                                                                          16,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
                                                             hintText:
-                                                            'Enter Sankalp/Wish',
+                                                                'Enter Sankalp/Wish',
                                                             hintStyle:
-                                                            FlutterFlowTheme.of(
-                                                                context)
-                                                                .bodyMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              letterSpacing:
-                                                              1,
-                                                            ),
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      letterSpacing:
+                                                                          1,
+                                                                    ),
                                                             enabledBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color:
-                                                                Color(0xFF868687),
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: Color(
+                                                                    0xFF868687),
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                             focusedBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .primaryText,
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                             errorBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .error,
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                             focusedErrorBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .error,
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                           ),
-                                                          style: FlutterFlowTheme.of(
-                                                              context)
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            letterSpacing: 0,
-                                                          ),
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                letterSpacing:
+                                                                    0,
+                                                              ),
                                                           validator: _model
                                                               .enterSankalpWishTextControllerValidator
-                                                              .asValidator(context),
+                                                              .asValidator(
+                                                                  context),
                                                         ),
                                                       ],
                                                     ),
@@ -1294,18 +1659,21 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional.fromSTEB(6, 0, 0, 0),
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(6, 0, 0, 0),
                                                 child: Text(
                                                   'Birth Details (optional)',
                                                   style: FlutterFlowTheme.of(
-                                                      context)
+                                                          context)
                                                       .bodyMedium
                                                       .override(
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 16,
-                                                    letterSpacing: 0,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontSize: 16,
+                                                        letterSpacing: 0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
                                                 ),
                                               ),
                                               Container(
@@ -1314,102 +1682,101 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(6, 0, 6, 0),
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'Date of Birth',
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
-                                                            .bodyMedium
-                                                            .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          color: FlutterFlowTheme
-                                                              .of(context)
-                                                              .secondaryText,
-                                                          letterSpacing: 0,
-                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                ),
                                                       ),
                                                       Padding(
                                                         padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                            0, 12, 0, 12),
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(0, 12,
+                                                                    0, 12),
                                                         child: InkWell(
-                                                          splashColor:
-                                                          Colors.transparent,
-                                                          focusColor:
-                                                          Colors.transparent,
-                                                          hoverColor:
-                                                          Colors.transparent,
-                                                          highlightColor:
-                                                          Colors.transparent,
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
                                                           onTap: () async {
                                                             // DatePickerDOB
                                                             await showModalBottomSheet<
-                                                                bool>(
-                                                                context: context,
-                                                                builder: (context) {
+                                                                    bool>(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
                                                                   final _datePicked1CupertinoTheme =
-                                                                  CupertinoTheme
-                                                                      .of(context);
+                                                                      CupertinoTheme.of(
+                                                                          context);
                                                                   return Container(
-                                                                    height: MediaQuery.of(
-                                                                        context)
-                                                                        .size
-                                                                        .height /
+                                                                    height: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height /
                                                                         3,
                                                                     width: MediaQuery.of(
-                                                                        context)
+                                                                            context)
                                                                         .size
                                                                         .width,
                                                                     color: FlutterFlowTheme.of(
-                                                                        context)
+                                                                            context)
                                                                         .secondaryBackground,
                                                                     child:
-                                                                    CupertinoTheme(
+                                                                        CupertinoTheme(
                                                                       data: _datePicked1CupertinoTheme
                                                                           .copyWith(
                                                                         textTheme: _datePicked1CupertinoTheme
                                                                             .textTheme
                                                                             .copyWith(
-                                                                          dateTimePickerTextStyle: FlutterFlowTheme.of(
-                                                                              context)
+                                                                          dateTimePickerTextStyle: FlutterFlowTheme.of(context)
                                                                               .headlineMedium
                                                                               .override(
-                                                                            fontFamily:
-                                                                            'Outfit',
-                                                                            color:
-                                                                            FlutterFlowTheme.of(context).primaryText,
-                                                                            letterSpacing:
-                                                                            0,
-                                                                          ),
+                                                                                fontFamily: 'Outfit',
+                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                                letterSpacing: 0,
+                                                                              ),
                                                                         ),
                                                                       ),
                                                                       child:
-                                                                      CupertinoDatePicker(
+                                                                          CupertinoDatePicker(
                                                                         mode: CupertinoDatePickerMode
                                                                             .date,
                                                                         minimumDate:
-                                                                        DateTime(
-                                                                            1900),
+                                                                            DateTime(1900),
                                                                         initialDateTime:
-                                                                        getCurrentTimestamp,
+                                                                            getCurrentTimestamp,
                                                                         maximumDate:
-                                                                        getCurrentTimestamp,
+                                                                            getCurrentTimestamp,
                                                                         backgroundColor:
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .secondaryBackground,
+                                                                            FlutterFlowTheme.of(context).secondaryBackground,
                                                                         use24hFormat:
-                                                                        false,
+                                                                            false,
                                                                         onDateTimeChanged:
                                                                             (newDateTime) =>
-                                                                            safeSetState(() {
-                                                                              _model.datePicked1 =
-                                                                                  newDateTime;
-                                                                            }),
+                                                                                safeSetState(() {
+                                                                          _model.datePicked1 =
+                                                                              newDateTime;
+                                                                        }),
                                                                       ),
                                                                     ),
                                                                   );
@@ -1417,7 +1784,7 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                           },
                                                           child: Container(
                                                             decoration:
-                                                            BoxDecoration(),
+                                                                BoxDecoration(),
                                                             child: Text(
                                                               valueOrDefault<
                                                                   String>(
@@ -1428,17 +1795,17 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                                 'Enter Date of Birth',
                                                               ),
                                                               style: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .bodyMedium
                                                                   .override(
-                                                                fontFamily:
-                                                                'Montserrat',
-                                                                letterSpacing:
-                                                                1,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                              ),
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    letterSpacing:
+                                                                        1,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                  ),
                                                             ),
                                                           ),
                                                         ),
@@ -1446,7 +1813,8 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                       Divider(
                                                         height: 1,
                                                         thickness: 1,
-                                                        color: Color(0xFF868687),
+                                                        color:
+                                                            Color(0xFF868687),
                                                       ),
                                                     ],
                                                   ),
@@ -1454,30 +1822,36 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                               ),
                                               Form(
                                                 key: _model.formKey4,
-                                                autovalidateMode: AutovalidateMode.always,
+                                                autovalidateMode:
+                                                    AutovalidateMode.always,
                                                 child: Container(
                                                   decoration: BoxDecoration(),
                                                   child: Padding(
-                                                    padding: EdgeInsetsDirectional
-                                                        .fromSTEB(6, 0, 6, 0),
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                6, 0, 6, 0),
                                                     child: Column(
-                                                      mainAxisSize: MainAxisSize.max,
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
                                                       crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
                                                           'Mother’s Name (optional)',
-                                                          style: FlutterFlowTheme.of(
-                                                              context)
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color: FlutterFlowTheme
-                                                                .of(context)
-                                                                .secondaryText,
-                                                            letterSpacing: 0,
-                                                          ),
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryText,
+                                                                letterSpacing:
+                                                                    0,
+                                                              ),
                                                         ),
                                                         TextFormField(
                                                           controller: _model
@@ -1486,95 +1860,107 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                               .enterMothersNameFocusNode,
                                                           autofocus: true,
                                                           obscureText: false,
-                                                          decoration: InputDecoration(
+                                                          decoration:
+                                                              InputDecoration(
                                                             labelStyle:
-                                                            FlutterFlowTheme.of(
-                                                                context)
-                                                                .labelMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              color: FlutterFlowTheme.of(
-                                                                  context)
-                                                                  .primaryText,
-                                                              fontSize: 16,
-                                                              letterSpacing:
-                                                              0,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500,
-                                                            ),
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                      fontSize:
+                                                                          16,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
                                                             hintText:
-                                                            'Enter Mother’s Name',
+                                                                'Enter Mother’s Name',
                                                             hintStyle:
-                                                            FlutterFlowTheme.of(
-                                                                context)
-                                                                .bodyMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              letterSpacing:
-                                                              1,
-                                                            ),
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      letterSpacing:
+                                                                          1,
+                                                                    ),
                                                             enabledBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color:
-                                                                Color(0xFF868687),
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: Color(
+                                                                    0xFF868687),
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                             focusedBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .primaryText,
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                             errorBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .error,
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                             focusedErrorBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .error,
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                           ),
-                                                          style: FlutterFlowTheme.of(
-                                                              context)
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            letterSpacing: 0,
-                                                          ),
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                letterSpacing:
+                                                                    0,
+                                                              ),
                                                           validator: _model
                                                               .enterMothersNameTextControllerValidator
-                                                              .asValidator(context),
+                                                              .asValidator(
+                                                                  context),
                                                         ),
                                                       ],
                                                     ),
@@ -1582,31 +1968,37 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                 ),
                                               ),
                                               Form(
-                                                  key: _model.formKey5,
-                                                autovalidateMode: AutovalidateMode.always,
+                                                key: _model.formKey5,
+                                                autovalidateMode:
+                                                    AutovalidateMode.always,
                                                 child: Container(
                                                   decoration: BoxDecoration(),
                                                   child: Padding(
-                                                    padding: EdgeInsetsDirectional
-                                                        .fromSTEB(6, 0, 6, 0),
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                6, 0, 6, 0),
                                                     child: Column(
-                                                      mainAxisSize: MainAxisSize.max,
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
                                                       crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
                                                           'Father’s Name',
-                                                          style: FlutterFlowTheme.of(
-                                                              context)
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color: FlutterFlowTheme
-                                                                .of(context)
-                                                                .secondaryText,
-                                                            letterSpacing: 0,
-                                                          ),
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryText,
+                                                                letterSpacing:
+                                                                    0,
+                                                              ),
                                                         ),
                                                         TextFormField(
                                                           controller: _model
@@ -1615,95 +2007,107 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                               .enterFathersNameFocusNode,
                                                           autofocus: true,
                                                           obscureText: false,
-                                                          decoration: InputDecoration(
+                                                          decoration:
+                                                              InputDecoration(
                                                             labelStyle:
-                                                            FlutterFlowTheme.of(
-                                                                context)
-                                                                .labelMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              color: FlutterFlowTheme.of(
-                                                                  context)
-                                                                  .primaryText,
-                                                              fontSize: 16,
-                                                              letterSpacing:
-                                                              0,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500,
-                                                            ),
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                      fontSize:
+                                                                          16,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
                                                             hintText:
-                                                            'Enter Father’s Name',
+                                                                'Enter Father’s Name',
                                                             hintStyle:
-                                                            FlutterFlowTheme.of(
-                                                                context)
-                                                                .bodyMedium
-                                                                .override(
-                                                              fontFamily:
-                                                              'Montserrat',
-                                                              letterSpacing:
-                                                              1,
-                                                            ),
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      letterSpacing:
+                                                                          1,
+                                                                    ),
                                                             enabledBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color:
-                                                                Color(0xFF868687),
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: Color(
+                                                                    0xFF868687),
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                             focusedBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .primaryText,
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                             errorBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .error,
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                             focusedErrorBorder:
-                                                            UnderlineInputBorder(
-                                                              borderSide: BorderSide(
-                                                                color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .error,
                                                                 width: 1,
                                                               ),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(0),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
                                                             ),
                                                           ),
-                                                          style: FlutterFlowTheme.of(
-                                                              context)
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            letterSpacing: 0,
-                                                          ),
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                letterSpacing:
+                                                                    0,
+                                                              ),
                                                           validator: _model
                                                               .enterFathersNameTextControllerValidator
-                                                              .asValidator(context),
+                                                              .asValidator(
+                                                                  context),
                                                         ),
                                                       ],
                                                     ),
@@ -1716,102 +2120,100 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(6, 0, 6, 0),
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'Time of Birth',
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
-                                                            .bodyMedium
-                                                            .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          color: FlutterFlowTheme
-                                                              .of(context)
-                                                              .secondaryText,
-                                                          letterSpacing: 0,
-                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                ),
                                                       ),
                                                       Padding(
                                                         padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                            0, 12, 0, 12),
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(0, 12,
+                                                                    0, 12),
                                                         child: InkWell(
-                                                          splashColor:
-                                                          Colors.transparent,
-                                                          focusColor:
-                                                          Colors.transparent,
-                                                          hoverColor:
-                                                          Colors.transparent,
-                                                          highlightColor:
-                                                          Colors.transparent,
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
                                                           onTap: () async {
                                                             await showModalBottomSheet<
-                                                                bool>(
-                                                                context: context,
-                                                                builder: (context) {
+                                                                    bool>(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
                                                                   final _datePicked2CupertinoTheme =
-                                                                  CupertinoTheme
-                                                                      .of(context);
+                                                                      CupertinoTheme.of(
+                                                                          context);
                                                                   return Container(
-                                                                    height: MediaQuery.of(
-                                                                        context)
-                                                                        .size
-                                                                        .height /
+                                                                    height: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height /
                                                                         3,
                                                                     width: MediaQuery.of(
-                                                                        context)
+                                                                            context)
                                                                         .size
                                                                         .width,
                                                                     color: FlutterFlowTheme.of(
-                                                                        context)
+                                                                            context)
                                                                         .secondaryBackground,
                                                                     child:
-                                                                    CupertinoTheme(
+                                                                        CupertinoTheme(
                                                                       data: _datePicked2CupertinoTheme
                                                                           .copyWith(
                                                                         textTheme: _datePicked2CupertinoTheme
                                                                             .textTheme
                                                                             .copyWith(
-                                                                          dateTimePickerTextStyle: FlutterFlowTheme.of(
-                                                                              context)
+                                                                          dateTimePickerTextStyle: FlutterFlowTheme.of(context)
                                                                               .headlineMedium
                                                                               .override(
-                                                                            fontFamily:
-                                                                            'Outfit',
-                                                                            color:
-                                                                            FlutterFlowTheme.of(context).primaryText,
-                                                                            letterSpacing:
-                                                                            0,
-                                                                          ),
+                                                                                fontFamily: 'Outfit',
+                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                                letterSpacing: 0,
+                                                                              ),
                                                                         ),
                                                                       ),
                                                                       child:
-                                                                      CupertinoDatePicker(
+                                                                          CupertinoDatePicker(
                                                                         mode: CupertinoDatePickerMode
                                                                             .time,
                                                                         minimumDate:
-                                                                        DateTime(
-                                                                            1900),
+                                                                            DateTime(1900),
                                                                         initialDateTime:
-                                                                        getCurrentTimestamp,
+                                                                            getCurrentTimestamp,
                                                                         maximumDate:
-                                                                        DateTime(
-                                                                            2050),
+                                                                            DateTime(2050),
                                                                         backgroundColor:
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .secondaryBackground,
+                                                                            FlutterFlowTheme.of(context).secondaryBackground,
                                                                         use24hFormat:
-                                                                        false,
+                                                                            false,
                                                                         onDateTimeChanged:
                                                                             (newDateTime) =>
-                                                                            safeSetState(() {
-                                                                              _model.datePicked2 =
-                                                                                  newDateTime;
-                                                                            }),
+                                                                                safeSetState(() {
+                                                                          _model.datePicked2 =
+                                                                              newDateTime;
+                                                                        }),
                                                                       ),
                                                                     ),
                                                                   );
@@ -1819,7 +2221,7 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                           },
                                                           child: Container(
                                                             decoration:
-                                                            BoxDecoration(),
+                                                                BoxDecoration(),
                                                             child: Text(
                                                               valueOrDefault<
                                                                   String>(
@@ -1830,14 +2232,14 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                                 '--:-- --',
                                                               ),
                                                               style: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .bodyMedium
                                                                   .override(
-                                                                fontFamily:
-                                                                'Montserrat',
-                                                                letterSpacing:
-                                                                0,
-                                                              ),
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    letterSpacing:
+                                                                        0,
+                                                                  ),
                                                             ),
                                                           ),
                                                         ),
@@ -1845,7 +2247,8 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                       Divider(
                                                         height: 1,
                                                         thickness: 1,
-                                                        color: Color(0xFF868687),
+                                                        color:
+                                                            Color(0xFF868687),
                                                       ),
                                                     ],
                                                   ),
@@ -1857,23 +2260,27 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(6, 0, 6, 0),
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'Place of Birth',
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
-                                                            .bodyMedium
-                                                            .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          color: FlutterFlowTheme
-                                                              .of(context)
-                                                              .secondaryText,
-                                                          letterSpacing: 0,
-                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                ),
                                                       ),
                                                       TextFormField(
                                                         controller: _model
@@ -1882,95 +2289,106 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                             .enterPlaceofBirthFocusNode,
                                                         autofocus: true,
                                                         obscureText: false,
-                                                        decoration: InputDecoration(
+                                                        decoration:
+                                                            InputDecoration(
                                                           labelStyle:
-                                                          FlutterFlowTheme.of(
-                                                              context)
-                                                              .labelMedium
-                                                              .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color: FlutterFlowTheme.of(
-                                                                context)
-                                                                .primaryText,
-                                                            fontSize: 16,
-                                                            letterSpacing:
-                                                            0,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500,
-                                                          ),
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryText,
+                                                                    fontSize:
+                                                                        16,
+                                                                    letterSpacing:
+                                                                        0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
                                                           hintText:
-                                                          'Enter Place of Birth',
+                                                              'Enter Place of Birth',
                                                           hintStyle:
-                                                          FlutterFlowTheme.of(
-                                                              context)
-                                                              .bodyMedium
-                                                              .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            letterSpacing:
-                                                            1,
-                                                          ),
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    letterSpacing:
+                                                                        1,
+                                                                  ),
                                                           enabledBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                              color:
-                                                              Color(0xFF868687),
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Color(
+                                                                  0xFF868687),
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                           focusedBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .primaryText,
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                           errorBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .error,
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                           focusedErrorBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .error,
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                         ),
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
                                                             .bodyMedium
                                                             .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          letterSpacing: 0,
-                                                        ),
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              letterSpacing: 0,
+                                                            ),
                                                         validator: _model
                                                             .enterPlaceofBirthTextControllerValidator
-                                                            .asValidator(context),
+                                                            .asValidator(
+                                                                context),
                                                       ),
                                                     ],
                                                   ),
@@ -1982,23 +2400,27 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(6, 0, 6, 0),
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'Gotra/Clan Name (optional)',
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
-                                                            .bodyMedium
-                                                            .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          color: FlutterFlowTheme
-                                                              .of(context)
-                                                              .secondaryText,
-                                                          letterSpacing: 0,
-                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                ),
                                                       ),
                                                       TextFormField(
                                                         controller: _model
@@ -2007,95 +2429,106 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                             .enterGotraClanNameFocusNode,
                                                         autofocus: true,
                                                         obscureText: false,
-                                                        decoration: InputDecoration(
+                                                        decoration:
+                                                            InputDecoration(
                                                           labelStyle:
-                                                          FlutterFlowTheme.of(
-                                                              context)
-                                                              .labelMedium
-                                                              .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color: FlutterFlowTheme.of(
-                                                                context)
-                                                                .primaryText,
-                                                            fontSize: 16,
-                                                            letterSpacing:
-                                                            0,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500,
-                                                          ),
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryText,
+                                                                    fontSize:
+                                                                        16,
+                                                                    letterSpacing:
+                                                                        0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
                                                           hintText:
-                                                          'Enter Gotra/Clan Name',
+                                                              'Enter Gotra/Clan Name',
                                                           hintStyle:
-                                                          FlutterFlowTheme.of(
-                                                              context)
-                                                              .bodyMedium
-                                                              .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            letterSpacing:
-                                                            1,
-                                                          ),
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    letterSpacing:
+                                                                        1,
+                                                                  ),
                                                           enabledBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                              color:
-                                                              Color(0xFF868687),
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Color(
+                                                                  0xFF868687),
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                           focusedBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .primaryText,
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                           errorBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .error,
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                           focusedErrorBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .error,
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                         ),
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
                                                             .bodyMedium
                                                             .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          letterSpacing: 0,
-                                                        ),
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              letterSpacing: 0,
+                                                            ),
                                                         validator: _model
                                                             .enterGotraClanNameTextControllerValidator
-                                                            .asValidator(context),
+                                                            .asValidator(
+                                                                context),
                                                       ),
                                                     ],
                                                   ),
@@ -2107,151 +2540,151 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(6, 0, 6, 0),
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'Upload Image (optional)',
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
-                                                            .bodyMedium
-                                                            .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          color: FlutterFlowTheme
-                                                              .of(context)
-                                                              .secondaryText,
-                                                          letterSpacing: 0,
-                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                ),
                                                       ),
                                                       Padding(
                                                         padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                            0, 6, 0, 0),
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0, 6, 0, 0),
                                                         child: Row(
                                                           mainAxisSize:
-                                                          MainAxisSize.max,
+                                                              MainAxisSize.max,
                                                           children: [
                                                             Padding(
                                                               padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(0,
-                                                                  0, 11, 0),
-                                                              child: FFButtonWidget(
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0,
+                                                                          0,
+                                                                          11,
+                                                                          0),
+                                                              child:
+                                                                  FFButtonWidget(
                                                                 onPressed:
                                                                     () async {
                                                                   // UploadedFile
 
                                                                   final selectedFiles =
-                                                                  await selectFiles(
+                                                                      await selectFiles(
                                                                     multiFile:
-                                                                    false,
+                                                                        false,
                                                                   );
 
                                                                   if (selectedFiles !=
                                                                       null) {
                                                                     setState(() =>
-                                                                    _model.isDataUploading =
-                                                                    true);
+                                                                        _model.isDataUploading =
+                                                                            true);
                                                                     var selectedUploadedFiles =
-                                                                    <FFUploadedFile>[];
+                                                                        <FFUploadedFile>[];
 
                                                                     try {
-                                                                      selectedUploadedFiles =
-                                                                          selectedFiles
-                                                                              .map((m) =>
-                                                                              FFUploadedFile(
+                                                                      selectedUploadedFiles = selectedFiles
+                                                                          .map((m) => FFUploadedFile(
                                                                                 name: m.name.split('/').last,
                                                                                 bytes: m.bytes,
                                                                               ))
-                                                                              .toList();
+                                                                          .toList();
                                                                     } finally {
                                                                       _model.isDataUploading =
-                                                                      false;
+                                                                          false;
                                                                     }
                                                                     if (selectedUploadedFiles
-                                                                        .length ==
+                                                                            .length ==
                                                                         selectedFiles
                                                                             .length) {
-                                                                      setState(() {
+                                                                      setState(
+                                                                          () {
                                                                         _model.uploadedLocalFile =
-                                                                            selectedUploadedFiles
-                                                                                .first;
+                                                                            selectedUploadedFiles.first;
                                                                         selectedUploadedFiles = selectedFiles
                                                                             .map((m) => FFUploadedFile(
-                                                                          name: m.name, // Use name directly
-                                                                          bytes: m.bytes,
-                                                                        ))
+                                                                                  name: m.name, // Use name directly
+                                                                                  bytes: m.bytes,
+                                                                                ))
                                                                             .toList();
 
                                                                         // Convert to base64
-                                                                        _model
-                                                                            .selectedFileBase64 = base64Encode(selectedUploadedFiles
+                                                                        _model.selectedFileBase64 = base64Encode(selectedUploadedFiles
                                                                             .first
-                                                                            .bytes
-                                                                        as List<
-                                                                            int>);
-                                                                        _model.selectedFileName =
-                                                                            selectedUploadedFiles
-                                                                                .first
-                                                                                .name;
-                                                                        _model.selectedFileName =
-                                                                            selectedUploadedFiles
-                                                                                .first
-                                                                                .name;
+                                                                            .bytes as List<int>);
+                                                                        _model.selectedFileName = selectedUploadedFiles
+                                                                            .first
+                                                                            .name;
+                                                                        _model.selectedFileName = selectedUploadedFiles
+                                                                            .first
+                                                                            .name;
                                                                       });
                                                                     } else {
                                                                       setState(
-                                                                              () {});
+                                                                          () {});
                                                                       return;
                                                                     }
                                                                   }
                                                                 },
-                                                                text: 'Choose File',
+                                                                text:
+                                                                    'Choose File',
                                                                 options:
-                                                                FFButtonOptions(
+                                                                    FFButtonOptions(
                                                                   height: 40,
-                                                                  padding:
-                                                                  EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
-                                                                      24,
-                                                                      0,
-                                                                      24,
-                                                                      0),
+                                                                          24,
+                                                                          0,
+                                                                          24,
+                                                                          0),
                                                                   iconPadding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                      0,
-                                                                      0,
-                                                                      0,
-                                                                      0),
+                                                                      EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              0),
                                                                   color: Color(
                                                                       0xFFDCDCDC),
-                                                                  textStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                      context)
+                                                                  textStyle: FlutterFlowTheme.of(
+                                                                          context)
                                                                       .titleSmall
                                                                       .override(
-                                                                    fontFamily:
-                                                                    'Montserrat',
-                                                                    color: FlutterFlowTheme.of(context)
-                                                                        .primaryText,
-                                                                    letterSpacing:
-                                                                    0,
-                                                                  ),
+                                                                        fontFamily:
+                                                                            'Montserrat',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryText,
+                                                                        letterSpacing:
+                                                                            0,
+                                                                      ),
                                                                   elevation: 0,
                                                                   borderSide:
-                                                                  BorderSide(
+                                                                      BorderSide(
                                                                     color: Colors
                                                                         .transparent,
                                                                     width: 1,
                                                                   ),
                                                                   borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      8),
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
                                                                 ),
                                                               ),
                                                             ),
@@ -2260,16 +2693,17 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                               child: Text(
                                                                 _model.selectedFileName ??
                                                                     'No File Chosen',
-                                                                style: FlutterFlowTheme
-                                                                    .of(context)
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
                                                                     .bodyMedium
                                                                     .override(
-                                                                  fontFamily:
-                                                                  'Montserrat',
-                                                                  fontSize: 16,
-                                                                  letterSpacing:
-                                                                  0,
-                                                                ),
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      fontSize:
+                                                                          16,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                    ),
                                                                 maxLines: 2,
                                                               ),
                                                             ),
@@ -2286,23 +2720,27 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(6, 0, 6, 0),
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.max,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'Special Instructions (optional)',
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
-                                                            .bodyMedium
-                                                            .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          color: FlutterFlowTheme
-                                                              .of(context)
-                                                              .secondaryText,
-                                                          letterSpacing: 0,
-                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                ),
                                                       ),
                                                       TextFormField(
                                                         controller: _model
@@ -2311,95 +2749,106 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                                             .enterSpecialInstructionsFocusNode,
                                                         autofocus: true,
                                                         obscureText: false,
-                                                        decoration: InputDecoration(
+                                                        decoration:
+                                                            InputDecoration(
                                                           labelStyle:
-                                                          FlutterFlowTheme.of(
-                                                              context)
-                                                              .labelMedium
-                                                              .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            color: FlutterFlowTheme.of(
-                                                                context)
-                                                                .primaryText,
-                                                            fontSize: 16,
-                                                            letterSpacing:
-                                                            0,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500,
-                                                          ),
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .labelMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryText,
+                                                                    fontSize:
+                                                                        16,
+                                                                    letterSpacing:
+                                                                        0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
                                                           hintText:
-                                                          'Enter Special Instructions',
+                                                              'Enter Special Instructions',
                                                           hintStyle:
-                                                          FlutterFlowTheme.of(
-                                                              context)
-                                                              .bodyMedium
-                                                              .override(
-                                                            fontFamily:
-                                                            'Montserrat',
-                                                            letterSpacing:
-                                                            1,
-                                                          ),
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Montserrat',
+                                                                    letterSpacing:
+                                                                        1,
+                                                                  ),
                                                           enabledBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                              color:
-                                                              Color(0xFF868687),
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Color(
+                                                                  0xFF868687),
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                           focusedBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .primaryText,
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                           errorBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .error,
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                           focusedErrorBorder:
-                                                          UnderlineInputBorder(
-                                                            borderSide: BorderSide(
+                                                              UnderlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: FlutterFlowTheme
-                                                                  .of(context)
+                                                                      .of(context)
                                                                   .error,
                                                               width: 1,
                                                             ),
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                           ),
                                                         ),
-                                                        style: FlutterFlowTheme.of(
-                                                            context)
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
                                                             .bodyMedium
                                                             .override(
-                                                          fontFamily:
-                                                          'Montserrat',
-                                                          letterSpacing: 0,
-                                                        ),
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              letterSpacing: 0,
+                                                            ),
                                                         validator: _model
                                                             .enterSpecialInstructionsTextControllerValidator
-                                                            .asValidator(context),
+                                                            .asValidator(
+                                                                context),
                                                       ),
                                                     ],
                                                   ),
@@ -2413,13 +2862,16 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                           tapBodyToExpand: false,
                                           tapBodyToCollapse: false,
                                           headerAlignment:
-                                          ExpandablePanelHeaderAlignment.center,
+                                              ExpandablePanelHeaderAlignment
+                                                  .center,
                                           hasIcon: true,
                                           expandIcon: Icons.keyboard_arrow_down,
                                           collapseIcon: Icons.keyboard_arrow_up,
-                                          iconColor: FlutterFlowTheme.of(context).primaryText,
-                                          iconPadding:
-                                          EdgeInsets.fromLTRB(16, 16, 14, 16),
+                                          iconColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryText,
+                                          iconPadding: EdgeInsets.fromLTRB(
+                                              16, 16, 14, 16),
                                         ),
                                       ),
                                     ),
@@ -2427,61 +2879,120 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                 ),
                               ),
                               if (OtherProductsDetailsCall.pujavariantstatus(
-                                containerOtherProductsDetailsResponse.jsonBody,) == true)
+                                    containerOtherProductsDetailsResponse
+                                        .jsonBody,
+                                  ) ==
+                                  true)
                                 Divider(
                                   height: 5,
                                   thickness: 2,
                                   color: Color(0xFFE7E7E8),
                                 ),
                               if (OtherProductsDetailsCall.pujavariantstatus(
-                                containerOtherProductsDetailsResponse.jsonBody,) == false)
-                              Divider(
-                                height: 5,
-                                thickness: 2,
-                                color: Color(0xFFE7E7E8),
-                              ),
+                                    containerOtherProductsDetailsResponse
+                                        .jsonBody,
+                                  ) ==
+                                  false)
+                                Divider(
+                                  height: 5,
+                                  thickness: 2,
+                                  color: Color(0xFFE7E7E8),
+                                ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 10),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10, 0, 10, 10),
                                 child: Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
                                   ),
                                   child: Container(
                                     width: double.infinity,
                                     color: Colors.white,
                                     child: ExpandableNotifier(
-                                      controller:
-                                      _model.expandableExpandableController2,
+                                      controller: _model
+                                          .expandableExpandableController2,
                                       child: ExpandablePanel(
                                         header: Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(6, 0, 0, 0),
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  6, 0, 0, 0),
                                           child: Text(
                                             'Description',
-                                            style: FlutterFlowTheme.of(context).displaySmall.override(
-                                              fontFamily: 'Outfit',
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.normal,
-                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .displaySmall
+                                                .override(
+                                                  fontFamily: 'Outfit',
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
                                           ),
                                         ),
                                         collapsed: Container(),
-                                        expanded: HtmlWidget(
-                                          decodedDescription,
-                                        
+                                        expanded: Html(
+                                          data: decodedDescription,
+                                          style: {
+                                            "html": Style(
+                                              fontFamily:
+                                                  GoogleFonts.montserrat(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xFF212529),
+                                              ).fontFamily,
+                                              color: Color(0xFF212529),
+                                              lineHeight: LineHeight(1.5),
+                                              margin: Margins.zero,
+                                              padding: HtmlPaddings.zero,
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                            "body": Style(
+                                              margin: Margins.zero,
+                                              padding: HtmlPaddings.zero,
+                                            ),
+                                            "p": Style(
+                                              margin: Margins.zero,
+                                              padding: HtmlPaddings.zero,
+                                            ),
+                                            "div": Style(
+                                              margin: Margins.zero,
+                                              padding: HtmlPaddings.zero,
+                                            ),
+                                          },
+                                          onLinkTap: (url,__, ___) async {
+                                            if (url != null) {
+                                              final uri = Uri.parse(
+                                                  url); // Convert the URL string to a Uri object
+
+                                              // Launch the URL if it is valid
+                                              if (await canLaunchUrl(uri)) {
+                                                await launchUrl(uri,
+                                                    mode: LaunchMode
+                                                        .externalApplication);
+                                              } else {
+                                                // Handle cases where the URL cannot be launched
+                                                print('Could not launch $uri');
+                                              }
+                                            }
+                                          },
                                         ),
                                         theme: ExpandableThemeData(
                                           tapHeaderToExpand: true,
                                           tapBodyToExpand: false,
                                           tapBodyToCollapse: false,
-                                          headerAlignment: ExpandablePanelHeaderAlignment.center,
+                                          headerAlignment:
+                                              ExpandablePanelHeaderAlignment
+                                                  .center,
                                           hasIcon: true,
                                           expandIcon: Icons.keyboard_arrow_down,
                                           collapseIcon: Icons.keyboard_arrow_up,
-                                          iconColor: FlutterFlowTheme.of(context).primaryText,
-                                          iconPadding: EdgeInsets.fromLTRB(16, 16, 14, 16),
+                                          iconColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryText,
+                                          iconPadding: EdgeInsets.fromLTRB(
+                                              16, 16, 14, 16),
                                         ),
                                       ),
                                     ),
@@ -2494,314 +3005,517 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                 color: Color(0xFFE7E7E8),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 10),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16, 0, 16, 10),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
                                   ),
                                   child: Container(
                                     width: double.infinity,
                                     color: Colors.white,
                                     child: ExpandableNotifier(
-                                      controller: _model.expandableExpandableController3,
+                                      controller: _model
+                                          .expandableExpandableController3,
                                       child: ExpandablePanel(
                                         header: Text(
                                           'Ratings & Reviews',
-                                          style: FlutterFlowTheme.of(context).displaySmall.override(
-                                            fontFamily: 'Outfit',
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            letterSpacing: 0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .displaySmall
+                                              .override(
+                                                fontFamily: 'Outfit',
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                letterSpacing: 0,
+                                                fontWeight: FontWeight.normal,
+                                              ),
                                         ),
                                         collapsed: Container(),
                                         expanded: Column(
                                           mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
                                               mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Row(
-                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
                                                   children: [
                                                     Padding(
-                                                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                                                      child: (OtherProductsDetailsCall.reviewdata(containerOtherProductsDetailsResponse?.jsonBody) as List).isEmpty
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 0, 10, 0),
+                                                      child: (OtherProductsDetailsCall
+                                                                  .reviewdata(
+                                                                      containerOtherProductsDetailsResponse
+                                                                          ?.jsonBody) as List)
+                                                              .isEmpty
                                                           ? Container(
-                                                        padding: EdgeInsets.all(10.0),
-                                                        decoration: BoxDecoration(
-                                                          color: Colors.grey[300],
-                                                          borderRadius: BorderRadius.circular(8.0),
-                                                        ),
-                                                        child: Container(
-                                                          width: 200,
-                                                          child: Center(
-                                                            child: Text(
-                                                              'Be the first to review this product!',
-                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                fontFamily: 'Montserrat',
-                                                                color: Colors.black,
-                                                                fontSize: 14,
-                                                                letterSpacing: 0,
-                                                                fontWeight: FontWeight.w500,
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          10.0),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .grey[300],
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8.0),
                                                               ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ) : RichText(
-                                                        textScaler: MediaQuery.of(context).textScaler,
-                                                        text: TextSpan(
-                                                          children: [
-                                                            TextSpan(
-                                                              text: _formattedRating(
-                                                                OtherProductsDetailsCall.productrating(
-                                                                  containerOtherProductsDetailsResponse?.jsonBody,
+                                                              child: Container(
+                                                                width: 200,
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    'Be the first to review this product!',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Montserrat',
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontSize:
+                                                                              14,
+                                                                          letterSpacing:
+                                                                              0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                fontFamily: 'Montserrat',
-                                                                color: FlutterFlowTheme.of(context).primaryText,
-                                                                fontSize: 24,
-                                                                letterSpacing: 0,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                            fontFamily: 'Montserrat',
-                                                            letterSpacing: 0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Column(
-                                                      mainAxisSize: MainAxisSize.max,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        (OtherProductsDetailsCall.reviewdata(containerOtherProductsDetailsResponse?.jsonBody) as List).isEmpty
-                                                            ? SizedBox.shrink() // Hide the Overall Rating text when there are no reviews
-                                                            : Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                              'Overall Rating',
-                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                fontFamily: 'Montserrat',
-                                                                fontSize: 16,
-                                                                letterSpacing: 0,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),
-                                                            ),
-                                                            RichText(
-                                                              textScaler: MediaQuery.of(context).textScaler,
+                                                            )
+                                                          : RichText(
+                                                              textScaler:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .textScaler,
                                                               text: TextSpan(
                                                                 children: [
                                                                   TextSpan(
-                                                                    text: valueOrDefault<String>(
-                                                                      (OtherProductsDetailsCall.reviewdata(containerOtherProductsDetailsResponse?.jsonBody) as List).length.toString(),
-                                                                      '0',
+                                                                    text:
+                                                                        _formattedRating(
+                                                                      OtherProductsDetailsCall
+                                                                          .productrating(
+                                                                        containerOtherProductsDetailsResponse
+                                                                            ?.jsonBody,
+                                                                      ),
                                                                     ),
-                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                      fontFamily: 'Montserrat',
-                                                                      fontSize: 12,
-                                                                      letterSpacing: 0,
-                                                                      fontWeight: FontWeight.w500,
-                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Montserrat',
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                          fontSize:
+                                                                              24,
+                                                                          letterSpacing:
+                                                                              0,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                        ),
                                                                   ),
-                                                                  TextSpan(
-                                                                    text: ' Ratings',
-                                                                    style: TextStyle(),
-                                                                  )
                                                                 ],
-                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                  fontFamily: 'Montserrat',
-                                                                  fontSize: 12,
-                                                                  letterSpacing: 0,
-                                                                  fontWeight: FontWeight.w500,
-                                                                ),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      letterSpacing:
+                                                                          0,
+                                                                    ),
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
+                                                    ),
+                                                    Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        (OtherProductsDetailsCall.reviewdata(
+                                                                        containerOtherProductsDetailsResponse
+                                                                            ?.jsonBody)
+                                                                    as List)
+                                                                .isEmpty
+                                                            ? SizedBox
+                                                                .shrink() // Hide the Overall Rating text when there are no reviews
+                                                            : Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    'Overall Rating',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Montserrat',
+                                                                          fontSize:
+                                                                              16,
+                                                                          letterSpacing:
+                                                                              0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                  ),
+                                                                  RichText(
+                                                                    textScaler:
+                                                                        MediaQuery.of(context)
+                                                                            .textScaler,
+                                                                    text:
+                                                                        TextSpan(
+                                                                      children: [
+                                                                        TextSpan(
+                                                                          text:
+                                                                              valueOrDefault<String>(
+                                                                            (OtherProductsDetailsCall.reviewdata(containerOtherProductsDetailsResponse?.jsonBody) as List).length.toString(),
+                                                                            '0',
+                                                                          ),
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                                fontFamily: 'Montserrat',
+                                                                                fontSize: 12,
+                                                                                letterSpacing: 0,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                        ),
+                                                                        TextSpan(
+                                                                          text:
+                                                                              ' Ratings',
+                                                                          style:
+                                                                              TextStyle(),
+                                                                        )
+                                                                      ],
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Montserrat',
+                                                                            fontSize:
+                                                                                12,
+                                                                            letterSpacing:
+                                                                                0,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                       ],
                                                     ),
                                                   ],
                                                 ),
                                                 FFButtonWidget(
                                                   onPressed: () async {
-                                                    print("Productid:${  OtherProductsDetailsCall.rudrakshaProductid(
-                                                      containerOtherProductsDetailsResponse.jsonBody,)?.toString()}");
-                                                    print("productMainType:${  OtherProductsDetailsCall.rudrakshaMainProductType(
-                                                      containerOtherProductsDetailsResponse.jsonBody,)?.toString()}");
+                                                    print(
+                                                        "Productid:${OtherProductsDetailsCall.rudrakshaProductid(
+                                                      containerOtherProductsDetailsResponse
+                                                          .jsonBody,
+                                                    )?.toString()}");
+                                                    print(
+                                                        "productMainType:${OtherProductsDetailsCall.rudrakshaMainProductType(
+                                                      containerOtherProductsDetailsResponse
+                                                          .jsonBody,
+                                                    )?.toString()}");
 
-                                                    print("reviewcustomercomment:${  OtherProductsDetailsCall.reviewcustomercomment(
-                                                      containerOtherProductsDetailsResponse.jsonBody,)}");
+                                                    print(
+                                                        "reviewcustomercomment:${OtherProductsDetailsCall.reviewcustomercomment(
+                                                      containerOtherProductsDetailsResponse
+                                                          .jsonBody,
+                                                    )}");
                                                     await showModalBottomSheet(
                                                       isScrollControlled: true,
-                                                      backgroundColor: Colors.transparent,
+                                                      backgroundColor:
+                                                          Colors.transparent,
                                                       enableDrag: false,
                                                       context: context,
                                                       builder: (context) {
                                                         return GestureDetector(
-                                                          onTap: () => _model.unfocusNode.canRequestFocus
-                                                              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                              : FocusScope.of(context).unfocus(),
+                                                          onTap: () => _model
+                                                                  .unfocusNode
+                                                                  .canRequestFocus
+                                                              ? FocusScope.of(
+                                                                      context)
+                                                                  .requestFocus(
+                                                                      _model
+                                                                          .unfocusNode)
+                                                              : FocusScope.of(
+                                                                      context)
+                                                                  .unfocus(),
                                                           child: Padding(
-                                                            padding: MediaQuery.viewInsetsOf(context),
-                                                            child: AddReviewPopUpWidget(
-                                                              mainproducttype: serializeParam(
-                                                                OtherProductsDetailsCall.rudrakshaMainProductType(
-                                                                  containerOtherProductsDetailsResponse.jsonBody,
+                                                            padding: MediaQuery
+                                                                .viewInsetsOf(
+                                                                    context),
+                                                            child:
+                                                                AddReviewPopUpWidget(
+                                                              mainproducttype:
+                                                                  serializeParam(
+                                                                OtherProductsDetailsCall
+                                                                    .rudrakshaMainProductType(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
                                                                 )?.toString(),
-                                                                ParamType.String,
+                                                                ParamType
+                                                                    .String,
                                                               ),
-                                                              productid: serializeParam(
-                                                                OtherProductsDetailsCall.rudrakshaProductid(
-                                                                  containerOtherProductsDetailsResponse.jsonBody,
+                                                              productid:
+                                                                  serializeParam(
+                                                                OtherProductsDetailsCall
+                                                                    .rudrakshaProductid(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
                                                                 )?.toString(),
-                                                                ParamType.String,
+                                                                ParamType
+                                                                    .String,
                                                               ),
                                                             ),
                                                           ),
                                                         );
                                                       },
-                                                    ).then((value) => safeSetState(() {}));
+                                                    ).then((value) =>
+                                                        safeSetState(() {}));
                                                   },
                                                   text: 'Rate Now',
                                                   options: FFButtonOptions(
                                                     height: 40,
-                                                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                                                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                                      fontFamily: 'Montserrat',
-                                                      color: FlutterFlowTheme.of(context).primary,
-                                                      letterSpacing: 0,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                24, 0, 24, 0),
+                                                    iconPadding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 0, 0, 0),
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    textStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .titleSmall
+                                                        .override(
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
+                                                          letterSpacing: 0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
                                                     elevation: 0,
                                                     borderSide: BorderSide(
                                                       color: Color(0xFF740074),
                                                       width: 1,
                                                     ),
-                                                    borderRadius: BorderRadius.circular(8),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            if (OtherProductsDetailsCall.reviewData(
-                                              containerOtherProductsDetailsResponse.jsonBody,
-                                            ) != null &&
-                                                (OtherProductsDetailsCall.reviewData(
-                                                  containerOtherProductsDetailsResponse.jsonBody,
-                                                ))!.isNotEmpty)
+                                            if (OtherProductsDetailsCall
+                                                        .reviewData(
+                                                      containerOtherProductsDetailsResponse
+                                                          .jsonBody,
+                                                    ) !=
+                                                    null &&
+                                                (OtherProductsDetailsCall
+                                                        .reviewData(
+                                                  containerOtherProductsDetailsResponse
+                                                      .jsonBody,
+                                                ))!
+                                                    .isNotEmpty)
                                               Column(
                                                 mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   RatingreviewWidget(
-                                                    parameter1:  OtherProductsDetailsCall.reviewcustomerstarrating(
-                                                      containerOtherProductsDetailsResponse.jsonBody,
+                                                    parameter1:
+                                                        OtherProductsDetailsCall
+                                                            .reviewcustomerstarrating(
+                                                      containerOtherProductsDetailsResponse
+                                                          .jsonBody,
                                                     )!,
                                                   ),
-
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      OtherProductsDetailsCall.reviewcustomercomment(
-                                                        containerOtherProductsDetailsResponse.jsonBody,
-                                                      ), 'x',
+                                                      OtherProductsDetailsCall
+                                                          .reviewcustomercomment(
+                                                        containerOtherProductsDetailsResponse
+                                                            .jsonBody,
+                                                      ),
+                                                      'x',
                                                     ),
-
-                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xFF696969),
-                                                      fontSize: 16,
-                                                      letterSpacing: 0,
-                                                    ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          color:
+                                                              Color(0xFF696969),
+                                                          fontSize: 16,
+                                                          letterSpacing: 0,
+                                                        ),
                                                   ),
                                                   Row(
                                                     children: [
-                                                      Text(valueOrDefault<String>(
-                                                          OtherProductsDetailsCall.reviewcustomername(
-                                                            containerOtherProductsDetailsResponse.jsonBody,
-                                                          ), 'x',
-
-                                                        ),
-                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xFF696969),
-                                                          letterSpacing: 0,
-                                                          fontWeight: FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 5),
-
                                                       Text(
                                                         valueOrDefault<String>(
-                                                          OtherProductsDetailsCall.reviewdate(
-                                                            containerOtherProductsDetailsResponse.jsonBody,
-                                                          ) != null ? formatDate(OtherProductsDetailsCall.reviewdate(
-                                                            containerOtherProductsDetailsResponse.jsonBody,
-                                                          )!) : 'x',
+                                                          OtherProductsDetailsCall
+                                                              .reviewcustomername(
+                                                            containerOtherProductsDetailsResponse
+                                                                .jsonBody,
+                                                          ),
                                                           'x',
                                                         ),
-                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xFF696969),
-                                                          letterSpacing: 0,
-                                                          fontWeight: FontWeight.w500,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              color: Color(
+                                                                  0xFF696969),
+                                                              letterSpacing: 0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                      ),
+                                                      SizedBox(width: 5),
+                                                      Text(
+                                                        valueOrDefault<String>(
+                                                          OtherProductsDetailsCall
+                                                                      .reviewdate(
+                                                                    containerOtherProductsDetailsResponse
+                                                                        .jsonBody,
+                                                                  ) !=
+                                                                  null
+                                                              ? formatDate(
+                                                                  OtherProductsDetailsCall
+                                                                      .reviewdate(
+                                                                  containerOtherProductsDetailsResponse
+                                                                      .jsonBody,
+                                                                )!)
+                                                              : 'x',
+                                                          'x',
                                                         ),
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              color: Color(
+                                                                  0xFF696969),
+                                                              letterSpacing: 0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
                                                       )
                                                     ],
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: FFButtonWidget(
-                                                      onPressed:(){
+                                                      onPressed: () {
                                                         context.pushNamed(
                                                           'AllReviewsWidget',
                                                           queryParameters: {
-                                                            'reviewlist': serializeParam(
-                                                              OtherProductsDetailsCall.reviewdata(
-                                                                containerOtherProductsDetailsResponse.jsonBody,
+                                                            'reviewlist':
+                                                                serializeParam(
+                                                              OtherProductsDetailsCall
+                                                                  .reviewdata(
+                                                                containerOtherProductsDetailsResponse
+                                                                    .jsonBody,
                                                               ),
                                                               ParamType.JSON,
                                                               // isList: true,
                                                             ),
-                                                            'productSlugValue': serializeParam(
-                                                              widget.productSlugValue,
+                                                            'productSlugValue':
+                                                                serializeParam(
+                                                              widget
+                                                                  .productSlugValue,
                                                               ParamType.String,
                                                             ),
-                                                            'producttype': serializeParam(
-                                                              widget.producttype,
+                                                            'producttype':
+                                                                serializeParam(
+                                                              widget
+                                                                  .producttype,
                                                               ParamType.String,
                                                             ),
-
                                                           }.withoutNulls,
                                                         );
                                                       },
                                                       text: 'View All Reviews',
                                                       options: FFButtonOptions(
-                                                        width: MediaQuery.sizeOf(context).width * 1,
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                1,
                                                         height: 40,
-                                                        padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                                                        iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                                        color: Color(0xFF740074),
-                                                        textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                                          fontFamily: 'Montserrat',
-                                                          color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                          letterSpacing: 0,
-                                                          fontWeight: FontWeight.w600,
-                                                        ),
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(24, 0,
+                                                                    24, 0),
+                                                        iconPadding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0, 0, 0, 0),
+                                                        color:
+                                                            Color(0xFF740074),
+                                                        textStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
                                                         elevation: 0,
                                                         borderSide: BorderSide(
-                                                          color: Color(0xFF740074),
+                                                          color:
+                                                              Color(0xFF740074),
                                                           width: 1,
                                                         ),
-                                                        borderRadius: BorderRadius.circular(12),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
                                                       ),
                                                     ),
                                                   ),
@@ -2813,12 +3527,18 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                           tapHeaderToExpand: true,
                                           tapBodyToExpand: false,
                                           tapBodyToCollapse: false,
-                                          headerAlignment: ExpandablePanelHeaderAlignment.center,
+                                          headerAlignment:
+                                              ExpandablePanelHeaderAlignment
+                                                  .center,
                                           hasIcon: true,
-                                          expandIcon: Icons.keyboard_arrow_down_sharp,
+                                          expandIcon:
+                                              Icons.keyboard_arrow_down_sharp,
                                           collapseIcon: Icons.keyboard_arrow_up,
-                                          iconColor: FlutterFlowTheme.of(context).primaryText,
-                                          iconPadding: EdgeInsets.fromLTRB(16, 16, 8, 16),
+                                          iconColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryText,
+                                          iconPadding: EdgeInsets.fromLTRB(
+                                              16, 16, 8, 16),
                                         ),
                                       ),
                                     ),
@@ -2831,156 +3551,232 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                 color: Color(0xFFE7E7E8),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(16, 16, 0, 0),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16, 16, 0, 0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       'Related Products',
-                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                        fontFamily: 'Montserrat',
-                                        color: FlutterFlowTheme.of(context).primaryText,
-                                        letterSpacing: 0,
-                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Montserrat',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            letterSpacing: 0,
+                                          ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 0, 16),
                                       child: Builder(
                                         builder: (context) {
-                                          final relatedProduct = OtherProductsDetailsCall.relatedproduct(
-                                                containerOtherProductsDetailsResponse.jsonBody,
-                                              )?.toList() ?? [];
+                                          final relatedProduct =
+                                              OtherProductsDetailsCall
+                                                      .relatedproduct(
+                                                    containerOtherProductsDetailsResponse
+                                                        .jsonBody,
+                                                  )?.toList() ??
+                                                  [];
 
                                           return SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: List.generate(
-                                                  relatedProduct.length, (relatedProductIndex) {
-                                                    final relatedProductItem = relatedProduct[relatedProductIndex];
-                                                    return InkWell(
-                                                      splashColor: Colors.transparent,
-                                                      focusColor: Colors.transparent,
-                                                      hoverColor: Colors.transparent,
-                                                      highlightColor: Colors.transparent,
-                                                      onTap: () async {
-                                                        if (widget!.producttype == FFAppConstants.RudrakshaMasterProductDetailsApi) {
-                                                          context.pushNamed(
-                                                            'PujaProductDetails',
-                                                            queryParameters: {
-                                                              'productSlugValue': serializeParam(
-                                                                getJsonField(
-                                                                  relatedProductItem,
-                                                                  r'''$.slug_value''',
-                                                                ).toString(),
-                                                                ParamType.String,
-                                                              ),
-                                                              'producttype': serializeParam(
-                                                                FFAppConstants.RudrakshaMasterProductDetailsApi,
-                                                                ParamType.String,
-                                                              ),
-                                                            }.withoutNulls,
-                                                            extra: <String, dynamic>{
-                                                              kTransitionInfoKey: TransitionInfo(
-                                                                hasTransition: true,
-                                                                transitionType: PageTransitionType.bottomToTop,
-                                                              ),
-                                                            },
-                                                          );
-                                                        } else {
-                                                          context.pushNamed(
-                                                            'PujaProductDetails',
-                                                            queryParameters: {
-                                                              'productSlugValue': serializeParam(getJsonField(
-                                                                  relatedProductItem,
-                                                                  r'''$.slug_value''',).toString(),
-                                                                ParamType.String,
-                                                              ),
-                                                              'producttype': serializeParam(
-                                                                FFAppConstants.GemstoneMasterProductDetailsApi,
-                                                                ParamType.String,
-                                                              ),
-                                                            }.withoutNulls,
-                                                            extra: <String, dynamic>{
-                                                              kTransitionInfoKey: TransitionInfo(
-                                                                hasTransition: true,
-                                                                transitionType: PageTransitionType.bottomToTop,
-                                                              ),
-                                                            },
-                                                          );
+                                                  relatedProduct.length,
+                                                  (relatedProductIndex) {
+                                                final relatedProductItem =
+                                                    relatedProduct[
+                                                        relatedProductIndex];
+                                                return InkWell(
+                                                  splashColor:
+                                                      Colors.transparent,
+                                                  focusColor:
+                                                      Colors.transparent,
+                                                  hoverColor:
+                                                      Colors.transparent,
+                                                  highlightColor:
+                                                      Colors.transparent,
+                                                  onTap: () async {
+                                                    if (widget!.producttype ==
+                                                        FFAppConstants
+                                                            .RudrakshaMasterProductDetailsApi) {
+                                                      context.pushNamed(
+                                                        'PujaProductDetails',
+                                                        queryParameters: {
+                                                          'productSlugValue':
+                                                              serializeParam(
+                                                            getJsonField(
+                                                              relatedProductItem,
+                                                              r'''$.slug_value''',
+                                                            ).toString(),
+                                                            ParamType.String,
+                                                          ),
+                                                          'producttype':
+                                                              serializeParam(
+                                                            FFAppConstants
+                                                                .RudrakshaMasterProductDetailsApi,
+                                                            ParamType.String,
+                                                          ),
+                                                        }.withoutNulls,
+                                                        extra: <String,
+                                                            dynamic>{
+                                                          kTransitionInfoKey:
+                                                              TransitionInfo(
+                                                            hasTransition: true,
+                                                            transitionType:
+                                                                PageTransitionType
+                                                                    .bottomToTop,
+                                                          ),
+                                                        },
+                                                      );
+                                                    } else {
+                                                      context.pushNamed(
+                                                        'PujaProductDetails',
+                                                        queryParameters: {
+                                                          'productSlugValue':
+                                                              serializeParam(
+                                                            getJsonField(
+                                                              relatedProductItem,
+                                                              r'''$.slug_value''',
+                                                            ).toString(),
+                                                            ParamType.String,
+                                                          ),
+                                                          'producttype':
+                                                              serializeParam(
+                                                            FFAppConstants
+                                                                .GemstoneMasterProductDetailsApi,
+                                                            ParamType.String,
+                                                          ),
+                                                        }.withoutNulls,
+                                                        extra: <String,
+                                                            dynamic>{
+                                                          kTransitionInfoKey:
+                                                              TransitionInfo(
+                                                            hasTransition: true,
+                                                            transitionType:
+                                                                PageTransitionType
+                                                                    .bottomToTop,
+                                                          ),
+                                                        },
+                                                      );
 
-                                                          return;
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        width: 148,
-                                                        height: 220,
-                                                        decoration: BoxDecoration(
-                                                          color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                      return;
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    width: 148,
+                                                    height: 220,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          child: Image.network(
+                                                            getJsonField(
+                                                              relatedProductItem,
+                                                              r'''$.thumbnail_image''',
+                                                            ).toString(),
+                                                            width: 152,
+                                                            height: 104,
+                                                            fit:
+                                                                BoxFit.fitWidth,
+                                                          ),
                                                         ),
-                                                        child: Column(
-                                                          mainAxisSize: MainAxisSize.max,
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            ClipRRect(
-                                                              borderRadius: BorderRadius.circular(10),
-                                                              child: Image.network(getJsonField(
-                                                                  relatedProductItem,
-                                                                  r'''$.thumbnail_image''',).toString(),
-                                                                width: 152,
-                                                                height: 104,
-                                                                fit: BoxFit.fitWidth,
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              width: double.infinity,
-                                                              height: 50,
-                                                              decoration: BoxDecoration(),
-                                                              child: AutoSizeText(getJsonField(
-                                                                  relatedProductItem,
-                                                                  r'''$.product_name''',).toString(),
-                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                  fontFamily: 'Montserrat',
-                                                                  color: Color(0xFF696969),
+                                                        Container(
+                                                          width:
+                                                              double.infinity,
+                                                          height: 50,
+                                                          decoration:
+                                                              BoxDecoration(),
+                                                          child: AutoSizeText(
+                                                            getJsonField(
+                                                              relatedProductItem,
+                                                              r'''$.product_name''',
+                                                            ).toString(),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  color: Color(
+                                                                      0xFF696969),
                                                                   fontSize: 14,
-                                                                  letterSpacing: 0,
-                                                                  fontWeight: FontWeight.normal,
-                                                                  lineHeight: 1.5,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  lineHeight:
+                                                                      1.5,
                                                                 ),
-                                                              ),
-                                                            ),
-                                                            RichText(
-                                                              textScaler: MediaQuery.of(context).textScaler,
-                                                              text: TextSpan(
-                                                                children: [
-                                                                  TextSpan(
-                                                                    text: '${valueOrDefault<String>(FFAppState().currencyName, 'INR')} ${formatPriceRange(
-                                                                      getJsonField(relatedProductItem, r'''$.selling_price''').toString(),
-                                                                      FFAppState().currencyRate,
-                                                                    )}',
-                                                                    style: TextStyle(
-                                                                      fontWeight: FontWeight.w600,
-                                                                      fontSize: 14,
-                                                                    ),
-                                                                  )
-
-                                                                ],
-                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                  fontFamily: 'Montserrat',
-                                                                  fontSize: 14,
-                                                                  letterSpacing: 0,
-                                                                  fontWeight: FontWeight.w600,
-                                                                ),
-                                                              ),
-                                                              maxLines: 2,
-                                                            ),
-                                                          ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  }).divide(SizedBox(width: 16)),
+                                                        RichText(
+                                                          textScaler:
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .textScaler,
+                                                          text: TextSpan(
+                                                            children: [
+                                                              TextSpan(
+                                                                text:
+                                                                    '${valueOrDefault<String>(FFAppState().currencyName, 'INR')} ${formatPriceRange(
+                                                                  getJsonField(
+                                                                          relatedProductItem,
+                                                                          r'''$.selling_price''')
+                                                                      .toString(),
+                                                                  FFAppState()
+                                                                      .currencyRate,
+                                                                )}',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 14,
+                                                                ),
+                                                              )
+                                                            ],
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Montserrat',
+                                                                  fontSize: 14,
+                                                                  letterSpacing:
+                                                                      0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
+                                                          ),
+                                                          maxLines: 2,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              }).divide(SizedBox(width: 16)),
                                             ),
                                           );
                                         },
@@ -3003,62 +3799,191 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                 ),
               ],
             ),
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  decoration: BoxDecoration(
-                    color: Colors.white, // Set the background color to white
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
+            Positioned(
+              bottom: 0,
+              child: Container(
+                width: MediaQuery.of(context).size.width * 1,
+                decoration: BoxDecoration(
+                  color: Colors.white, // Set the background color to white
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding:
-                          EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  print(
-                                      "currentAuthenticationToken:${currentAuthenticationToken}");
-                                  print(
-                                      "_model.productid:${OtherProductsDetailsCall.rudrakshaProductid(
-                                        containerOtherProductsDetailsResponse
-                                            ?.jsonBody,
-                                      )?.toString()}");
-                                  print(
-                                      "_model.productmaintypee:${OtherProductsDetailsCall.rudrakshaMainProductType(
-                                        containerOtherProductsDetailsResponse
-                                            ?.jsonBody,
-                                      )?.toString()}");
-                                  print(
-                                      "_model.productvarient:${OtherProductsDetailsCall.pujavariantstatus(
-                                        containerOtherProductsDetailsResponse
-                                            ?.jsonBody,
-                                      )}");
+                        FFButtonWidget(
+                          onPressed: () async {
+                            print(
+                                "currentAuthenticationToken:${currentAuthenticationToken}");
+                            print(
+                                "_model.productid:${OtherProductsDetailsCall.rudrakshaProductid(
+                              containerOtherProductsDetailsResponse?.jsonBody,
+                            )?.toString()}");
+                            print(
+                                "_model.productmaintypee:${OtherProductsDetailsCall.rudrakshaMainProductType(
+                              containerOtherProductsDetailsResponse?.jsonBody,
+                            )?.toString()}");
+                            print(
+                                "_model.productvarient:${OtherProductsDetailsCall.pujavariantstatus(
+                              containerOtherProductsDetailsResponse?.jsonBody,
+                            )}");
 
+                            print(
+                                "_model.pujadataproductvariantdataproductid:${(OtherProductsDetailsCall.pujadataproductvariantdataproductid(
+                              containerOtherProductsDetailsResponse?.jsonBody,
+                            )?[_model.selectedCertificationindex!])}");
+                            if (currentAuthenticationToken != null &&
+                                currentAuthenticationToken != '') {
+                              FFAppState().buynow = false;
+                              if (OtherProductsDetailsCall.pujavariantstatus(
+                                    containerOtherProductsDetailsResponse
+                                        ?.jsonBody,
+                                  ) ==
+                                  true) {
+                                var _shouldSetState = false;
+                                _model.apiResultj7i =
+                                    await PujaproductAddToCartCall.call(
+                                  hosturl: FFAppConstants.sanityurl,
+                                  token: currentAuthenticationToken,
+                                  productid: OtherProductsDetailsCall
+                                      .rudrakshaProductid(
+                                    containerOtherProductsDetailsResponse
+                                        ?.jsonBody,
+                                  )?.toString(),
+                                  productType: OtherProductsDetailsCall
+                                      .rudrakshaMainProductType(
+                                    containerOtherProductsDetailsResponse
+                                        ?.jsonBody,
+                                  )?.toString(),
+                                  productvariation: OtherProductsDetailsCall
+                                      .pujavariantstatus(
+                                    containerOtherProductsDetailsResponse
+                                        ?.jsonBody,
+                                  ),
+                                  productvariationId: (OtherProductsDetailsCall
+                                      .pujadataproductvariantdataproductid(
+                                    containerOtherProductsDetailsResponse
+                                        ?.jsonBody,
+                                  )?[_model.selectedCertificationindex!]),
+                                  personName:
+                                      _model.enterNameTextController.text,
+                                  sankalp: _model
+                                      .enterSankalpWishTextController.text,
+                                  specialInstructions: _model
+                                      .enterSpecialInstructionsTextController
+                                      .text,
+                                  fatherName: _model
+                                      .enterFathersNameTextController.text,
+                                  motherName: _model
+                                      .enterMothersNameTextController.text,
+                                  /*  dob: dateTimeFormat(
+                                                  'yMd', _model.datePicked1),
+                                              tob: dateTimeFormat(
+                                                  'jm', _model.datePicked2),
+                                              pob: _model
+                                                  .enterPlaceofBirthTextController
+                                                  .text,*/
+                                  gotra: _model
+                                      .enterGotraClanNameTextController.text,
+                                  photo: _model.selectedFileBase64,
+                                );
+                                if ((_model.apiResultj7i?.succeeded ?? true)) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        getJsonField(
+                                          (_model.apiResultj7i?.jsonBody ?? ''),
+                                          r'''$.msg''',
+                                        ).toString(),
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .containerFillColor,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                    ),
+                                  );
+                                  if (getJsonField(
+                                        (_model.apiResultj7i?.jsonBody ?? ''),
+                                        r'''$.status''',
+                                      ).toString() ==
+                                      "success")
+                                    await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return GestureDetector(
+                                          onTap: () => _model
+                                                  .unfocusNode.canRequestFocus
+                                              ? FocusScope.of(context)
+                                                  .requestFocus(
+                                                      _model.unfocusNode)
+                                              : FocusScope.of(context)
+                                                  .unfocus(),
+                                          child: Padding(
+                                            padding: MediaQuery.viewInsetsOf(
+                                                context),
+                                            child: MyCartWidget(),
+                                          ),
+                                        );
+                                      },
+                                    ).then((value) => safeSetState(() {}));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        getJsonField(
+                                          (_model.apiResultj7i?.jsonBody ?? ''),
+                                          r'''$.msg''',
+                                        ).toString(),
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .containerFillColor,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                    ),
+                                  );
+                                  if (_shouldSetState) setState(() {});
+                                  return;
+                                }
+                                _model.productid =
+                                    OtherProductsDetailsCall.rudrakshaProductid(
+                                  containerOtherProductsDetailsResponse
+                                      ?.jsonBody,
+                                );
+                                _model.productmaintypee =
+                                    OtherProductsDetailsCall
+                                        .rudrakshaMainProductType(
+                                  containerOtherProductsDetailsResponse
+                                      ?.jsonBody,
+                                );
+                                _model.productvarient = OtherProductsDetailsCall
+                                    .productVariantStatus(
+                                  containerOtherProductsDetailsResponse
+                                      ?.jsonBody,
+                                )!;
+                                setState(() {
+                                  print("_model.productid:${_model.productid}");
                                   print(
-                                      "_model.pujadataproductvariantdataproductid:${(OtherProductsDetailsCall.pujadataproductvariantdataproductid(
-                                        containerOtherProductsDetailsResponse
-                                            ?.jsonBody,
-                                      )?[_model.selectedCertificationindex!])}");
-                                  if (currentAuthenticationToken != null &&
-                                      currentAuthenticationToken != '') {
-                                    FFAppState().buynow = false;
-                                    if (OtherProductsDetailsCall
-                                        .pujavariantstatus(
-                                      containerOtherProductsDetailsResponse
-                                          ?.jsonBody,
-                                    ) ==
-                                        true) {
-                                      var _shouldSetState = false;
-                                      _model.apiResultj7i =
-                                      await PujaproductAddToCartCall
-                                          .call(
+                                      "_model.productmaintypee:${_model.productmaintypee}");
+                                  print(
+                                      "_model.productvarient:${_model.productvarient}");
+                                });
+                                if (_shouldSetState) setState(() {});
+                              } else {
+                                var _shouldSetState = false;
+                                _model.apiResultj7i =
+                                    await PujaproductAddToCartCall.call(
                                         hosturl: FFAppConstants.sanityurl,
                                         token: currentAuthenticationToken,
                                         productid: OtherProductsDetailsCall
@@ -3066,27 +3991,13 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                           containerOtherProductsDetailsResponse
                                               ?.jsonBody,
                                         )?.toString(),
-                                        productType:
-                                        OtherProductsDetailsCall
+                                        productType: OtherProductsDetailsCall
                                             .rudrakshaMainProductType(
                                           containerOtherProductsDetailsResponse
                                               ?.jsonBody,
                                         )?.toString(),
-                                        productvariation:
-                                        OtherProductsDetailsCall
-                                            .pujavariantstatus(
-                                          containerOtherProductsDetailsResponse
-                                              ?.jsonBody,
-                                        ),
-                                        productvariationId:
-                                        (OtherProductsDetailsCall
-                                            .pujadataproductvariantdataproductid(
-                                          containerOtherProductsDetailsResponse
-                                              ?.jsonBody,
-                                        )?[_model
-                                            .selectedCertificationindex!]),
-                                        personName: _model
-                                            .enterNameTextController.text,
+                                        personName:
+                                            _model.enterNameTextController.text,
                                         sankalp: _model
                                             .enterSankalpWishTextController
                                             .text,
@@ -3097,164 +4008,7 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                             .enterFathersNameTextController
                                             .text,
                                         motherName: _model
-                                            .enterMothersNameTextController
-                                            .text,
-                                        /*  dob: dateTimeFormat(
-                                                  'yMd', _model.datePicked1),
-                                              tob: dateTimeFormat(
-                                                  'jm', _model.datePicked2),
-                                              pob: _model
-                                                  .enterPlaceofBirthTextController
-                                                  .text,*/
-                                        gotra: _model
-                                            .enterGotraClanNameTextController
-                                            .text,
-                                        photo: _model.selectedFileBase64,
-                                      );
-                                      if ((_model.apiResultj7i?.succeeded ??
-                                          true)) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultj7i
-                                                    ?.jsonBody ??
-                                                    ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).containerFillColor,
-                                              ),
-                                            ),
-                                            duration: Duration(
-                                                milliseconds: 4000),
-                                            backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
-                                        );
-                                        if (getJsonField(
-                                          (_model.apiResultj7i
-                                              ?.jsonBody ??
-                                              ''),
-                                          r'''$.status''',
-                                        ).toString() ==
-                                            "success")
-                                          await showModalBottomSheet(
-                                            isScrollControlled: true,
-                                            backgroundColor:
-                                            Colors.transparent,
-                                            enableDrag: false,
-                                            context: context,
-                                            builder: (context) {
-                                              return GestureDetector(
-                                                onTap: () => _model
-                                                    .unfocusNode
-                                                    .canRequestFocus
-                                                    ? FocusScope.of(context)
-                                                    .requestFocus(_model
-                                                    .unfocusNode)
-                                                    : FocusScope.of(context)
-                                                    .unfocus(),
-                                                child: Padding(
-                                                  padding: MediaQuery
-                                                      .viewInsetsOf(
-                                                      context),
-                                                  child: MyCartWidget(),
-                                                ),
-                                              );
-                                            },
-                                          ).then((value) =>
-                                              safeSetState(() {}));
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultj7i
-                                                    ?.jsonBody ??
-                                                    ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).containerFillColor,
-                                              ),
-                                            ),
-                                            duration: Duration(
-                                                milliseconds: 4000),
-                                            backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
-                                        );
-                                        if (_shouldSetState)
-                                          setState(() {});
-                                        return;
-                                      }
-                                      _model.productid =
-                                          OtherProductsDetailsCall
-                                              .rudrakshaProductid(
-                                            containerOtherProductsDetailsResponse
-                                                ?.jsonBody,
-                                          );
-                                      _model.productmaintypee =
-                                          OtherProductsDetailsCall
-                                              .rudrakshaMainProductType(
-                                            containerOtherProductsDetailsResponse
-                                                ?.jsonBody,
-                                          );
-                                      _model.productvarient =
-                                      OtherProductsDetailsCall
-                                          .productVariantStatus(
-                                        containerOtherProductsDetailsResponse
-                                            ?.jsonBody,
-                                      )!;
-                                      setState(() {
-                                        print(
-                                            "_model.productid:${_model.productid}");
-                                        print(
-                                            "_model.productmaintypee:${_model.productmaintypee}");
-                                        print(
-                                            "_model.productvarient:${_model.productvarient}");
-                                      });
-                                      if (_shouldSetState) setState(() {});
-                                    } else {
-                                      var _shouldSetState = false;
-                                      _model.apiResultj7i = await PujaproductAddToCartCall
-                                          .call(
-                                          hosturl:
-                                          FFAppConstants.sanityurl,
-                                          token:
-                                          currentAuthenticationToken,
-                                          productid:
-                                          OtherProductsDetailsCall
-                                              .rudrakshaProductid(
-                                            containerOtherProductsDetailsResponse
-                                                ?.jsonBody,
-                                          )?.toString(),
-                                          productType:
-                                          OtherProductsDetailsCall
-                                              .rudrakshaMainProductType(
-                                            containerOtherProductsDetailsResponse
-                                                ?.jsonBody,
-                                          )?.toString(),
-                                          personName: _model
-                                              .enterNameTextController
-                                              .text,
-                                          sankalp: _model
-                                              .enterSankalpWishTextController
-                                              .text,
-                                          specialInstructions: _model
-                                              .enterSpecialInstructionsTextController
-                                              .text,
-                                          fatherName: _model
-                                              .enterFathersNameTextController
-                                              .text,
-                                          motherName: _model
-                                              .enterMothersNameTextController
-                                              .text
+                                            .enterMothersNameTextController.text
                                         /*   certification:
                                                 (OtherProductsDetailsCall
                                                         .certificationlistid(
@@ -3263,301 +4017,282 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                             )?[_model.selectedCertificationindex!])
                                                     ?.toString(),*/
 
-                                      );
-                                      _shouldSetState = true;
-                                      if ((_model.apiResultj7i?.succeeded ??
-                                          true)) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultj7i?.jsonBody ?? ''), r'''$.msg''',).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).containerFillColor,
-                                              ),
-                                            ),
-                                            duration: Duration(milliseconds: 4000),
-                                            backgroundColor: FlutterFlowTheme.of(context).primary,
+                                        );
+                                _shouldSetState = true;
+                                if ((_model.apiResultj7i?.succeeded ?? true)) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        getJsonField(
+                                          (_model.apiResultj7i?.jsonBody ?? ''),
+                                          r'''$.msg''',
+                                        ).toString(),
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .containerFillColor,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                    ),
+                                  );
+                                  if (getJsonField(
+                                        (_model.apiResultj7i?.jsonBody ?? ''),
+                                        r'''$.status''',
+                                      ).toString() ==
+                                      "success")
+                                    await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      enableDrag: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return GestureDetector(
+                                          onTap: () => _model
+                                                  .unfocusNode.canRequestFocus
+                                              ? FocusScope.of(context)
+                                                  .requestFocus(
+                                                      _model.unfocusNode)
+                                              : FocusScope.of(context)
+                                                  .unfocus(),
+                                          child: Padding(
+                                            padding: MediaQuery.viewInsetsOf(
+                                                context),
+                                            child: MyCartWidget(),
                                           ),
                                         );
-                                        if (getJsonField((_model.apiResultj7i?.jsonBody ?? ''),
-                                          r'''$.status''',).toString() == "success")
-                                          await showModalBottomSheet(
-                                            isScrollControlled: true,
-                                            backgroundColor:
-                                            Colors.transparent,
-                                            enableDrag: false,
-                                            context: context,
-                                            builder: (context) {
-                                              return GestureDetector(
-                                                onTap: () => _model
-                                                    .unfocusNode
-                                                    .canRequestFocus
-                                                    ? FocusScope.of(context)
-                                                    .requestFocus(_model
-                                                    .unfocusNode)
-                                                    : FocusScope.of(context)
-                                                    .unfocus(),
-                                                child: Padding(
-                                                  padding: MediaQuery
-                                                      .viewInsetsOf(
-                                                      context),
-                                                  child: MyCartWidget(),
-                                                ),
-                                              );
-                                            },
-                                          ).then((value) =>
-                                              safeSetState(() {}));
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              getJsonField(
-                                                (_model.apiResultj7i
-                                                    ?.jsonBody ??
-                                                    ''),
-                                                r'''$.msg''',
-                                              ).toString(),
-                                              style: TextStyle(
-                                                color: FlutterFlowTheme.of(context).containerFillColor,
-                                              ),
-                                            ),
-                                            duration: Duration(
-                                                milliseconds: 4000),
-                                            backgroundColor:
-                                            FlutterFlowTheme.of(context).primary,
-                                          ),
-                                        );
-                                        if (_shouldSetState)
-                                          setState(() {});
-                                        return;
-                                      }
-                                      _model.productid =
-                                          OtherProductsDetailsCall
-                                              .rudrakshaProductid(
-                                            containerOtherProductsDetailsResponse
-                                                ?.jsonBody,
-                                          );
-                                      _model.productmaintypee =
-                                          OtherProductsDetailsCall
-                                              .rudrakshaMainProductType(
-                                            containerOtherProductsDetailsResponse
-                                                ?.jsonBody,
-                                          );
-                                      _model.productvarient =
-                                      OtherProductsDetailsCall
-                                          .productVariantStatus(
-                                        containerOtherProductsDetailsResponse
-                                            ?.jsonBody,
-                                      )!;
-                                      setState(() {});
-                                      if (_shouldSetState) setState(() {});
-                                    }
-                                    ;
-                                  } else {
-                                    context.pushNamed(
-                                      'LoginPage',
-                                      extra: <String, dynamic>{
-                                        kTransitionInfoKey: TransitionInfo(
-                                          hasTransition: true,
-                                          transitionType:
-                                          PageTransitionType.fade,
-                                          duration:
-                                          Duration(milliseconds: 0),
-                                        ),
                                       },
-                                    );
-                                  }
-                                },
-                                text: 'Add to Cart',
-                                options: FFButtonOptions(
-                                  width: MediaQuery.sizeOf(context).width * 0.44,
-                                  height: 40,
-                                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                                  textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Montserrat',
-                                    color: Color(0xFF740074),
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  elevation: 0,
-                                  borderSide: BorderSide(
-                                    color: Color(0xFF740074),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                showLoadingIndicator: false,
-                              ),
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  print("producttype:${widget.producttype}");
-                                  if (currentAuthenticationToken != null &&
-                                      currentAuthenticationToken != '') {
-                                    if (widget.producttype ==
-                                        FFAppConstants
-                                            .PujaMasterProductDetailsApi) {
-                                      FFAppState().productid =
-                                          OtherProductsDetailsCall
-                                              .rudrakshaProductid(
-                                            containerOtherProductsDetailsResponse
-                                                ?.jsonBody,
-                                          )!
-                                              .toString();
-
-                                      FFAppState().productvariationId =
-                                      (OtherProductsDetailsCall
-                                          .pujadataproductvariantdataproductid(
-                                        containerOtherProductsDetailsResponse
-                                            ?.jsonBody,
-                                      )?[_model
-                                          .selectedCertificationindex!]);
-                                      FFAppState().productType =
-                                          OtherProductsDetailsCall
-                                              .rudrakshaMainProductType(
-                                            containerOtherProductsDetailsResponse
-                                                ?.jsonBody,
-                                          )!
-                                              .toString();
-                                      if (OtherProductsDetailsCall
-                                          .pujavariantstatus(
-                                        containerOtherProductsDetailsResponse
-                                            ?.jsonBody,
-                                      ) ==
-                                          false) {
-                                        FFAppState()
-                                            .productvariation = false;
-                                      }
-                                      else
-                                        FFAppState().productvariation =
-                                            OtherProductsDetailsCall
-                                                .pujavariantstatus(
-                                              containerOtherProductsDetailsResponse
-                                                  ?.jsonBody,
-                                            );
-                                      FFAppState().personName = _model
-                                          .enterNameTextController.text;
-                                      FFAppState().sankalp = _model
-                                          .enterSankalpWishTextController
-                                          .text;
-                                      FFAppState().specialInstructions = _model
-                                          .enterSpecialInstructionsTextController
-                                          .text;
-                                      FFAppState().fatherName = _model
-                                          .enterFathersNameTextController
-                                          .text;
-                                      FFAppState().motherName = _model
-                                          .enterMothersNameTextController
-                                          .text;
-                                      print(FFAppState().productvariation);
-
-                                      print(
-                                          "_model.selecteddesignid ${_model.selecteddesignid}");
-                                      print(
-                                          "FFAppState().energizationId ${FFAppState().energizationId}");
-
-                                      print(
-                                          "FFAppState().selectedCertificationId ${FFAppState().selectedCertificationId}");
-
-                                      FFAppState().buynow = true;
-                                      print(
-                                          "FFAppState().buynow: ${FFAppState().buynow}");
-                                      print(
-                                          "FFAppState().quantity: ${FFAppState().quantity}");
-                                      print(
-                                          "FFAppState().productvariation: ${FFAppState().productvariation}");
-                                      print(
-                                          "FFAppState().productType: ${FFAppState().productType}");
-                                      print(
-                                          "FFAppState().productvariationId: ${FFAppState().productvariationId}");
-                                      print(
-                                          "FFAppState().productid: ${FFAppState().productid}");
-                                      print(
-                                          "FFAppState().personName: ${FFAppState().personName}");
-                                      print(
-                                          "FFAppState().sankalp: ${FFAppState().sankalp}");
-                                      print(
-                                          "FFAppState().specialInstructions: ${FFAppState().specialInstructions}");
-                                      print(
-                                          "FFAppState().fatherName: ${FFAppState().fatherName}");
-                                      print(
-                                          "FFAppState()._motherName: ${FFAppState().motherName}");
-
-                                      print(
-                                          "FFAppState().productvariationString: ${FFAppState().productvariationString}");
-
-                                      context.pushNamed(
-                                        'DeliveryAddress',
-                                        extra: <String, dynamic>{
-                                          kTransitionInfoKey:
-                                          const TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                            PageTransitionType
-                                                .bottomToTop,
-                                            duration:
-                                            Duration(milliseconds: 400),
-                                          ),
-                                        },
-                                      );
-                                    }
-
-                                    print('Button pressed ...');
-                                  } else {
-                                    context.pushNamed(
-                                      'LoginPage',
-                                      extra: <String, dynamic>{
-                                        kTransitionInfoKey: TransitionInfo(
-                                          hasTransition: true,
-                                          transitionType:
-                                          PageTransitionType.fade,
-                                          duration:
-                                          Duration(milliseconds: 0),
+                                    ).then((value) => safeSetState(() {}));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        getJsonField(
+                                          (_model.apiResultj7i?.jsonBody ?? ''),
+                                          r'''$.msg''',
+                                        ).toString(),
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .containerFillColor,
                                         ),
-                                      },
-                                    );
-                                  }
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                    ),
+                                  );
+                                  if (_shouldSetState) setState(() {});
+                                  return;
+                                }
+                                _model.productid =
+                                    OtherProductsDetailsCall.rudrakshaProductid(
+                                  containerOtherProductsDetailsResponse
+                                      ?.jsonBody,
+                                );
+                                _model.productmaintypee =
+                                    OtherProductsDetailsCall
+                                        .rudrakshaMainProductType(
+                                  containerOtherProductsDetailsResponse
+                                      ?.jsonBody,
+                                );
+                                _model.productvarient = OtherProductsDetailsCall
+                                    .productVariantStatus(
+                                  containerOtherProductsDetailsResponse
+                                      ?.jsonBody,
+                                )!;
+                                setState(() {});
+                                if (_shouldSetState) setState(() {});
+                              }
+                              ;
+                            } else {
+                              context.pushNamed(
+                                'LoginPage',
+                                extra: <String, dynamic>{
+                                  kTransitionInfoKey: TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType: PageTransitionType.fade,
+                                    duration: Duration(milliseconds: 0),
+                                  ),
                                 },
-                                text: 'Buy Now',
-                                options: FFButtonOptions(
-                                  width: MediaQuery.sizeOf(context).width *
-                                      0.44,
-                                  height: 40,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      24, 0, 24, 0),
-                                  iconPadding:
-                                  EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 0),
+                              );
+                            }
+                          },
+                          text: 'Add to Cart',
+                          options: FFButtonOptions(
+                            width: MediaQuery.sizeOf(context).width * 0.44,
+                            height: 40,
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                            iconPadding:
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  fontFamily: 'Montserrat',
                                   color: Color(0xFF740074),
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                    fontFamily: 'Montserrat',
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  elevation: 0,
-                                  borderSide: BorderSide(
-                                    color: Color(0xFF740074),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(12),
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                              ),
-                            ],
+                            elevation: 0,
+                            borderSide: BorderSide(
+                              color: Color(0xFF740074),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          showLoadingIndicator: false,
+                        ),
+                        FFButtonWidget(
+                          onPressed: () async {
+                            print("producttype:${widget.producttype}");
+                            if (currentAuthenticationToken != null &&
+                                currentAuthenticationToken != '') {
+                              if (widget.producttype ==
+                                  FFAppConstants.PujaMasterProductDetailsApi) {
+                                FFAppState().productid =
+                                    OtherProductsDetailsCall.rudrakshaProductid(
+                                  containerOtherProductsDetailsResponse
+                                      ?.jsonBody,
+                                )!
+                                        .toString();
+
+                                FFAppState().productvariationId =
+                                    (OtherProductsDetailsCall
+                                        .pujadataproductvariantdataproductid(
+                                  containerOtherProductsDetailsResponse
+                                      ?.jsonBody,
+                                )?[_model.selectedCertificationindex!]);
+                                FFAppState().productType =
+                                    OtherProductsDetailsCall
+                                            .rudrakshaMainProductType(
+                                  containerOtherProductsDetailsResponse
+                                      ?.jsonBody,
+                                )!
+                                        .toString();
+                                if (OtherProductsDetailsCall.pujavariantstatus(
+                                      containerOtherProductsDetailsResponse
+                                          ?.jsonBody,
+                                    ) ==
+                                    false) {
+                                  FFAppState().productvariation = false;
+                                } else
+                                  FFAppState().productvariation =
+                                      OtherProductsDetailsCall
+                                          .pujavariantstatus(
+                                    containerOtherProductsDetailsResponse
+                                        ?.jsonBody,
+                                  );
+                                FFAppState().personName =
+                                    _model.enterNameTextController.text;
+                                FFAppState().sankalp =
+                                    _model.enterSankalpWishTextController.text;
+                                FFAppState().specialInstructions = _model
+                                    .enterSpecialInstructionsTextController
+                                    .text;
+                                FFAppState().fatherName =
+                                    _model.enterFathersNameTextController.text;
+                                FFAppState().motherName =
+                                    _model.enterMothersNameTextController.text;
+                                print(FFAppState().productvariation);
+
+                                print(
+                                    "_model.selecteddesignid ${_model.selecteddesignid}");
+                                print(
+                                    "FFAppState().energizationId ${FFAppState().energizationId}");
+
+                                print(
+                                    "FFAppState().selectedCertificationId ${FFAppState().selectedCertificationId}");
+
+                                FFAppState().buynow = true;
+                                print(
+                                    "FFAppState().buynow: ${FFAppState().buynow}");
+                                print(
+                                    "FFAppState().quantity: ${FFAppState().quantity}");
+                                print(
+                                    "FFAppState().productvariation: ${FFAppState().productvariation}");
+                                print(
+                                    "FFAppState().productType: ${FFAppState().productType}");
+                                print(
+                                    "FFAppState().productvariationId: ${FFAppState().productvariationId}");
+                                print(
+                                    "FFAppState().productid: ${FFAppState().productid}");
+                                print(
+                                    "FFAppState().personName: ${FFAppState().personName}");
+                                print(
+                                    "FFAppState().sankalp: ${FFAppState().sankalp}");
+                                print(
+                                    "FFAppState().specialInstructions: ${FFAppState().specialInstructions}");
+                                print(
+                                    "FFAppState().fatherName: ${FFAppState().fatherName}");
+                                print(
+                                    "FFAppState()._motherName: ${FFAppState().motherName}");
+
+                                print(
+                                    "FFAppState().productvariationString: ${FFAppState().productvariationString}");
+
+                                context.pushNamed(
+                                  'DeliveryAddress',
+                                  extra: <String, dynamic>{
+                                    kTransitionInfoKey: const TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType:
+                                          PageTransitionType.bottomToTop,
+                                      duration: Duration(milliseconds: 400),
+                                    ),
+                                  },
+                                );
+                              }
+
+                              print('Button pressed ...');
+                            } else {
+                              context.pushNamed(
+                                'LoginPage',
+                                extra: <String, dynamic>{
+                                  kTransitionInfoKey: TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType: PageTransitionType.fade,
+                                    duration: Duration(milliseconds: 0),
+                                  ),
+                                },
+                              );
+                            }
+                          },
+                          text: 'Buy Now',
+                          options: FFButtonOptions(
+                            width: MediaQuery.sizeOf(context).width * 0.44,
+                            height: 40,
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                            iconPadding:
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                            color: Color(0xFF740074),
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  fontFamily: 'Montserrat',
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            elevation: 0,
+                            borderSide: BorderSide(
+                              color: Color(0xFF740074),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                      ]
+                      ],
+                    ),
                   ),
-                ),
+                ]),
               ),
-              /*Align(
+            ),
+            /*Align(
                 alignment: AlignmentDirectional(0, 1),
                 child: wrapWithModel(
                   model: _model.customNavBarModel,
@@ -3565,8 +4300,7 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                   child: const CustomNavBarWidget(),
                 ),
               ),*/
-            ]
-          ),
+          ]),
         ),
         bottomNavigationBar: const CustomNavBarWidget(),
       ),

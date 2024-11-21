@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_html/flutter_html.dart';
 import '../../components/shimmer_widget.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -35,7 +34,8 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
 
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
-    _model.textController?.addListener(_onSearchChanged); // Add listener for search bar
+    _model.textController
+        ?.addListener(_onSearchChanged); // Add listener for search bar
 
     _fetchData();
   }
@@ -127,12 +127,12 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
               title: Text(
                 'Articles',
                 style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Outfit',
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  fontSize: 16,
-                  letterSpacing: 0,
-                  fontWeight: FontWeight.w600,
-                ),
+                      fontFamily: 'Outfit',
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      fontSize: 16,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
               actions: [],
               centerTitle: true,
@@ -168,7 +168,8 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                       final responseJson = columnBlogListResponse.jsonBody;
 
                       // Check if the data is a list or map
-                      final blogList = getJsonField(responseJson, r'''$.data''');
+                      final blogList =
+                          getJsonField(responseJson, r'''$.data''');
                       final blogListItems = blogList is List ? blogList : [];
 
                       if (blogListItems.isEmpty) {
@@ -177,11 +178,13 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                             padding: const EdgeInsets.all(16.0),
                             child: Text(
                               'No results found',
-                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                fontFamily: 'Montserrat',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                             ),
                           ),
                         );
@@ -194,30 +197,38 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(16, 50, 16, 0),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(16, 50, 16, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
-                                children: List.generate(blogListItems.length, (index) {
+                                children: List.generate(blogListItems.length,
+                                    (index) {
                                   final blogListItem = blogListItems[index];
 
                                   // Decode the JSON data if necessary
                                   final decodedDescription = utf8.decode(
-                                      getJsonField(blogListItem, r'''$.small_description''').toString().codeUnits
-                                  );
+                                      getJsonField(blogListItem,
+                                              r'''$.small_description''')
+                                          .toString()
+                                          .codeUnits);
 
-                                  final decodedTitle = utf8.decode(
-                                      getJsonField(blogListItem, r'''$.blog_title''').toString().codeUnits
-                                  );
+                                  final decodedTitle = utf8.decode(getJsonField(
+                                          blogListItem, r'''$.blog_title''')
+                                      .toString()
+                                      .codeUnits);
 
                                   return Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 25, 0, 0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Center(
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(8),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
                                             child: /*CachedNetworkImage(
                                               fadeInDuration: Duration(milliseconds: 100),
                                               fadeOutDuration: Duration(milliseconds: 100),
@@ -226,75 +237,139 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                                               height: MediaQuery.sizeOf(context).height * 0.25,
                                               fit: BoxFit.fill,
                                             ),*/
-                                            CachedNetworkImage(
-                                              fadeInDuration: Duration(milliseconds: 100),
-                                              fadeOutDuration: Duration(milliseconds: 100),
+                                                CachedNetworkImage(
+                                              fadeInDuration:
+                                                  Duration(milliseconds: 100),
+                                              fadeOutDuration:
+                                                  Duration(milliseconds: 100),
                                               imageUrl: utf8.decode(
-                                                (getJsonField(blogListItem, r'''$.image''').toString())
-                                                    .codeUnits.toList(),
+                                                (getJsonField(blogListItem,
+                                                            r'''$.image''')
+                                                        .toString())
+                                                    .codeUnits
+                                                    .toList(),
                                                 allowMalformed: true,
                                               ),
                                               width: double.infinity,
-                                              height: MediaQuery.sizeOf(context).height * 0.25,
+                                              height: MediaQuery.sizeOf(context)
+                                                      .height *
+                                                  0.25,
                                               fit: BoxFit.fill,
-                                              placeholder: (context, url) => ShimmerWidget(),
-                                              errorWidget: (context, url, error) => Icon(Icons.error),
+                                              placeholder: (context, url) =>
+                                                  ShimmerWidget(),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: 10,),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryBackground,
                                           ),
-                                          child: HtmlWidget(
-                                            decodedTitle,
-                                           
+                                          child: Html(
+                                            data: decodedTitle,
+                                            style: {
+                                              "html": Style(
+                                                //fontFamily: 'Montserrat',
+                                                fontFamily:
+                                                    GoogleFonts.montserrat(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xFF313131),
+                                                ).fontFamily,
+                                                fontSize: FontSize(18),
+                                                color: Color(0xFF313131),
+                                                //fontWeight: GoogleFonts.montserrat().fontWeight,
+                                              ),
+                                              "body": Style(
+                                                margin: Margins.zero,
+                                                padding: HtmlPaddings.zero,
+                                              ),
+                                            },
                                           ),
                                         ),
                                         Container(
                                           width: double.infinity,
                                           decoration: BoxDecoration(),
-                                          child: HtmlWidget(
-                                             decodedDescription,
-                                          
-                                            
+                                          child: Html(
+                                            data: decodedDescription,
+                                            style: {
+                                              "html": Style(
+                                                //fontFamily: 'Montserrat',
+                                                fontFamily:
+                                                    GoogleFonts.montserrat(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xFF313131),
+                                                ).fontFamily,
+                                                letterSpacing: 0,
+                                                textAlign: TextAlign.justify,
+                                                fontSize: FontSize(16),
+                                                color: Color(0xFF575758),
+                                                lineHeight: LineHeight(1.5),
+                                                padding:
+                                                    HtmlPaddings.only(top: 0),
+                                                margin: Margins.only(top: 0),
+                                              ),
+                                              "body": Style(
+                                                margin: Margins.zero,
+                                                padding: HtmlPaddings.zero,
+                                              ),
+                                            },
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 6),
+                                          padding:
+                                              const EdgeInsets.only(top: 6),
                                           child: InkWell(
                                             splashColor: Colors.transparent,
                                             focusColor: Colors.transparent,
                                             hoverColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
                                             onTap: () async {
-                                              print('Slug value: ${getJsonField(blogListItem, r'''$.slug_url''').toString()}');
+                                              print(
+                                                  'Slug value: ${getJsonField(blogListItem, r'''$.slug_url''').toString()}');
                                               context.pushNamed(
                                                 'ArticleDetail',
                                                 queryParameters: {
                                                   'slugValue': serializeParam(
-                                                    getJsonField(blogListItem, r'''$.slug_url''').toString(),
+                                                    getJsonField(blogListItem,
+                                                            r'''$.slug_url''')
+                                                        .toString(),
                                                     ParamType.String,
                                                   ),
                                                 }.withoutNulls,
                                                 extra: <String, dynamic>{
-                                                  kTransitionInfoKey: TransitionInfo(
+                                                  kTransitionInfoKey:
+                                                      TransitionInfo(
                                                     hasTransition: true,
-                                                    transitionType: PageTransitionType.rightToLeft,
-                                                    duration: Duration(milliseconds: 400),
+                                                    transitionType:
+                                                        PageTransitionType
+                                                            .rightToLeft,
+                                                    duration: Duration(
+                                                        milliseconds: 400),
                                                   ),
                                                 },
                                               );
                                             },
                                             child: Text(
                                               'Read More',
-                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                fontFamily: 'Montserrat',
-                                                color: FlutterFlowTheme.of(context).primary,
-                                                letterSpacing: 0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Montserrat',
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                             ),
                                           ),
                                         )
@@ -329,35 +404,44 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                             obscureText: false,
                             decoration: InputDecoration(
                               //labelText: 'Search here...',
-                              labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Readex Pro',
-                                color: FlutterFlowTheme.of(context).secondaryText,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                              ),
-                              hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Readex Pro',
-                                color: FlutterFlowTheme.of(context).secondaryText,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                              ),
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                              hintStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               errorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color:  FlutterFlowTheme.of(context).secondaryText,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -369,20 +453,26 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              contentPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                              contentPadding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                               prefixIcon: Icon(
                                 Icons.search,
-                                color: FlutterFlowTheme.of(context).secondaryText,
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
                                 size: 15,
                               ),
                             ),
-                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Readex Pro',
-                              color: FlutterFlowTheme.of(context).primaryText,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            validator: _model.textControllerValidator.asValidator(context),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Readex Pro',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                            validator: _model.textControllerValidator
+                                .asValidator(context),
                             focusNode: _model.textFieldFocusNode,
                           ),
                         ),
@@ -401,7 +491,8 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                         child: Container(
                           //width: double.infinity,
                           decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
                             borderRadius: BorderRadius.circular(4),
                             shape: BoxShape.rectangle,
                           ),
@@ -416,27 +507,38 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                                   // Back Arrow
                                   IconButton(
                                     icon: Icon(Icons.arrow_back_ios, size: 24),
-                                    onPressed: _currentPage > 1 ? () => _onPageChanged(_currentPage - 1) : null,
+                                    onPressed: _currentPage > 1
+                                        ? () => _onPageChanged(_currentPage - 1)
+                                        : null,
                                   ),
                                   // Pagination Buttons
                                   ...List.generate(_totalPages, (index) {
                                     final pageIndex = index + 1;
                                     return Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 4),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 4),
                                       child: ElevatedButton(
-                                        onPressed: () => _onPageChanged(pageIndex),
+                                        onPressed: () =>
+                                            _onPageChanged(pageIndex),
                                         style: ElevatedButton.styleFrom(
-                                          foregroundColor: _currentPage == pageIndex
-                                              ? Colors.white
-                                              : FlutterFlowTheme.of(context).primaryText,
-                                          backgroundColor: _currentPage == pageIndex
-                                              ? FlutterFlowTheme.of(context).primary
-                                              : FlutterFlowTheme.of(context).secondaryBackground,
+                                          foregroundColor:
+                                              _currentPage == pageIndex
+                                                  ? Colors.white
+                                                  : FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                          backgroundColor:
+                                              _currentPage == pageIndex
+                                                  ? FlutterFlowTheme.of(context)
+                                                      .primary
+                                                  : FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(4), // Square corners
+                                            borderRadius: BorderRadius.circular(
+                                                4), // Square corners
                                           ),
                                           padding: EdgeInsets.all(10),
-                                          minimumSize: Size(40, 40), // Ensures square shape
+                                          minimumSize: Size(
+                                              40, 40), // Ensures square shape
                                         ),
                                         child: Text(
                                           '$pageIndex',
@@ -450,8 +552,11 @@ class _ArticlesScreenWidgetState extends State<ArticlesScreenWidget> {
                                   }),
                                   // Next Arrow
                                   IconButton(
-                                    icon: Icon(Icons.arrow_forward_ios, size: 24),
-                                    onPressed: _currentPage < _totalPages ? () => _onPageChanged(_currentPage + 1) : null,
+                                    icon:
+                                        Icon(Icons.arrow_forward_ios, size: 24),
+                                    onPressed: _currentPage < _totalPages
+                                        ? () => _onPageChanged(_currentPage + 1)
+                                        : null,
                                   ),
                                 ],
                               ),

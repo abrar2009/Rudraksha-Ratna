@@ -1108,7 +1108,6 @@ class Bannercall {
     );
   }
 
-
   static List<String>? Bannerimage(dynamic response) => (getJsonField(
     response,
     r'''$.data[:].mobileimage''',

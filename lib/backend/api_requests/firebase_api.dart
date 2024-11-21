@@ -24,7 +24,7 @@ class FirebaseApi {
 
   Future<void> initNotifications() async {
     await _firebaseMessaging.requestPermission();
-    final fCMToken = await _firebaseMessaging.getAPNSToken();
+    final fCMToken = await _firebaseMessaging.getToken();
     FFAppState().firebaseToken = fCMToken!;
     print('Firebase Token: $fCMToken');
     print('Firebase Token ffappstate: ${FFAppState().firebaseToken}');
@@ -57,6 +57,7 @@ class FirebaseApi {
 
 */
 
+
 import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -73,12 +74,10 @@ Future<void> handleBackgroundMessage(RemoteMessage message) async {
 }
 
 class FirebaseApi {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  final StreamController<RemoteMessage> _messageStreamController =
-      StreamController.broadcast();
+  final StreamController<RemoteMessage> _messageStreamController = StreamController.broadcast();
 
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
@@ -86,7 +85,7 @@ class FirebaseApi {
 
   Future<void> initNotifications() async {
     await _firebaseMessaging.requestPermission();
-    final fCMToken = await _firebaseMessaging.getAPNSToken();
+    final fCMToken = await _firebaseMessaging.getToken();
     FFAppState().firebaseToken = fCMToken!;
     print('Firebase Token: $fCMToken');
     print('Firebase Token ffappstate: ${FFAppState().firebaseToken}');
@@ -95,8 +94,7 @@ class FirebaseApi {
       print('Received a message in the foreground: ${message.messageId}');
       _messageStreamController.add(message);
 
-      _logNotificationEvent(
-          message); // Call _logNotificationEvent with each message
+      _logNotificationEvent(message); // Call _logNotificationEvent with each message
     });
 
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
@@ -117,3 +115,4 @@ class FirebaseApi {
     _messageStreamController.close();
   }
 }
+

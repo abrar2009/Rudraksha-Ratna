@@ -15,6 +15,7 @@
         android:label="Rudraksha Ratna"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true"
         android:requestLegacyExternalStorage="true">
 
         <activity

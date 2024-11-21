@@ -57,7 +57,8 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
       courier_total = getJsonField(response.jsonBody, r'''$.courier_total''');
       print("courier_total: $courier_total");
 
-      total_reward_price = getJsonField(response.jsonBody, r'''$.total_reward_price''');
+      total_reward_price =
+          getJsonField(response.jsonBody, r'''$.total_reward_price''');
       print("total_reward_price: $total_reward_price");
       if (FFAppState().buynow == true) {
         // Convert double to int by using .toInt() method
@@ -74,11 +75,11 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
     });
     return response;
   }
+
   @override
   void initState() {
     super.initState();
-    if(FFAppState().buynow == true)
-    {
+    if (FFAppState().buynow == true) {
       _buyNow();
     }
 
@@ -128,7 +129,8 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                   size: 24,
                 ),
                 onPressed: () async {
-                  final fromScreen = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                  final fromScreen = ModalRoute.of(context)?.settings.arguments
+                      as Map<String, dynamic>?;
 
                   if (fromScreen != null) {
                     if (fromScreen['fromScreen'] == 'Cart') {
@@ -137,7 +139,8 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                         context,
                         ModalRoute.withName('/cart'),
                       );
-                    } else if (fromScreen['fromScreen'] == 'SelectPaymentMethod') {
+                    } else if (fromScreen['fromScreen'] ==
+                        'SelectPaymentMethod') {
                       // Navigate back to SelectPaymentMethod
                       Navigator.popUntil(
                         context,
@@ -148,16 +151,17 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                     // Default behavior if the source is unknown or no parameter is provided
                     Navigator.pop(context);
                   }
-                  },
+                },
               ),
-              title: Text('Select a delivery address',
+              title: Text(
+                'Select a delivery address',
                 style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Outfit',
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  fontSize: 16,
-                  letterSpacing: 0,
-                  fontWeight: FontWeight.w600,
-                ),
+                      fontFamily: 'Outfit',
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      fontSize: 16,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
               actions: const [],
               centerTitle: true,
@@ -181,8 +185,7 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                           child: FutureBuilder<ApiCallResponse>(
                             future: AddressListCall.call(
                                 hosturl: FFAppConstants.hosturl,
-                                token: currentAuthenticationToken
-                            ),
+                                token: currentAuthenticationToken),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
                               if (!snapshot.hasData) {
@@ -191,27 +194,38 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                                     width: 50,
                                     height: 50,
                                     child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(FlutterFlowTheme.of(context).primary,),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        FlutterFlowTheme.of(context).primary,
+                                      ),
                                     ),
                                   ),
                                 );
                               }
                               final columnAddressListResponse = snapshot.data!;
 
-                              return Builder(builder: (context) {
-                                final addressDetails = getJsonField(columnAddressListResponse.jsonBody, r'''$.data''',).toList();
+                              return Builder(
+                                builder: (context) {
+                                  final addressDetails = getJsonField(
+                                    columnAddressListResponse.jsonBody,
+                                    r'''$.data''',
+                                  ).toList();
 
-                                return Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: List.generate(addressDetails.length, (addressDetailsIndex) {
-                                    final addressDetailsItem = addressDetails[addressDetailsIndex];
-                                    return Padding(padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        /*onTap: () async {
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children:
+                                        List.generate(addressDetails.length,
+                                            (addressDetailsIndex) {
+                                      final addressDetailsItem =
+                                          addressDetails[addressDetailsIndex];
+                                      return Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16, 0, 16, 0),
+                                        child: InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          /*onTap: () async {
                                           _model.selectedContainer = !_model.selectedContainer;
                                           _model.address1 = getJsonField(addressDetailsItem, r'''$.address''',).toString();
                                           _model.address2 = getJsonField(addressDetailsItem, r'''$.addresstwo''',).toString();
@@ -264,260 +278,555 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                                             setState(() {});
                                           }
                                         },*/
-                                        onTap: () async {
-                                          setState(() {
-                                            // Toggle selected container state
-                                            _model.selectedContainer = !_model.selectedContainer;
+                                          onTap: () async {
+                                            setState(() {
+                                              // Toggle selected container state
+                                              _model.selectedContainer =
+                                                  !_model.selectedContainer;
 
-                                            // Update the FFAppState values based on the new selection
-                                            if (_model.selectedContainer) {
-                                              _model.address1 = getJsonField(addressDetailsItem, r'''$.address''').toString();
-                                              _model.address2 = getJsonField(addressDetailsItem, r'''$.addresstwo''').toString();
-                                              _model.city = getJsonField(addressDetailsItem, r'''$.cityname''').toString();
-                                              _model.state = getJsonField(addressDetailsItem, r'''$.statename''').toString();
-                                              _model.zipCode = getJsonField(addressDetailsItem, r'''$.pincode''').toString();
-                                              _model.id = getJsonField(addressDetailsItem, r'''$.id''');
-                                              _model.nameFL = getJsonField(addressDetailsItem, r'''$.name''').toString();
-                                              _model.emailAddress = getJsonField(addressDetailsItem, r'''$.email''').toString();
-                                              _model.contactNo = getJsonField(addressDetailsItem, r'''$.contact_no''').toString();
-                                              _model.countryName = getJsonField(addressDetailsItem, r'''$.countryname''').toString();
+                                              // Update the FFAppState values based on the new selection
+                                              if (_model.selectedContainer) {
+                                                _model.address1 = getJsonField(
+                                                        addressDetailsItem,
+                                                        r'''$.address''')
+                                                    .toString();
+                                                _model.address2 = getJsonField(
+                                                        addressDetailsItem,
+                                                        r'''$.addresstwo''')
+                                                    .toString();
+                                                _model.city = getJsonField(
+                                                        addressDetailsItem,
+                                                        r'''$.cityname''')
+                                                    .toString();
+                                                _model.state = getJsonField(
+                                                        addressDetailsItem,
+                                                        r'''$.statename''')
+                                                    .toString();
+                                                _model.zipCode = getJsonField(
+                                                        addressDetailsItem,
+                                                        r'''$.pincode''')
+                                                    .toString();
+                                                _model.id = getJsonField(
+                                                    addressDetailsItem,
+                                                    r'''$.id''');
+                                                _model.nameFL = getJsonField(
+                                                        addressDetailsItem,
+                                                        r'''$.name''')
+                                                    .toString();
+                                                _model.emailAddress =
+                                                    getJsonField(
+                                                            addressDetailsItem,
+                                                            r'''$.email''')
+                                                        .toString();
+                                                _model.contactNo = getJsonField(
+                                                        addressDetailsItem,
+                                                        r'''$.contact_no''')
+                                                    .toString();
+                                                _model
+                                                    .countryName = getJsonField(
+                                                        addressDetailsItem,
+                                                        r'''$.countryname''')
+                                                    .toString();
 
-                                              // Update FFAppState only when selected
-                                              FFAppState().shippingAddressID = _model.id;
-                                              FFAppState().shippingAddress1 = _model.address1;
-                                              FFAppState().shippingAddress2 = _model.address2;
-                                              FFAppState().shippingCity = _model.city;
-                                              FFAppState().shippingState = _model.state;
-                                              FFAppState().shippingPincode = _model.zipCode;
+                                                // Update FFAppState only when selected
+                                                FFAppState().shippingAddressID =
+                                                    _model.id;
+                                                FFAppState().shippingAddress1 =
+                                                    _model.address1;
+                                                FFAppState().shippingAddress2 =
+                                                    _model.address2;
+                                                FFAppState().shippingCity =
+                                                    _model.city;
+                                                FFAppState().shippingState =
+                                                    _model.state;
+                                                FFAppState().shippingPincode =
+                                                    _model.zipCode;
 
-                                              // Mark as selected
-                                              _model.selectedAddress.clear();
-                                              _model.selectedAddress.add(addressDetailsIndex);
-                                            } else {
-                                              // Clear FFAppState if unselected
-                                              FFAppState().shippingAddressID = null;
-                                              FFAppState().shippingAddress1 = '';
-                                              FFAppState().shippingAddress2 = '';
-                                              FFAppState().shippingCity = '';
-                                              FFAppState().shippingState = '';
-                                              FFAppState().shippingPincode = '';
+                                                // Mark as selected
+                                                _model.selectedAddress.clear();
+                                                _model.selectedAddress
+                                                    .add(addressDetailsIndex);
+                                              } else {
+                                                // Clear FFAppState if unselected
+                                                FFAppState().shippingAddressID =
+                                                    null;
+                                                FFAppState().shippingAddress1 =
+                                                    '';
+                                                FFAppState().shippingAddress2 =
+                                                    '';
+                                                FFAppState().shippingCity = '';
+                                                FFAppState().shippingState = '';
+                                                FFAppState().shippingPincode =
+                                                    '';
 
-                                              // Remove from selected address
-                                              _model.selectedAddress.remove(addressDetailsIndex);
-                                            }
-                                          });
-                                        },
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: !_model.selectedAddress.contains(
-                                              addressDetailsIndex) ? 146.0 : 194.0,
-                                          decoration: BoxDecoration(
-                                            color: !_model.selectedAddress.contains(
-                                                addressDetailsIndex) ? Color(0x00FFFFFF) : Color(0x27740074),
-                                            borderRadius: BorderRadius.circular(12),
-                                            border: Border.all(
-                                              color: Color(0xFFE7E7E8),
-                                              width: 1,
+                                                // Remove from selected address
+                                                _model.selectedAddress.remove(
+                                                    addressDetailsIndex);
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: !_model.selectedAddress
+                                                    .contains(
+                                                        addressDetailsIndex)
+                                                ? 146.0
+                                                : 194.0,
+                                            decoration: BoxDecoration(
+                                              color: !_model.selectedAddress
+                                                      .contains(
+                                                          addressDetailsIndex)
+                                                  ? Color(0x00FFFFFF)
+                                                  : Color(0x27740074),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              border: Border.all(
+                                                color: Color(0xFFE7E7E8),
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(16, 32, 0, 25),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        getJsonField(
+                                                          addressDetailsItem,
+                                                          r'''$.name''',
+                                                        ).toString(),
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontSize: 16,
+                                                              letterSpacing: 0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            width: 259,
+                                                            height: 52,
+                                                            decoration:
+                                                                BoxDecoration(),
+                                                            child: RichText(
+                                                              textScaler:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .textScaler,
+                                                              text: TextSpan(
+                                                                children: [
+                                                                  TextSpan(
+                                                                    text:
+                                                                        getJsonField(
+                                                                      addressDetailsItem,
+                                                                      r'''$.address''',
+                                                                    ).toString(),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Montserrat',
+                                                                          color:
+                                                                              Color(0xFF575758),
+                                                                          letterSpacing:
+                                                                              0,
+                                                                          lineHeight:
+                                                                              2,
+                                                                        ),
+                                                                  ),
+                                                                  const TextSpan(
+                                                                    text: ', ',
+                                                                    style:
+                                                                        TextStyle(),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text:
+                                                                        getJsonField(
+                                                                      addressDetailsItem,
+                                                                      r'''$.addresstwo''',
+                                                                    ).toString(),
+                                                                    style:
+                                                                        const TextStyle(),
+                                                                  ),
+                                                                  const TextSpan(
+                                                                    text: ', ',
+                                                                    style:
+                                                                        TextStyle(),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text:
+                                                                        getJsonField(
+                                                                      addressDetailsItem,
+                                                                      r'''$.landmark''',
+                                                                    ).toString(),
+                                                                    style:
+                                                                        TextStyle(),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text: ', ',
+                                                                    style:
+                                                                        TextStyle(),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text:
+                                                                        getJsonField(
+                                                                      addressDetailsItem,
+                                                                      r'''$.cityname''',
+                                                                    ).toString(),
+                                                                    style:
+                                                                        TextStyle(),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text: ',',
+                                                                    style:
+                                                                        TextStyle(),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text:
+                                                                        getJsonField(
+                                                                      addressDetailsItem,
+                                                                      r'''$.statename''',
+                                                                    ).toString(),
+                                                                    style:
+                                                                        TextStyle(),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text: '-',
+                                                                    style:
+                                                                        TextStyle(),
+                                                                  ),
+                                                                  TextSpan(
+                                                                    text:
+                                                                        getJsonField(
+                                                                      addressDetailsItem,
+                                                                      r'''$.pincode''',
+                                                                    ).toString(),
+                                                                    style:
+                                                                        TextStyle(),
+                                                                  )
+                                                                ],
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Montserrat',
+                                                                      color: Color(
+                                                                          0xFF575758),
+                                                                      letterSpacing:
+                                                                          0,
+                                                                      lineHeight:
+                                                                          2,
+                                                                    ),
+                                                              ),
+                                                              maxLines: 2,
+                                                            ),
+                                                          ),
+                                                          Radio(
+                                                            activeColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                            value:
+                                                                addressDetailsIndex,
+                                                            groupValue: _model
+                                                                    .selectedAddress
+                                                                    .isNotEmpty
+                                                                ? _model
+                                                                    .selectedAddress
+                                                                    .first
+                                                                : -1,
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                if (_model
+                                                                    .selectedContainer) {
+                                                                  _model
+                                                                      .selectedAddress
+                                                                      .remove(
+                                                                          addressDetailsIndex);
+                                                                  FFAppState()
+                                                                          .shippingAddressID =
+                                                                      null;
+                                                                  FFAppState()
+                                                                      .shippingAddress1 = '';
+                                                                  FFAppState()
+                                                                      .shippingAddress2 = '';
+                                                                  FFAppState()
+                                                                      .shippingCity = '';
+                                                                  FFAppState()
+                                                                      .shippingState = '';
+                                                                  FFAppState()
+                                                                      .shippingPincode = '';
+                                                                } else {
+                                                                  _model
+                                                                      .selectedAddress
+                                                                      .clear();
+                                                                  _model
+                                                                      .selectedAddress
+                                                                      .add(
+                                                                          addressDetailsIndex);
+                                                                  final selectedAddressItem =
+                                                                      addressDetails[
+                                                                          addressDetailsIndex];
+                                                                  FFAppState()
+                                                                          .shippingAddressID =
+                                                                      getJsonField(
+                                                                          selectedAddressItem,
+                                                                          r'''$.id''');
+                                                                  FFAppState()
+                                                                      .shippingAddress1 = getJsonField(
+                                                                          selectedAddressItem,
+                                                                          r'''$.address''')
+                                                                      .toString();
+                                                                  FFAppState()
+                                                                      .shippingAddress2 = getJsonField(
+                                                                          selectedAddressItem,
+                                                                          r'''$.addresstwo''')
+                                                                      .toString();
+                                                                  FFAppState()
+                                                                      .shippingCity = getJsonField(
+                                                                          selectedAddressItem,
+                                                                          r'''$.cityname''')
+                                                                      .toString();
+                                                                  FFAppState()
+                                                                      .shippingState = getJsonField(
+                                                                          selectedAddressItem,
+                                                                          r'''$.statename''')
+                                                                      .toString();
+                                                                  FFAppState()
+                                                                      .shippingPincode = getJsonField(
+                                                                          selectedAddressItem,
+                                                                          r'''$.pincode''')
+                                                                      .toString();
+                                                                }
+                                                              });
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                if (_model.selectedAddress
+                                                    .contains(
+                                                        addressDetailsIndex))
+                                                  Divider(
+                                                    thickness: 1,
+                                                    color: Color(0xFFD3CEF6),
+                                                  ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 6, 0, 0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      InkWell(
+                                                        splashColor:
+                                                            Colors.transparent,
+                                                        focusColor:
+                                                            Colors.transparent,
+                                                        hoverColor:
+                                                            Colors.transparent,
+                                                        highlightColor:
+                                                            Colors.transparent,
+                                                        onTap: () async {
+                                                          context.pushNamed(
+                                                            'UpdateAddress',
+                                                            queryParameters: {
+                                                              'addressId':
+                                                                  serializeParam(
+                                                                getJsonField(
+                                                                  addressDetailsItem,
+                                                                  r'''$.id''',
+                                                                ),
+                                                                ParamType.int,
+                                                              ),
+                                                              'editCountryId':
+                                                                  serializeParam(
+                                                                getJsonField(
+                                                                  addressDetailsItem,
+                                                                  r'''$.country''',
+                                                                ).toString(),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'editStateId':
+                                                                  serializeParam(
+                                                                getJsonField(
+                                                                  addressDetailsItem,
+                                                                  r'''$.state''',
+                                                                ).toString(),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                            }.withoutNulls,
+                                                            extra: <String,
+                                                                dynamic>{
+                                                              kTransitionInfoKey:
+                                                                  const TransitionInfo(
+                                                                hasTransition:
+                                                                    true,
+                                                                transitionType:
+                                                                    PageTransitionType
+                                                                        .rightToLeft,
+                                                                duration: Duration(
+                                                                    milliseconds:
+                                                                        400),
+                                                              ),
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          width:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width *
+                                                                  0.3,
+                                                          height: !_model
+                                                                  .selectedAddress
+                                                                  .contains(
+                                                                      addressDetailsIndex)
+                                                              ? 4.0
+                                                              : 15.0,
+                                                          decoration:
+                                                              BoxDecoration(),
+                                                          child: Visibility(
+                                                            visible: _model
+                                                                .selectedAddress
+                                                                .contains(
+                                                                    addressDetailsIndex),
+                                                            child: Align(
+                                                              alignment:
+                                                                  AlignmentDirectional(
+                                                                      0, 0),
+                                                              child: InkWell(
+                                                                splashColor: Colors
+                                                                    .transparent,
+                                                                focusColor: Colors
+                                                                    .transparent,
+                                                                hoverColor: Colors
+                                                                    .transparent,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                onTap:
+                                                                    () async {
+                                                                  context
+                                                                      .pushNamed(
+                                                                    'UpdateAddress',
+                                                                    queryParameters:
+                                                                        {
+                                                                      'addressId':
+                                                                          serializeParam(
+                                                                        getJsonField(
+                                                                          addressDetailsItem,
+                                                                          r'''$.id''',
+                                                                        ),
+                                                                        ParamType
+                                                                            .int,
+                                                                      ),
+                                                                      'editCountryId':
+                                                                          serializeParam(
+                                                                        getJsonField(
+                                                                          addressDetailsItem,
+                                                                          r'''$.country''',
+                                                                        ).toString(),
+                                                                        ParamType
+                                                                            .String,
+                                                                      ),
+                                                                      'editStateId':
+                                                                          serializeParam(
+                                                                        getJsonField(
+                                                                          addressDetailsItem,
+                                                                          r'''$.state''',
+                                                                        ).toString(),
+                                                                        ParamType
+                                                                            .String,
+                                                                      ),
+                                                                    }.withoutNulls,
+                                                                    extra: <String,
+                                                                        dynamic>{
+                                                                      kTransitionInfoKey:
+                                                                          const TransitionInfo(
+                                                                        hasTransition:
+                                                                            true,
+                                                                        transitionType:
+                                                                            PageTransitionType.rightToLeft,
+                                                                        duration:
+                                                                            Duration(milliseconds: 400),
+                                                                      ),
+                                                                    },
+                                                                  );
+                                                                },
+                                                                child: Text(
+                                                                  'EDIT',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Montserrat',
+                                                                        color: Color(
+                                                                            0xFF740074),
+                                                                        fontSize:
+                                                                            14,
+                                                                        letterSpacing:
+                                                                            0,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional.fromSTEB(16, 32, 0, 25),
-                                                child: Column(
-                                                  mainAxisSize: MainAxisSize.max,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      getJsonField(addressDetailsItem, r'''$.name''',).toString(),
-                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                        fontFamily: 'Montserrat',
-                                                        fontSize: 16,
-                                                        letterSpacing: 0,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      mainAxisSize: MainAxisSize.max,
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Container(
-                                                          width: 259,
-                                                          height: 52,
-                                                          decoration: BoxDecoration(),
-                                                          child: RichText(
-                                                            textScaler: MediaQuery.of(context).textScaler,
-                                                            text: TextSpan(
-                                                              children: [
-                                                                TextSpan(
-                                                                  text:
-                                                                  getJsonField(addressDetailsItem, r'''$.address''',).toString(),
-                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                    fontFamily: 'Montserrat',
-                                                                    color: Color(0xFF575758),
-                                                                    letterSpacing: 0,
-                                                                    lineHeight: 2,
-                                                                  ),
-                                                                ),
-                                                                const TextSpan(text: ', ', style: TextStyle(),),
-                                                                TextSpan(text: getJsonField(addressDetailsItem, r'''$.addresstwo''',).toString(), style: const TextStyle(),),
-                                                                const TextSpan(text: ', ', style: TextStyle(),),
-                                                                TextSpan(text: getJsonField(addressDetailsItem, r'''$.landmark''',).toString(), style: TextStyle(),),
-                                                                TextSpan(text: ', ', style: TextStyle(),),
-                                                                TextSpan(text: getJsonField(addressDetailsItem, r'''$.cityname''',).toString(), style: TextStyle(),),
-                                                                TextSpan(text: ',', style: TextStyle(),),
-                                                                TextSpan(text: getJsonField(addressDetailsItem, r'''$.statename''',).toString(), style: TextStyle(),),
-                                                                TextSpan(text: '-', style: TextStyle(),),
-                                                                TextSpan(text: getJsonField(addressDetailsItem, r'''$.pincode''',).toString(), style: TextStyle(),)
-                                                              ],
-                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                fontFamily: 'Montserrat',
-                                                                color: Color(0xFF575758),
-                                                                letterSpacing: 0,
-                                                                lineHeight: 2,
-                                                              ),
-                                                            ),
-                                                            maxLines: 2,
-                                                          ),
-                                                        ),
-                                                        Radio(
-                                                          activeColor: FlutterFlowTheme.of(context).primary,
-                                                          value: addressDetailsIndex,
-                                                          groupValue: _model.selectedAddress.isNotEmpty ? _model.selectedAddress.first : -1,
-                                                          onChanged: (value) {
-                                                            setState(() {
-                                                              if (_model.selectedContainer) {
-                                                                _model.selectedAddress.remove(addressDetailsIndex);
-                                                                FFAppState().shippingAddressID = null;
-                                                                FFAppState().shippingAddress1 = '';
-                                                                FFAppState().shippingAddress2 = '';
-                                                                FFAppState().shippingCity = '';
-                                                                FFAppState().shippingState = '';
-                                                                FFAppState().shippingPincode = '';
-                                                              } else {
-                                                                _model.selectedAddress.clear();
-                                                                _model.selectedAddress.add(addressDetailsIndex);
-                                                                final selectedAddressItem = addressDetails[addressDetailsIndex];
-                                                                FFAppState().shippingAddressID = getJsonField(selectedAddressItem, r'''$.id''');
-                                                                FFAppState().shippingAddress1 = getJsonField(selectedAddressItem, r'''$.address''').toString();
-                                                                FFAppState().shippingAddress2 = getJsonField(selectedAddressItem, r'''$.addresstwo''').toString();
-                                                                FFAppState().shippingCity = getJsonField(selectedAddressItem, r'''$.cityname''').toString();
-                                                                FFAppState().shippingState = getJsonField(selectedAddressItem, r'''$.statename''').toString();
-                                                                FFAppState().shippingPincode = getJsonField(selectedAddressItem, r'''$.pincode''').toString();
-                                                              }
-                                                            });
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              if (_model.selectedAddress.contains(addressDetailsIndex))
-                                                Divider(thickness: 1, color: Color(0xFFD3CEF6),),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional.fromSTEB(0, 6, 0, 0),
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.max,
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                  children: [
-                                                    InkWell(
-                                                      splashColor: Colors.transparent,
-                                                      focusColor: Colors.transparent,
-                                                      hoverColor: Colors.transparent,
-                                                      highlightColor: Colors.transparent,
-                                                      onTap: () async {
-                                                        context.pushNamed('UpdateAddress',
-                                                          queryParameters: {
-                                                            'addressId': serializeParam(
-                                                              getJsonField(addressDetailsItem, r'''$.id''',),
-                                                              ParamType.int,
-                                                            ),
-                                                            'editCountryId': serializeParam(
-                                                              getJsonField(addressDetailsItem, r'''$.country''',).toString(),
-                                                              ParamType.String,
-                                                            ),
-                                                            'editStateId': serializeParam(
-                                                              getJsonField(addressDetailsItem, r'''$.state''',).toString(),
-                                                              ParamType.String,
-                                                            ),
-                                                          }.withoutNulls,
-                                                          extra: <String, dynamic>{kTransitionInfoKey:
-                                                          const TransitionInfo(
-                                                            hasTransition: true,
-                                                            transitionType: PageTransitionType.rightToLeft,
-                                                            duration: Duration(milliseconds: 400),
-                                                          ),
-                                                          },
-                                                        );
-                                                      },
-                                                      child: Container(
-                                                        width: MediaQuery.sizeOf(context).width * 0.3,
-                                                        height: !_model.selectedAddress.contains(
-                                                            addressDetailsIndex) ? 4.0 : 15.0,
-                                                        decoration: BoxDecoration(),
-                                                        child: Visibility(
-                                                          visible: _model.selectedAddress.contains(addressDetailsIndex),
-                                                          child: Align(alignment: AlignmentDirectional(0, 0),
-                                                            child: InkWell(
-                                                              splashColor: Colors.transparent,
-                                                              focusColor: Colors.transparent,
-                                                              hoverColor: Colors.transparent,
-                                                              highlightColor: Colors.transparent,
-                                                              onTap: () async {context.pushNamed('UpdateAddress',
-                                                                queryParameters: {
-                                                                  'addressId': serializeParam(getJsonField(addressDetailsItem, r'''$.id''',),
-                                                                    ParamType.int,
-                                                                  ),
-                                                                  'editCountryId': serializeParam(
-                                                                    getJsonField(addressDetailsItem, r'''$.country''',).toString(), ParamType.String,
-                                                                  ),
-                                                                  'editStateId': serializeParam(getJsonField(addressDetailsItem, r'''$.state''',).toString(),
-                                                                    ParamType.String,
-                                                                  ),
-                                                                }.withoutNulls,
-                                                                extra: <String, dynamic>{kTransitionInfoKey:
-                                                                const TransitionInfo(
-                                                                  hasTransition: true,
-                                                                  transitionType: PageTransitionType.rightToLeft,
-                                                                  duration: Duration(milliseconds: 400),
-                                                                ),
-                                                                },
-                                                              );
-                                                              },
-                                                              child: Text('EDIT',
-                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                  fontFamily: 'Montserrat',
-                                                                  color: Color(0xFF740074),
-                                                                  fontSize: 14,
-                                                                  letterSpacing: 0,
-                                                                  fontWeight: FontWeight.w500,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }).divide(SizedBox(height: 8)),
-                                );
-                              },
+                                      );
+                                    }).divide(SizedBox(height: 8)),
+                                  );
+                                },
                               );
                             },
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 120),
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(16, 16, 16, 120),
                           child: FFButtonWidget(
                             onPressed: () async {
                               FFAppState().isDeliveryAddress = true;
@@ -527,7 +836,7 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                                   kTransitionInfoKey: const TransitionInfo(
                                     hasTransition: true,
                                     transitionType:
-                                    PageTransitionType.bottomToTop,
+                                        PageTransitionType.bottomToTop,
                                     duration: Duration(milliseconds: 400),
                                   ),
                                 },
@@ -537,17 +846,26 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                             options: FFButtonOptions(
                               width: double.infinity,
                               height: 48,
-                              padding: const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                              color: FlutterFlowTheme.of(context).secondaryBackground,
-                              textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                                fontFamily: 'Montserrat',
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                letterSpacing: 0,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  24, 0, 24, 0),
+                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 0, 0, 0),
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: 'Montserrat',
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                               elevation: 0,
-                              borderSide: const BorderSide(color: Color(0xFFE7E7E8), width: 1,),
+                              borderSide: const BorderSide(
+                                color: Color(0xFFE7E7E8),
+                                width: 1,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
@@ -563,46 +881,51 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
                 child: FFButtonWidget(
-                  onPressed: _model.selectedAddress.isEmpty ? () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Please select an address.'),
-                        duration: Duration(seconds: 2),
-                        backgroundColor: FlutterFlowTheme.of(context).primary,
-                      ),
-                    );
-                  } : () async {
-                    print('Shipping Address: ${_model.id}');
-                    // Prepare the request data
-                    final requestData = {
-                      'hosturl': FFAppConstants.hosturl,
-                      'shippingCountry': FFAppState().countryName,
-                      'shippingWeight': FFAppState().courierTotal,
-                      'totalPrice': FFAppState().cartTotal,
-                      'orderTotal': FFAppState().orderTotal,
-                    };
+                  onPressed: _model.selectedAddress.isEmpty
+                      ? () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Please select an address.'),
+                              duration: Duration(seconds: 2),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).primary,
+                            ),
+                          );
+                        }
+                      : () async {
+                          print('Shipping Address: ${_model.id}');
+                          // Prepare the request data
+                          final requestData = {
+                            'hosturl': FFAppConstants.hosturl,
+                            'shippingCountry': FFAppState().countryName,
+                            'shippingWeight': FFAppState().courierTotal,
+                            'totalPrice': FFAppState().cartTotal,
+                            'orderTotal': FFAppState().orderTotal,
+                          };
 
-                    // Print the request data
-                    print('Shipping API Request Data: $requestData');
-                    print(FFAppState().countryName);
-                    print(FFAppState().courierTotal);
-                    print(FFAppState().cartTotal);
-                    print(FFAppState().orderTotal);
+                          // Print the request data
+                          print('Shipping API Request Data: $requestData');
+                          print(FFAppState().countryName);
+                          print(FFAppState().courierTotal);
+                          print(FFAppState().cartTotal);
+                          print(FFAppState().orderTotal);
 
-                    // Make the API call
-                    _model.fetchShippingOutput = await FetchShippingCall.call(
-                      hosturl: FFAppConstants.hosturl,
-                      shippingCountry: FFAppState().countryName ,
-                      shippingWeight: FFAppState().courierTotal ,
-                      totalPrice: FFAppState().cartTotal ,
-                      orderTotal: FFAppState().orderTotal ,
-                    );
+                          // Make the API call
+                          _model.fetchShippingOutput =
+                              await FetchShippingCall.call(
+                            hosturl: FFAppConstants.hosturl,
+                            shippingCountry: FFAppState().countryName,
+                            shippingWeight: FFAppState().courierTotal,
+                            totalPrice: FFAppState().cartTotal,
+                            orderTotal: FFAppState().orderTotal,
+                          );
 
-                    // Print the raw response
-                    print('Shipping API Response Raw: ${_model.fetchShippingOutput?.jsonBody ?? 'null'}');
+                          // Print the raw response
+                          print(
+                              'Shipping API Response Raw: ${_model.fetchShippingOutput?.jsonBody ?? 'null'}');
 
-                    // Parse and set the state variables
-                    /*FFAppState().shippingAmount = getJsonField(
+                          // Parse and set the state variables
+                          /*FFAppState().shippingAmount = getJsonField(
                       (_model.fetchShippingOutput?.jsonBody ?? ''),
                       r'''$.shippingdata[0].amount''', // Adjusted JSON path for single item in array
                     ).toInt();
@@ -628,113 +951,124 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                         .toList()
                         .toList()
                         .cast<String>();*/
-                    FFAppState().shippingAmount = getJsonField(
-                      (_model.fetchShippingOutput?.jsonBody ?? ''),
-                      r'''$.shippingdata[0].amount''', // Adjusted JSON path for single item in array
-                    )?.toInt() ?? 0;
-                    FFAppState().rewardPoints = getJsonField(
-                      (_model.fetchShippingOutput?.jsonBody ?? ''),
-                      r'''$.shippingdata[0].rewards_point''', // Adjusted JSON path for single item in array
-                    )?.toInt() ?? 0;
-                    _model.initialRewardPoints = getJsonField(
-                      (_model.fetchShippingOutput?.jsonBody ?? ''),
-                      r'''$.shippingdata[0].rewards_point''', // Adjusted JSON path for single item in array
-                    )?.toInt() ?? 0;
-                    FFAppState().freeGiftsList = (getJsonField(
-                      (_model.fetchShippingOutput?.jsonBody ?? ''),
-                      r'''$.giftdata''',
-                      true,
-                    ) as List?)
-                        ?.map<String>((s) => s.toString())
-                        .toList() ?? [];
-                    FFAppState().couponCodeList = (getJsonField(
-                      (_model.fetchShippingOutput?.jsonBody ?? ''),
-                      r'''$.coupondata''',
-                      true,
-                    ) as List?)
-                        ?.map<String>((s) => s.toString())
-                        .toList() ?? [];
-                    FFAppState().shippingAddress1 = _model.address1;
-                    FFAppState().shippingAddress2 = _model.address2;
-                    FFAppState().shippingCity = _model.city;
-                    FFAppState().shippingState = _model.state;
-                    FFAppState().shippingPincode = _model.zipCode;
+                          FFAppState().shippingAmount = getJsonField(
+                                (_model.fetchShippingOutput?.jsonBody ?? ''),
+                                r'''$.shippingdata[0].amount''', // Adjusted JSON path for single item in array
+                              )?.toInt() ??
+                              0;
+                          FFAppState().rewardPoints = getJsonField(
+                                (_model.fetchShippingOutput?.jsonBody ?? ''),
+                                r'''$.shippingdata[0].rewards_point''', // Adjusted JSON path for single item in array
+                              )?.toInt() ??
+                              0;
+                          _model.initialRewardPoints = getJsonField(
+                                (_model.fetchShippingOutput?.jsonBody ?? ''),
+                                r'''$.shippingdata[0].rewards_point''', // Adjusted JSON path for single item in array
+                              )?.toInt() ??
+                              0;
+                          FFAppState().freeGiftsList = (getJsonField(
+                                (_model.fetchShippingOutput?.jsonBody ?? ''),
+                                r'''$.giftdata''',
+                                true,
+                              ) as List?)
+                                  ?.map<String>((s) => s.toString())
+                                  .toList() ??
+                              [];
+                          FFAppState().couponCodeList = (getJsonField(
+                                (_model.fetchShippingOutput?.jsonBody ?? ''),
+                                r'''$.coupondata''',
+                                true,
+                              ) as List?)
+                                  ?.map<String>((s) => s.toString())
+                                  .toList() ??
+                              [];
+                          FFAppState().shippingAddress1 = _model.address1;
+                          FFAppState().shippingAddress2 = _model.address2;
+                          FFAppState().shippingCity = _model.city;
+                          FFAppState().shippingState = _model.state;
+                          FFAppState().shippingPincode = _model.zipCode;
 
-                    FFAppState().billingAddress1 = '';
-                    FFAppState().billingAddress2 = '';
-                    FFAppState().billingCity = '';
-                    FFAppState().billingState = '';
-                    FFAppState().billingPincode = '';
+                          FFAppState().billingAddress1 = '';
+                          FFAppState().billingAddress2 = '';
+                          FFAppState().billingCity = '';
+                          FFAppState().billingState = '';
+                          FFAppState().billingPincode = '';
 
-                    // Print the parsed response data
-                    print('Shipping Amount from delivery: ${FFAppState().shippingAmount}');
-                    print('Reward points from delivery: ${FFAppState().rewardPoints}');
-                    print('Reward points from delivery22222: ${_model.initialRewardPoints}');
-                    print('Courier total from delivery22222: ${FFAppState().courierTotal}');
-                    print('Free Gifts List from delivery: ${FFAppState().freeGiftsList}');
-                    print('Coupon Code List from delivery: ${FFAppState().couponCodeList}');
+                          // Print the parsed response data
+                          print(
+                              'Shipping Amount from delivery: ${FFAppState().shippingAmount}');
+                          print(
+                              'Reward points from delivery: ${FFAppState().rewardPoints}');
+                          print(
+                              'Reward points from delivery22222: ${_model.initialRewardPoints}');
+                          print(
+                              'Courier total from delivery22222: ${FFAppState().courierTotal}');
+                          print(
+                              'Free Gifts List from delivery: ${FFAppState().freeGiftsList}');
+                          print(
+                              'Coupon Code List from delivery: ${FFAppState().couponCodeList}');
 
-                    //setState(() {});
+                          //setState(() {});
 
-                    // Navigate to the next screen
-                    context.pushNamed(
-                      'SelectPaymentMethod',
-                      queryParameters: {
-                        'address1': serializeParam(
-                          _model.address1,
-                          ParamType.String,
-                        ),
-                        'address2': serializeParam(
-                          _model.address2,
-                          ParamType.String,
-                        ),
-                        'city': serializeParam(
-                          _model.city,
-                          ParamType.String,
-                        ),
-                        'state': serializeParam(
-                          _model.state,
-                          ParamType.String,
-                        ),
-                        'pinCode': serializeParam(
-                          _model.zipCode,
-                          ParamType.String,
-                        ),
-                        'addressId': serializeParam(
-                          _model.id,
-                          ParamType.int,
-                        ),
-                        'name': serializeParam(
-                          _model.nameFL,
-                          ParamType.String,
-                        ),
-                        'email': serializeParam(
-                          _model.emailAddress,
-                          ParamType.String,
-                        ),
-                        'contact': serializeParam(
-                          _model.contactNo,
-                          ParamType.String,
-                        ),
-                        'country': serializeParam(
-                          _model.countryName,
-                          ParamType.String,
-                        ),
-                        'initialRewardPoints': serializeParam(
-                          _model.initialRewardPoints,
-                          ParamType.int,
-                        )
-                      }.withoutNulls,
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.rightToLeft,
-                          duration: Duration(milliseconds: 400),
-                        ),
-                      },
-                    );
-                    //setState(() {});
-                  },
+                          // Navigate to the next screen
+                          context.pushNamed(
+                            'SelectPaymentMethod',
+                            queryParameters: {
+                              'address1': serializeParam(
+                                _model.address1,
+                                ParamType.String,
+                              ),
+                              'address2': serializeParam(
+                                _model.address2,
+                                ParamType.String,
+                              ),
+                              'city': serializeParam(
+                                _model.city,
+                                ParamType.String,
+                              ),
+                              'state': serializeParam(
+                                _model.state,
+                                ParamType.String,
+                              ),
+                              'pinCode': serializeParam(
+                                _model.zipCode,
+                                ParamType.String,
+                              ),
+                              'addressId': serializeParam(
+                                _model.id,
+                                ParamType.int,
+                              ),
+                              'name': serializeParam(
+                                _model.nameFL,
+                                ParamType.String,
+                              ),
+                              'email': serializeParam(
+                                _model.emailAddress,
+                                ParamType.String,
+                              ),
+                              'contact': serializeParam(
+                                _model.contactNo,
+                                ParamType.String,
+                              ),
+                              'country': serializeParam(
+                                _model.countryName,
+                                ParamType.String,
+                              ),
+                              'initialRewardPoints': serializeParam(
+                                _model.initialRewardPoints,
+                                ParamType.int,
+                              )
+                            }.withoutNulls,
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.rightToLeft,
+                                duration: Duration(milliseconds: 400),
+                              ),
+                            },
+                          );
+                          //setState(() {});
+                        },
                   text: 'Proceed to Checkout',
                   options: FFButtonOptions(
                     width: double.infinity,
@@ -743,10 +1077,10 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                     color: Color(0xFF740074),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Montserrat',
-                      color: Colors.white,
-                      letterSpacing: 0,
-                    ),
+                          fontFamily: 'Montserrat',
+                          color: Colors.white,
+                          letterSpacing: 0,
+                        ),
                     elevation: 0,
                     borderSide: BorderSide(
                       color: Colors.transparent,

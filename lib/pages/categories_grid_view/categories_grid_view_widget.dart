@@ -1,3 +1,5 @@
+import 'package:flutter_html/flutter_html.dart';
+
 import '/components/custom_nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -470,7 +472,7 @@ class _CategoriesGridViewWidgetState extends State<CategoriesGridViewWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     14.0, 0.0, 14.0, 0.0),
                                 child: GridView(
-                                  padding: EdgeInsets.zero,
+                                  // padding: HtmlPaddings.zero,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,

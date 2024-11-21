@@ -287,7 +287,7 @@ class _FlutterFlowDropDownState<T> extends State<FlutterFlowDropDown<T>> {
       ),
       menuItemStyleData: MenuItemStyleData(
         overlayColor: overlayColor,
-        padding: EdgeInsets.zero,
+        // padding: HtmlPaddings.zero,
       ),
       dropdownStyleData: DropdownStyleData(
         elevation: widget.elevation.toInt(),
@@ -298,7 +298,7 @@ class _FlutterFlowDropDownState<T> extends State<FlutterFlowDropDown<T>> {
         isOverButton: widget.isOverButton,
         offset: widget.menuOffset ?? Offset.zero,
         maxHeight: widget.maxHeight,
-        padding: EdgeInsets.zero,
+        // padding: HtmlPaddings.zero,
       ),
       onChanged: widget.disabled
           ? null

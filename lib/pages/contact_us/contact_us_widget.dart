@@ -1,5 +1,5 @@
 
-
+import 'package:flutter_html/flutter_html.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -2258,19 +2258,20 @@ class _ContactUsWidgetState extends State<ContactUsWidget> {
                                 ),
 
                                 markers: {
-                                  Marker(
-                                    markerId: MarkerId('companyLocation'),
-                                    position: _companyLocation,
+                                  //change
+                                  // Marker(
+                                  //   markerId: MarkerId('companyLocation'),
+                                  //   position: _companyLocation,
 
-                                    infoWindow: InfoWindow(
-                                      title: 'Rudraksha Ratna',
-                                      snippet: 'We are here!',
+                                  //   infoWindow: InfoWindow(
+                                  //     title: 'Rudraksha Ratna',
+                                  //     snippet: 'We are here!',
 
 
 
 
-                                    ),
-                                  ),
+                                  //   ),
+                                  // ),
 
                                   // Generated code for this Container Widget...
                                   /*     Padding(

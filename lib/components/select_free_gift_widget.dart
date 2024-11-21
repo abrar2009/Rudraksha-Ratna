@@ -115,12 +115,12 @@ class _SelectFreeGiftWidgetState extends State<SelectFreeGiftWidget> {
                       Text(
                         'Select Free Gifts',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Montserrat',
-                          color: Color(0xFF272728),
-                          fontSize: 16.0,
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w600,
-                        ),
+                              fontFamily: 'Montserrat',
+                              color: Color(0xFF272728),
+                              fontSize: 16.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                     ],
                   ),
@@ -159,8 +159,9 @@ class _SelectFreeGiftWidgetState extends State<SelectFreeGiftWidget> {
                               ).toList();
 
                               return GridView.builder(
-                                padding: EdgeInsets.zero,
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                // padding: HtmlPaddings.zero,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 7,
                                   mainAxisSpacing: 10,
@@ -169,10 +170,12 @@ class _SelectFreeGiftWidgetState extends State<SelectFreeGiftWidget> {
                                 scrollDirection: Axis.vertical,
                                 itemCount: freeGiftsList.length,
                                 itemBuilder: (context, freeGiftsListIndex) {
-                                  final freeGiftsListItem = freeGiftsList[freeGiftsListIndex];
+                                  final freeGiftsListItem =
+                                      freeGiftsList[freeGiftsListIndex];
                                   final int giftId = FetchShippingCall.giftsIds(
-                                    gridViewFetchShippingResponse.jsonBody,
-                                  )?[freeGiftsListIndex] ?? -1;
+                                        gridViewFetchShippingResponse.jsonBody,
+                                      )?[freeGiftsListIndex] ??
+                                      -1;
                                   bool isSelected = _selectedGiftId == giftId;
 
                                   return InkWell(
@@ -190,9 +193,9 @@ class _SelectFreeGiftWidgetState extends State<SelectFreeGiftWidget> {
                                           _selectedGiftId = giftId;
                                           _model.selectedGiftName =
                                               getJsonField(
-                                                freeGiftsListItem,
-                                                r'''$.gift_name''',
-                                              ).toString();
+                                            freeGiftsListItem,
+                                            r'''$.gift_name''',
+                                          ).toString();
                                         }
                                         _saveSelectedGift(_selectedGiftId);
                                       });
@@ -202,19 +205,27 @@ class _SelectFreeGiftWidgetState extends State<SelectFreeGiftWidget> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(4),
                                         border: Border.all(
-                                          color: isSelected ? Color(0xFF740074) : Color(0xFFE7E7E8),
+                                          color: isSelected
+                                              ? Color(0xFF740074)
+                                              : Color(0xFFE7E7E8),
                                         ),
                                       ),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 6),
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0, 4, 0, 6),
                                             child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(8),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
                                               child: Image.network(
-                                                getJsonField(freeGiftsListItem, r'''$.image''').toString(),
+                                                getJsonField(freeGiftsListItem,
+                                                        r'''$.image''')
+                                                    .toString(),
                                                 width: 160,
                                                 height: 104,
                                                 fit: BoxFit.contain,
@@ -226,15 +237,21 @@ class _SelectFreeGiftWidgetState extends State<SelectFreeGiftWidget> {
                                             color: Color(0xFFE7E7E8),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, right: 8.0),
                                             child: Text(
-                                              getJsonField(freeGiftsListItem, r'''$.gift_name''').toString(),
-                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                fontFamily: 'Montserrat',
-                                                color: Color(0xFF272728),
-                                                letterSpacing: 0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                              getJsonField(freeGiftsListItem,
+                                                      r'''$.gift_name''')
+                                                  .toString(),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Montserrat',
+                                                    color: Color(0xFF272728),
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                               textAlign: TextAlign.center,
                                             ),
                                           ),
@@ -256,12 +273,13 @@ class _SelectFreeGiftWidgetState extends State<SelectFreeGiftWidget> {
                       onPressed: (_selectedGiftId == null)
                           ? null
                           : () async {
-                        FFAppState().selectedGiftId = _selectedGiftId!;
-                        FFAppState().selectedGiftName = _model.selectedGiftName!;
-                        setState(() {});
-                        context.safePop();
-                        print('Gift Id: ${FFAppState().selectedGiftId}');
-                      },
+                              FFAppState().selectedGiftId = _selectedGiftId!;
+                              FFAppState().selectedGiftName =
+                                  _model.selectedGiftName!;
+                              setState(() {});
+                              context.safePop();
+                              print('Gift Id: ${FFAppState().selectedGiftId}');
+                            },
                       text: 'Select',
                       options: FFButtonOptions(
                         width: double.infinity,
@@ -269,11 +287,12 @@ class _SelectFreeGiftWidgetState extends State<SelectFreeGiftWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                         iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                         color: Color(0xFF740074),
-                        textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Montserrat',
-                          color: Colors.white,
-                          letterSpacing: 0,
-                        ),
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.white,
+                                  letterSpacing: 0,
+                                ),
                         elevation: 0,
                         borderSide: BorderSide(
                           color: Colors.transparent,
@@ -441,7 +460,7 @@ class _SelectFreeGiftWidgetState extends State<SelectFreeGiftWidget> {
                               ).toList();
 
                               return GridView.builder(
-                                padding: EdgeInsets.zero,
+                                padding: HtmlPaddings.zero,
                                 gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,

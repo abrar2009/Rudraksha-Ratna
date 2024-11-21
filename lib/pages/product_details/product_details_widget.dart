@@ -14,7 +14,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -1310,15 +1310,16 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         ),
                                       ),
                                       collapsed: Container(),
-                                      expanded: HtmlWidget(
-                                       valueOrDefault<String>(
+                                      expanded: Html(
+                                        data: valueOrDefault<String>(
                                           ProductDetailsCall.longdescription(
                                             containerProductDetailsResponse
                                                 .jsonBody,
                                           ),
                                           'Description',
                                         ),
-                                    
+                                        onLinkTap: (url,  __, ___) =>
+                                            launchURL(url!),
                                       ),
                                       theme: ExpandableThemeData(
                                         tapHeaderToExpand: true,

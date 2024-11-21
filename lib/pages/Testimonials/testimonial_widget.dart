@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:rudraksha_cart/components/shimmer_widget.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -293,22 +293,20 @@ class _TestimonialsWidgetState extends State<TestimonialsWidget> {
                                                             FontWeight.w600,
                                                           ),
                                                         ),
-                                                        HtmlWidget(decodedDescription)
-                                                        
-                                                        // Html(
-                                                        //   data: decodedDescription,
-                                                        //   style: {
-                                                        //     "html": Style(
-                                                        //       //fontFamily: GoogleFonts.notoSansDevanagari().fontFamily,
-                                                        //       fontFamily: 'Montserrat',
-                                                        //       color: FlutterFlowTheme.of(context).secondaryText,
-                                                        //       letterSpacing: 0,
-                                                        //       //fontSize: FontSize(18.0),
-                                                        //       textAlign: TextAlign.justify,
+                                                        Html(
+                                                          data: decodedDescription,
+                                                          style: {
+                                                            "html": Style(
+                                                              //fontFamily: GoogleFonts.notoSansDevanagari().fontFamily,
+                                                              fontFamily: 'Montserrat',
+                                                              color: FlutterFlowTheme.of(context).secondaryText,
+                                                              letterSpacing: 0,
+                                                              //fontSize: FontSize(18.0),
+                                                              textAlign: TextAlign.justify,
 
-                                                        //     ),
-                                                        //   },
-                                                        // ),
+                                                            ),
+                                                          },
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
