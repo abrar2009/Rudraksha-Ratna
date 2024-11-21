@@ -17,7 +17,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-//import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,11 +52,11 @@ class YantraProductDetailsModel
 
   String? selectedEnergization;
 
-  int? selectedEnergizationIndex = 0;
+  int? selectedEnergizationIndex=0;
 
-  int? selectedEnergizationlist = 0;
+  int? selectedEnergizationlist=0;
 
-  int? selectvariationindex = 0;
+  int? selectvariationindex=0;
 
   String? selectedCertification;
 
@@ -74,7 +74,7 @@ class YantraProductDetailsModel
   void insertAtIndexInSelectedCertificationindexlist(int index, int item) =>
       selectedCertificationindexlist.insert(index, item);
   void updateSelectedCertificationindexlistAtIndex(
-          int index, Function(int) updateFn) =>
+      int index, Function(int) updateFn) =>
       selectedCertificationindexlist[index] =
           updateFn(selectedCertificationindexlist[index]);
 

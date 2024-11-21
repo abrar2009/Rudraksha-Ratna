@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../auth/custom_auth/auth_util.dart';
 import '../../components/AddReviewPopUp_Widget.dart';
@@ -25,7 +24,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'puja_product_details_model.dart';
 export 'puja_product_details_model.dart';
@@ -2471,52 +2470,11 @@ class _PujaProductDetailsWidgetState extends State<PujaProductDetailsWidget> {
                                           ),
                                         ),
                                         collapsed: Container(),
-                                        expanded:HtmlWidget(decodedDescription)
+                                        expanded: HtmlWidget(
+                                          decodedDescription,
                                         
-                                        //  Html(
-                                        //   data: decodedDescription,
-                                        //   style: {
-                                        //     "html": Style(
-                                        //       fontFamily: GoogleFonts.montserrat(
-                                        //         fontSize: 16,
-                                        //         fontWeight: FontWeight.w500,
-                                        //         color: Color(0xFF212529),
-                                        //       ).fontFamily,
-                                        //       color: Color(0xFF212529),
-                                        //       lineHeight: LineHeight(1.5),
-                                        //       margin: EdgeInsets.zero,
-                                        //       padding: EdgeInsets.zero,
-                                        //       textAlign: TextAlign.justify,
-                                        //     ),
-                                        //     "body": Style(
-                                        //       margin: EdgeInsets.zero,
-                                        //       padding: EdgeInsets.zero,
-                                        //     ),
-                                        //     "p": Style(
-                                        //       margin: EdgeInsets.zero,
-                                        //       padding: EdgeInsets.zero,
-                                        //     ),
-                                        //     "div": Style(
-                                        //       margin: EdgeInsets.zero,
-                                        //       padding: EdgeInsets.zero,
-                                        //     ),
-                                        //   },
-                                        //   onLinkTap: (url, _, __, ___) async {
-                                        //     if (url != null) {
-                                        //       final uri = Uri.parse(url); // Convert the URL string to a Uri object
-
-                                        //       // Launch the URL if it is valid
-                                        //       if (await canLaunchUrl(uri)) {
-                                        //         await launchUrl(uri, mode: LaunchMode.externalApplication);
-                                        //       } else {
-                                        //         // Handle cases where the URL cannot be launched
-                                        //         print('Could not launch $uri');
-                                        //       }
-                                        //     }
-                                        //   },
-                                        // ),
-                                     
-                                       , theme: ExpandableThemeData(
+                                        ),
+                                        theme: ExpandableThemeData(
                                           tapHeaderToExpand: true,
                                           tapBodyToExpand: false,
                                           tapBodyToCollapse: false,

@@ -35,7 +35,6 @@ dependencies:
   expandable: 5.0.1
   flutter_animate: 4.1.1+1
   flutter_cache_manager: 3.3.1
-  # flutter_html:
   flutter_rating_bar: 4.0.1
   font_awesome_flutter: 10.6.0
   from_css_color: 2.0.0
@@ -89,8 +88,10 @@ dependencies:
   convert: ^3.1.1
   geolocator: ^11.1.0
   geocoding: ^3.0.0
-  # flutter_html:
+
+  # flutter_html: 3.0.0-alpha.5
   flutter_widget_from_html: ^0.15.2
+  # flutter_html:
 
 dependency_overrides:
   http: 1.2.0

@@ -13,7 +13,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:flutter_html/flutter_html.dart';
+
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,7 +36,6 @@ class ProductDetailsModel extends FlutterFlowModel<ProductDetailsWidget> {
       choiceChipsValueController2?.value?.firstOrNull;
   set choiceChipsValue2(String? val) =>
       choiceChipsValueController2?.value = val != null ? [val] : [];
-
   ///  State fields for stateful widgets in this page.
   List<int> selectedDesing = [0];
   void addToSelectedDesing(int item) => selectedDesing.add(item);

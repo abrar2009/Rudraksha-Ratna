@@ -16,7 +16,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-//import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:octo_image/octo_image.dart';
@@ -63,7 +63,7 @@ class PujaProductDetailsModel
   void insertAtIndexInSelectedCertificationindexlist(int index, int item) =>
       selectedCertificationindexlist.insert(index, item);
   void updateSelectedCertificationindexlistAtIndex(
-          int index, Function(int) updateFn) =>
+      int index, Function(int) updateFn) =>
       selectedCertificationindexlist[index] =
           updateFn(selectedCertificationindexlist[index]);
 
@@ -121,9 +121,7 @@ class PujaProductDetailsModel
     }
     return null;
   }
-
-  String? enterSankalpWishTextControllerValidator(
-      BuildContext context, String? val) {
+  String? enterSankalpWishTextControllerValidator(BuildContext context, String? val) {
     if (val!.isEmpty) {
       return null;
     }
@@ -134,8 +132,7 @@ class PujaProductDetailsModel
     return null;
   }
 
-  String? enterMothersNameTextControllerValidator(
-      BuildContext context, String? val) {
+  String? enterMothersNameTextControllerValidator(BuildContext context, String? val) {
     if (val!.isEmpty) {
       return null;
     }
@@ -145,9 +142,7 @@ class PujaProductDetailsModel
     }
     return null;
   }
-
-  String? enterFathersNameTextControllerValidator(
-      BuildContext context, String? val) {
+  String? enterFathersNameTextControllerValidator(BuildContext context, String? val) {
     if (val!.isEmpty) {
       return null;
     }
@@ -157,7 +152,6 @@ class PujaProductDetailsModel
     }
     return null;
   }
-
   FocusNode? enterSankalpWishFocusNode;
   TextEditingController? enterSankalpWishTextController;
 
@@ -165,7 +159,7 @@ class PujaProductDetailsModel
   FocusNode? enterDateofBirthFocusNode;
   TextEditingController? enterDateofBirthTextController;
   String? Function(BuildContext, String?)?
-      enterDateofBirthTextControllerValidator;
+  enterDateofBirthTextControllerValidator;
   // State field(s) for EnterMothersName widget.
   FocusNode? enterMothersNameFocusNode;
   TextEditingController? enterMothersNameTextController;
@@ -184,21 +178,21 @@ class PujaProductDetailsModel
   FocusNode? enterPlaceofBirthFocusNode;
   TextEditingController? enterPlaceofBirthTextController;
   String? Function(BuildContext, String?)?
-      enterPlaceofBirthTextControllerValidator;
+  enterPlaceofBirthTextControllerValidator;
   // State field(s) for EnterGotraClanName widget.
   FocusNode? enterGotraClanNameFocusNode;
   TextEditingController? enterGotraClanNameTextController;
   String? Function(BuildContext, String?)?
-      enterGotraClanNameTextControllerValidator;
+  enterGotraClanNameTextControllerValidator;
   bool isDataUploading = false;
   FFUploadedFile uploadedLocalFile =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
+  FFUploadedFile(bytes: Uint8List.fromList([]));
 
   // State field(s) for EnterSpecialInstructions widget.
   FocusNode? enterSpecialInstructionsFocusNode;
   TextEditingController? enterSpecialInstructionsTextController;
   String? Function(BuildContext, String?)?
-      enterSpecialInstructionsTextControllerValidator;
+  enterSpecialInstructionsTextControllerValidator;
   // Stores action output result for [Backend Call - API (Other Single price Add To Cart)] action in Button widget.
   ApiCallResponse? apiResultj7i;
   // Stores action output result for [Backend Call - API (Other Single price Add To Cart)] action in Button widget.
