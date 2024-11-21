@@ -4359,11 +4359,11 @@ class _MainProductsWidgetState extends State<MainProductsWidget> {
                               ),
                             ),
                           );
-                          /*wrapWithModel(
+                          wrapWithModel(
                             model: _model.error404ScreenModel,
                             updateCallback: () => setState(() {}),
                             child: Error404ScreenWidget(),
-                          );*/
+                          );
                         }
                       },
                     ),

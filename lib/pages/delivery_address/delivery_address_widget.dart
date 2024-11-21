@@ -660,6 +660,12 @@ class _DeliveryAddressWidgetState extends State<DeliveryAddressWidget> {
                     FFAppState().shippingState = _model.state;
                     FFAppState().shippingPincode = _model.zipCode;
 
+                    FFAppState().billingAddress1 = '';
+                    FFAppState().billingAddress2 = '';
+                    FFAppState().billingCity = '';
+                    FFAppState().billingState = '';
+                    FFAppState().billingPincode = '';
+
                     // Print the parsed response data
                     print('Shipping Amount from delivery: ${FFAppState().shippingAmount}');
                     print('Reward points from delivery: ${FFAppState().rewardPoints}');

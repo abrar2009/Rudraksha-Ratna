@@ -2,8 +2,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import 'error404_screen_model.dart';
 export 'error404_screen_model.dart';
@@ -44,18 +42,19 @@ class _Error404ScreenWidgetState extends State<Error404ScreenWidget> {
         ClipRRect(
           borderRadius: BorderRadius.circular(0),
           child: Image.asset(
-            'assets/images/error-bg1.jpg',
+            'assets/images/empty_cart_image.png',
             width: double.infinity,
             height: double.infinity,
             fit: BoxFit.cover,
           ),
         ),
         Align(
-          alignment: AlignmentDirectional(0, 0),
-          child: Container(
-            width: 303,
-            height: 210,
-            decoration: BoxDecoration(),
+          alignment: const AlignmentDirectional(0, 0),
+          child: SizedBox(
+            /*width: 303,
+            height: 210,*/
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.25,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,9 +96,19 @@ class _Error404ScreenWidgetState extends State<Error404ScreenWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () {
-                        print('Button pressed ...');
+                        context.pushNamed(
+                          'Homepage',
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.scale,
+                              alignment: Alignment.bottomCenter,
+                              duration: Duration(milliseconds: 400),
+                            ),
+                          },
+                        );
                       },
-                      text: 'Home',
+                      text: 'HOME',
                       options: FFButtonOptions(
                         width: 160,
                         height: 48,

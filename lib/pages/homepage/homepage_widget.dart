@@ -8,7 +8,9 @@ import 'package:flutter/material.dart' hide CarouselController;
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../auth/custom_auth/auth_util.dart';
+import '../../components/error404_screen_widget.dart';
 import '../../components/logout_confirmation_widget.dart';
 import '../../custom_code/widgets/custom_dropdown_currency_flag.dart';
 import '../../flutter_flow/custom_functions.dart';
@@ -1648,12 +1650,12 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                         height: 300,
                         decoration: const BoxDecoration(),
                         child: FutureBuilder<ApiCallResponse>(
-                          future: EncryptedBannercall.call(
-                            sanityurl: FFAppConstants.sanityurl,
-                          ),
-                          /*future: Bannercall.call(
+                          /*future: EncryptedBannercall.call(
                             sanityurl: FFAppConstants.sanityurl,
                           ),*/
+                          future: Bannercall.call(
+                            sanityurl: FFAppConstants.sanityurl,
+                          ),
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
                             if (!snapshot.hasData) {
@@ -1676,28 +1678,28 @@ class _HomepageWidgetState extends State<HomepageWidget> {
 
                             return Builder(
                               builder: (context) {
-                                /*final Bannercall = getJsonField(
+                                final Bannercall = getJsonField(
                                   carouselExploreCategoryListResponse.jsonBody,
                                   r'''$.data''',
-                                ).toList();*/
+                                ).toList();
 
-                                final encryptedApiResponse = carouselExploreCategoryListResponse.jsonBody;
+                                //final encryptedApiResponse = carouselExploreCategoryListResponse.jsonBody;
 
-                                const farnetkey = 'D3KyP1sPstZZa4Yf2u0E0unfXgR9L5s2iIpoU-W5_Yc=';
+                                //const farnetkey = 'D3KyP1sPstZZa4Yf2u0E0unfXgR9L5s2iIpoU-W5_Yc=';
 
-                                const inputtext = 'gAAAAABm_9OP_V1QJjh3B5vjdBPvwvLcJT9gzGJ1i-Sa9rackEDGy8HiaSTpVgZOYx8zX7ykqPj7DXlbu3kNN4mIev6km-5SPKX87z9wE4tZJhN_YE9S2ksLpCpOM5OMofC1cq-CP2eX3pFw-m2lP82Nn-9Ut6q458vCgNRaeRnhQwr_T1TvJ2_WflDpDCRaCnO9DkFrUpOmWzgVuI4G5WIbMN4LejRqNApi01VH44paOEMwmkeuvHgqmCWlsRd6S1zzv06fOoilpl0pDot3DrR7LH-NJKED402xMt2EfGStNsY4SWlGVC30AbNqelv_Ag098wpTF93KvZNCzHyuW1McMlkWvTgTntocRsKMQGx9W0bkuT7X2dLkR3SmeRn_6M2vX79tLmKGBi1Gcoj0WX-sv_EDK-ufgM1SaAANXJYhYis1PcrurnZC8jIok8zjp4eEhU3WdVBGZtIFrFaEkeErfVVrJio-cvZKAyEZnnIT4ttCI0UmlJrpcYA4mv8_z1gVzpWANNVUkQTRevS_4-hXAyUfavLUvern0JEq4ufKcx8rOtPxLIP5vczUBIUS-RxWtW6Qe7Fv-vle7GkTE2zkPyfJImTV9ilLnATAeGRvxVF3xH5yjVO6VykH2oZ8wjXpM1Virwy4Zh3iiKArSvo6yIiS31Vqr56imGYeWYUgHBN8tc_OFuJqAjIG3klaBxxb1EpPZgALKRWFBKuOhfRoezTuEkhYlqlViT_dZ61k9EHVp31fIpRXOy1YV7zGIrutl_IaiRfZ-l8YZ9UYaMoN0q76TsFVs_x76k3LFF4g-0Z2ZGrsWyRb6O8bNQZybNWNwlAObwCnyYv3Ewoa5vGxckoFnN5A3oT2xrOcw9-nLmNWEtMVRnrctNNL53dw7g3MDzw9a_jXdmNXBL4X7AUQa_JdHZbdMDOQIpz5ynWKvYjsj3CiomZTa8ssMWXbf0V50PWR-c6xLSBv2c5mhilDqJE7pmWSNZlSK6Z15g_qOZppopp_a_d-e2689x4AguzL7tWAB1ZMQS41ZRKKP292eARgTWGE_CJrk1jhRma2bMBoqosuq801aWES5IKgbGoJOvc4sRe6-y6HtyV3Ttp8iPgCnyBk8Ep3ar5YMQzyQV6ZISNMoqZxW_hFzdIL5AmifisOYr5PAt9eKDOKKZnZoLskQ96-gPpMASFGhLlk7N-RQeChWjaSdKTlgU2G7Fic4oJXixBHsHSZAJCuTMF4li26rIsFq_y2iOLGUO7VDjoiZeAm3vTDAGBmcKGpBNc2wESmd6IyPHeGeASV57E34HRbss6QOSnbFWOupCyhVTxmPEJbZxJNOqnzinZUhKQvfmpDw4LuKAeXCF6eciZeXUlZIifaN7MVYEB86TmFV24kC0mBynv1EkjVns9yr3JAXFhCwDarO1cnGWfWcc6xTL5yI8kxj1sYnPiLZxaLJmJDhU52PrSI0CDuF4dBPxr9o4AAEV5SJdV9yeH-TZPm7e_xjhtzg1IwvYdaDCugS1zHDGb29X76PB_vhSpqm1JW0M8GbgQmabTdRbqwN0VwQacAXTKP6SnNJLKnmb-WdLIfUlzbUsEHUjmCz4NsCzSrRNIHSzq2v5cLeyDuaD-42Zxv1EEaF6NnqyV9BPxz8S0sLv5h4ABxNLBUR715qeTZw-Dqy5_Zr5h3ljVOE_ZMvr00kAVKfyiQppC74jhfjLtYwb4IuqiRqsujcVWVsgdGknjkWpwcROkTjO3VbTlk0TRa5vS5E-FkZ3bC5JM9Cl9Dg8lK0Tz_CRdIAJGTgTfOTexLiqGcy3FEVsTY70iRq267hIa7AnzdQkubpb9fF7VXmNdfUKkupQg6ILWFWBUrhTIsf7zN-TIliBf-s4CyIB8rmRz0vgeVdCPUgacdU2kDwINsvGe3e3jV6nkME6sRaNX3MBL6rR1OORRugF0qlJ8_CxAZwlm_v_10s7qjA3cm9q983BHqtsBLHiNFA8p_nk0v2kvlTwfzcmZ2ldAoz8W5iToUjpzW3HmXf4dx3HVGMU3g2j8M2aqVtcsdMhoE7Jub0HCzx8wgMjpt3VJ8TzxVT3EROzzNODe6lJdrDwtMYXM7eyukh0O_R7dnPpKBSc1CrXZe-_U_1VmoN-icgEDP-tlU-urnbZw4O6ikjFjmMCmIr6yjoFrcBe9dpgIZDAukz9fX2ttDpjvvDDANbGMZW-NQ4O7pUFBrh9acs3kb6hqF30cIO59NgHfwy8lvNLmnqfy8F94VJCKtvd-EMNmxd5QvCWB6FkmiZtI_J9moVVClM_1G9VgRIGzk1hCXvy1qnC56IYbgCmdu1uahAT0htWLESp9d7_pm55G4Xis4jsK0rOIeixbtOS6gejujP5xU1eV54v8VdxSIcE-CRyZAYbrSDBBNKL35Qxdv-_r3yePVkz5vlnGIblmf7Pz9UM7t-kv6G2EBquhdp6NhGxb_mS-ZCrXuN2G0sBZfapqkCkdta5Q0QglHe0eZAf_Fa3VGkps6nEwzZ4IZLG-eKiEm0ws3xf_bzshTLawZoaHz_T8NClskdrDRgv_3DRKufO1DGzeqt3HzGv914zTnUy__fwJj1qUauj2x6opCKlclEbcOm_i6u9EBe6aHWyOX5yCs5QgwZR2ii9nLWwFh5Tp3qChAJJmZ0_5sk4i3-UUadYRXt2Vg7qH0mGbOSDepeARYHpw7f8_gbVeNO3YtPUo-yGty9y0w-davJgfbwUBm-oFGEqIWgqQx4o6SCl14l9QVc1EKTJniu8KeIyZ3_d7zjSdvwVGUeLZWO8D1EflV3gAXLE-JG2QwVzA0Ylt_EUnoURzyovC15UKtSw0NDZhdv8HyTgs3BFAqCiSbpWV3H6aC_m3NWqS7LEHtBHuB1cwScqxwFMjWBU5sgpb2lqA-t8CC5DytFlac74iubc2r4ffdrsiGnO6ER3YhddeOZ2gIsUemFa4-4t4HyKGAOMhV1QSdCVqbgCrChIOyiAQZuwIEPh9hYcOm2zV9meFfPILpZ_EE0uqysPnYbVEQWu-LS0tCgPL6a9ELtlkqieu868gDGmSmiA9ANhpacKGCN6fAr58dWXGyBCrB6Bsz7q1wLZ4WOXiURvY7QTf-oiTB_0WFGw_5JxCQEnV8_vcyckcJHNsIrUV7fnYQQB5-RVGJXdKFzayy2VLwdcUl81cUC4u-9TrfoFibBcdRYQ8y2LWxqVlay_DDXyoWeWRbPBo7PriahdvfgZf6HkMyLVOlbmfFs_3QUhwJzntjcdAhurRfx-2N';
+                                //const inputtext = 'gAAAAABm_9OP_V1QJjh3B5vjdBPvwvLcJT9gzGJ1i-Sa9rackEDGy8HiaSTpVgZOYx8zX7ykqPj7DXlbu3kNN4mIev6km-5SPKX87z9wE4tZJhN_YE9S2ksLpCpOM5OMofC1cq-CP2eX3pFw-m2lP82Nn-9Ut6q458vCgNRaeRnhQwr_T1TvJ2_WflDpDCRaCnO9DkFrUpOmWzgVuI4G5WIbMN4LejRqNApi01VH44paOEMwmkeuvHgqmCWlsRd6S1zzv06fOoilpl0pDot3DrR7LH-NJKED402xMt2EfGStNsY4SWlGVC30AbNqelv_Ag098wpTF93KvZNCzHyuW1McMlkWvTgTntocRsKMQGx9W0bkuT7X2dLkR3SmeRn_6M2vX79tLmKGBi1Gcoj0WX-sv_EDK-ufgM1SaAANXJYhYis1PcrurnZC8jIok8zjp4eEhU3WdVBGZtIFrFaEkeErfVVrJio-cvZKAyEZnnIT4ttCI0UmlJrpcYA4mv8_z1gVzpWANNVUkQTRevS_4-hXAyUfavLUvern0JEq4ufKcx8rOtPxLIP5vczUBIUS-RxWtW6Qe7Fv-vle7GkTE2zkPyfJImTV9ilLnATAeGRvxVF3xH5yjVO6VykH2oZ8wjXpM1Virwy4Zh3iiKArSvo6yIiS31Vqr56imGYeWYUgHBN8tc_OFuJqAjIG3klaBxxb1EpPZgALKRWFBKuOhfRoezTuEkhYlqlViT_dZ61k9EHVp31fIpRXOy1YV7zGIrutl_IaiRfZ-l8YZ9UYaMoN0q76TsFVs_x76k3LFF4g-0Z2ZGrsWyRb6O8bNQZybNWNwlAObwCnyYv3Ewoa5vGxckoFnN5A3oT2xrOcw9-nLmNWEtMVRnrctNNL53dw7g3MDzw9a_jXdmNXBL4X7AUQa_JdHZbdMDOQIpz5ynWKvYjsj3CiomZTa8ssMWXbf0V50PWR-c6xLSBv2c5mhilDqJE7pmWSNZlSK6Z15g_qOZppopp_a_d-e2689x4AguzL7tWAB1ZMQS41ZRKKP292eARgTWGE_CJrk1jhRma2bMBoqosuq801aWES5IKgbGoJOvc4sRe6-y6HtyV3Ttp8iPgCnyBk8Ep3ar5YMQzyQV6ZISNMoqZxW_hFzdIL5AmifisOYr5PAt9eKDOKKZnZoLskQ96-gPpMASFGhLlk7N-RQeChWjaSdKTlgU2G7Fic4oJXixBHsHSZAJCuTMF4li26rIsFq_y2iOLGUO7VDjoiZeAm3vTDAGBmcKGpBNc2wESmd6IyPHeGeASV57E34HRbss6QOSnbFWOupCyhVTxmPEJbZxJNOqnzinZUhKQvfmpDw4LuKAeXCF6eciZeXUlZIifaN7MVYEB86TmFV24kC0mBynv1EkjVns9yr3JAXFhCwDarO1cnGWfWcc6xTL5yI8kxj1sYnPiLZxaLJmJDhU52PrSI0CDuF4dBPxr9o4AAEV5SJdV9yeH-TZPm7e_xjhtzg1IwvYdaDCugS1zHDGb29X76PB_vhSpqm1JW0M8GbgQmabTdRbqwN0VwQacAXTKP6SnNJLKnmb-WdLIfUlzbUsEHUjmCz4NsCzSrRNIHSzq2v5cLeyDuaD-42Zxv1EEaF6NnqyV9BPxz8S0sLv5h4ABxNLBUR715qeTZw-Dqy5_Zr5h3ljVOE_ZMvr00kAVKfyiQppC74jhfjLtYwb4IuqiRqsujcVWVsgdGknjkWpwcROkTjO3VbTlk0TRa5vS5E-FkZ3bC5JM9Cl9Dg8lK0Tz_CRdIAJGTgTfOTexLiqGcy3FEVsTY70iRq267hIa7AnzdQkubpb9fF7VXmNdfUKkupQg6ILWFWBUrhTIsf7zN-TIliBf-s4CyIB8rmRz0vgeVdCPUgacdU2kDwINsvGe3e3jV6nkME6sRaNX3MBL6rR1OORRugF0qlJ8_CxAZwlm_v_10s7qjA3cm9q983BHqtsBLHiNFA8p_nk0v2kvlTwfzcmZ2ldAoz8W5iToUjpzW3HmXf4dx3HVGMU3g2j8M2aqVtcsdMhoE7Jub0HCzx8wgMjpt3VJ8TzxVT3EROzzNODe6lJdrDwtMYXM7eyukh0O_R7dnPpKBSc1CrXZe-_U_1VmoN-icgEDP-tlU-urnbZw4O6ikjFjmMCmIr6yjoFrcBe9dpgIZDAukz9fX2ttDpjvvDDANbGMZW-NQ4O7pUFBrh9acs3kb6hqF30cIO59NgHfwy8lvNLmnqfy8F94VJCKtvd-EMNmxd5QvCWB6FkmiZtI_J9moVVClM_1G9VgRIGzk1hCXvy1qnC56IYbgCmdu1uahAT0htWLESp9d7_pm55G4Xis4jsK0rOIeixbtOS6gejujP5xU1eV54v8VdxSIcE-CRyZAYbrSDBBNKL35Qxdv-_r3yePVkz5vlnGIblmf7Pz9UM7t-kv6G2EBquhdp6NhGxb_mS-ZCrXuN2G0sBZfapqkCkdta5Q0QglHe0eZAf_Fa3VGkps6nEwzZ4IZLG-eKiEm0ws3xf_bzshTLawZoaHz_T8NClskdrDRgv_3DRKufO1DGzeqt3HzGv914zTnUy__fwJj1qUauj2x6opCKlclEbcOm_i6u9EBe6aHWyOX5yCs5QgwZR2ii9nLWwFh5Tp3qChAJJmZ0_5sk4i3-UUadYRXt2Vg7qH0mGbOSDepeARYHpw7f8_gbVeNO3YtPUo-yGty9y0w-davJgfbwUBm-oFGEqIWgqQx4o6SCl14l9QVc1EKTJniu8KeIyZ3_d7zjSdvwVGUeLZWO8D1EflV3gAXLE-JG2QwVzA0Ylt_EUnoURzyovC15UKtSw0NDZhdv8HyTgs3BFAqCiSbpWV3H6aC_m3NWqS7LEHtBHuB1cwScqxwFMjWBU5sgpb2lqA-t8CC5DytFlac74iubc2r4ffdrsiGnO6ER3YhddeOZ2gIsUemFa4-4t4HyKGAOMhV1QSdCVqbgCrChIOyiAQZuwIEPh9hYcOm2zV9meFfPILpZ_EE0uqysPnYbVEQWu-LS0tCgPL6a9ELtlkqieu868gDGmSmiA9ANhpacKGCN6fAr58dWXGyBCrB6Bsz7q1wLZ4WOXiURvY7QTf-oiTB_0WFGw_5JxCQEnV8_vcyckcJHNsIrUV7fnYQQB5-RVGJXdKFzayy2VLwdcUl81cUC4u-9TrfoFibBcdRYQ8y2LWxqVlay_DDXyoWeWRbPBo7PriahdvfgZf6HkMyLVOlbmfFs_3QUhwJzntjcdAhurRfx-2N';
 
-                                final key = encrypt.Key.fromBase64(farnetkey);
+                                //final key = encrypt.Key.fromBase64(farnetkey);
 
-                                final b64key = encrypt.Key.fromBase64(base64Url.encode(key.bytes));
+                                //final b64key = encrypt.Key.fromBase64(base64Url.encode(key.bytes));
 
-                                final fernet = encrypt.Fernet(b64key);
+                                //final fernet = encrypt.Fernet(b64key);
 
-                                final encrypter = encrypt.Encrypter(fernet);
+                                ///final encrypter = encrypt.Encrypter(fernet);
 
-                                final Bannercalls = encrypter.decrypt64(encryptedApiResponse);
+                                //final Bannercalls = encrypter.decrypt64(encryptedApiResponse);
 
-                                if (kDebugMode) {
+                                /*if (kDebugMode) {
                                   print("Bannercall errtr:${Bannercalls}");
                                 }
 
@@ -1708,7 +1710,7 @@ class _HomepageWidgetState extends State<HomepageWidget> {
 
                                 // Parse the corrected JSON string into a Map
                                 final Map<String, dynamic> bannerData = json.decode(correctedBannercall);
-                                final List<dynamic> Bannercall = bannerData['data'];
+                                final List<dynamic> Bannercall = bannerData['data'];*/
 
                                 return CarouselSlider.builder(
                                   itemCount: Bannercall.length,
@@ -1732,11 +1734,75 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                               BannerItem, r'''$.slug_value''',
                                             ).toString();
                                             setState(() {});
+
+                                            final bannerMainProd = getJsonField(BannerItem, r'''$.mainprodtype''');
+                                            final bannerLevel = getJsonField(BannerItem, r'''$.level''');
+
+                                            print('Banner Main Product Type: ${bannerMainProd}');
+                                            print('Banner Main Product Type: ${bannerLevel}');
+
+                                            // Explicitly handle cases where mainprodtype and level might not be provided.
+                                            // Handle when mainprodtype == 0 and level == 0
+                                            //if (_model.slugvalue == null || _model.slugvalue!.isEmpty) {
+                                            /*if (bannerMainProd == 0 && bannerLevel == 0 ) {
+                                              print("inside if URL launched successfully.");
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => const Error404ScreenWidget()),
+                                              );
+                                              return;
+                                            }
+
+                                            print("outside URL launched successfully.");
+
+                                            final Uri? parsedUrl = Uri.tryParse(_model.slugvalue ?? '');
+
+                                            if (parsedUrl != null && (parsedUrl.scheme == 'http' || parsedUrl.scheme == 'https')) {
+                                              // Launch the URL if valid
+                                              if (await launchUrl(parsedUrl)) {
+                                                print("URL launched successfully.");
+                                                return; // Exit after successful URL launch
+                                              } else {
+                                                print("Failed to launch URL.");
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => const Error404ScreenWidget()),
+                                                );
+                                                return;
+                                              }
+                                            }*/
+                                            if (bannerMainProd == 0 && bannerLevel == 0) {
+                                              print("Inside if: mainprodtype and level are both 0.");
+
+                                              // Check if _model.slugvalue contains a valid URL
+                                              final String slugValue = _model.slugvalue ?? '';
+
+                                              final Uri? url = Uri.tryParse(slugValue);
+
+                                              // If the slug value is a valid URL
+                                              if (url != null && (url.scheme == 'http' || url.scheme == 'https')) {
+                                                print("Launching URL: $url");
+
+                                                // Attempt to launch the URL
+                                                if (await launchUrl(url)) {
+                                                  print("URL launched successfully.");
+                                                } else {
+                                                  print("Failed to launch URL: $url");
+                                                }
+                                              } else {
+                                                // If it's not a valid URL, navigate to Error404ScreenWidget
+                                                print("Invalid URL: $slugValue. Navigating to Error404ScreenWidget.");
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => const Error404ScreenWidget()),
+                                                );
+                                              }
+                                              return; // Stop further processing
+                                            }
+
                                             _model.apiResulth6o = await SlugSearchCall.call(
                                               hosturl: FFAppConstants.hosturl,
-                                              slugValue: getJsonField(
-                                                BannerItem, r'''$.slug_value''',
-                                              ).toString(),
+                                              slugValue: _model.slugvalue,
                                             );
                                             _model.mainprodtype = SlugSearchCall.datamainprodtype(
                                               (_model.apiResulth6o?.jsonBody ?? ''),
@@ -1752,7 +1818,23 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                               print("_model.level${_model.level}");
                                               print("_model.productlist${_model.productlist}");
                                             });
+                                            print("Slug Value: ${_model.slugvalue}");
+
+                                            final url = _model.slugvalue;
+
+                                            print("Slug Value Before Launch: $url");
+
                                             if (_model.mainprodtype == 5 &&
+                                                _model.level == 1 && _model.slugvalue == "c/rudraksha") {
+                                              context.pushNamed(
+                                                'CategoriesListViewChooseChip',
+                                                queryParameters: {
+                                                  'isSelected': "false",
+                                                  'defaultcategories': "Rudraksha",
+                                                  'subproductslugvalue': "",
+                                                },
+                                              );
+                                            }if (_model.mainprodtype == 5 &&
                                                 _model.level == 1 && _model.slugvalue == "c/rudraksha") {
                                               context.pushNamed(
                                                 'CategoriesListViewChooseChip',
@@ -1824,12 +1906,11 @@ class _HomepageWidgetState extends State<HomepageWidget> {
                                               );
                                             }
                                           },
-                                          child: Align(
+                                            child: Align(
                                             alignment: const AlignmentDirectional(-1.98, 0.0),
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.circular(5.0),
                                               child: Image.network(
-                                                //getJsonField(BannerItem, r'''$.mobileimage''').toString(),
                                                 getJsonField(BannerItem, r'''$.mobileimage''').toString(),
                                                 width: 720,
                                                 height: 950,

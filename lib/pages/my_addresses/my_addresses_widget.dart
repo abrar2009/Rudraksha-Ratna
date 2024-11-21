@@ -1,7 +1,7 @@
 import '../../auth/custom_auth/auth_util.dart';
+import '../../components/delete_dialog.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/components/custom_nav_bar_widget.dart';
-import '/components/delete_dialog_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -436,9 +436,25 @@ class _MyAddressesWidgetState extends State<MyAddressesWidget> {
                                                                         : FocusScope.of(context).unfocus(),
                                                                     child: Padding(
                                                                       padding: MediaQuery.viewInsetsOf(context),
-                                                                      child: DeleteDialogWidget(
+                                                                      /*child: DeleteDialogWidget(
                                                                         deletionId: getJsonField(addressDetailsItem,
                                                                           r'''$.id''',).toString(),
+                                                                      ),*/
+                                                                      child: DeleteItemDialog(
+                                                                        deletionId: getJsonField(addressDetailsItem,
+                                                                          r'''$.id''',).toString(),
+                                                                        title: 'Are you sure you want to delete the address???',
+                                                                        deleteButtonText: 'Delete',
+                                                                        deleteApiCall: (id) async {
+                                                                          return await DeleteAddressCall.call(
+                                                                              hosturl: FFAppConstants.hosturl,
+                                                                              id: getJsonField(addressDetailsItem,
+                                                                                r'''$.id''',).toString(),
+                                                                              token: currentAuthenticationToken
+                                                                          );
+                                                                        },
+                                                                        successMessageField: r'''$.msg''',
+                                                                        errorMessageField: r'''$.status''',
                                                                       ),
                                                                     ),
                                                                   );
@@ -473,9 +489,21 @@ class _MyAddressesWidgetState extends State<MyAddressesWidget> {
                                                                                 : FocusScope.of(context).unfocus(),
                                                                             child: Padding(
                                                                               padding: MediaQuery.viewInsetsOf(context),
-                                                                              child: DeleteDialogWidget(
+                                                                              child: DeleteItemDialog(
                                                                                 deletionId: getJsonField(addressDetailsItem,
                                                                                   r'''$.id''',).toString(),
+                                                                                title: 'Are you sure you want to delete the address???',
+                                                                                deleteButtonText: 'Delete',
+                                                                                deleteApiCall: (id) async {
+                                                                                  return await DeleteAddressCall.call(
+                                                                                      hosturl: FFAppConstants.hosturl,
+                                                                                      id: getJsonField(addressDetailsItem,
+                                                                                        r'''$.id''',).toString(),
+                                                                                      token: currentAuthenticationToken
+                                                                                  );
+                                                                                },
+                                                                                successMessageField: r'''$.msg''',
+                                                                                errorMessageField: r'''$.status''',
                                                                               ),
                                                                             ),
                                                                           );

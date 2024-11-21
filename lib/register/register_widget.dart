@@ -129,73 +129,15 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               autovalidateMode: AutovalidateMode.always,
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 24),
-                                child: Expanded(
-                                  child: CustomTextFormField(
-                                    controller: _model.firstNameTextController!,
-                                    focusNode: _model.firstNameFocusNode!,
-                                    labelText: 'First Name',
-                                    hintText: 'Enter First Name',
-                                    keyboardType: TextInputType.name,
-                                    isObscureText: false,
-                                    validator: _model.firstNameTextControllerValidator.asValidator(context)!,
-                                  ),
-                                ),
-                                /*TextFormField(
-                                  controller: _model.firstNameTextController,
-                                  focusNode: _model.firstNameFocusNode,
-                                  autofocus: false,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    labelText: 'First Name',
-                                    labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                      fontFamily: 'Montserrat',
-                                      letterSpacing: 0,
-                                    ),
-                                    hintText: 'Enter First Name',
-                                    hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context).primaryText,
-                                      fontSize: 16,
-                                      letterSpacing: 0,
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF868687),
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context).primary,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context).error,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    focusedErrorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context).error,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    contentPadding: EdgeInsetsDirectional.fromSTEB(0, 6, 0, 6),
-                                  ),
-                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                    letterSpacing: 0,
-                                  ),
+                                child: CustomTextFormField(
+                                  controller: _model.firstNameTextController!,
+                                  focusNode: _model.firstNameFocusNode!,
+                                  labelText: 'First Name',
+                                  hintText: 'Enter First Name',
                                   keyboardType: TextInputType.name,
-                                  validator: _model.firstNameTextControllerValidator.asValidator(context),
-                                ),*/
+                                  isObscureText: false,
+                                  validator: _model.firstNameTextControllerValidator.asValidator(context)!,
+                                ),
                               ),
                             ),
                             Form(
@@ -203,73 +145,15 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               autovalidateMode: AutovalidateMode.always,
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 24),
-                                child: Expanded(
-                                  child: CustomTextFormField(
-                                    controller: _model.lastNameTextController!,
-                                    focusNode: _model.lastNameFocusNode!,
-                                    labelText: 'Last Name',
-                                    hintText: 'Enter Last Name',
-                                    keyboardType: TextInputType.name,
-                                    isObscureText: false,
-                                    validator: _model.lastNameTextControllerValidator.asValidator(context)!,
-                                  ),
-                                ),
-                                /*TextFormField(
-                                  controller: _model.lastNameTextController,
-                                  focusNode: _model.lastNameFocusNode,
-                                  autofocus: false,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    labelText: 'Last Name',
-                                    labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                      fontFamily: 'Montserrat',
-                                      letterSpacing: 0,
-                                    ),
-                                    hintText: 'Enter Last Name',
-                                    hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context).primaryText,
-                                      fontSize: 16,
-                                      letterSpacing: 0,
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF868687),
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context).primary,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context).error,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    focusedErrorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context).error,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    contentPadding: EdgeInsetsDirectional.fromSTEB(0, 6, 0, 6),
-                                  ),
-                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                    letterSpacing: 0,
-                                  ),
+                                child: CustomTextFormField(
+                                  controller: _model.lastNameTextController!,
+                                  focusNode: _model.lastNameFocusNode!,
+                                  labelText: 'Last Name',
+                                  hintText: 'Enter Last Name',
                                   keyboardType: TextInputType.name,
-                                  validator: _model.lastNameTextControllerValidator.asValidator(context),
-                                ),*/
+                                  isObscureText: false,
+                                  validator: _model.lastNameTextControllerValidator.asValidator(context)!,
+                                ),
                               ),
                             ),
                             Form(
@@ -277,191 +161,17 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               autovalidateMode: AutovalidateMode.always,
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 24),
-                                child: Expanded(
-                                  child: CustomTextFormField(
-                                    controller: _model.emailTextController!,
-                                    focusNode: _model.emailFocusNode!,
-                                    labelText: 'Email',
-                                    hintText: 'Enter Email Address',
-                                    keyboardType: TextInputType.emailAddress,
-                                    isObscureText: false,
-                                    validator: _model.emailTextControllerValidator.asValidator(context)!,
-                                  ),
-                                ),
-                                /*TextFormField(
-                                  controller: _model.emailTextController,
-                                  focusNode: _model.emailFocusNode,
-                                  autofocus: false,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    labelText: 'Email',
-                                    labelStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                      fontFamily: 'Montserrat',
-                                      letterSpacing: 0,
-                                    ),
-                                    hintText: 'Enter Email Address',
-                                    hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                      fontFamily: 'Montserrat',
-                                      color: FlutterFlowTheme.of(context).primaryText,
-                                      fontSize: 16,
-                                      letterSpacing: 0,
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF868687),
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context).primary,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context).error,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    focusedErrorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context).error,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                    contentPadding: EdgeInsetsDirectional.fromSTEB(0, 6, 0, 6),
-                                  ),
-                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16,
-                                    letterSpacing: 0,
-                                  ),
+                                child: CustomTextFormField(
+                                  controller: _model.emailTextController!,
+                                  focusNode: _model.emailFocusNode!,
+                                  labelText: 'Email',
+                                  hintText: 'Enter Email Address',
                                   keyboardType: TextInputType.emailAddress,
-                                  validator: _model.emailTextControllerValidator.asValidator(context),
-                                ),*/
+                                  isObscureText: false,
+                                  validator: _model.emailTextControllerValidator.asValidator(context)!,
+                                ),
                               ),
                             ),
-                            /*Form(
-                              key: _model.formKey1,
-                              autovalidateMode: AutovalidateMode.always,
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 24),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Align(
-                                      alignment: AlignmentDirectional(0, 1),
-                                      child: FlutterFlowDropDown<String>(
-                                        controller: _model.dropDownValueController ??= FormFieldController<String>(null),
-                                        options: functions.countryCodes()!,
-                                        onChanged: (val) => setState(() => _model.dropDownValue = val),
-                                        width: 75,
-                                        maxHeight: 350,
-                                        searchHintTextStyle:
-                                        FlutterFlowTheme.of(context).labelMedium.override(
-                                          fontFamily: 'Montserrat',
-                                          letterSpacing: 0,
-                                        ),
-                                        searchTextStyle:
-                                        FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Montserrat',
-                                          letterSpacing: 0,
-                                        ),
-                                        textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Montserrat',
-                                          color:
-                                          FlutterFlowTheme.of(context).secondaryText,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        hintText: '+00',
-                                        searchHintText: '',
-                                        icon: Icon(
-                                          Icons.keyboard_arrow_down_rounded,
-                                          color: FlutterFlowTheme.of(context).secondaryText,
-                                          size: 24,
-                                        ),
-                                        fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                                        elevation: 2,
-                                        borderColor: Colors.transparent,
-                                        borderWidth: 0,
-                                        borderRadius: 0,
-                                        margin: EdgeInsetsDirectional.fromSTEB(6, 6, 0, 12),
-                                        isOverButton: true,
-                                        isSearchable: true,
-                                        isMultiSelect: false,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: TextFormField(
-                                        controller: _model.phoneTextController,
-                                        focusNode: _model.phoneFocusNode,
-                                        autofocus: false,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          labelText: 'Phone Number',
-                                          labelStyle:
-                                          FlutterFlowTheme.of(context).labelMedium.override(
-                                            fontFamily: 'Montserrat',
-                                            letterSpacing: 0,
-                                          ),
-                                          hintText: 'Enter Phone Number',
-                                          hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
-                                            fontFamily: 'Montserrat',
-                                            color: FlutterFlowTheme.of(context).primaryText,
-                                            fontSize: 16,
-                                            letterSpacing: 0,
-                                          ),
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0xFF868687),
-                                              width: 1,
-                                            ),
-                                            borderRadius: BorderRadius.circular(0),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: FlutterFlowTheme.of(context).primary,
-                                              width: 1,
-                                            ),
-                                            borderRadius: BorderRadius.circular(0),
-                                          ),
-                                          errorBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: FlutterFlowTheme.of(context).error,
-                                              width: 1,
-                                            ),
-                                            borderRadius: BorderRadius.circular(0),
-                                          ),
-                                          focusedErrorBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: FlutterFlowTheme.of(context).error,
-                                              width: 1,
-                                            ),
-                                            borderRadius: BorderRadius.circular(0),
-                                          ),
-                                          contentPadding: EdgeInsetsDirectional.fromSTEB(0, 6, 0, 12),
-                                        ),
-                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 16,
-                                          letterSpacing: 0,
-                                        ),
-                                        keyboardType: TextInputType.phone,
-                                        validator: _model.phoneTextControllerValidator.asValidator(context),
-                                      ),
-                                    ),
-                                  ].divide(SizedBox(width: 6)),
-                                ),
-                              ),
-                            ),*/
                             Form(
                               key: _model.formKey1,
                               child: Padding(
